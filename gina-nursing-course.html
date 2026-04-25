@@ -1,0 +1,2678 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Gina · Nursing English Course · A1 + A2 · Cardiology Post-Op</title>
+<style>
+  :root {
+    --teal: #0d9488;
+    --teal-dark: #0f766e;
+    --teal-light: #ccfbf1;
+    --rose: #e11d48;
+    --rose-light: #ffe4e6;
+    --sky: #0284c7;
+    --sky-light: #e0f2fe;
+    --ink: #0f172a;
+    --ink-soft: #475569;
+    --line: #e2e8f0;
+    --bg: #f8fafc;
+    --white: #ffffff;
+    --ok: #16a34a;
+    --warn: #f59e0b;
+    --shadow: 0 1px 3px rgba(15,23,42,.06), 0 10px 30px rgba(15,23,42,.05);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--ink); }
+  body { min-height: 100vh; }
+
+  /* HEADER */
+  header.topbar {
+    background: linear-gradient(135deg, var(--teal) 0%, var(--teal-dark) 100%);
+    color: white;
+    padding: 14px 28px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: var(--shadow);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .brand { display:flex; align-items:center; gap:14px; }
+  .brand .logo {
+    width: 46px; height: 46px; border-radius: 12px; background: white;
+    display:flex; align-items:center; justify-content:center;
+    box-shadow: 0 4px 12px rgba(0,0,0,.15);
+  }
+  .brand h1 { font-size: 18px; margin:0; font-weight:600; letter-spacing:.3px; }
+  .brand p { font-size: 12px; margin:0; opacity:.9; }
+  .user-chip {
+    display:flex; align-items:center; gap:10px;
+    background: rgba(255,255,255,.15);
+    padding: 6px 14px 6px 6px; border-radius: 999px;
+  }
+  .avatar {
+    width:36px; height:36px; border-radius:50%; background: white; color: var(--teal-dark);
+    display:flex; align-items:center; justify-content:center; font-weight:700;
+  }
+
+  /* LAYOUT */
+  .app { display:grid; grid-template-columns: 260px 1fr; min-height: calc(100vh - 74px); }
+  nav.side {
+    background: white; border-right: 1px solid var(--line);
+    padding: 20px 12px;
+  }
+  nav.side .group-title {
+    font-size: 11px; text-transform: uppercase; color: var(--ink-soft);
+    letter-spacing: 1px; margin: 18px 8px 8px;
+  }
+  nav.side button {
+    width:100%; text-align:left; display:flex; align-items:center; gap:10px;
+    background:none; border:none; padding: 10px 12px; border-radius:10px;
+    cursor:pointer; color: var(--ink); font-size: 14px;
+    transition: background .15s;
+  }
+  nav.side button:hover { background: var(--teal-light); }
+  nav.side button.active { background: var(--teal); color:white; }
+  nav.side button .ico { font-size: 16px; width:20px; text-align:center; }
+  nav.side button .badge {
+    margin-left:auto; background: var(--rose-light); color: var(--rose);
+    font-size: 10px; padding: 2px 8px; border-radius: 999px; font-weight:600;
+  }
+  nav.side button.active .badge { background: rgba(255,255,255,.25); color:white; }
+
+  main { padding: 28px 36px; overflow-y: auto; }
+  .view { display:none; animation: fade .3s ease; }
+  .view.active { display:block; }
+  @keyframes fade { from {opacity:0; transform: translateY(4px);} to {opacity:1; transform:none;} }
+
+  /* CARDS */
+  .card {
+    background: white; border: 1px solid var(--line); border-radius: 14px;
+    padding: 22px; box-shadow: var(--shadow); margin-bottom: 18px;
+  }
+  .card h2 { margin: 0 0 6px; font-size: 20px; }
+  .card h3 { margin: 0 0 12px; font-size: 16px; color: var(--teal-dark); }
+  .card p.lead { color: var(--ink-soft); margin: 0 0 14px; font-size: 14px; }
+
+  .grid { display:grid; gap: 18px; }
+  .grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .grid-2 { grid-template-columns: repeat(2, 1fr); }
+  @media(max-width:900px){ .grid-3{grid-template-columns:1fr 1fr;} .grid-2{grid-template-columns:1fr;} }
+  @media(max-width:700px){ .grid-3{grid-template-columns:1fr;} .app{grid-template-columns:1fr;} nav.side{display:none;} }
+
+  /* STAT TILES */
+  .stat {
+    background: linear-gradient(135deg, #fff 0%, #f1f5f9 100%);
+    border: 1px solid var(--line); border-radius: 14px; padding: 18px;
+    display:flex; gap:14px; align-items:center;
+  }
+  .stat .icon { width:48px; height:48px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:22px; }
+  .stat .icon.t { background: var(--teal-light); color: var(--teal-dark); }
+  .stat .icon.r { background: var(--rose-light); color: var(--rose); }
+  .stat .icon.s { background: var(--sky-light); color: var(--sky); }
+  .stat .val { font-size: 24px; font-weight:700; }
+  .stat .lbl { font-size:12px; color: var(--ink-soft); }
+
+  /* BUTTONS */
+  .btn {
+    background: var(--teal); color:white; border:none;
+    padding: 10px 18px; border-radius: 10px; font-size:14px; cursor:pointer;
+    font-weight:600; transition: all .15s;
+    display: inline-flex; align-items:center; gap:8px;
+  }
+  .btn:hover { background: var(--teal-dark); transform: translateY(-1px); }
+  .btn.ghost { background: transparent; color: var(--teal); border: 1px solid var(--teal); }
+  .btn.ghost:hover { background: var(--teal-light); }
+  .btn.rose { background: var(--rose); }
+  .btn.rose:hover { background: #be123c; }
+  .btn.sm { padding: 6px 12px; font-size:12px; }
+  .audio-btn {
+    background: var(--sky-light); color: var(--sky); border:none;
+    width:32px; height:32px; border-radius:50%; cursor:pointer; font-size:14px;
+    display:inline-flex; align-items:center; justify-content:center;
+    transition: all .15s;
+  }
+  .audio-btn:hover { background: var(--sky); color:white; }
+
+  /* UNIT CARDS */
+  .unit-card {
+    border: 1px solid var(--line); border-radius: 14px; padding: 18px;
+    background: white; cursor: pointer; transition: all .2s;
+    display:flex; flex-direction:column; gap:10px;
+  }
+  .unit-card:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(13,148,136,.15); border-color: var(--teal); }
+  .unit-card .tag { font-size:10px; font-weight:700; letter-spacing:1px; color: var(--teal); text-transform:uppercase; }
+  .unit-card h4 { margin: 0; font-size: 15px; }
+  .unit-card p { margin:0; font-size: 13px; color: var(--ink-soft); }
+  .unit-card .progress-sm { height:6px; background: var(--line); border-radius:3px; overflow:hidden; }
+  .unit-card .progress-sm > div { height:100%; background: linear-gradient(90deg, var(--teal), var(--sky)); transition: width .4s; }
+
+  /* VOCAB LIST */
+  .vocab-row {
+    display:grid; grid-template-columns: 1fr 1fr 48px 80px; gap:12px;
+    align-items:center; padding: 12px; border-bottom: 1px solid var(--line);
+  }
+  .vocab-row:last-child { border-bottom:none; }
+  .vocab-row .en { font-weight:600; }
+  .vocab-row .es { color: var(--ink-soft); font-style: italic; font-size:13px; }
+  .vocab-row .ipa { font-family: 'Courier New', monospace; color: var(--sky); font-size:12px; }
+
+  /* QUIZ */
+  .quiz-q { font-size: 16px; margin: 10px 0 14px; font-weight:500; }
+  .quiz-options { display:grid; gap: 8px; }
+  .quiz-opt {
+    padding: 12px 16px; border: 2px solid var(--line); border-radius: 10px;
+    cursor: pointer; background: white; transition: all .15s;
+    display:flex; align-items:center; gap:10px;
+  }
+  .quiz-opt:hover { border-color: var(--teal); background: var(--teal-light); }
+  .quiz-opt.correct { border-color: var(--ok); background: #dcfce7; }
+  .quiz-opt.wrong { border-color: var(--rose); background: var(--rose-light); }
+  .quiz-opt .letter {
+    width:28px; height:28px; border-radius:50%; background: var(--line);
+    display:flex; align-items:center; justify-content:center; font-weight:700; font-size:12px;
+  }
+
+  /* FLASHCARD */
+  .flashcard-area { display:flex; flex-direction:column; align-items:center; gap:16px; padding:20px; }
+  .flashcard {
+    width: 100%; max-width: 420px; height: 240px; perspective: 1200px; cursor: pointer;
+  }
+  .flashcard-inner {
+    position:relative; width:100%; height:100%; text-align:center;
+    transition: transform .6s; transform-style: preserve-3d;
+  }
+  .flashcard.flipped .flashcard-inner { transform: rotateY(180deg); }
+  .fc-face {
+    position:absolute; inset:0; backface-visibility:hidden;
+    border-radius: 16px; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; padding: 24px;
+    box-shadow: var(--shadow);
+  }
+  .fc-face.front { background: linear-gradient(135deg, var(--teal), var(--teal-dark)); color: white; }
+  .fc-face.back { background: linear-gradient(135deg, var(--rose), #be123c); color:white; transform: rotateY(180deg); }
+  .fc-face .word { font-size: 28px; font-weight: 700; margin:6px 0; }
+  .fc-face .sub { font-size: 13px; opacity: .9; }
+  .fc-controls { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; }
+
+  /* DIALOGUE */
+  .dialogue-line {
+    display:flex; gap:12px; margin: 10px 0; padding:10px; border-radius: 10px;
+  }
+  .dialogue-line.nurse { background: var(--teal-light); }
+  .dialogue-line.patient { background: var(--sky-light); }
+  .dialogue-line.doctor { background: #f3e8ff; }
+  .dialogue-line.family { background: #fef3c7; }
+  .dialogue-line .who {
+    width:120px; font-weight:700; font-size:11px;
+    color: var(--teal-dark); text-transform: uppercase;
+  }
+  .dialogue-line.patient .who { color: var(--sky); }
+  .dialogue-line.doctor .who { color: #7c3aed; }
+  .dialogue-line.family .who { color: #b45309; }
+  .dialogue-line .txt { flex:1; }
+  .dialogue-line .txt .en { font-weight:500; }
+  .dialogue-line .txt .es { color: var(--ink-soft); font-size:13px; font-style:italic; margin-top:4px; }
+
+  /* PAIN SCALE */
+  .pain-scale { display:grid; grid-template-columns: repeat(11, 1fr); gap:6px; margin: 16px 0; }
+  .pain-btn {
+    aspect-ratio: 1; border:2px solid var(--line); border-radius: 10px;
+    font-weight:700; cursor:pointer; font-size: 16px; transition: all .15s;
+    background: white;
+  }
+  .pain-btn:hover { transform: scale(1.1); }
+  .pain-btn[data-v="0"], .pain-btn[data-v="1"], .pain-btn[data-v="2"] { border-color: var(--ok); color: var(--ok); }
+  .pain-btn[data-v="3"], .pain-btn[data-v="4"] { border-color: #84cc16; color: #84cc16; }
+  .pain-btn[data-v="5"], .pain-btn[data-v="6"] { border-color: var(--warn); color: var(--warn); }
+  .pain-btn[data-v="7"], .pain-btn[data-v="8"] { border-color: #ea580c; color: #ea580c; }
+  .pain-btn[data-v="9"], .pain-btn[data-v="10"] { border-color: var(--rose); color: var(--rose); }
+  .pain-btn.selected { background: currentColor !important; }
+  .pain-btn.selected span { color: white; }
+
+  /* PROGRESS BAR */
+  .progress { height: 10px; background: var(--line); border-radius: 5px; overflow: hidden; margin: 10px 0; }
+  .progress > div { height: 100%; background: linear-gradient(90deg, var(--teal), var(--sky)); transition: width .5s; }
+
+  /* HEART ANATOMY */
+  .heart-wrap {
+    position:relative; display:flex; justify-content:center;
+    background: linear-gradient(135deg, #fef2f2 0%, #ffe4e6 100%);
+    border-radius: 16px; padding: 20px;
+  }
+  .heart-label {
+    display: flex; gap: 6px; align-items: center;
+    font-size: 12px; padding: 6px 10px; border-radius: 20px;
+    background: white; border: 1px solid var(--rose-light);
+    cursor: pointer; transition: all .15s;
+  }
+  .heart-label:hover { background: var(--rose); color: white; }
+  .heart-label-grid { display:grid; grid-template-columns: repeat(2, 1fr); gap:8px; margin-top:16px; }
+
+  /* TABS */
+  .tabs { display:flex; gap:4px; border-bottom: 2px solid var(--line); margin-bottom: 18px; }
+  .tab {
+    padding: 10px 16px; cursor:pointer; border:none; background:none;
+    font-size: 14px; font-weight: 500; color: var(--ink-soft);
+    border-bottom: 3px solid transparent; margin-bottom:-2px;
+  }
+  .tab.active { color: var(--teal); border-bottom-color: var(--teal); }
+  .tab-panel { display:none; }
+  .tab-panel.active { display:block; }
+
+  /* BADGE */
+  .level-badge {
+    display:inline-block; padding: 3px 10px; border-radius: 999px;
+    font-size: 11px; font-weight: 700; letter-spacing:.5px;
+  }
+  .lvl-a1 { background: var(--teal-light); color: var(--teal-dark); }
+  .lvl-a2 { background: var(--rose-light); color: var(--rose); }
+
+  /* CHART */
+  .bar-chart { display:flex; align-items:flex-end; gap:10px; height: 160px; padding: 10px; border-bottom: 1px solid var(--line); }
+  .bar-chart .bar {
+    flex:1; background: linear-gradient(to top, var(--teal), var(--sky));
+    border-radius: 6px 6px 0 0; position: relative;
+    min-height: 4px; transition: height .6s;
+  }
+  .bar-chart .bar::after { content: attr(data-label); position: absolute; bottom: -22px; left: 0; right: 0; text-align: center; font-size: 11px; color: var(--ink-soft); }
+  .bar-chart .bar::before { content: attr(data-val); position: absolute; top: -20px; left: 0; right: 0; text-align: center; font-size: 11px; font-weight: 700; color: var(--ink); }
+
+  /* INPUT */
+  input.text, select.text {
+    padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px;
+    font-size: 14px; font-family: inherit; width: 100%;
+  }
+  input.text:focus, select.text:focus { outline: none; border-color: var(--teal); }
+
+  .banner {
+    padding: 14px 18px; border-radius: 12px; margin-bottom: 18px;
+    background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%);
+    border: 1px solid var(--rose-light); display:flex; gap:14px; align-items:center;
+  }
+  .banner .heart { font-size: 28px; }
+  .banner .txt { flex:1; }
+  .banner .txt b { color: var(--rose); }
+
+  .ring {
+    --p: 0;
+    width: 80px; height: 80px; border-radius: 50%;
+    background: conic-gradient(var(--teal) calc(var(--p)*1%), var(--line) 0);
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+  }
+  .ring::before {
+    content: ''; position: absolute; inset: 8px; background: white; border-radius: 50%;
+  }
+  .ring span { position: relative; font-weight: 700; font-size: 18px; color: var(--teal-dark); }
+
+  .checkmark { color: var(--ok); margin-right: 6px; }
+  .xmark { color: var(--rose); margin-right:6px; }
+
+  footer { padding: 20px; text-align:center; font-size: 12px; color: var(--ink-soft); }
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <div class="logo">
+      <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
+        <path d="M12 21s-7-4.5-7-10a5 5 0 019-3 5 5 0 019 3c0 5.5-7 10-7 10z" fill="#e11d48"/>
+        <path d="M7 12h2l1-2 2 4 1-2h4" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      </svg>
+    </div>
+    <div>
+      <h1>Cardio Nursing English</h1>
+      <p>A1 + A2 · Post-Operative Cardiology · For Gina</p>
+    </div>
+  </div>
+  <div style="display:flex; gap:10px; align-items:center;">
+    <div style="display:flex; flex-direction:column; gap:4px; font-size:11px;">
+      <select id="voice-female" class="text" style="padding:4px 8px; font-size:11px; background: rgba(255,255,255,.15); color:white; border-color:rgba(255,255,255,.3);" onchange="pickVoice('female', this.value)"><option>👩 Loading...</option></select>
+      <select id="voice-male" class="text" style="padding:4px 8px; font-size:11px; background: rgba(255,255,255,.15); color:white; border-color:rgba(255,255,255,.3);" onchange="pickVoice('male', this.value)"><option>👨 Loading...</option></select>
+    </div>
+    <button class="btn sm" style="background:rgba(255,255,255,.2); border:none;" onclick="speak('Hello Gina, this is the female nurse voice.','female')">🔊 Test F</button>
+    <button class="btn sm" style="background:rgba(255,255,255,.2); border:none;" onclick="speak('Hello Gina, this is the male doctor voice.','male')">🔊 Test M</button>
+    <div class="user-chip">
+      <div class="avatar">G</div>
+      <div>
+        <div style="font-size:13px; font-weight:600;">Hi, Gina 🩺</div>
+        <div style="font-size:11px; opacity:.85;">Virginia, USA</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="app">
+  <nav class="side">
+    <div class="group-title">Main</div>
+    <button class="active" data-view="dashboard"><span class="ico">🏠</span> Dashboard</button>
+    <button data-view="stats"><span class="ico">📊</span> Statistics</button>
+
+    <div class="group-title">Level A1 — Beginner</div>
+    <button data-view="a1-unit1"><span class="ico">👋</span> Greetings & Intro</button>
+    <button data-view="a1-unit2"><span class="ico">🔢</span> Numbers, Time & Dates</button>
+    <button data-view="a1-unit3"><span class="ico">🩺</span> Body & Symptoms</button>
+    <button data-view="a1-unit4"><span class="ico">🏥</span> At the Hospital</button>
+
+    <div class="group-title">Level A2 — Cardiology</div>
+    <button data-view="a2-unit1"><span class="ico">❤️</span> Heart Anatomy</button>
+    <button data-view="a2-unit2"><span class="ico">📋</span> Patient Intake</button>
+    <button data-view="a2-unit3"><span class="ico">🌡️</span> Pain Assessment</button>
+    <button data-view="a2-unit4"><span class="ico">💉</span> Post-Op Care</button>
+    <button data-view="a2-unit5"><span class="ico">💊</span> Medications</button>
+
+    <div class="group-title">Practice</div>
+    <button data-view="flashcards"><span class="ico">🎴</span> Flashcards</button>
+    <button data-view="dialogues"><span class="ico">💬</span> Dialogues</button>
+    <button data-view="speaking"><span class="ico">🎤</span> Speaking Lab</button>
+  </nav>
+
+  <main>
+    <!-- DASHBOARD -->
+    <section class="view active" id="dashboard">
+      <div class="banner">
+        <div class="heart">❤️</div>
+        <div class="txt">
+          <b>Welcome back, Gina!</b><br>
+          Every day a little more confident. Juan is proud of you. Let's make English feel as natural as a steady heartbeat. 💙
+        </div>
+        <button class="btn" onclick="go('a1-unit1')">Continue learning →</button>
+      </div>
+
+      <div class="grid grid-3">
+        <div class="stat">
+          <div class="icon t">📚</div>
+          <div>
+            <div class="val" id="stat-words">0</div>
+            <div class="lbl">Words mastered</div>
+          </div>
+        </div>
+        <div class="stat">
+          <div class="icon r">🔥</div>
+          <div>
+            <div class="val" id="stat-streak">1</div>
+            <div class="lbl">Day streak</div>
+          </div>
+        </div>
+        <div class="stat">
+          <div class="icon s">⏱️</div>
+          <div>
+            <div class="val" id="stat-time">0 min</div>
+            <div class="lbl">Study time today</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>📐 CEFR Coverage — English for Nursing</h2>
+        <p class="lead">This course covers the CEFR A1 + A2 core with a focus on cardiology nursing.</p>
+        <div class="grid grid-2">
+          <div>
+            <div style="display:flex; justify-content:space-between; font-size:14px; margin-bottom:4px;"><b>A1 — Beginner</b><span>≈ 350 words across 13 categories</span></div>
+            <div class="progress"><div style="width:100%; background: linear-gradient(90deg, var(--teal), #14b8a6);"></div></div>
+            <div style="font-size:12px; color:var(--ink-soft); margin-top:4px;">Greetings · Family · Numbers · Time · Body · Symptoms · Verbs · Adjectives · Prepositions · WH · Food · Emotions · Emergency</div>
+          </div>
+          <div>
+            <div style="display:flex; justify-content:space-between; font-size:14px; margin-bottom:4px;"><b>A2 — Cardiology nursing</b><span>≈ 550 words across 15 categories</span></div>
+            <div class="progress"><div style="width:100%; background: linear-gradient(90deg, var(--rose), #fb7185);"></div></div>
+            <div style="font-size:12px; color:var(--ink-soft); margin-top:4px;">Anatomy · Diseases · Procedures · IV · Abbreviations · Actions · Post-op · Vitals · Equipment · Medications · Emergency · Phrases · Pain types · Intake · Warning signs</div>
+          </div>
+        </div>
+        <div style="margin-top:12px; padding:12px; background: var(--sky-light); border-radius:10px; font-size:13px;">
+          💡 <b>Total vocabulary in app:</b> 900+ terms · 30+ dialogues with male & female voices · 17 flashcard categories
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>🎯 Your weekly goal</h2>
+        <p class="lead">Practice 20 minutes per day — perfect for a 12-hour shift schedule.</p>
+        <div class="progress"><div id="goal-bar" style="width: 30%"></div></div>
+        <div style="display:flex; justify-content:space-between; font-size:12px; color:var(--ink-soft);">
+          <span>Monday</span><span>Tuesday</span><span>Wednesday</span><span>Thursday</span><span>Friday</span><span>Saturday</span><span>Sunday</span>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>📖 Continue where you left off</h2>
+        <div class="grid grid-3" style="margin-top:12px;">
+          <div class="unit-card" onclick="go('a1-unit1')">
+            <span class="level-badge lvl-a1">A1 · UNIT 1</span>
+            <h4>Greetings & Self-Introduction</h4>
+            <p>Learn to introduce yourself as a nurse and talk about Juan.</p>
+            <div class="progress-sm"><div style="width:65%"></div></div>
+          </div>
+          <div class="unit-card" onclick="go('a2-unit1')">
+            <span class="level-badge lvl-a2">A2 · UNIT 1</span>
+            <h4>Heart Anatomy in English</h4>
+            <p>Interactive diagram of the cardiovascular system.</p>
+            <div class="progress-sm"><div style="width:20%"></div></div>
+          </div>
+          <div class="unit-card" onclick="go('a2-unit4')">
+            <span class="level-badge lvl-a2">A2 · UNIT 4</span>
+            <h4>Post-Op Care Phrases</h4>
+            <p>Essential vocabulary for cardiac post-operative rooms.</p>
+            <div class="progress-sm"><div style="width:10%"></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>💡 Phrase of the day</h2>
+        <div style="display:flex; align-items:center; gap:14px; margin-top:8px;">
+          <div style="flex:1;">
+            <div style="font-size:22px; font-weight:600; color: var(--teal-dark);" id="pod-en">How are you feeling today?</div>
+            <div style="color: var(--ink-soft); margin-top:4px;" id="pod-es">¿Cómo se siente hoy?</div>
+            <div style="font-family: 'Courier New', monospace; color: var(--sky); margin-top:4px;" id="pod-ipa">/haʊ ɑːr juː ˈfiːlɪŋ təˈdeɪ/</div>
+          </div>
+          <button class="audio-btn" style="width:48px; height:48px; font-size:20px;" onclick="speakByIds('pod-en')">🔊</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- STATS -->
+    <section class="view" id="stats">
+      <h2 style="margin-top:0;">📊 Your Progress</h2>
+      <p class="lead" style="color:var(--ink-soft);">Tracking your English journey as carefully as vital signs.</p>
+
+      <div class="grid grid-3">
+        <div class="card" style="text-align:center;">
+          <div class="ring" style="--p:42; margin: 10px auto;"><span>42%</span></div>
+          <h3 style="margin-top:10px;">A1 Level</h3>
+          <p style="font-size:13px; color:var(--ink-soft); margin:0;">Beginner English</p>
+        </div>
+        <div class="card" style="text-align:center;">
+          <div class="ring" style="--p:18; margin: 10px auto;"><span>18%</span></div>
+          <h3 style="margin-top:10px;">A2 Level</h3>
+          <p style="font-size:13px; color:var(--ink-soft); margin:0;">Cardiology English</p>
+        </div>
+        <div class="card" style="text-align:center;">
+          <div class="ring" style="--p:30; margin: 10px auto;"><span>30%</span></div>
+          <h3 style="margin-top:10px;">Overall</h3>
+          <p style="font-size:13px; color:var(--ink-soft); margin:0;">Complete confidence goal</p>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>📈 Weekly study minutes</h3>
+        <div class="bar-chart" style="padding-top:28px;">
+          <div class="bar" style="height:40%" data-val="12" data-label="Mon"></div>
+          <div class="bar" style="height:70%" data-val="21" data-label="Tue"></div>
+          <div class="bar" style="height:55%" data-val="16" data-label="Wed"></div>
+          <div class="bar" style="height:90%" data-val="27" data-label="Thu"></div>
+          <div class="bar" style="height:80%" data-val="24" data-label="Fri"></div>
+          <div class="bar" style="height:60%" data-val="18" data-label="Sat"></div>
+          <div class="bar" style="height:45%" data-val="14" data-label="Sun"></div>
+        </div>
+      </div>
+
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>🏆 Achievements</h3>
+          <ul style="list-style:none; padding:0; margin:0;">
+            <li style="padding: 10px 0; border-bottom:1px solid var(--line);">🥇 <b>First Steps</b> — Completed your first A1 unit</li>
+            <li style="padding: 10px 0; border-bottom:1px solid var(--line);">📚 <b>Word Collector</b> — Learned 50 medical terms</li>
+            <li style="padding: 10px 0; border-bottom:1px solid var(--line);">🔥 <b>On Fire</b> — 7-day study streak</li>
+            <li style="padding: 10px 0;">❤️ <b>Cardiologist Companion</b> — Completed Heart Anatomy unit</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>📊 Skills breakdown</h3>
+          <div style="margin:14px 0;">
+            <div style="display:flex; justify-content:space-between; font-size:13px;"><span>Vocabulary</span><b>72%</b></div>
+            <div class="progress"><div style="width:72%"></div></div>
+          </div>
+          <div style="margin:14px 0;">
+            <div style="display:flex; justify-content:space-between; font-size:13px;"><span>Listening</span><b>58%</b></div>
+            <div class="progress"><div style="width:58%"></div></div>
+          </div>
+          <div style="margin:14px 0;">
+            <div style="display:flex; justify-content:space-between; font-size:13px;"><span>Speaking</span><b>45%</b></div>
+            <div class="progress"><div style="width:45%"></div></div>
+          </div>
+          <div style="margin:14px 0;">
+            <div style="display:flex; justify-content:space-between; font-size:13px;"><span>Grammar</span><b>63%</b></div>
+            <div class="progress"><div style="width:63%"></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- A1 · UNIT 1 · GREETINGS -->
+    <section class="view" id="a1-unit1">
+      <span class="level-badge lvl-a1">A1 · UNIT 1</span>
+      <h2 style="margin:8px 0;">👋 Greetings & Self-Introduction</h2>
+      <p class="lead">Start every shift with confidence. Practice introducing yourself to patients, doctors, and colleagues.</p>
+
+      <div class="card" style="background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%); border-color: var(--teal-light);">
+        <h3>🎬 Listen first — Mini conversation</h3>
+        <p class="lead">A nurse meets a new patient. Listen to the conversation twice before studying the vocabulary.</p>
+        <div id="mini-u1"></div>
+        <button class="btn" style="margin-top:10px;" onclick="playMini('u1')">▶️ Play conversation</button>
+      </div>
+
+      <div class="tabs">
+        <button class="tab active" data-tab="vocab-1">📚 Vocabulary</button>
+        <button class="tab" data-tab="phrases-1">💬 Key phrases</button>
+        <button class="tab" data-tab="intro-1">🎭 Your story</button>
+        <button class="tab" data-tab="quiz-1">✅ Quiz</button>
+      </div>
+
+      <div class="tab-panel active" id="vocab-1">
+        <div class="card">
+          <h3>Essential greetings & courtesy <span style="font-size:12px; color:var(--ink-soft); font-weight:normal;">(40 words)</span></h3>
+          <div id="vocab-list-1"></div>
+        </div>
+        <div class="grid grid-2">
+          <div class="card">
+            <h3>👨‍👩‍👧 Family <span style="font-size:12px; color:var(--ink-soft); font-weight:normal;">(24 words)</span></h3>
+            <div id="vocab-family"></div>
+          </div>
+          <div class="card">
+            <h3>🎨 Colors <span style="font-size:12px; color:var(--ink-soft); font-weight:normal;">(13 words)</span></h3>
+            <div id="vocab-colors"></div>
+          </div>
+          <div class="card">
+            <h3>📅 Days & time <span style="font-size:12px; color:var(--ink-soft); font-weight:normal;">(15 words)</span></h3>
+            <div id="vocab-days"></div>
+          </div>
+          <div class="card">
+            <h3>📆 Months & seasons <span style="font-size:12px; color:var(--ink-soft); font-weight:normal;">(16 words)</span></h3>
+            <div id="vocab-months"></div>
+          </div>
+          <div class="card">
+            <h3>🔤 Basic verbs <span style="font-size:12px; color:var(--ink-soft); font-weight:normal;">(36 words)</span></h3>
+            <div id="vocab-verbs-a1"></div>
+          </div>
+          <div class="card">
+            <h3>📝 Basic adjectives <span style="font-size:12px; color:var(--ink-soft); font-weight:normal;">(32 words)</span></h3>
+            <div id="vocab-adj-a1"></div>
+          </div>
+          <div class="card">
+            <h3>📍 Prepositions of place <span style="font-size:12px; color:var(--ink-soft); font-weight:normal;">(20 words)</span></h3>
+            <div id="vocab-prep"></div>
+          </div>
+          <div class="card">
+            <h3>❓ WH-questions <span style="font-size:12px; color:var(--ink-soft); font-weight:normal;">(12 words)</span></h3>
+            <div id="vocab-wh"></div>
+          </div>
+          <div class="card">
+            <h3>🍎 Food & drink <span style="font-size:12px; color:var(--ink-soft); font-weight:normal;">(23 words)</span></h3>
+            <div id="vocab-food"></div>
+          </div>
+          <div class="card">
+            <h3>😊 Emotions <span style="font-size:12px; color:var(--ink-soft); font-weight:normal;">(18 words)</span></h3>
+            <div id="vocab-emotions"></div>
+          </div>
+          <div class="card">
+            <h3>👜 Personal items <span style="font-size:12px; color:var(--ink-soft); font-weight:normal;">(16 words)</span></h3>
+            <div id="vocab-personal"></div>
+          </div>
+          <div class="card">
+            <h3>🚨 Emergency phrases <span style="font-size:12px; color:var(--ink-soft); font-weight:normal;">(16 words)</span></h3>
+            <div id="vocab-emergency"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tab-panel" id="phrases-1">
+        <div class="card">
+          <h3>Useful phrases at work</h3>
+          <div id="phrases-list-1"></div>
+        </div>
+      </div>
+
+      <div class="tab-panel" id="intro-1">
+        <div class="card">
+          <h3>🎭 Gina's introduction — Learn by example</h3>
+          <p class="lead">This is how you can introduce yourself in English:</p>
+          <div style="background: var(--sky-light); padding: 18px; border-radius: 12px; position:relative;">
+            <button class="audio-btn" style="position:absolute; top:12px; right:12px;" onclick="speak('Hello, my name is Gina. I am a nurse from Peru. I work in cardiology. My husband Juan is a cardiologist doctor. We live in Virginia. Nice to meet you!')">🔊</button>
+            <p style="margin:0; font-size:16px; line-height:1.8;">
+              <b>"Hello, my name is Gina. I am a nurse from Peru. I work in cardiology. My husband Juan is a cardiologist. We live in Virginia. Nice to meet you!"</b>
+            </p>
+            <p style="margin-top:12px; color:var(--ink-soft); font-style:italic;">
+              Hola, mi nombre es Gina. Soy enfermera de Perú. Trabajo en cardiología. Mi esposo Juan es médico cardiólogo. Vivimos en Virginia. ¡Mucho gusto!
+            </p>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>✏️ Build your own introduction</h3>
+          <p class="lead">Fill in the blanks and practice out loud:</p>
+          <div style="display:grid; gap:12px;">
+            <label>Hello, my name is <input class="text" id="my-name" placeholder="Gina" value="Gina" style="max-width:200px; display:inline-block;"></label>
+            <label>I am a <input class="text" id="my-job" placeholder="nurse" value="nurse" style="max-width:200px; display:inline-block;"></label>
+            <label>I work in <input class="text" id="my-dept" placeholder="cardiology" value="cardiology post-op" style="max-width:300px; display:inline-block;"></label>
+            <label>My husband's name is <input class="text" id="my-spouse" placeholder="Juan" value="Juan" style="max-width:200px; display:inline-block;"> and he is a <input class="text" id="my-spouse-job" value="cardiologist" style="max-width:200px; display:inline-block;"></label>
+            <label>I live in <input class="text" id="my-city" value="Virginia" style="max-width:200px; display:inline-block;"></label>
+          </div>
+          <button class="btn" style="margin-top:16px;" onclick="buildIntro()">🔊 Listen to my introduction</button>
+          <div id="my-intro-text" style="margin-top:14px; padding:14px; background:var(--teal-light); border-radius:10px; display:none;"></div>
+        </div>
+      </div>
+
+      <div class="tab-panel" id="quiz-1">
+        <div class="card">
+          <h3>✅ Quick quiz</h3>
+          <div id="quiz-1-container"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- A1 · UNIT 2 · NUMBERS -->
+    <section class="view" id="a1-unit2">
+      <span class="level-badge lvl-a1">A1 · UNIT 2</span>
+      <h2 style="margin:8px 0;">🔢 Numbers, Time & Dates</h2>
+      <p class="lead">Essential for vital signs, medication times, and patient charts.</p>
+
+      <div class="card" style="background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%); border-color: var(--teal-light);">
+        <h3>🎬 Mini conversation — Asking for time</h3>
+        <div id="mini-u2"></div>
+        <button class="btn" style="margin-top:10px;" onclick="playMini('u2')">▶️ Play conversation</button>
+      </div>
+
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>🔢 Numbers 0-20</h3>
+          <div id="numbers-grid" style="display:grid; grid-template-columns: repeat(3,1fr); gap:8px;"></div>
+        </div>
+        <div class="card">
+          <h3>⏰ Telling time</h3>
+          <div id="time-examples"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>💉 Numbers in nursing — Real situations</h3>
+        <div id="nursing-numbers"></div>
+      </div>
+
+      <div class="card">
+        <h3>🎯 Practice: What time is the medication?</h3>
+        <p class="lead">Listen and pick the correct time:</p>
+        <button class="btn" onclick="speak('The next dose of aspirin is at eight thirty in the morning.')">🔊 Play audio</button>
+        <div class="quiz-options" style="margin-top:14px;">
+          <div class="quiz-opt" onclick="markQuiz(this, false)"><span class="letter">A</span> 7:30 AM</div>
+          <div class="quiz-opt" onclick="markQuiz(this, true)"><span class="letter">B</span> 8:30 AM</div>
+          <div class="quiz-opt" onclick="markQuiz(this, false)"><span class="letter">C</span> 8:13 AM</div>
+          <div class="quiz-opt" onclick="markQuiz(this, false)"><span class="letter">D</span> 9:30 PM</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- A1 · UNIT 3 · BODY -->
+    <section class="view" id="a1-unit3">
+      <span class="level-badge lvl-a1">A1 · UNIT 3</span>
+      <h2 style="margin:8px 0;">🩺 Body Parts & Basic Symptoms</h2>
+      <p class="lead">Essential vocabulary to understand what patients feel.</p>
+
+      <div class="card" style="background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%); border-color: var(--teal-light);">
+        <h3>🎬 Mini conversation — A patient describes pain</h3>
+        <div id="mini-u3"></div>
+        <button class="btn" style="margin-top:10px;" onclick="playMini('u3')">▶️ Play conversation</button>
+      </div>
+
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>🫀 Body diagram (click any part)</h3>
+          <div style="display:flex; justify-content:center;">
+            <svg width="260" height="380" viewBox="0 0 260 380">
+              <!-- head -->
+              <circle cx="130" cy="40" r="28" fill="#fecaca" stroke="#dc2626" stroke-width="2" class="body-part" data-en="Head" data-es="Cabeza" style="cursor:pointer"/>
+              <!-- neck -->
+              <rect x="120" y="65" width="20" height="18" fill="#fca5a5" stroke="#dc2626" stroke-width="2" class="body-part" data-en="Neck" data-es="Cuello" style="cursor:pointer"/>
+              <!-- torso -->
+              <rect x="90" y="82" width="80" height="110" fill="#f87171" stroke="#dc2626" stroke-width="2" rx="15" class="body-part" data-en="Chest" data-es="Pecho" style="cursor:pointer"/>
+              <!-- heart inside -->
+              <path d="M118 110 q-5 -10 0 -15 q10 -5 12 5 q2 -10 12 -5 q5 5 0 15 q-6 10 -12 14 q-6 -4 -12 -14 z" fill="#b91c1c" class="body-part" data-en="Heart" data-es="Corazón" style="cursor:pointer"/>
+              <!-- arms -->
+              <rect x="60" y="85" width="24" height="80" fill="#fca5a5" stroke="#dc2626" stroke-width="2" rx="10" class="body-part" data-en="Arm" data-es="Brazo" style="cursor:pointer"/>
+              <rect x="176" y="85" width="24" height="80" fill="#fca5a5" stroke="#dc2626" stroke-width="2" rx="10" class="body-part" data-en="Arm" data-es="Brazo" style="cursor:pointer"/>
+              <!-- hands -->
+              <circle cx="72" cy="175" r="12" fill="#fecaca" stroke="#dc2626" stroke-width="2" class="body-part" data-en="Hand" data-es="Mano" style="cursor:pointer"/>
+              <circle cx="188" cy="175" r="12" fill="#fecaca" stroke="#dc2626" stroke-width="2" class="body-part" data-en="Hand" data-es="Mano" style="cursor:pointer"/>
+              <!-- abdomen -->
+              <rect x="100" y="192" width="60" height="40" fill="#fda4af" stroke="#dc2626" stroke-width="2" class="body-part" data-en="Stomach" data-es="Estómago" style="cursor:pointer"/>
+              <!-- legs -->
+              <rect x="100" y="232" width="25" height="110" fill="#fca5a5" stroke="#dc2626" stroke-width="2" rx="10" class="body-part" data-en="Leg" data-es="Pierna" style="cursor:pointer"/>
+              <rect x="135" y="232" width="25" height="110" fill="#fca5a5" stroke="#dc2626" stroke-width="2" rx="10" class="body-part" data-en="Leg" data-es="Pierna" style="cursor:pointer"/>
+              <!-- feet -->
+              <ellipse cx="112" cy="355" rx="16" ry="8" fill="#fecaca" stroke="#dc2626" stroke-width="2" class="body-part" data-en="Foot" data-es="Pie" style="cursor:pointer"/>
+              <ellipse cx="148" cy="355" rx="16" ry="8" fill="#fecaca" stroke="#dc2626" stroke-width="2" class="body-part" data-en="Foot" data-es="Pie" style="cursor:pointer"/>
+            </svg>
+          </div>
+          <div id="body-part-info" style="margin-top:14px; padding:14px; background: var(--teal-light); border-radius:10px; min-height: 60px;">
+            <p style="margin:0; color: var(--ink-soft);">👆 Click any body part to hear its name.</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3>😷 Common symptoms</h3>
+          <div id="symptoms-list"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>💬 Ask your patient — Common questions</h3>
+        <div id="symptom-questions"></div>
+      </div>
+    </section>
+
+    <!-- A1 · UNIT 4 · HOSPITAL -->
+    <section class="view" id="a1-unit4">
+      <span class="level-badge lvl-a1">A1 · UNIT 4</span>
+      <h2 style="margin:8px 0;">🏥 At the Hospital</h2>
+      <p class="lead">Places, people, and equipment in a hospital.</p>
+
+      <div class="card" style="background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%); border-color: var(--teal-light);">
+        <h3>🎬 Mini conversation — Finding a room</h3>
+        <div id="mini-u4"></div>
+        <button class="btn" style="margin-top:10px;" onclick="playMini('u4')">▶️ Play conversation</button>
+      </div>
+
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>🏥 Hospital areas</h3>
+          <div id="hospital-places"></div>
+        </div>
+        <div class="card">
+          <h3>👥 Medical team</h3>
+          <div id="medical-team"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🛠️ Nursing equipment</h3>
+        <div id="equipment-list"></div>
+      </div>
+    </section>
+
+    <!-- A2 · UNIT 1 · HEART ANATOMY -->
+    <section class="view" id="a2-unit1">
+      <span class="level-badge lvl-a2">A2 · UNIT 1</span>
+      <h2 style="margin:8px 0;">❤️ Heart Anatomy — Cardiology Essentials</h2>
+      <p class="lead">The vocabulary Juan uses every day. Click each part to learn.</p>
+
+      <div class="card" style="background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%); border-color: var(--rose-light);">
+        <h3>🎬 Mini conversation — Doctor explains anatomy</h3>
+        <div id="mini-a21"></div>
+        <button class="btn rose" style="margin-top:10px;" onclick="playMini('a21')">▶️ Play conversation</button>
+      </div>
+
+      <div class="card heart-wrap">
+        <svg width="420" height="440" viewBox="0 0 420 440">
+          <!-- Heart body -->
+          <defs>
+            <radialGradient id="heartGrad">
+              <stop offset="0%" stop-color="#ef4444"/>
+              <stop offset="100%" stop-color="#991b1b"/>
+            </radialGradient>
+          </defs>
+
+          <!-- Superior Vena Cava -->
+          <rect x="160" y="20" width="30" height="60" fill="#3b82f6" rx="6" class="heart-part" data-en="Superior Vena Cava" data-es="Vena Cava Superior" data-fn="Returns blood from the upper body to the right atrium." style="cursor:pointer"/>
+
+          <!-- Aorta -->
+          <path d="M210 30 Q260 40 250 90 L220 85 Q230 50 205 45 Z" fill="#dc2626" class="heart-part" data-en="Aorta" data-es="Aorta" data-fn="Main artery; carries oxygenated blood to the body." style="cursor:pointer"/>
+
+          <!-- Pulmonary Artery -->
+          <path d="M195 40 Q180 70 190 100 L170 100 Q160 60 175 35 Z" fill="#60a5fa" class="heart-part" data-en="Pulmonary Artery" data-es="Arteria Pulmonar" data-fn="Carries deoxygenated blood to the lungs." style="cursor:pointer"/>
+
+          <!-- Right atrium -->
+          <ellipse cx="145" cy="140" rx="50" ry="55" fill="#fca5a5" stroke="#991b1b" stroke-width="2" class="heart-part" data-en="Right Atrium" data-es="Aurícula Derecha" data-fn="Receives deoxygenated blood from the body." style="cursor:pointer"/>
+
+          <!-- Left atrium -->
+          <ellipse cx="265" cy="140" rx="50" ry="55" fill="#fca5a5" stroke="#991b1b" stroke-width="2" class="heart-part" data-en="Left Atrium" data-es="Aurícula Izquierda" data-fn="Receives oxygenated blood from the lungs." style="cursor:pointer"/>
+
+          <!-- Right ventricle -->
+          <path d="M90 170 Q85 280 160 340 L200 310 L200 180 Z" fill="#f87171" stroke="#991b1b" stroke-width="2" class="heart-part" data-en="Right Ventricle" data-es="Ventrículo Derecho" data-fn="Pumps blood to the lungs through the pulmonary artery." style="cursor:pointer"/>
+
+          <!-- Left ventricle -->
+          <path d="M320 170 Q325 280 250 340 L210 310 L210 180 Z" fill="#dc2626" stroke="#991b1b" stroke-width="2" class="heart-part" data-en="Left Ventricle" data-es="Ventrículo Izquierdo" data-fn="Pumps oxygenated blood to the entire body." style="cursor:pointer"/>
+
+          <!-- Septum -->
+          <rect x="203" y="150" width="8" height="180" fill="#7f1d1d" class="heart-part" data-en="Septum" data-es="Tabique" data-fn="Wall separating the left and right sides of the heart." style="cursor:pointer"/>
+
+          <!-- Labels -->
+          <text x="210" y="410" text-anchor="middle" font-size="12" fill="#7f1d1d" font-weight="700">👆 Click each part to learn</text>
+        </svg>
+
+        <div style="flex:1; min-width: 280px; padding-left:20px;">
+          <div id="heart-info" style="padding: 16px; background:white; border-radius:12px; border: 1px solid var(--rose-light); min-height:200px;">
+            <h3 style="color:var(--rose); margin-top:0;">Select a part</h3>
+            <p style="color: var(--ink-soft);">Click any section of the heart diagram to learn the English name and its function.</p>
+            <div style="margin-top:14px; padding:12px; background:var(--sky-light); border-radius:8px; font-size:13px;">
+              💡 <b>Tip:</b> Try saying each term out loud. Juan hears these every day at work!
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🩸 Cardiovascular vocabulary <span style="font-size:12px; color:var(--ink-soft); font-weight:normal;">(34 terms)</span></h3>
+        <div id="cardio-vocab"></div>
+      </div>
+
+      <div class="card">
+        <h3>🔄 How blood flows — Step by step</h3>
+        <ol style="line-height: 2;" id="blood-flow">
+        </ol>
+      </div>
+
+      <div class="card">
+        <h3>🫀 Cardiovascular diseases <span style="font-size:12px; color:var(--ink-soft); font-weight:normal;">(24 terms)</span></h3>
+        <div id="cardio-diseases"></div>
+      </div>
+
+      <div class="card">
+        <h3>🏥 Common procedures & tests <span style="font-size:12px; color:var(--ink-soft); font-weight:normal;">(21 terms)</span></h3>
+        <div id="procedures-list"></div>
+      </div>
+
+      <div class="grid grid-2">
+        <div class="card">
+          <h3>💧 IV therapy vocabulary <span style="font-size:12px; color:var(--ink-soft); font-weight:normal;">(20 terms)</span></h3>
+          <div id="iv-therapy"></div>
+        </div>
+        <div class="card">
+          <h3>⚠️ Warning symptoms (cardiac) <span style="font-size:12px; color:var(--ink-soft); font-weight:normal;">(21 terms)</span></h3>
+          <div id="warning-symptoms"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>📋 Medical abbreviations — Every nurse must know <span style="font-size:12px; color:var(--ink-soft); font-weight:normal;">(34 abbreviations)</span></h3>
+        <div id="abbreviations-list"></div>
+      </div>
+
+      <div class="card">
+        <h3>🛠️ Nursing action verbs <span style="font-size:12px; color:var(--ink-soft); font-weight:normal;">(35 verbs)</span></h3>
+        <div id="nursing-actions"></div>
+      </div>
+
+      <div class="card">
+        <h3>🗣️ Patient education — Key instructions <span style="font-size:12px; color:var(--ink-soft); font-weight:normal;">(26 phrases)</span></h3>
+        <div id="patient-education"></div>
+      </div>
+
+      <div class="card">
+        <h3>🔗 Phrasal verbs for nursing <span style="font-size:12px; color:var(--ink-soft); font-weight:normal;">(31 verbs)</span></h3>
+        <div id="phrasal-verbs"></div>
+      </div>
+    </section>
+
+    <!-- A2 · UNIT 2 · PATIENT INTAKE -->
+    <section class="view" id="a2-unit2">
+      <span class="level-badge lvl-a2">A2 · UNIT 2</span>
+      <h2 style="margin:8px 0;">📋 Patient Intake</h2>
+      <p class="lead">The questions you ask when a patient arrives.</p>
+
+      <div class="card" style="background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%); border-color: var(--rose-light);">
+        <h3>🎬 Mini conversation — Admission</h3>
+        <div id="mini-a22"></div>
+        <button class="btn rose" style="margin-top:10px;" onclick="playMini('a22')">▶️ Play conversation</button>
+      </div>
+
+      <div class="card">
+        <h3>📝 Admission form — essential questions</h3>
+        <div id="intake-questions"></div>
+      </div>
+
+      <div class="card">
+        <h3>🩺 Vital signs vocabulary</h3>
+        <div class="grid grid-2">
+          <div>
+            <div id="vitals-list"></div>
+          </div>
+          <div style="background: var(--sky-light); padding:20px; border-radius:12px;">
+            <h4 style="margin-top:0; color: var(--sky);">📊 Normal vital signs (adult)</h4>
+            <table style="width:100%; font-size:13px; border-collapse: collapse;">
+              <tr style="border-bottom:1px solid white;"><td style="padding:8px 0;">Heart rate</td><td><b>60-100 bpm</b></td></tr>
+              <tr style="border-bottom:1px solid white;"><td style="padding:8px 0;">Blood pressure</td><td><b>120/80 mmHg</b></td></tr>
+              <tr style="border-bottom:1px solid white;"><td style="padding:8px 0;">Temperature</td><td><b>98.6 °F / 37 °C</b></td></tr>
+              <tr style="border-bottom:1px solid white;"><td style="padding:8px 0;">Respiratory rate</td><td><b>12-20 /min</b></td></tr>
+              <tr><td style="padding:8px 0;">Oxygen saturation</td><td><b>95-100%</b></td></tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- A2 · UNIT 3 · PAIN ASSESSMENT -->
+    <section class="view" id="a2-unit3">
+      <span class="level-badge lvl-a2">A2 · UNIT 3</span>
+      <h2 style="margin:8px 0;">🌡️ Pain Assessment</h2>
+      <p class="lead">How to ask about pain and interpret the answer.</p>
+
+      <div class="card" style="background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%); border-color: var(--rose-light);">
+        <h3>🎬 Mini conversation — Assessing pain</h3>
+        <div id="mini-a23"></div>
+        <button class="btn rose" style="margin-top:10px;" onclick="playMini('a23')">▶️ Play conversation</button>
+      </div>
+
+      <div class="card">
+        <h3>📏 Pain scale — Click to practice</h3>
+        <p class="lead">"On a scale from 0 to 10, how would you rate your pain?"</p>
+        <div class="pain-scale">
+          <button class="pain-btn" data-v="0" onclick="selectPain(this,0)"><span>0</span></button>
+          <button class="pain-btn" data-v="1" onclick="selectPain(this,1)"><span>1</span></button>
+          <button class="pain-btn" data-v="2" onclick="selectPain(this,2)"><span>2</span></button>
+          <button class="pain-btn" data-v="3" onclick="selectPain(this,3)"><span>3</span></button>
+          <button class="pain-btn" data-v="4" onclick="selectPain(this,4)"><span>4</span></button>
+          <button class="pain-btn" data-v="5" onclick="selectPain(this,5)"><span>5</span></button>
+          <button class="pain-btn" data-v="6" onclick="selectPain(this,6)"><span>6</span></button>
+          <button class="pain-btn" data-v="7" onclick="selectPain(this,7)"><span>7</span></button>
+          <button class="pain-btn" data-v="8" onclick="selectPain(this,8)"><span>8</span></button>
+          <button class="pain-btn" data-v="9" onclick="selectPain(this,9)"><span>9</span></button>
+          <button class="pain-btn" data-v="10" onclick="selectPain(this,10)"><span>10</span></button>
+        </div>
+        <div style="display:flex; justify-content:space-between; font-size:12px; color: var(--ink-soft);">
+          <span>No pain</span>
+          <span>Mild</span>
+          <span>Moderate</span>
+          <span>Severe</span>
+          <span>Worst possible</span>
+        </div>
+        <div id="pain-result" style="margin-top:16px; padding:14px; border-radius:10px; background:var(--bg); min-height:50px;"></div>
+      </div>
+
+      <div class="card">
+        <h3>💬 Asking about pain — Key questions</h3>
+        <div id="pain-questions"></div>
+      </div>
+
+      <div class="card">
+        <h3>🔤 Types of pain — Adjectives</h3>
+        <p class="lead">Patients describe pain with different words:</p>
+        <div id="pain-types"></div>
+      </div>
+    </section>
+
+    <!-- A2 · UNIT 4 · POST-OP CARE -->
+    <section class="view" id="a2-unit4">
+      <span class="level-badge lvl-a2">A2 · UNIT 4</span>
+      <h2 style="margin:8px 0;">💉 Post-Op Cardiac Care</h2>
+      <p class="lead">Your specialty: caring for patients after cardiac surgery.</p>
+
+      <div class="card" style="background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%); border-color: var(--rose-light);">
+        <h3>🎬 Mini conversation — Post-op rounds</h3>
+        <div id="mini-a24"></div>
+        <button class="btn rose" style="margin-top:10px;" onclick="playMini('a24')">▶️ Play conversation</button>
+      </div>
+
+      <div class="banner">
+        <div class="heart">💓</div>
+        <div class="txt">
+          <b>Priority after cardiac surgery:</b> monitor vital signs, control pain, prevent complications, help with mobilization.
+        </div>
+        <button class="audio-btn" onclick="speak('Priority after cardiac surgery: monitor vital signs, control pain, prevent complications, help with mobilization.')">🔊</button>
+      </div>
+
+      <div class="card">
+        <h3>🏥 Post-op cardiology vocabulary</h3>
+        <div id="postop-vocab"></div>
+      </div>
+
+      <div class="card">
+        <h3>⚠️ Warning signs to communicate</h3>
+        <p class="lead">These are phrases to call the doctor immediately:</p>
+        <div id="warning-signs"></div>
+      </div>
+
+      <div class="card">
+        <h3>📞 Calling the doctor — Phone template</h3>
+        <div style="background: var(--sky-light); padding: 18px; border-radius:12px;">
+          <p style="margin:0;"><b>SBAR Technique</b> — the standard way to communicate:</p>
+          <ul style="line-height:1.8;">
+            <li><b>S</b>ituation: "Dr. Smith, this is Gina, the cardiology nurse on unit 3."</li>
+            <li><b>B</b>ackground: "Mr. Johnson, 65, post-op day 2 after CABG."</li>
+            <li><b>A</b>ssessment: "His blood pressure dropped to 90/60, heart rate is 110."</li>
+            <li><b>R</b>ecommendation: "I think he may need a fluid bolus. Could you come assess him?"</li>
+          </ul>
+          <button class="btn" onclick="speak('Dr. Smith, this is Gina, the cardiology nurse on unit 3. Mister Johnson, 65, post-op day 2 after CABG. His blood pressure dropped to 90 over 60, heart rate is 110. I think he may need a fluid bolus. Could you come assess him?')">🔊 Listen to full example</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- A2 · UNIT 5 · MEDICATIONS -->
+    <section class="view" id="a2-unit5">
+      <span class="level-badge lvl-a2">A2 · UNIT 5</span>
+      <h2 style="margin:8px 0;">💊 Cardiac Medications</h2>
+      <p class="lead">The most common medications in post-op cardiology.</p>
+
+      <div class="card" style="background: linear-gradient(135deg, #fff1f2 0%, #ffe4e6 100%); border-color: var(--rose-light);">
+        <h3>🎬 Mini conversation — Explaining medication</h3>
+        <div id="mini-a25"></div>
+        <button class="btn rose" style="margin-top:10px;" onclick="playMini('a25')">▶️ Play conversation</button>
+      </div>
+
+      <div class="card">
+        <h3>💊 Common cardiac medications</h3>
+        <div id="meds-list"></div>
+      </div>
+
+      <div class="card">
+        <h3>⏰ Medication administration — Key phrases</h3>
+        <div id="med-phrases"></div>
+      </div>
+
+      <div class="card">
+        <h3>⚠️ Administration routes</h3>
+        <div class="grid grid-3">
+          <div style="text-align:center; padding:16px; background: var(--teal-light); border-radius:12px;">
+            <div style="font-size:32px;">💊</div>
+            <div style="font-weight:700;">PO / Oral</div>
+            <div style="font-size:12px; color:var(--ink-soft);">by mouth</div>
+            <button class="audio-btn" style="margin-top:8px;" onclick="speak('P O, by mouth')">🔊</button>
+          </div>
+          <div style="text-align:center; padding:16px; background: var(--rose-light); border-radius:12px;">
+            <div style="font-size:32px;">💉</div>
+            <div style="font-weight:700;">IV</div>
+            <div style="font-size:12px; color:var(--ink-soft);">intravenous</div>
+            <button class="audio-btn" style="margin-top:8px;" onclick="speak('I V, intravenous')">🔊</button>
+          </div>
+          <div style="text-align:center; padding:16px; background: var(--sky-light); border-radius:12px;">
+            <div style="font-size:32px;">🩹</div>
+            <div style="font-weight:700;">IM / SC</div>
+            <div style="font-size:12px; color:var(--ink-soft);">intramuscular / subcutaneous</div>
+            <button class="audio-btn" style="margin-top:8px;" onclick="speak('I M, intramuscular. S C, subcutaneous')">🔊</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FLASHCARDS -->
+    <section class="view" id="flashcards">
+      <h2 style="margin-top:0;">🎴 Flashcards</h2>
+      <p class="lead">Review cardiology vocabulary. Click the card to flip it.</p>
+
+      <div class="card">
+        <div style="font-size:13px; color:var(--ink-soft); margin-bottom:6px;">📘 <b>A1 Decks</b></div>
+        <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px;">
+          <button class="btn sm" onclick="loadFCDeck('a1-greet')">Greetings (28)</button>
+          <button class="btn sm" onclick="loadFCDeck('a1-family')">Family (18)</button>
+          <button class="btn sm" onclick="loadFCDeck('a1-numbers')">Numbers (32)</button>
+          <button class="btn sm" onclick="loadFCDeck('a1-time')">Time & Dates (31)</button>
+          <button class="btn sm" onclick="loadFCDeck('a1-body')">Body (30)</button>
+          <button class="btn sm" onclick="loadFCDeck('a1-symptoms')">Symptoms (20)</button>
+          <button class="btn sm" onclick="loadFCDeck('a1-verbs')">Verbs (25)</button>
+          <button class="btn sm" onclick="loadFCDeck('a1-hospital')">Hospital (20)</button>
+        </div>
+        <div style="font-size:13px; color:var(--ink-soft); margin-bottom:6px;">📕 <b>A2 Decks — Cardiology</b></div>
+        <div style="display:flex; gap:6px; flex-wrap:wrap; margin-bottom:14px;">
+          <button class="btn sm rose" onclick="loadFCDeck('a2-heart')">Heart (28)</button>
+          <button class="btn sm rose" onclick="loadFCDeck('a2-diseases')">Diseases (23)</button>
+          <button class="btn sm rose" onclick="loadFCDeck('a2-postop')">Post-Op (27)</button>
+          <button class="btn sm rose" onclick="loadFCDeck('a2-meds')">Meds (30)</button>
+          <button class="btn sm rose" onclick="loadFCDeck('a2-vitals')">Vitals (20)</button>
+          <button class="btn sm rose" onclick="loadFCDeck('a2-equipment')">Equipment (24)</button>
+          <button class="btn sm rose" onclick="loadFCDeck('a2-emergency')">Emergency (20)</button>
+          <button class="btn sm rose" onclick="loadFCDeck('a2-abbrev')">Abbreviations (28)</button>
+          <button class="btn sm rose" onclick="loadFCDeck('a2-phrases')">Key phrases (20)</button>
+        </div>
+
+        <div class="flashcard-area">
+          <div class="flashcard" id="flashcard" onclick="flipCard()">
+            <div class="flashcard-inner">
+              <div class="fc-face front">
+                <div class="sub" id="fc-deck">A1 Basics</div>
+                <div class="word" id="fc-en">Heart</div>
+                <div class="sub" id="fc-ipa">/hɑːrt/</div>
+              </div>
+              <div class="fc-face back">
+                <div class="sub">Spanish</div>
+                <div class="word" id="fc-es">Corazón</div>
+                <div class="sub" id="fc-extra">Click again to flip back</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="fc-controls">
+            <button class="btn ghost" onclick="prevCard()">← Previous</button>
+            <button class="btn" onclick="speakFC()">🔊 Listen</button>
+            <button class="btn ghost" onclick="nextCard()">Next →</button>
+          </div>
+          <div style="font-size:13px; color: var(--ink-soft);">Card <b id="fc-n">1</b> of <b id="fc-total">10</b></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- DIALOGUES -->
+    <section class="view" id="dialogues">
+      <h2 style="margin-top:0;">💬 Dialogues — Real nursing scenarios</h2>
+      <p class="lead">Listen and practice with real conversations.</p>
+
+      <div class="card">
+        <h3>🛏️ Scenario 1: Morning check-up after heart surgery</h3>
+        <div id="dialogue-1"></div>
+        <button class="btn" style="margin-top:10px;" onclick="playDialogue(1)">▶️ Play full conversation</button>
+      </div>
+
+      <div class="card">
+        <h3>💊 Scenario 2: Administering medication</h3>
+        <div id="dialogue-2"></div>
+        <button class="btn" style="margin-top:10px;" onclick="playDialogue(2)">▶️ Play full conversation</button>
+      </div>
+
+      <div class="card">
+        <h3>🚨 Scenario 3: Patient with chest pain</h3>
+        <div id="dialogue-3"></div>
+        <button class="btn" style="margin-top:10px;" onclick="playDialogue(3)">▶️ Play full conversation</button>
+      </div>
+
+      <div class="card">
+        <h3>📋 Scenario 4: Patient admission (female patient)</h3>
+        <div id="dialogue-4"></div>
+        <button class="btn" style="margin-top:10px;" onclick="playDialogue(4)">▶️ Play full conversation</button>
+      </div>
+
+      <div class="card">
+        <h3>👨‍⚕️ Scenario 5: Shift report with the doctor</h3>
+        <div id="dialogue-5"></div>
+        <button class="btn" style="margin-top:10px;" onclick="playDialogue(5)">▶️ Play full conversation</button>
+      </div>
+
+      <div class="card">
+        <h3>🏠 Scenario 6: Discharge instructions</h3>
+        <div id="dialogue-6"></div>
+        <button class="btn" style="margin-top:10px;" onclick="playDialogue(6)">▶️ Play full conversation</button>
+      </div>
+
+      <div class="card">
+        <h3>👩 Scenario 7: Talking with family</h3>
+        <div id="dialogue-7"></div>
+        <button class="btn" style="margin-top:10px;" onclick="playDialogue(7)">▶️ Play full conversation</button>
+      </div>
+
+      <div class="card">
+        <h3>💉 Scenario 8: Drawing blood (nervous patient)</h3>
+        <div id="dialogue-8"></div>
+        <button class="btn" style="margin-top:10px;" onclick="playDialogue(8)">▶️ Play full conversation</button>
+      </div>
+    </section>
+
+    <!-- SPEAKING -->
+    <section class="view" id="speaking">
+      <h2 style="margin-top:0;">🎤 Speaking Lab</h2>
+      <p class="lead">Practice pronunciation. The computer will listen and give you feedback.</p>
+
+      <div class="banner">
+        <div class="heart">🎯</div>
+        <div class="txt">
+          <b>Tip:</b> Allow microphone access. Speak clearly and slowly — accuracy comes first, then speed.
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>🗣️ Pronunciation practice</h3>
+        <p class="lead">Listen, repeat, and the computer will compare:</p>
+        <div id="speak-practice"></div>
+      </div>
+
+      <div class="card">
+        <h3>🎭 Freestyle — Record your introduction</h3>
+        <p class="lead">Try to say: "Hello, my name is Gina. I am a nurse in cardiology..."</p>
+        <button class="btn rose" id="mic-btn" onclick="toggleRecord()">🎤 Start recording</button>
+        <div id="speak-transcript" style="margin-top:16px; padding:16px; background:var(--bg); border-radius:10px; min-height:80px; font-style:italic; color:var(--ink-soft);">
+          Your transcript will appear here...
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      Made with ❤️ for Gina · Good luck in Virginia! · <span id="year"></span>
+    </footer>
+  </main>
+</div>
+
+<script>
+// ---------- DATA ----------
+const DATA = {
+  vocab_u1: [
+    ["Hello","Hola","/həˈloʊ/"],
+    ["Hi","Hola (informal)","/haɪ/"],
+    ["Good morning","Buenos días","/ɡʊd ˈmɔːrnɪŋ/"],
+    ["Good afternoon","Buenas tardes","/ɡʊd ˌæftərˈnuːn/"],
+    ["Good evening","Buenas noches (saludo)","/ɡʊd ˈiːvnɪŋ/"],
+    ["Good night","Buenas noches (despedida)","/ɡʊd naɪt/"],
+    ["Goodbye","Adiós","/ɡʊdˈbaɪ/"],
+    ["Bye","Chao","/baɪ/"],
+    ["See you later","Hasta luego","/siː juː ˈleɪtər/"],
+    ["See you tomorrow","Hasta mañana","/siː juː təˈmɒroʊ/"],
+    ["See you soon","Hasta pronto","/siː juː suːn/"],
+    ["Take care","Cuídese","/teɪk kɛr/"],
+    ["Have a nice day","Que tenga buen día","/hæv ə naɪs deɪ/"],
+    ["Nice to meet you","Mucho gusto","/naɪs tuː miːt juː/"],
+    ["Pleased to meet you","Encantada","/pliːzd tuː miːt juː/"],
+    ["How do you do?","¿Qué tal?","/haʊ duː juː duː/"],
+    ["How are you?","¿Cómo está?","/haʊ ɑːr juː/"],
+    ["I am fine, thank you","Estoy bien, gracias","/aɪ æm faɪn/"],
+    ["And you?","¿Y usted?","/ænd juː/"],
+    ["My name is…","Mi nombre es…","/maɪ neɪm ɪz/"],
+    ["What is your name?","¿Cómo se llama?","/wɒt ɪz jɔːr neɪm/"],
+    ["I am a nurse","Soy enfermera","/aɪ æm ə nɜːrs/"],
+    ["I am from Peru","Soy de Perú","/aɪ æm frɒm pəˈruː/"],
+    ["I work in cardiology","Trabajo en cardiología","/aɪ wɜːrk ɪn/"],
+    ["This is my husband","Este es mi esposo","/ðɪs ɪz maɪ ˈhʌzbənd/"],
+    ["Please","Por favor","/pliːz/"],
+    ["Thank you","Gracias","/θæŋk juː/"],
+    ["Thanks a lot","Muchas gracias","/θæŋks ə lɒt/"],
+    ["You're welcome","De nada","/jʊr ˈwɛlkəm/"],
+    ["Sorry","Lo siento","/ˈsɒri/"],
+    ["Excuse me","Disculpe","/ɪkˈskjuːz miː/"],
+    ["Pardon?","¿Perdón?","/ˈpɑːrdən/"],
+    ["Of course","Por supuesto","/ɒv kɔːrs/"],
+    ["Sure","Claro","/ʃʊr/"],
+    ["Yes","Sí","/jɛs/"],
+    ["No","No","/noʊ/"],
+    ["Maybe","Tal vez","/ˈmeɪbi/"],
+    ["OK","Está bien","/oʊˈkeɪ/"],
+    ["Welcome","Bienvenido","/ˈwɛlkəm/"],
+    ["Congratulations","Felicidades","/kənˌɡrætʃəˈleɪʃənz/"]
+  ],
+  vocab_family: [
+    ["Husband","Esposo"],["Wife","Esposa"],["Father","Padre"],["Mother","Madre"],
+    ["Son","Hijo"],["Daughter","Hija"],["Brother","Hermano"],["Sister","Hermana"],
+    ["Grandfather","Abuelo"],["Grandmother","Abuela"],["Uncle","Tío"],["Aunt","Tía"],
+    ["Cousin","Primo/a"],["Nephew","Sobrino"],["Niece","Sobrina"],["Child","Niño/a"],
+    ["Baby","Bebé"],["Parents","Padres"],["Family","Familia"],["Relative","Pariente"],
+    ["Boyfriend","Novio"],["Girlfriend","Novia"],["Friend","Amigo/a"],["Neighbor","Vecino/a"]
+  ],
+  vocab_colors: [
+    ["Red","Rojo"],["Blue","Azul"],["Green","Verde"],["Yellow","Amarillo"],
+    ["Black","Negro"],["White","Blanco"],["Gray","Gris"],["Brown","Marrón"],
+    ["Pink","Rosa"],["Purple","Morado"],["Orange","Naranja"],["Light","Claro"],
+    ["Dark","Oscuro"]
+  ],
+  vocab_days: [
+    ["Monday","Lunes"],["Tuesday","Martes"],["Wednesday","Miércoles"],["Thursday","Jueves"],
+    ["Friday","Viernes"],["Saturday","Sábado"],["Sunday","Domingo"],
+    ["Today","Hoy"],["Tomorrow","Mañana"],["Yesterday","Ayer"],
+    ["This week","Esta semana"],["Next week","Próxima semana"],["Last week","Semana pasada"],
+    ["Weekend","Fin de semana"],["Weekday","Día laboral"]
+  ],
+  vocab_months: [
+    ["January","Enero"],["February","Febrero"],["March","Marzo"],["April","Abril"],
+    ["May","Mayo"],["June","Junio"],["July","Julio"],["August","Agosto"],
+    ["September","Septiembre"],["October","Octubre"],["November","Noviembre"],["December","Diciembre"],
+    ["Spring","Primavera"],["Summer","Verano"],["Fall","Otoño"],["Winter","Invierno"]
+  ],
+  vocab_verbs_a1: [
+    ["to be","ser/estar"],["to have","tener"],["to do","hacer"],["to go","ir"],
+    ["to come","venir"],["to eat","comer"],["to drink","beber"],["to sleep","dormir"],
+    ["to work","trabajar"],["to help","ayudar"],["to take","tomar"],["to give","dar"],
+    ["to see","ver"],["to look","mirar"],["to listen","escuchar"],["to speak","hablar"],
+    ["to read","leer"],["to write","escribir"],["to walk","caminar"],["to run","correr"],
+    ["to sit","sentarse"],["to stand","pararse"],["to open","abrir"],["to close","cerrar"],
+    ["to feel","sentir"],["to need","necesitar"],["to want","querer"],["to like","gustar"],
+    ["to start","empezar"],["to finish","terminar"],["to wait","esperar"],["to rest","descansar"],
+    ["to breathe","respirar"],["to cough","toser"],["to sneeze","estornudar"],["to hurt","doler"]
+  ],
+  vocab_adj_a1: [
+    ["big","grande"],["small","pequeño"],["good","bueno"],["bad","malo"],
+    ["hot","caliente"],["cold","frío"],["warm","tibio"],["cool","fresco"],
+    ["new","nuevo"],["old","viejo"],["young","joven"],["fast","rápido"],
+    ["slow","lento"],["easy","fácil"],["hard","difícil"],["happy","feliz"],
+    ["sad","triste"],["tired","cansado"],["sick","enfermo"],["healthy","sano"],
+    ["strong","fuerte"],["weak","débil"],["clean","limpio"],["dirty","sucio"],
+    ["safe","seguro"],["ready","listo"],["full","lleno"],["empty","vacío"],
+    ["open","abierto"],["closed","cerrado"],["quiet","tranquilo"],["noisy","ruidoso"]
+  ],
+  vocab_prep: [
+    ["in","en"],["on","sobre"],["under","debajo"],["over","encima"],
+    ["next to","al lado de"],["in front of","en frente de"],["behind","detrás"],
+    ["between","entre"],["near","cerca"],["far","lejos"],["here","aquí"],
+    ["there","allí"],["inside","adentro"],["outside","afuera"],["up","arriba"],
+    ["down","abajo"],["left","izquierda"],["right","derecha"],["above","arriba de"],
+    ["below","debajo de"]
+  ],
+  vocab_wh: [
+    ["What?","¿Qué?"],["Where?","¿Dónde?"],["When?","¿Cuándo?"],["Why?","¿Por qué?"],
+    ["Who?","¿Quién?"],["How?","¿Cómo?"],["How much?","¿Cuánto?"],["How many?","¿Cuántos?"],
+    ["How often?","¿Con qué frecuencia?"],["How long?","¿Cuánto tiempo?"],
+    ["Which?","¿Cuál?"],["Whose?","¿De quién?"]
+  ],
+  vocab_food: [
+    ["water","agua"],["coffee","café"],["tea","té"],["milk","leche"],
+    ["juice","jugo"],["soup","sopa"],["bread","pan"],["rice","arroz"],
+    ["fruit","fruta"],["apple","manzana"],["banana","plátano"],["chicken","pollo"],
+    ["fish","pescado"],["vegetable","vegetal"],["salad","ensalada"],["breakfast","desayuno"],
+    ["lunch","almuerzo"],["dinner","cena"],["snack","merienda"],["sugar","azúcar"],
+    ["salt","sal"],["hungry","hambriento"],["thirsty","sediento"]
+  ],
+  vocab_emotions: [
+    ["happy","feliz"],["sad","triste"],["angry","enojado"],["scared","asustado"],
+    ["worried","preocupado"],["nervous","nervioso"],["calm","tranquilo"],["relaxed","relajado"],
+    ["confused","confundido"],["surprised","sorprendido"],["tired","cansado"],["bored","aburrido"],
+    ["excited","emocionado"],["comfortable","cómodo"],["uncomfortable","incómodo"],
+    ["afraid","temeroso"],["stressed","estresado"],["lonely","solo"]
+  ],
+  vocab_personal: [
+    ["glasses","lentes"],["watch","reloj"],["ring","anillo"],["bag","bolso"],
+    ["wallet","billetera"],["phone","teléfono"],["keys","llaves"],["shoes","zapatos"],
+    ["clothes","ropa"],["dress","vestido"],["shirt","camisa"],["pants","pantalones"],
+    ["coat","abrigo"],["uniform","uniforme"],["ID card","identificación"],["insurance","seguro"]
+  ],
+  vocab_emergency: [
+    ["Help!","¡Ayuda!"],["Emergency","Emergencia"],["Call 911","Llame al 911"],
+    ["Doctor, please","Doctor, por favor"],["It's urgent","Es urgente"],
+    ["Fire","Fuego"],["Accident","Accidente"],["Fall","Caída"],
+    ["Unconscious","Inconsciente"],["Not breathing","No respira"],
+    ["Bleeding","Sangrando"],["Choking","Ahogándose"],["Stay calm","Mantenga la calma"],
+    ["Don't move","No se mueva"],["Lie down","Acuéstese"],["I'm coming","Ya voy"]
+  ],
+  phrases_u1: [
+    ["How are you today?","¿Cómo está hoy?"],
+    ["My name is Gina. I'm your nurse.","Me llamo Gina. Soy su enfermera."],
+    ["I'm going to take care of you.","Voy a cuidarla/o."],
+    ["Can I help you?","¿Puedo ayudarle?"],
+    ["Do you need anything?","¿Necesita algo?"],
+    ["I'll be right back.","Ya regreso."],
+    ["Call me if you need something.","Llámeme si necesita algo."],
+    ["Have a good day.","Que tenga un buen día."]
+  ],
+  quiz1: [
+    {q:"How do you introduce yourself in English?", opts:["I am Gina","I'm call Gina","My is Gina","Me Gina"], a:0},
+    {q:"What do you say at night when saying hello?", opts:["Good morning","Good afternoon","Good evening","Goodbye"], a:2},
+    {q:"Choose the correct answer: 'Nice to meet ___'", opts:["I","my","you","me"], a:2},
+    {q:"How do you say 'Soy enfermera'?", opts:["I am nurse","I'm a nurse","Me is nurse","I have nurse"], a:1}
+  ],
+  numbers: [
+    ["0","zero","/ˈziːroʊ/"], ["1","one","/wʌn/"], ["2","two","/tuː/"],
+    ["3","three","/θriː/"], ["4","four","/fɔːr/"], ["5","five","/faɪv/"],
+    ["6","six","/sɪks/"], ["7","seven","/ˈsɛvən/"], ["8","eight","/eɪt/"],
+    ["9","nine","/naɪn/"], ["10","ten","/tɛn/"], ["11","eleven","/ɪˈlɛvən/"],
+    ["12","twelve","/twɛlv/"], ["13","thirteen","/ˌθɜːrˈtiːn/"], ["14","fourteen","/ˌfɔːrˈtiːn/"],
+    ["15","fifteen","/ˌfɪfˈtiːn/"], ["16","sixteen","/ˌsɪksˈtiːn/"], ["17","seventeen","/ˌsɛvənˈtiːn/"],
+    ["18","eighteen","/ˌeɪˈtiːn/"], ["19","nineteen","/ˌnaɪnˈtiːn/"], ["20","twenty","/ˈtwɛnti/"]
+  ],
+  timeExamples: [
+    ["7:00","It's seven o'clock","Son las siete"],
+    ["7:15","It's a quarter past seven","Son las siete y cuarto"],
+    ["7:30","It's half past seven","Son las siete y media"],
+    ["7:45","It's a quarter to eight","Son quince para las ocho"],
+    ["8:05","It's five past eight","Son las ocho y cinco"],
+    ["14:00","It's two PM","Son las dos de la tarde"]
+  ],
+  nursingNumbers: [
+    ["Heart rate: 72 beats per minute","Frecuencia cardíaca: 72 latidos por minuto"],
+    ["Blood pressure: 120 over 80","Presión arterial: 120 sobre 80"],
+    ["Temperature: 98.6 degrees Fahrenheit","Temperatura: 98.6 grados Fahrenheit"],
+    ["Oxygen saturation: 97 percent","Saturación de oxígeno: 97 por ciento"],
+    ["Take 2 tablets every 6 hours","Tomar 2 pastillas cada 6 horas"],
+    ["Room number 305","Habitación número 305"]
+  ],
+  symptoms: [
+    ["Pain","Dolor"],
+    ["Headache","Dolor de cabeza"],
+    ["Chest pain","Dolor de pecho"],
+    ["Shortness of breath","Falta de aire"],
+    ["Dizziness","Mareo"],
+    ["Nausea","Náusea"],
+    ["Vomiting","Vómito"],
+    ["Fever","Fiebre"],
+    ["Cough","Tos"],
+    ["Fatigue","Cansancio / fatiga"],
+    ["Swelling","Hinchazón"],
+    ["Numbness","Entumecimiento"]
+  ],
+  symptomQuestions: [
+    ["Where does it hurt?","¿Dónde le duele?"],
+    ["Does it hurt here?","¿Le duele aquí?"],
+    ["Can you describe the pain?","¿Puede describir el dolor?"],
+    ["When did it start?","¿Cuándo empezó?"],
+    ["Have you had this before?","¿Ha tenido esto antes?"],
+    ["Are you allergic to any medication?","¿Es alérgico a algún medicamento?"]
+  ],
+  hospitalPlaces: [
+    ["Emergency Room (ER)","Sala de emergencias"],
+    ["Intensive Care Unit (ICU)","Unidad de cuidados intensivos"],
+    ["Operating Room (OR)","Quirófano"],
+    ["Recovery Room","Sala de recuperación"],
+    ["Cardiology Unit","Unidad de cardiología"],
+    ["Nurses' Station","Estación de enfermería"],
+    ["Pharmacy","Farmacia"],
+    ["Waiting Room","Sala de espera"]
+  ],
+  medicalTeam: [
+    ["Nurse","Enfermera/o"],
+    ["Doctor / Physician","Doctor / Médico"],
+    ["Cardiologist","Cardiólogo (Juan)"],
+    ["Surgeon","Cirujano"],
+    ["Anesthesiologist","Anestesiólogo"],
+    ["Technician","Técnico"],
+    ["Patient","Paciente"],
+    ["Family member","Familiar"]
+  ],
+  equipment: [
+    ["Stethoscope","Estetoscopio"],
+    ["Thermometer","Termómetro"],
+    ["Blood pressure cuff","Tensiómetro"],
+    ["Syringe","Jeringa"],
+    ["Needle","Aguja"],
+    ["IV (intravenous) line","Vía intravenosa"],
+    ["Oxygen mask","Mascarilla de oxígeno"],
+    ["EKG / ECG machine","Electrocardiógrafo"],
+    ["Monitor","Monitor"],
+    ["Wheelchair","Silla de ruedas"],
+    ["Gurney / Stretcher","Camilla"],
+    ["Bandage","Venda"]
+  ],
+  cardioVocab: [
+    ["Heart","Corazón","/hɑːrt/"],
+    ["Heartbeat","Latido","/ˈhɑːrtbiːt/"],
+    ["Pulse","Pulso","/pʌls/"],
+    ["Artery","Arteria","/ˈɑːrtəri/"],
+    ["Vein","Vena","/veɪn/"],
+    ["Capillary","Capilar","/ˈkæpəˌlɛri/"],
+    ["Blood vessel","Vaso sanguíneo","/blʌd ˈvɛsəl/"],
+    ["Blood flow","Flujo sanguíneo","/blʌd floʊ/"],
+    ["Bloodstream","Torrente sanguíneo","/ˈblʌdˌstriːm/"],
+    ["Oxygenated blood","Sangre oxigenada","/ˈɒksɪdʒəneɪtɪd blʌd/"],
+    ["Deoxygenated blood","Sangre desoxigenada","/diːˈɒksɪdʒəneɪtɪd blʌd/"],
+    ["Chamber","Cámara","/ˈtʃeɪmbər/"],
+    ["Valve","Válvula","/vælv/"],
+    ["Coronary artery","Arteria coronaria","/ˈkɔːrəneri ˈɑːrtəri/"],
+    ["Mitral valve","Válvula mitral","/ˈmaɪtrəl vælv/"],
+    ["Tricuspid valve","Válvula tricúspide","/traɪˈkʌspɪd vælv/"],
+    ["Aortic valve","Válvula aórtica","/eɪˈɔːrtɪk vælv/"],
+    ["Pulmonary valve","Válvula pulmonar","/ˈpʊlməˌnɛri vælv/"],
+    ["Septum","Tabique","/ˈsɛptəm/"],
+    ["Atrium","Aurícula","/ˈeɪtriəm/"],
+    ["Ventricle","Ventrículo","/ˈvɛntrɪkəl/"],
+    ["Myocardium","Miocardio","/ˌmaɪəˈkɑːrdiəm/"],
+    ["Pericardium","Pericardio","/ˌpɛrɪˈkɑːrdiəm/"],
+    ["Endocardium","Endocardio","/ˌɛndoʊˈkɑːrdiəm/"],
+    ["Systole","Sístole","/ˈsɪstəli/"],
+    ["Diastole","Diástole","/daɪˈæstəli/"],
+    ["Cardiac output","Gasto cardíaco","/ˈkɑːrdiæk ˈaʊtpʊt/"],
+    ["Stroke volume","Volumen sistólico","/stroʊk ˈvɒljuːm/"],
+    ["Ejection fraction","Fracción de eyección","/ɪˈdʒɛkʃən ˈfrækʃən/"],
+    ["Plasma","Plasma","/ˈplæzmə/"],
+    ["Red blood cell","Glóbulo rojo","/rɛd blʌd sɛl/"],
+    ["White blood cell","Glóbulo blanco","/waɪt blʌd sɛl/"],
+    ["Platelet","Plaqueta","/ˈpleɪtlət/"],
+    ["Hemoglobin","Hemoglobina","/ˈhiːməˌɡloʊbɪn/"]
+  ],
+  cardioDiseases: [
+    ["Heart attack","Infarto / ataque cardíaco"],
+    ["Myocardial infarction (MI)","Infarto al miocardio"],
+    ["Angina","Angina de pecho"],
+    ["Heart failure","Insuficiencia cardíaca"],
+    ["Congestive heart failure (CHF)","Insuficiencia cardíaca congestiva"],
+    ["Arrhythmia","Arritmia"],
+    ["Atrial fibrillation (A-fib)","Fibrilación auricular"],
+    ["Bradycardia","Bradicardia"],
+    ["Tachycardia","Taquicardia"],
+    ["Hypertension","Hipertensión"],
+    ["Hypotension","Hipotensión"],
+    ["Coronary artery disease (CAD)","Enfermedad coronaria"],
+    ["Atherosclerosis","Aterosclerosis"],
+    ["Cardiomyopathy","Miocardiopatía"],
+    ["Endocarditis","Endocarditis"],
+    ["Pericarditis","Pericarditis"],
+    ["Stroke","Accidente cerebrovascular"],
+    ["Embolism","Embolia"],
+    ["Thrombosis","Trombosis"],
+    ["Aneurysm","Aneurisma"],
+    ["Heart murmur","Soplo cardíaco"],
+    ["Valve regurgitation","Regurgitación valvular"],
+    ["Stenosis","Estenosis"],
+    ["Cardiac arrest","Paro cardíaco"]
+  ],
+  procedures: [
+    ["CABG (bypass surgery)","Cirugía de bypass coronario"],
+    ["Angioplasty","Angioplastia"],
+    ["Stent placement","Colocación de stent"],
+    ["Pacemaker implant","Implante de marcapasos"],
+    ["Valve replacement","Reemplazo valvular"],
+    ["Catheterization","Cateterismo"],
+    ["Cardioversion","Cardioversión"],
+    ["Defibrillation","Desfibrilación"],
+    ["ECG/EKG","Electrocardiograma"],
+    ["Echocardiogram","Ecocardiograma"],
+    ["Stress test","Prueba de esfuerzo"],
+    ["Cardiac MRI","Resonancia cardíaca"],
+    ["Blood test","Análisis de sangre"],
+    ["Chest X-ray","Rayos X de tórax"],
+    ["Intubation","Intubación"],
+    ["Extubation","Extubación"],
+    ["Ventilator","Ventilador"],
+    ["Central line","Vía central"],
+    ["Arterial line","Línea arterial"],
+    ["Foley catheter","Sonda Foley"],
+    ["Suction","Aspiración"]
+  ],
+  ivTherapy: [
+    ["IV bag","Bolsa intravenosa"],
+    ["IV pole","Portasueros"],
+    ["IV pump","Bomba de infusión"],
+    ["Tubing","Tubo"],
+    ["Drip","Goteo"],
+    ["Flow rate","Velocidad de flujo"],
+    ["Saline solution","Solución salina"],
+    ["Dextrose","Dextrosa"],
+    ["Bolus","Bolo"],
+    ["Infusion","Infusión"],
+    ["Peripheral line","Vía periférica"],
+    ["To flush the line","Purgar la vía"],
+    ["To prime the tubing","Cebar el tubo"],
+    ["To insert","Insertar"],
+    ["To remove","Retirar"],
+    ["Gauge","Calibre"],
+    ["Infiltration","Infiltración"],
+    ["Phlebitis","Flebitis"],
+    ["Occlusion","Oclusión"],
+    ["Patent line","Vía permeable"]
+  ],
+  abbreviations: [
+    ["BP","Blood Pressure — Presión arterial"],
+    ["HR","Heart Rate — Frecuencia cardíaca"],
+    ["RR","Respiratory Rate — Frecuencia respiratoria"],
+    ["SpO₂","Oxygen Saturation — Saturación de O₂"],
+    ["Temp","Temperature — Temperatura"],
+    ["NPO","Nothing by mouth — Nada por boca"],
+    ["PRN","As needed — Según necesidad"],
+    ["STAT","Immediately — Inmediatamente"],
+    ["BID","Twice a day — Dos veces al día"],
+    ["TID","Three times a day — Tres veces al día"],
+    ["QID","Four times a day — Cuatro veces al día"],
+    ["QD","Daily — Diariamente"],
+    ["QHS","At bedtime — Al acostarse"],
+    ["PO","By mouth — Por boca"],
+    ["IV","Intravenous — Intravenoso"],
+    ["IM","Intramuscular — Intramuscular"],
+    ["SC/SQ","Subcutaneous — Subcutáneo"],
+    ["SL","Sublingual — Sublingual"],
+    ["MI","Myocardial Infarction — Infarto"],
+    ["CHF","Congestive Heart Failure"],
+    ["CABG","Coronary Artery Bypass Graft"],
+    ["CPR","Cardiopulmonary Resuscitation"],
+    ["DNR","Do Not Resuscitate — No resucitar"],
+    ["ICU","Intensive Care Unit — UCI"],
+    ["CCU","Coronary Care Unit"],
+    ["ER","Emergency Room"],
+    ["OR","Operating Room"],
+    ["PACU","Post-Anesthesia Care Unit"],
+    ["POD","Post-Operative Day — Día post-op"],
+    ["SOB","Shortness of Breath — Disnea"],
+    ["CP","Chest Pain — Dolor de pecho"],
+    ["EKG/ECG","Electrocardiogram"],
+    ["ABG","Arterial Blood Gas"],
+    ["CBC","Complete Blood Count"]
+  ],
+  nursingActions: [
+    ["to check","revisar"],["to monitor","monitorear"],["to assess","evaluar"],
+    ["to document","documentar"],["to report","reportar"],["to administer","administrar"],
+    ["to inject","inyectar"],["to insert","insertar"],["to remove","retirar"],
+    ["to change","cambiar"],["to turn","voltear"],["to lift","levantar"],
+    ["to position","posicionar"],["to bathe","bañar"],["to feed","alimentar"],
+    ["to ambulate","deambular"],["to transfer","trasladar"],["to discharge","dar de alta"],
+    ["to admit","admitir"],["to educate","educar"],["to observe","observar"],
+    ["to auscultate","auscultar"],["to palpate","palpar"],["to measure","medir"],
+    ["to record","registrar"],["to clamp","pinzar"],["to drain","drenar"],
+    ["to clean","limpiar"],["to dress (a wound)","vendar"],["to suture","suturar"],
+    ["to staple","grapar"],["to prepare","preparar"],["to verify","verificar"],
+    ["to double-check","volver a verificar"],["to call","llamar"],["to page","buscapersonas"]
+  ],
+  patientEducation: [
+    ["Please sit up","Por favor siéntese"],
+    ["Lie on your back","Acuéstese boca arriba"],
+    ["Lie on your side","Acuéstese de lado"],
+    ["Roll over, please","Voltéese, por favor"],
+    ["Take a deep breath","Respire profundo"],
+    ["Hold your breath","Aguante la respiración"],
+    ["Breathe out slowly","Exhale despacio"],
+    ["Cough, please","Tosa, por favor"],
+    ["Open your mouth","Abra la boca"],
+    ["Stick out your tongue","Saque la lengua"],
+    ["Squeeze my hand","Apriete mi mano"],
+    ["Try not to move","Intente no moverse"],
+    ["Relax your arm","Relaje el brazo"],
+    ["Bend your knee","Doble la rodilla"],
+    ["Lift your leg","Levante la pierna"],
+    ["Press here firmly","Presione aquí firme"],
+    ["Use the call button","Use el botón de llamado"],
+    ["Don't get out of bed alone","No se levante solo"],
+    ["Drink plenty of water","Beba mucha agua"],
+    ["Eat small meals","Coma porciones pequeñas"],
+    ["Avoid salty food","Evite comida salada"],
+    ["Take your medicine on time","Tome su medicina a tiempo"],
+    ["Keep the incision dry","Mantenga la incisión seca"],
+    ["Don't lift heavy objects","No cargue objetos pesados"],
+    ["Walk every hour","Camine cada hora"],
+    ["Rest when you feel tired","Descanse cuando se sienta cansada"]
+  ],
+  phrasalVerbs: [
+    ["wake up","despertarse"],["get up","levantarse"],["sit down","sentarse"],
+    ["lie down","acostarse"],["stand up","pararse"],["turn over","voltearse"],
+    ["put on","ponerse"],["take off","quitarse"],["look after","cuidar de"],
+    ["take care of","cuidar a"],["check on","revisar a"],["call for","llamar a"],
+    ["calm down","calmarse"],["cheer up","animarse"],["come in","entrar"],
+    ["go out","salir"],["pass out","desmayarse"],["throw up","vomitar"],
+    ["hold on","esperar"],["fill out","llenar (formulario)"],["write down","anotar"],
+    ["turn on","encender"],["turn off","apagar"],["pick up","recoger"],
+    ["set up","instalar"],["hook up","conectar"],["bring in","traer"],
+    ["take out","sacar"],["put down","poner"],["get better","mejorar"],
+    ["get worse","empeorar"]
+  ],
+  warningSymptoms: [
+    ["Shortness of breath","Falta de aire"],
+    ["Dyspnea","Disnea"],
+    ["Chest tightness","Opresión en el pecho"],
+    ["Palpitations","Palpitaciones"],
+    ["Irregular heartbeat","Latido irregular"],
+    ["Lightheadedness","Aturdimiento"],
+    ["Fainting","Desmayo"],
+    ["Sweating","Sudoración"],
+    ["Cold sweat","Sudor frío"],
+    ["Clammy skin","Piel fría y húmeda"],
+    ["Pallor","Palidez"],
+    ["Cyanosis (blue lips)","Cianosis (labios azules)"],
+    ["Edema","Edema"],
+    ["Leg swelling","Hinchazón en piernas"],
+    ["Weight gain (sudden)","Aumento de peso repentino"],
+    ["Fatigue (extreme)","Fatiga extrema"],
+    ["Nausea","Náusea"],
+    ["Vomiting","Vómito"],
+    ["Jaw pain","Dolor de mandíbula"],
+    ["Arm pain (left)","Dolor en brazo izquierdo"],
+    ["Back pain (between shoulders)","Dolor entre los hombros"]
+  ],
+  bloodFlow: [
+    "Deoxygenated blood enters the <b>right atrium</b>.",
+    "Blood passes to the <b>right ventricle</b> through the tricuspid valve.",
+    "The right ventricle pumps blood to the <b>lungs</b> through the pulmonary artery.",
+    "In the lungs, blood picks up <b>oxygen</b> and releases carbon dioxide.",
+    "Oxygenated blood returns to the <b>left atrium</b>.",
+    "Blood flows to the <b>left ventricle</b> through the mitral valve.",
+    "The left ventricle pumps blood to the whole body through the <b>aorta</b>."
+  ],
+  intakeQuestions: [
+    ["What is your full name?","¿Cuál es su nombre completo?"],
+    ["What is your date of birth?","¿Cuál es su fecha de nacimiento?"],
+    ["Who is your emergency contact?","¿Quién es su contacto de emergencia?"],
+    ["Do you have any allergies?","¿Tiene alguna alergia?"],
+    ["Are you taking any medications?","¿Está tomando algún medicamento?"],
+    ["Do you have any chronic conditions?","¿Tiene alguna enfermedad crónica?"],
+    ["Have you had surgery before?","¿Ha tenido cirugía antes?"],
+    ["Do you smoke?","¿Fuma?"],
+    ["Do you drink alcohol?","¿Toma alcohol?"],
+    ["When did your symptoms start?","¿Cuándo comenzaron sus síntomas?"]
+  ],
+  vitals: [
+    ["Heart rate (HR)","Frecuencia cardíaca"],
+    ["Blood pressure (BP)","Presión arterial"],
+    ["Temperature","Temperatura"],
+    ["Respiratory rate (RR)","Frecuencia respiratoria"],
+    ["Oxygen saturation (SpO₂)","Saturación de oxígeno"],
+    ["Pulse","Pulso"],
+    ["Weight","Peso"],
+    ["Height","Altura"]
+  ],
+  painQuestions: [
+    ["On a scale from 0 to 10, how would you rate your pain?","En una escala del 0 al 10, ¿cómo calificaría su dolor?"],
+    ["Where is the pain located?","¿Dónde se localiza el dolor?"],
+    ["Is the pain sharp or dull?","¿El dolor es agudo o sordo?"],
+    ["Does the pain spread anywhere?","¿El dolor se irradia a algún lugar?"],
+    ["When did the pain start?","¿Cuándo comenzó el dolor?"],
+    ["What makes the pain better or worse?","¿Qué mejora o empeora el dolor?"],
+    ["Is the pain constant or does it come and go?","¿El dolor es constante o intermitente?"]
+  ],
+  painTypes: [
+    ["Sharp","Agudo / punzante"],
+    ["Dull","Sordo"],
+    ["Throbbing","Pulsátil"],
+    ["Burning","Ardiente"],
+    ["Crushing","Opresivo"],
+    ["Stabbing","Punzante (como apuñalada)"],
+    ["Cramping","Como calambre"],
+    ["Tingling","Hormigueo"],
+    ["Radiating","Irradiado"],
+    ["Constant","Constante"],
+    ["Intermittent","Intermitente"]
+  ],
+  postopVocab: [
+    ["Surgery","Cirugía"],
+    ["Incision","Incisión"],
+    ["Stitches / Sutures","Puntos / suturas"],
+    ["Drain","Drenaje"],
+    ["Chest tube","Tubo torácico"],
+    ["Catheter","Catéter"],
+    ["Dressing","Vendaje"],
+    ["Wound","Herida"],
+    ["Bleeding","Sangrado"],
+    ["Swelling","Inflamación / hinchazón"],
+    ["Recovery","Recuperación"],
+    ["Discharge","Alta"],
+    ["Mobilization","Movilización"],
+    ["Deep breathing","Respiración profunda"],
+    ["Cough and deep breathing exercises","Ejercicios de tos y respiración profunda"],
+    ["Anticoagulant","Anticoagulante"]
+  ],
+  warningSigns: [
+    ["Sudden chest pain","Dolor de pecho repentino"],
+    ["Difficulty breathing","Dificultad para respirar"],
+    ["Excessive bleeding from the incision","Sangrado excesivo de la incisión"],
+    ["Fever above 101°F (38.3°C)","Fiebre superior a 38.3°C"],
+    ["Irregular heartbeat","Latido irregular"],
+    ["Severe swelling in the legs","Hinchazón severa en las piernas"],
+    ["Confusion or dizziness","Confusión o mareo"],
+    ["Low blood pressure","Presión arterial baja"],
+    ["Tachycardia (fast heart rate)","Taquicardia"],
+    ["Wound signs of infection","Signos de infección en la herida"]
+  ],
+  meds: [
+    {name:"Aspirin", es:"Aspirina", use:"Prevents blood clots", route:"PO"},
+    {name:"Metoprolol", es:"Metoprolol", use:"Beta-blocker, lowers heart rate", route:"PO/IV"},
+    {name:"Furosemide (Lasix)", es:"Furosemida", use:"Diuretic, removes excess fluid", route:"PO/IV"},
+    {name:"Heparin", es:"Heparina", use:"Anticoagulant", route:"SC/IV"},
+    {name:"Nitroglycerin", es:"Nitroglicerina", use:"Relieves chest pain (angina)", route:"SL/IV"},
+    {name:"Warfarin", es:"Warfarina", use:"Long-term blood thinner", route:"PO"},
+    {name:"Morphine", es:"Morfina", use:"Severe pain relief", route:"IV/IM"},
+    {name:"Lisinopril", es:"Lisinopril", use:"Lowers blood pressure (ACE inhibitor)", route:"PO"},
+    {name:"Atorvastatin", es:"Atorvastatina", use:"Lowers cholesterol", route:"PO"},
+    {name:"Amiodarone", es:"Amiodarona", use:"Controls arrhythmias", route:"PO/IV"}
+  ],
+  medPhrases: [
+    ["It's time for your medication.","Es hora de su medicamento."],
+    ["Please take this pill with water.","Por favor tome esta pastilla con agua."],
+    ["This is for your pain.","Esto es para su dolor."],
+    ["I'm going to give you an injection.","Le voy a poner una inyección."],
+    ["You will feel a little prick.","Va a sentir un piquete."],
+    ["Have you had any side effects?","¿Ha tenido algún efecto secundario?"],
+    ["Please tell me if you feel dizzy.","Por favor dígame si se siente mareado."]
+  ],
+  dialogue1: [
+    {w:"nurse", gender:"female", en:"Good morning, Mr. Johnson. How are you feeling today?", es:"Buenos días, Sr. Johnson. ¿Cómo se siente hoy?"},
+    {w:"patient", gender:"male", en:"Good morning. I feel a little tired, but better than yesterday.", es:"Buenos días. Me siento un poco cansado, pero mejor que ayer."},
+    {w:"nurse", gender:"female", en:"That's great. I'm going to check your vital signs. Can I see your arm?", es:"Qué bien. Voy a revisar sus signos vitales. ¿Puedo ver su brazo?"},
+    {w:"patient", gender:"male", en:"Of course. Is everything okay with my heart?", es:"Por supuesto. ¿Está todo bien con mi corazón?"},
+    {w:"nurse", gender:"female", en:"Your vital signs look good. Your heart rate is 78 and blood pressure is 125 over 82.", es:"Sus signos vitales están bien. Su frecuencia cardíaca es 78 y presión 125/82."},
+    {w:"patient", gender:"male", en:"Thank you. When can I stand up?", es:"Gracias. ¿Cuándo puedo levantarme?"},
+    {w:"nurse", gender:"female", en:"I will help you walk a little in one hour. It is important for your recovery.", es:"Le ayudaré a caminar un poco en una hora. Es importante para su recuperación."}
+  ],
+  dialogue2: [
+    {w:"nurse", gender:"female", en:"Mr. Garcia, it's time for your medication.", es:"Sr. García, es hora de su medicamento."},
+    {w:"patient", gender:"male", en:"What is it for?", es:"¿Para qué es?"},
+    {w:"nurse", gender:"female", en:"This is metoprolol. It helps keep your heart rate stable.", es:"Es metoprolol. Ayuda a mantener estable su frecuencia cardíaca."},
+    {w:"patient", gender:"male", en:"Okay. Are there side effects?", es:"Está bien. ¿Hay efectos secundarios?"},
+    {w:"nurse", gender:"female", en:"You may feel a little tired or dizzy. Please tell me if you do.", es:"Puede sentirse un poco cansado o mareado. Por favor dígame si eso pasa."},
+    {w:"patient", gender:"male", en:"Thank you, nurse.", es:"Gracias, enfermera."},
+    {w:"nurse", gender:"female", en:"You're welcome. I'll come back in an hour to check on you.", es:"De nada. Regresaré en una hora para revisarlo."}
+  ],
+  dialogue3: [
+    {w:"patient", gender:"male", en:"Nurse! I have chest pain!", es:"¡Enfermera! ¡Tengo dolor de pecho!"},
+    {w:"nurse", gender:"female", en:"Okay, stay calm. Can you describe the pain?", es:"Bien, mantenga la calma. ¿Puede describir el dolor?"},
+    {w:"patient", gender:"male", en:"It's a crushing pain, and it goes to my left arm.", es:"Es un dolor opresivo, y se va a mi brazo izquierdo."},
+    {w:"nurse", gender:"female", en:"On a scale from 0 to 10, how bad is it?", es:"En una escala del 0 al 10, ¿qué tan fuerte es?"},
+    {w:"patient", gender:"male", en:"It's an eight.", es:"Es un ocho."},
+    {w:"nurse", gender:"female", en:"I'm giving you oxygen and calling the doctor immediately. Try to breathe slowly.", es:"Le estoy poniendo oxígeno y llamo al doctor de inmediato. Trate de respirar despacio."},
+    {w:"patient", gender:"male", en:"Thank you.", es:"Gracias."},
+    {w:"nurse", gender:"female", en:"You will be okay. Doctor Smith is on his way.", es:"Va a estar bien. El Dr. Smith viene en camino."}
+  ],
+  dialogue4: [
+    {w:"nurse", gender:"female", en:"Hello, I'm Gina. I'll be your nurse today. What is your name?", es:"Hola, soy Gina. Seré su enfermera hoy. ¿Cuál es su nombre?"},
+    {w:"patient", gender:"female", en:"My name is Sarah Miller. I'm a little nervous.", es:"Mi nombre es Sarah Miller. Estoy un poco nerviosa."},
+    {w:"nurse", gender:"female", en:"Don't worry, Sarah. We'll take good care of you. When were you born?", es:"No se preocupe, Sarah. La cuidaremos bien. ¿Cuándo nació?"},
+    {w:"patient", gender:"female", en:"March 12th, 1972.", es:"12 de marzo de 1972."},
+    {w:"nurse", gender:"female", en:"Any allergies to medications?", es:"¿Alguna alergia a medicamentos?"},
+    {w:"patient", gender:"female", en:"Yes, I'm allergic to penicillin.", es:"Sí, soy alérgica a la penicilina."},
+    {w:"nurse", gender:"female", en:"Good to know. I'll put a red bracelet on your wrist.", es:"Bueno saberlo. Le pondré un brazalete rojo en la muñeca."}
+  ],
+  dialogue5: [
+    {w:"doctor", gender:"male", en:"Gina, how is the patient in room 302?", es:"Gina, ¿cómo está el paciente de la habitación 302?"},
+    {w:"nurse", gender:"female", en:"Doctor, he is stable. Blood pressure is 130 over 85, heart rate 82.", es:"Doctor, está estable. Presión 130/85, frecuencia cardíaca 82."},
+    {w:"doctor", gender:"male", en:"Any pain or complications?", es:"¿Algún dolor o complicación?"},
+    {w:"nurse", gender:"female", en:"He reports pain level 3 out of 10. The incision looks clean.", es:"Reporta dolor 3 de 10. La incisión se ve limpia."},
+    {w:"doctor", gender:"male", en:"Perfect. Let's continue with the current medication and add a walk this afternoon.", es:"Perfecto. Continuemos con el medicamento actual y agreguemos una caminata esta tarde."},
+    {w:"nurse", gender:"female", en:"Understood, doctor. I'll document it in the chart.", es:"Entendido, doctor. Lo documentaré en el expediente."}
+  ],
+  dialogue6: [
+    {w:"nurse", gender:"female", en:"Good afternoon. Tomorrow you go home. Let's review your medications.", es:"Buenas tardes. Mañana se va a casa. Revisemos sus medicamentos."},
+    {w:"patient", gender:"male", en:"I'm a bit worried. There are so many pills.", es:"Estoy un poco preocupado. Son muchas pastillas."},
+    {w:"nurse", gender:"female", en:"Don't worry. Aspirin every morning with food. Metoprolol twice a day.", es:"No se preocupe. Aspirina cada mañana con comida. Metoprolol dos veces al día."},
+    {w:"patient", gender:"male", en:"What if I forget a dose?", es:"¿Y si olvido una dosis?"},
+    {w:"nurse", gender:"female", en:"Take it as soon as you remember. If it's close to the next dose, skip it.", es:"Tómela tan pronto recuerde. Si está cerca de la siguiente, sáltela."},
+    {w:"patient", gender:"male", en:"And when should I call the doctor?", es:"¿Y cuándo debo llamar al doctor?"},
+    {w:"nurse", gender:"female", en:"If you have chest pain, fever, or the incision looks red, call immediately.", es:"Si tiene dolor de pecho, fiebre, o la incisión se ve roja, llame de inmediato."}
+  ],
+  dialogue7: [
+    {w:"family", gender:"female", en:"Excuse me, nurse. How is my father?", es:"Disculpe, enfermera. ¿Cómo está mi padre?"},
+    {w:"nurse", gender:"female", en:"Hello. He is recovering well from his bypass surgery.", es:"Hola. Se está recuperando bien de su cirugía de bypass."},
+    {w:"family", gender:"female", en:"Can I see him now?", es:"¿Puedo verlo ahora?"},
+    {w:"nurse", gender:"female", en:"Yes, but only for 15 minutes. He needs to rest.", es:"Sí, pero solo por 15 minutos. Necesita descansar."},
+    {w:"family", gender:"female", en:"Thank you so much. Is there anything I should know?", es:"Muchas gracias. ¿Hay algo que deba saber?"},
+    {w:"nurse", gender:"female", en:"Please wash your hands before entering, and speak softly.", es:"Por favor lávese las manos antes de entrar, y hable suave."},
+    {w:"family", gender:"female", en:"Of course. Thank you for taking care of him.", es:"Por supuesto. Gracias por cuidarlo."}
+  ],
+  dialogue8: [
+    {w:"nurse", gender:"female", en:"Hi, I need to take a blood sample. Can you roll up your sleeve?", es:"Hola, necesito tomar una muestra de sangre. ¿Puede subir la manga?"},
+    {w:"patient", gender:"female", en:"I'm scared of needles.", es:"Le tengo miedo a las agujas."},
+    {w:"nurse", gender:"female", en:"I understand. Look away and breathe deeply. It'll be quick.", es:"Entiendo. Mire hacia otro lado y respire profundo. Será rápido."},
+    {w:"patient", gender:"female", en:"Okay, I'm ready.", es:"Bien, estoy lista."},
+    {w:"nurse", gender:"female", en:"Small pinch now... Done! You did great.", es:"Pequeño piquete... ¡Listo! Lo hizo muy bien."},
+    {w:"patient", gender:"female", en:"Really? That was fast!", es:"¿En serio? ¡Fue rápido!"},
+    {w:"nurse", gender:"female", en:"Yes. Press here for one minute while I apply the bandage.", es:"Sí. Presione aquí por un minuto mientras pongo la venda."}
+  ],
+  mini_u1: [
+    {w:"nurse", gender:"female", en:"Hello, good morning. My name is Gina. I'm your nurse today.", es:"Hola, buenos días. Me llamo Gina. Soy su enfermera hoy."},
+    {w:"patient", gender:"male", en:"Good morning, Gina. Nice to meet you.", es:"Buenos días, Gina. Mucho gusto."},
+    {w:"nurse", gender:"female", en:"Nice to meet you too. How are you feeling?", es:"Mucho gusto también. ¿Cómo se siente?"},
+    {w:"patient", gender:"male", en:"I'm okay, thank you. A little tired.", es:"Estoy bien, gracias. Un poco cansado."},
+    {w:"nurse", gender:"female", en:"That's normal. I'm going to take care of you today.", es:"Es normal. Voy a cuidarlo hoy."}
+  ],
+  mini_u2: [
+    {w:"patient", gender:"female", en:"Excuse me, nurse. What time is it?", es:"Disculpe, enfermera. ¿Qué hora es?"},
+    {w:"nurse", gender:"female", en:"It's ten thirty in the morning.", es:"Son las diez y media de la mañana."},
+    {w:"patient", gender:"female", en:"When is my next medication?", es:"¿Cuándo es mi próximo medicamento?"},
+    {w:"nurse", gender:"female", en:"At twelve o'clock, in one hour and a half.", es:"A las doce en punto, en una hora y media."},
+    {w:"patient", gender:"female", en:"Thank you very much.", es:"Muchas gracias."},
+    {w:"nurse", gender:"female", en:"You're welcome. Press the call button if you need me.", es:"De nada. Presione el botón si me necesita."}
+  ],
+  mini_u3: [
+    {w:"nurse", gender:"female", en:"Hello, where does it hurt?", es:"Hola, ¿dónde le duele?"},
+    {w:"patient", gender:"male", en:"My chest hurts. And my left arm.", es:"Me duele el pecho. Y mi brazo izquierdo."},
+    {w:"nurse", gender:"female", en:"Is the pain sharp or dull?", es:"¿Es un dolor agudo o sordo?"},
+    {w:"patient", gender:"male", en:"It's sharp. It started one hour ago.", es:"Es agudo. Empezó hace una hora."},
+    {w:"nurse", gender:"female", en:"Okay, stay calm. I will call the doctor now.", es:"Bien, manténgase tranquilo. Llamaré al doctor ahora."}
+  ],
+  mini_u4: [
+    {w:"family", gender:"female", en:"Excuse me, where is room three-oh-five?", es:"Disculpe, ¿dónde está la habitación 305?"},
+    {w:"nurse", gender:"female", en:"Go straight down this hall, then turn left.", es:"Siga derecho por este pasillo, luego gire a la izquierda."},
+    {w:"family", gender:"female", en:"Is the ICU on this floor?", es:"¿La UCI está en este piso?"},
+    {w:"nurse", gender:"female", en:"No, the ICU is on the fourth floor. The elevator is over there.", es:"No, la UCI está en el cuarto piso. El ascensor está allá."},
+    {w:"family", gender:"female", en:"Thank you so much.", es:"Muchas gracias."},
+    {w:"nurse", gender:"female", en:"You're welcome. Please check in at the reception first.", es:"De nada. Por favor regístrese en recepción primero."}
+  ],
+  mini_a21: [
+    {w:"doctor", gender:"male", en:"Gina, let me explain this patient's condition.", es:"Gina, déjeme explicar la condición de este paciente."},
+    {w:"nurse", gender:"female", en:"Of course, doctor. I'm listening.", es:"Por supuesto, doctor. La escucho."},
+    {w:"doctor", gender:"male", en:"He has a blockage in the left coronary artery.", es:"Tiene una obstrucción en la arteria coronaria izquierda."},
+    {w:"nurse", gender:"female", en:"So, oxygenated blood cannot reach the left ventricle well?", es:"¿Entonces la sangre oxigenada no puede llegar bien al ventrículo izquierdo?"},
+    {w:"doctor", gender:"male", en:"Exactly. We did a bypass. Now the blood flow is restored.", es:"Exacto. Hicimos un bypass. Ahora el flujo está restaurado."},
+    {w:"nurse", gender:"female", en:"I understand. I'll monitor his ejection fraction closely.", es:"Entiendo. Monitorearé su fracción de eyección de cerca."}
+  ],
+  mini_a22: [
+    {w:"nurse", gender:"female", en:"Good morning. I need to ask you some questions for admission.", es:"Buenos días. Necesito hacerle unas preguntas para el ingreso."},
+    {w:"patient", gender:"male", en:"Sure, go ahead.", es:"Claro, adelante."},
+    {w:"nurse", gender:"female", en:"What is your date of birth?", es:"¿Cuál es su fecha de nacimiento?"},
+    {w:"patient", gender:"male", en:"July 15th, 1960.", es:"15 de julio de 1960."},
+    {w:"nurse", gender:"female", en:"Do you have any allergies to medication?", es:"¿Tiene alguna alergia a medicamentos?"},
+    {w:"patient", gender:"male", en:"Yes, I'm allergic to sulfa drugs.", es:"Sí, soy alérgico a las sulfas."},
+    {w:"nurse", gender:"female", en:"Are you taking any medications at home?", es:"¿Está tomando algún medicamento en casa?"},
+    {w:"patient", gender:"male", en:"Yes, aspirin and metoprolol every day.", es:"Sí, aspirina y metoprolol todos los días."}
+  ],
+  mini_a23: [
+    {w:"nurse", gender:"female", en:"On a scale from zero to ten, how is your pain?", es:"En una escala del 0 al 10, ¿cómo está su dolor?"},
+    {w:"patient", gender:"female", en:"It's about a seven.", es:"Está como en siete."},
+    {w:"nurse", gender:"female", en:"Can you describe it? Is it sharp, dull, or throbbing?", es:"¿Puede describirlo? ¿Agudo, sordo o pulsátil?"},
+    {w:"patient", gender:"female", en:"It's throbbing. And it spreads to my back.", es:"Es pulsátil. Y se irradia a mi espalda."},
+    {w:"nurse", gender:"female", en:"How long have you had this pain?", es:"¿Cuánto tiempo lleva con este dolor?"},
+    {w:"patient", gender:"female", en:"About thirty minutes.", es:"Como treinta minutos."},
+    {w:"nurse", gender:"female", en:"Okay. I'll give you pain medication right away.", es:"Bien. Le daré medicamento para el dolor ahora mismo."}
+  ],
+  mini_a24: [
+    {w:"doctor", gender:"male", en:"Good morning, Gina. How is the post-op patient in bed two?", es:"Buenos días, Gina. ¿Cómo está el post-op de la cama 2?"},
+    {w:"nurse", gender:"female", en:"Good morning, doctor. He's stable. Post-op day one after CABG.", es:"Buenos días, doctor. Está estable. Post-op día uno después del CABG."},
+    {w:"doctor", gender:"male", en:"Any bleeding from the incision?", es:"¿Algún sangrado de la incisión?"},
+    {w:"nurse", gender:"female", en:"Minimal. The chest tube drained 80 milliliters overnight.", es:"Mínimo. El tubo torácico drenó 80 ml durante la noche."},
+    {w:"doctor", gender:"male", en:"Good. Let's get him out of bed today.", es:"Bien. Vamos a levantarlo hoy."},
+    {w:"nurse", gender:"female", en:"Understood. I'll help him ambulate this afternoon.", es:"Entendido. Le ayudaré a deambular esta tarde."}
+  ],
+  mini_a25: [
+    {w:"nurse", gender:"female", en:"It's time for your medications. Let me explain each one.", es:"Es hora de sus medicamentos. Déjeme explicar cada uno."},
+    {w:"patient", gender:"male", en:"Thank you. What's this small white pill?", es:"Gracias. ¿Qué es esta pastilla blanca pequeña?"},
+    {w:"nurse", gender:"female", en:"This is aspirin. It prevents blood clots.", es:"Esto es aspirina. Previene coágulos."},
+    {w:"patient", gender:"male", en:"And the blue one?", es:"¿Y la azul?"},
+    {w:"nurse", gender:"female", en:"Metoprolol. It keeps your heart rate stable.", es:"Metoprolol. Mantiene estable su frecuencia cardíaca."},
+    {w:"patient", gender:"male", en:"Are there side effects I should watch for?", es:"¿Hay efectos secundarios que deba vigilar?"},
+    {w:"nurse", gender:"female", en:"You may feel tired or a little dizzy. Tell me if it happens.", es:"Puede sentirse cansado o un poco mareado. Dígame si pasa."}
+  ],
+  speakPractice: [
+    "Hello, my name is Gina.",
+    "I am a cardiology nurse.",
+    "How are you feeling today?",
+    "Your heart rate is seventy-two.",
+    "Please take a deep breath.",
+    "On a scale from zero to ten, how bad is the pain?",
+    "I'm going to check your blood pressure.",
+    "It's time for your medication."
+  ]
+};
+
+// ---------- NAV ----------
+function go(view) {
+  document.querySelectorAll('nav.side button').forEach(b => b.classList.toggle('active', b.dataset.view === view));
+  document.querySelectorAll('.view').forEach(v => v.classList.toggle('active', v.id === view));
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+document.querySelectorAll('nav.side button').forEach(b => b.addEventListener('click', () => go(b.dataset.view)));
+
+// ---------- TABS ----------
+document.querySelectorAll('.tab').forEach(t => {
+  t.addEventListener('click', () => {
+    const group = t.parentElement;
+    group.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+    const view = t.closest('.view');
+    view.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    view.querySelector('#' + t.dataset.tab).classList.add('active');
+  });
+});
+
+// ---------- AUDIO (Web Speech API TTS) ----------
+let cachedVoices = [], femaleVoice = null, maleVoice = null, voicesReady = false;
+
+function loadVoices() {
+  cachedVoices = window.speechSynthesis.getVoices();
+  if (!cachedVoices.length) return;
+  const en = cachedVoices.filter(v => v.lang && v.lang.toLowerCase().startsWith('en'));
+  femaleVoice = en.find(v => /female|samantha|zira|victoria|karen|moira|tessa|allison|ava|susan|aria|jenny|michelle|libby|amber|ashley/i.test(v.name))
+              || en.find(v => v.lang === 'en-US')
+              || en[0] || cachedVoices[0];
+  maleVoice = en.find(v => /male|david|daniel|alex|mark|tom|fred|bruce|guy|ryan|brian|george|eric|james/i.test(v.name) && !/female/i.test(v.name))
+            || en.find(v => v.lang === 'en-GB')
+            || en.find(v => v !== femaleVoice)
+            || en[0] || cachedVoices[0];
+  voicesReady = true;
+  populateVoiceSelectors();
+}
+
+function populateVoiceSelectors() {
+  const fSel = document.getElementById('voice-female');
+  const mSel = document.getElementById('voice-male');
+  if (!fSel || !mSel) return;
+  const en = cachedVoices.filter(v => v.lang && v.lang.toLowerCase().startsWith('en'));
+  if (!en.length) return;
+  fSel.innerHTML = en.map((v,i) => `<option value="${i}" ${v===femaleVoice?'selected':''}>👩 ${v.name}</option>`).join('');
+  mSel.innerHTML = en.map((v,i) => `<option value="${i}" ${v===maleVoice?'selected':''}>👨 ${v.name}</option>`).join('');
+}
+
+function pickVoice(gender, idx) {
+  const en = cachedVoices.filter(v => v.lang && v.lang.toLowerCase().startsWith('en'));
+  const v = en[parseInt(idx)];
+  if (!v) return;
+  if (gender === 'female') femaleVoice = v;
+  else maleVoice = v;
+}
+
+function cleanText(text) {
+  if (!text) return '';
+  return String(text)
+    .replace(/[\u{1F300}-\u{1FAFF}]|[\u{2600}-\u{27BF}]|[\u{1F000}-\u{1F2FF}]/gu, '')
+    .replace(/[🔊▶️⏹️🎤👆✅❌🩺❤️💉💊💬📋📊🏥🚨🛏️🎭⏰👋🔢🌡️💓🩸🎯🏆📈📚🔥📞🛠️👥🫀😷🔤🏠🔄✏️💡⚠️💞💙🥇]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function speak(text, gender='female', rate=0.92) {
+  if (!('speechSynthesis' in window)) { alert('Your browser does not support audio. Try Chrome or Edge.'); return; }
+  const clean = cleanText(text);
+  if (!clean) return;
+  window.speechSynthesis.cancel();
+  const go = () => {
+    const u = new SpeechSynthesisUtterance(clean);
+    u.lang = 'en-US';
+    u.rate = rate;
+    u.pitch = gender === 'male' ? 0.85 : 1.08;
+    u.volume = 1;
+    const v = gender === 'male' ? maleVoice : femaleVoice;
+    if (v) u.voice = v;
+    window.speechSynthesis.speak(u);
+  };
+  if (voicesReady) go();
+  else { loadVoices(); setTimeout(go, 120); }
+}
+
+function speakAndWait(text, gender='female', rate=0.92) {
+  return new Promise(resolve => {
+    const clean = cleanText(text);
+    if (!clean) { resolve(); return; }
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(clean);
+    u.lang = 'en-US';
+    u.rate = rate;
+    u.pitch = gender === 'male' ? 0.85 : 1.08;
+    const v = gender === 'male' ? maleVoice : femaleVoice;
+    if (v) u.voice = v;
+    u.onend = resolve;
+    u.onerror = resolve;
+    window.speechSynthesis.speak(u);
+  });
+}
+
+function speakByIds(id) { const el = document.getElementById(id); if (el) speak(el.textContent, 'female'); }
+
+// ---------- BUILD VOCAB LISTS ----------
+function buildVocabTable(containerId, items) {
+  const c = document.getElementById(containerId);
+  if (!c) return;
+  c.innerHTML = items.map(row => `
+    <div class="vocab-row">
+      <div class="en">${row[0]}</div>
+      <div class="es">${row[1]}</div>
+      <div class="ipa">${row[2] || ''}</div>
+      <button class="audio-btn" onclick="speak('${row[0].replace(/'/g,"\\'")}')">🔊</button>
+    </div>
+  `).join('');
+}
+
+function buildTwoCol(containerId, items) {
+  const c = document.getElementById(containerId);
+  if (!c) return;
+  c.innerHTML = items.map(row => `
+    <div style="display:grid; grid-template-columns: 1fr 1fr 40px; gap:12px; align-items:center; padding:10px; border-bottom: 1px solid var(--line);">
+      <div style="font-weight:500;">${row[0]}</div>
+      <div style="color: var(--ink-soft); font-style:italic; font-size:13px;">${row[1]}</div>
+      <button class="audio-btn" onclick="speak('${row[0].replace(/'/g,"\\'")}')">🔊</button>
+    </div>
+  `).join('');
+}
+
+// ---------- BUILD INTRO ----------
+function buildIntro() {
+  const name = document.getElementById('my-name').value || 'Gina';
+  const job = document.getElementById('my-job').value || 'nurse';
+  const dept = document.getElementById('my-dept').value || 'cardiology';
+  const spouse = document.getElementById('my-spouse').value || 'Juan';
+  const sjob = document.getElementById('my-spouse-job').value || 'doctor';
+  const city = document.getElementById('my-city').value || 'Virginia';
+  const txt = `Hello, my name is ${name}. I am a ${job}. I work in ${dept}. My husband's name is ${spouse} and he is a ${sjob}. I live in ${city}. Nice to meet you!`;
+  const box = document.getElementById('my-intro-text');
+  box.style.display = 'block';
+  box.innerHTML = `<b>"${txt}"</b>`;
+  speak(txt);
+}
+
+// ---------- QUIZ ----------
+function renderQuiz(containerId, quizData) {
+  const c = document.getElementById(containerId);
+  if (!c) return;
+  c.innerHTML = quizData.map((q, i) => `
+    <div style="margin-bottom:20px;">
+      <div class="quiz-q"><b>Q${i+1}.</b> ${q.q}</div>
+      <div class="quiz-options" data-q="${i}" data-a="${q.a}">
+        ${q.opts.map((o,j) => `<div class="quiz-opt" onclick="markAnswer(this, ${j}, ${q.a})"><span class="letter">${String.fromCharCode(65+j)}</span> ${o}</div>`).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+function markAnswer(el, chosen, correct) {
+  const opts = el.parentElement.querySelectorAll('.quiz-opt');
+  opts.forEach(o => o.style.pointerEvents = 'none');
+  if (chosen === correct) {
+    el.classList.add('correct');
+    state.correct++;
+  } else {
+    el.classList.add('wrong');
+    opts[correct].classList.add('correct');
+  }
+  updateStats();
+}
+function markQuiz(el, correct) {
+  const opts = el.parentElement.querySelectorAll('.quiz-opt');
+  opts.forEach(o => o.style.pointerEvents = 'none');
+  if (correct) { el.classList.add('correct'); state.correct++; }
+  else {
+    el.classList.add('wrong');
+    opts.forEach(o => { if (o.onclick && o.onclick.toString().includes('true')) o.classList.add('correct'); });
+  }
+  updateStats();
+}
+
+// ---------- BODY PARTS ----------
+document.querySelectorAll('.body-part').forEach(p => {
+  p.addEventListener('click', () => {
+    const en = p.dataset.en, es = p.dataset.es;
+    document.getElementById('body-part-info').innerHTML = `
+      <div style="display:flex; align-items:center; gap:14px;">
+        <button class="audio-btn" style="width:44px; height:44px; font-size:18px;" onclick="speak('${en}')">🔊</button>
+        <div>
+          <div style="font-size:20px; font-weight:700;">${en}</div>
+          <div style="color: var(--ink-soft); font-style:italic;">${es}</div>
+        </div>
+      </div>
+    `;
+    speak(en);
+  });
+});
+
+// ---------- HEART PARTS ----------
+document.querySelectorAll('.heart-part').forEach(p => {
+  p.addEventListener('click', () => {
+    const en = p.dataset.en, es = p.dataset.es, fn = p.dataset.fn;
+    document.getElementById('heart-info').innerHTML = `
+      <h3 style="margin-top:0; color: var(--rose);">${en}</h3>
+      <div style="color: var(--ink-soft); font-style: italic; margin-bottom:10px;">${es}</div>
+      <p style="font-size:14px; line-height:1.5;">${fn}</p>
+      <button class="btn rose" onclick="speak('${en}. ${fn.replace(/'/g,"\\'")}')">🔊 Listen</button>
+    `;
+    speak(en);
+  });
+});
+
+// ---------- PAIN SCALE ----------
+function selectPain(el, v) {
+  document.querySelectorAll('.pain-btn').forEach(b => b.classList.remove('selected'));
+  el.classList.add('selected');
+  const desc = [
+    "No pain. I feel fine.",
+    "Barely noticeable pain. Very mild.",
+    "Mild pain. Annoying but tolerable.",
+    "Mild pain. Noticeable but does not interfere.",
+    "Moderate pain. Can be distracted.",
+    "Moderate pain. Hard to ignore.",
+    "Moderate pain. Interferes with concentration.",
+    "Severe pain. Interferes with activities.",
+    "Severe pain. Difficult to do anything.",
+    "Severe pain. Cannot speak. Crying.",
+    "Worst possible pain. Unbearable."
+  ];
+  const esDesc = [
+    "Sin dolor. Me siento bien.",
+    "Apenas perceptible. Muy leve.",
+    "Dolor leve. Molesto pero tolerable.",
+    "Leve. Notorio pero no interfiere.",
+    "Moderado. Puedo distraerme.",
+    "Moderado. Difícil ignorarlo.",
+    "Moderado. Interfiere con la concentración.",
+    "Severo. Interfiere con actividades.",
+    "Severo. Difícil hacer cualquier cosa.",
+    "Severo. No puedo hablar. Lloro.",
+    "Peor dolor posible. Insoportable."
+  ];
+  document.getElementById('pain-result').innerHTML = `
+    <div style="display:flex; align-items:center; gap:14px;">
+      <button class="audio-btn" style="width:44px; height:44px; font-size:18px;" onclick="speak('Pain level ${v}. ${desc[v].replace(/'/g,"\\'")}')">🔊</button>
+      <div>
+        <div style="font-weight:700; font-size:16px;">Level ${v}: "${desc[v]}"</div>
+        <div style="color: var(--ink-soft); font-style:italic; margin-top:4px;">${esDesc[v]}</div>
+      </div>
+    </div>
+  `;
+  speak(`Pain level ${v}. ${desc[v]}`);
+}
+
+// ---------- MEDS ----------
+function renderMeds() {
+  const c = document.getElementById('meds-list');
+  if (!c) return;
+  c.innerHTML = `
+    <div style="overflow-x:auto;">
+    <table style="width:100%; border-collapse: collapse; font-size:14px;">
+      <thead>
+        <tr style="background: var(--teal-light); text-align: left;">
+          <th style="padding:10px;">Medication</th>
+          <th style="padding:10px;">Español</th>
+          <th style="padding:10px;">Use</th>
+          <th style="padding:10px;">Route</th>
+          <th style="padding:10px;">🔊</th>
+        </tr>
+      </thead>
+      <tbody>
+      ${DATA.meds.map(m => `
+        <tr style="border-bottom:1px solid var(--line);">
+          <td style="padding:10px; font-weight:600;">${m.name}</td>
+          <td style="padding:10px; color:var(--ink-soft); font-style:italic;">${m.es}</td>
+          <td style="padding:10px;">${m.use}</td>
+          <td style="padding:10px;"><span style="background: var(--rose-light); color: var(--rose); padding: 2px 8px; border-radius: 6px; font-weight:600; font-size:12px;">${m.route}</span></td>
+          <td style="padding:10px;"><button class="audio-btn" onclick="speak('${m.name}. ${m.use}')">🔊</button></td>
+        </tr>
+      `).join('')}
+      </tbody>
+    </table>
+    </div>
+  `;
+}
+
+// ---------- DIALOGUES ----------
+function renderDialogue(n, data) {
+  const c = document.getElementById('dialogue-' + n);
+  if (!c) return;
+  const labels = {
+    nurse: '👩‍⚕️ Nurse (You)',
+    patient: '🧑 Patient',
+    doctor: '👨‍⚕️ Doctor',
+    family: '👩 Family'
+  };
+  c.innerHTML = data.map((d,i) => {
+    const g = d.gender || (d.w === 'nurse' ? 'female' : 'male');
+    return `
+    <div class="dialogue-line ${d.w}">
+      <div class="who">${labels[d.w] || d.w}</div>
+      <div class="txt">
+        <div class="en">${d.en}</div>
+        <div class="es">${d.es}</div>
+      </div>
+      <button class="audio-btn" onclick="speak(${JSON.stringify(d.en)}, '${g}')">🔊</button>
+    </div>`;
+  }).join('');
+}
+
+function renderMini(key) {
+  const c = document.getElementById('mini-' + key);
+  const data = DATA['mini_' + key];
+  if (!c || !data) return;
+  const labels = { nurse:'👩‍⚕️ Nurse', patient:'🧑 Patient', doctor:'👨‍⚕️ Doctor', family:'👩 Family' };
+  c.innerHTML = data.map(d => {
+    const g = d.gender || (d.w==='nurse'?'female':'male');
+    return `
+    <div class="dialogue-line ${d.w}">
+      <div class="who">${labels[d.w] || d.w}</div>
+      <div class="txt">
+        <div class="en">${d.en}</div>
+        <div class="es">${d.es}</div>
+      </div>
+      <button class="audio-btn" onclick='speak(${JSON.stringify(d.en)}, "${g}")'>🔊</button>
+    </div>`;
+  }).join('');
+}
+
+let playingMini = false;
+async function playMini(key) {
+  if (playingMini) { window.speechSynthesis.cancel(); playingMini = false; return; }
+  playingMini = true;
+  const data = DATA['mini_' + key];
+  if (!data) { playingMini = false; return; }
+  const lines = document.querySelectorAll(`#mini-${key} .dialogue-line`);
+  for (let i = 0; i < data.length; i++) {
+    if (!playingMini) break;
+    lines.forEach(l => l.style.boxShadow = 'none');
+    if (lines[i]) {
+      lines[i].style.boxShadow = '0 0 0 2px var(--teal)';
+      lines[i].scrollIntoView({ block:'nearest', behavior:'smooth' });
+    }
+    const g = data[i].gender || (data[i].w==='nurse'?'female':'male');
+    await speakAndWait(data[i].en, g);
+    await new Promise(r => setTimeout(r, 300));
+  }
+  playingMini = false;
+  lines.forEach(l => l.style.boxShadow = 'none');
+}
+
+let playingDialogue = false;
+async function playDialogue(n) {
+  if (playingDialogue) { window.speechSynthesis.cancel(); playingDialogue = false; return; }
+  playingDialogue = true;
+  const data = DATA['dialogue' + n];
+  const lines = document.querySelectorAll(`#dialogue-${n} .dialogue-line`);
+  for (let i = 0; i < data.length; i++) {
+    if (!playingDialogue) break;
+    lines.forEach(l => l.style.boxShadow = 'none');
+    if (lines[i]) {
+      lines[i].style.boxShadow = '0 0 0 2px var(--teal)';
+      lines[i].scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+    }
+    const g = data[i].gender || (data[i].w === 'nurse' ? 'female' : 'male');
+    await speakAndWait(data[i].en, g);
+    await new Promise(r => setTimeout(r, 320));
+  }
+  playingDialogue = false;
+  lines.forEach(l => l.style.boxShadow = 'none');
+}
+
+// ---------- FLASHCARDS ----------
+const decks = {
+  'a1-greet': [
+    ["Hello","Hola"],["Hi","Hola"],["Good morning","Buenos días"],["Good afternoon","Buenas tardes"],
+    ["Good evening","Buenas noches"],["Good night","Buenas noches (despedida)"],["Goodbye","Adiós"],["Bye","Chao"],
+    ["See you later","Hasta luego"],["See you tomorrow","Hasta mañana"],["Take care","Cuídese"],
+    ["Have a nice day","Que tenga buen día"],["Nice to meet you","Mucho gusto"],["Pleased to meet you","Encantada"],
+    ["How are you?","¿Cómo está?"],["I'm fine","Estoy bien"],["And you?","¿Y usted?"],["What is your name?","¿Cómo se llama?"],
+    ["My name is Gina","Me llamo Gina"],["Please","Por favor"],["Thank you","Gracias"],["You're welcome","De nada"],
+    ["Sorry","Lo siento"],["Excuse me","Disculpe"],["Yes","Sí"],["No","No"],["Maybe","Tal vez"],["Of course","Por supuesto"]
+  ],
+  'a1-family': [
+    ["Husband","Esposo"],["Wife","Esposa"],["Father","Padre"],["Mother","Madre"],["Son","Hijo"],["Daughter","Hija"],
+    ["Brother","Hermano"],["Sister","Hermana"],["Grandfather","Abuelo"],["Grandmother","Abuela"],["Uncle","Tío"],["Aunt","Tía"],
+    ["Cousin","Primo"],["Baby","Bebé"],["Parents","Padres"],["Family","Familia"],["Friend","Amigo"],["Neighbor","Vecino"]
+  ],
+  'a1-numbers': [
+    ["Zero","Cero"],["One","Uno"],["Two","Dos"],["Three","Tres"],["Four","Cuatro"],["Five","Cinco"],
+    ["Six","Seis"],["Seven","Siete"],["Eight","Ocho"],["Nine","Nueve"],["Ten","Diez"],["Eleven","Once"],
+    ["Twelve","Doce"],["Thirteen","Trece"],["Fourteen","Catorce"],["Fifteen","Quince"],["Sixteen","Dieciséis"],
+    ["Seventeen","Diecisiete"],["Eighteen","Dieciocho"],["Nineteen","Diecinueve"],["Twenty","Veinte"],
+    ["Thirty","Treinta"],["Forty","Cuarenta"],["Fifty","Cincuenta"],["Sixty","Sesenta"],["Seventy","Setenta"],
+    ["Eighty","Ochenta"],["Ninety","Noventa"],["One hundred","Cien"],["First","Primero"],["Second","Segundo"],["Third","Tercero"]
+  ],
+  'a1-time': [
+    ["Monday","Lunes"],["Tuesday","Martes"],["Wednesday","Miércoles"],["Thursday","Jueves"],["Friday","Viernes"],
+    ["Saturday","Sábado"],["Sunday","Domingo"],["Today","Hoy"],["Tomorrow","Mañana"],["Yesterday","Ayer"],
+    ["Morning","Mañana (parte día)"],["Afternoon","Tarde"],["Evening","Noche (temprano)"],["Night","Noche"],
+    ["Hour","Hora"],["Minute","Minuto"],["Second","Segundo"],["Week","Semana"],["Month","Mes"],["Year","Año"],
+    ["January","Enero"],["February","Febrero"],["March","Marzo"],["April","Abril"],["May","Mayo"],["June","Junio"],
+    ["July","Julio"],["August","Agosto"],["September","Septiembre"],["October","Octubre"],["November","Noviembre"],["December","Diciembre"]
+  ],
+  'a1-body': [
+    ["Head","Cabeza"],["Hair","Cabello"],["Eye","Ojo"],["Ear","Oreja"],["Nose","Nariz"],["Mouth","Boca"],
+    ["Tooth","Diente"],["Tongue","Lengua"],["Lip","Labio"],["Face","Cara"],["Neck","Cuello"],["Throat","Garganta"],
+    ["Shoulder","Hombro"],["Arm","Brazo"],["Elbow","Codo"],["Wrist","Muñeca"],["Hand","Mano"],["Finger","Dedo"],
+    ["Chest","Pecho"],["Back","Espalda"],["Stomach","Estómago"],["Hip","Cadera"],["Leg","Pierna"],["Knee","Rodilla"],
+    ["Ankle","Tobillo"],["Foot","Pie"],["Toe","Dedo del pie"],["Skin","Piel"],["Bone","Hueso"],["Muscle","Músculo"]
+  ],
+  'a1-symptoms': [
+    ["Pain","Dolor"],["Headache","Dolor de cabeza"],["Fever","Fiebre"],["Cough","Tos"],["Cold","Resfriado"],
+    ["Flu","Gripe"],["Nausea","Náusea"],["Vomiting","Vómito"],["Diarrhea","Diarrea"],["Dizziness","Mareo"],
+    ["Tired","Cansado"],["Weak","Débil"],["Sick","Enfermo"],["Sore","Adolorido"],["Bleeding","Sangrando"],
+    ["Swollen","Hinchado"],["Itchy","Con comezón"],["Rash","Sarpullido"],["Bruise","Moretón"],["Cut","Corte"]
+  ],
+  'a1-verbs': [
+    ["to be","ser/estar"],["to have","tener"],["to go","ir"],["to come","venir"],["to eat","comer"],
+    ["to drink","beber"],["to sleep","dormir"],["to work","trabajar"],["to help","ayudar"],["to take","tomar"],
+    ["to give","dar"],["to see","ver"],["to listen","escuchar"],["to speak","hablar"],["to walk","caminar"],
+    ["to sit","sentarse"],["to stand","pararse"],["to feel","sentir"],["to need","necesitar"],["to want","querer"],
+    ["to breathe","respirar"],["to cough","toser"],["to hurt","doler"],["to open","abrir"],["to close","cerrar"]
+  ],
+  'a1-hospital': [
+    ["Hospital","Hospital"],["Nurse","Enfermera"],["Doctor","Doctor"],["Patient","Paciente"],
+    ["Emergency","Emergencia"],["Room","Habitación"],["Bed","Cama"],["Pillow","Almohada"],["Blanket","Cobija"],
+    ["Stretcher","Camilla"],["Wheelchair","Silla de ruedas"],["Bathroom","Baño"],["Visitor","Visitante"],
+    ["Waiting room","Sala de espera"],["Reception","Recepción"],["Pharmacy","Farmacia"],["X-ray","Rayos X"],
+    ["Lab","Laboratorio"],["ICU","UCI"],["ER","Emergencias"]
+  ],
+  'a2-heart': [
+    ["Heart","Corazón"],["Atrium","Aurícula"],["Ventricle","Ventrículo"],["Aorta","Aorta"],["Valve","Válvula"],
+    ["Artery","Arteria"],["Vein","Vena"],["Capillary","Capilar"],["Pulse","Pulso"],["Coronary","Coronaria"],
+    ["Septum","Tabique"],["Myocardium","Miocardio"],["Pericardium","Pericardio"],["Endocardium","Endocardio"],
+    ["Systole","Sístole"],["Diastole","Diástole"],["Mitral valve","Válvula mitral"],["Aortic valve","Válvula aórtica"],
+    ["Tricuspid valve","Válvula tricúspide"],["Pulmonary valve","Válvula pulmonar"],["Cardiac output","Gasto cardíaco"],
+    ["Ejection fraction","Fracción de eyección"],["Plasma","Plasma"],["Red blood cell","Glóbulo rojo"],
+    ["White blood cell","Glóbulo blanco"],["Platelet","Plaqueta"],["Hemoglobin","Hemoglobina"],["Blood flow","Flujo sanguíneo"]
+  ],
+  'a2-diseases': [
+    ["Heart attack","Infarto"],["Myocardial infarction","Infarto al miocardio"],["Angina","Angina"],
+    ["Heart failure","Insuficiencia cardíaca"],["CHF","Insuficiencia cardíaca congestiva"],["Arrhythmia","Arritmia"],
+    ["A-fib","Fibrilación auricular"],["Bradycardia","Bradicardia"],["Tachycardia","Taquicardia"],
+    ["Hypertension","Hipertensión"],["Hypotension","Hipotensión"],["CAD","Enfermedad coronaria"],
+    ["Atherosclerosis","Aterosclerosis"],["Cardiomyopathy","Miocardiopatía"],["Endocarditis","Endocarditis"],
+    ["Pericarditis","Pericarditis"],["Stroke","ACV"],["Embolism","Embolia"],["Thrombosis","Trombosis"],
+    ["Aneurysm","Aneurisma"],["Heart murmur","Soplo"],["Stenosis","Estenosis"],["Cardiac arrest","Paro cardíaco"]
+  ],
+  'a2-postop': [
+    ["Surgery","Cirugía"],["Incision","Incisión"],["Stitches","Puntos"],["Sutures","Suturas"],["Staples","Grapas"],
+    ["Drain","Drenaje"],["Chest tube","Tubo torácico"],["Catheter","Catéter"],["Dressing","Vendaje"],["Wound","Herida"],
+    ["Bleeding","Sangrado"],["Swelling","Inflamación"],["Recovery","Recuperación"],["Discharge","Alta"],
+    ["Mobilization","Movilización"],["Deep breathing","Respiración profunda"],["Anticoagulant","Anticoagulante"],
+    ["Infection","Infección"],["Healing","Cicatrización"],["Scar","Cicatriz"],["Post-op day","Día post-op"],
+    ["Pain management","Manejo del dolor"],["Ambulate","Deambular"],["Incentive spirometer","Espirómetro incentivo"],
+    ["Sterile","Estéril"],["Non-sterile","No estéril"],["Contaminated","Contaminado"]
+  ],
+  'a2-meds': [
+    ["Aspirin","Aspirina"],["Heparin","Heparina"],["Warfarin","Warfarina"],["Morphine","Morfina"],
+    ["Metoprolol","Metoprolol"],["Lisinopril","Lisinopril"],["Atorvastatin","Atorvastatina"],["Furosemide","Furosemida"],
+    ["Nitroglycerin","Nitroglicerina"],["Amiodarone","Amiodarona"],["Digoxin","Digoxina"],["Clopidogrel","Clopidogrel"],
+    ["Dosage","Dosis"],["Side effect","Efecto secundario"],["Injection","Inyección"],["Tablet","Pastilla"],
+    ["Capsule","Cápsula"],["Syrup","Jarabe"],["Drops","Gotas"],["Cream","Crema"],["Ointment","Ungüento"],
+    ["Patch","Parche"],["Inhaler","Inhalador"],["Allergy","Alergia"],["Prescription","Receta"],["Blood thinner","Anticoagulante"],
+    ["Beta-blocker","Betabloqueante"],["Diuretic","Diurético"],["ACE inhibitor","Inhibidor ECA"],["Statin","Estatina"]
+  ],
+  'a2-vitals': [
+    ["Heart rate","Frecuencia cardíaca"],["Blood pressure","Presión arterial"],["Temperature","Temperatura"],
+    ["Respiratory rate","Frecuencia respiratoria"],["Oxygen saturation","Saturación de oxígeno"],["Pulse","Pulso"],
+    ["Weight","Peso"],["Height","Altura"],["Systolic","Sistólica"],["Diastolic","Diastólica"],
+    ["mmHg","mmHg (milímetros de mercurio)"],["bpm","latidos por minuto"],["Fever","Fiebre"],["Hypothermia","Hipotermia"],
+    ["Vital signs","Signos vitales"],["Baseline","Línea base"],["Trend","Tendencia"],["Stable","Estable"],
+    ["Unstable","Inestable"],["Critical","Crítico"]
+  ],
+  'a2-equipment': [
+    ["Stethoscope","Estetoscopio"],["Thermometer","Termómetro"],["Blood pressure cuff","Tensiómetro"],
+    ["Pulse oximeter","Oxímetro"],["EKG machine","Electrocardiógrafo"],["Defibrillator","Desfibrilador"],
+    ["Ventilator","Ventilador"],["Monitor","Monitor"],["IV pump","Bomba IV"],["Syringe","Jeringa"],
+    ["Needle","Aguja"],["Gloves","Guantes"],["Mask","Mascarilla"],["Gown","Bata"],["Oxygen tank","Tanque de oxígeno"],
+    ["Nasal cannula","Cánula nasal"],["Oxygen mask","Mascarilla de oxígeno"],["Tourniquet","Torniquete"],
+    ["Gauze","Gasa"],["Bandage","Venda"],["Alcohol swab","Torunda con alcohol"],["Glucometer","Glucómetro"],
+    ["Scale","Báscula"],["Crash cart","Carro de paro"]
+  ],
+  'a2-emergency': [
+    ["Code blue","Código azul"],["Cardiac arrest","Paro cardíaco"],["CPR","RCP"],["Defibrillate","Desfibrilar"],
+    ["Call a code","Llamar código"],["Crash cart","Carro de paro"],["Ambu bag","Bolsa de ventilación"],
+    ["Intubate","Intubar"],["Epinephrine","Epinefrina"],["Unresponsive","No responde"],["No pulse","Sin pulso"],
+    ["Not breathing","No respira"],["Compressions","Compresiones"],["Airway","Vía aérea"],["Breathing","Respiración"],
+    ["Circulation","Circulación"],["Shock","Choque"],["Stabilize","Estabilizar"],["Resuscitate","Resucitar"],["Rapid response","Respuesta rápida"]
+  ],
+  'a2-abbrev': [
+    ["BP","Blood Pressure"],["HR","Heart Rate"],["RR","Respiratory Rate"],["SpO₂","Oxygen Saturation"],
+    ["NPO","Nothing by mouth"],["PRN","As needed"],["STAT","Immediately"],["BID","Twice a day"],
+    ["TID","Three times a day"],["QID","Four times a day"],["PO","By mouth"],["IV","Intravenous"],
+    ["IM","Intramuscular"],["SC","Subcutaneous"],["SL","Sublingual"],["MI","Heart attack"],["CHF","Heart failure"],
+    ["CABG","Bypass surgery"],["CPR","Cardio-pulmonary resuscitation"],["DNR","Do not resuscitate"],
+    ["ICU","Intensive care"],["CCU","Coronary care"],["ER","Emergency room"],["OR","Operating room"],
+    ["PACU","Post-anesthesia unit"],["POD","Post-op day"],["SOB","Shortness of breath"],["CP","Chest pain"]
+  ],
+  'a2-phrases': [
+    ["Take a deep breath","Respire profundo"],["Hold your breath","Aguante la respiración"],
+    ["Cough please","Tosa por favor"],["Squeeze my hand","Apriete mi mano"],["Open your mouth","Abra la boca"],
+    ["Lie on your back","Acuéstese boca arriba"],["Roll over","Voltéese"],["I need to check your IV","Necesito revisar su vía"],
+    ["It's time for your medication","Es hora de su medicamento"],["This won't hurt","Esto no le dolerá"],
+    ["You will feel a small pinch","Sentirá un pequeño piquete"],["Can you rate your pain?","¿Puede calificar su dolor?"],
+    ["Are you comfortable?","¿Está cómodo?"],["Do you need anything?","¿Necesita algo?"],
+    ["Press the call button","Presione el botón de llamado"],["I'll be right back","Ya regreso"],
+    ["The doctor is coming","El doctor viene"],["Everything looks good","Todo se ve bien"],
+    ["You're doing great","Lo está haciendo muy bien"],["Try to rest","Intente descansar"]
+  ]
+};
+let fcDeck = 'a1-greet', fcIdx = 0;
+const deckNames = {
+  'a1-greet':'A1 · Greetings', 'a1-family':'A1 · Family', 'a1-numbers':'A1 · Numbers',
+  'a1-time':'A1 · Time & Dates', 'a1-body':'A1 · Body', 'a1-symptoms':'A1 · Symptoms',
+  'a1-verbs':'A1 · Verbs', 'a1-hospital':'A1 · Hospital',
+  'a2-heart':'A2 · Heart Anatomy', 'a2-diseases':'A2 · Diseases', 'a2-postop':'A2 · Post-Op',
+  'a2-meds':'A2 · Medications', 'a2-vitals':'A2 · Vitals', 'a2-equipment':'A2 · Equipment',
+  'a2-emergency':'A2 · Emergency', 'a2-abbrev':'A2 · Abbreviations', 'a2-phrases':'A2 · Key phrases'
+};
+function loadFCDeck(deck) { fcDeck = deck; fcIdx = 0; showFC(); }
+function showFC() {
+  const card = decks[fcDeck][fcIdx];
+  document.getElementById('fc-deck').textContent = deckNames[fcDeck] || fcDeck;
+  document.getElementById('fc-en').textContent = card[0];
+  document.getElementById('fc-es').textContent = card[1];
+  document.getElementById('fc-ipa').textContent = card[2] || '';
+  document.getElementById('fc-n').textContent = fcIdx + 1;
+  document.getElementById('fc-total').textContent = decks[fcDeck].length;
+  document.getElementById('flashcard').classList.remove('flipped');
+}
+function flipCard() { document.getElementById('flashcard').classList.toggle('flipped'); }
+function nextCard() { fcIdx = (fcIdx + 1) % decks[fcDeck].length; showFC(); }
+function prevCard() { fcIdx = (fcIdx - 1 + decks[fcDeck].length) % decks[fcDeck].length; showFC(); }
+function speakFC() { speak(decks[fcDeck][fcIdx][0], 'female'); }
+
+// ---------- SPEAKING PRACTICE ----------
+function renderSpeakPractice() {
+  const c = document.getElementById('speak-practice');
+  if (!c) return;
+  c.innerHTML = DATA.speakPractice.map(s => `
+    <div style="display:flex; gap:12px; align-items:center; padding:12px; border-bottom:1px solid var(--line);">
+      <button class="audio-btn" onclick="speak('${s.replace(/'/g,"\\'")}')">🔊</button>
+      <div style="flex:1; font-size:15px;">${s}</div>
+      <button class="btn sm ghost" onclick="listenAndCompare('${s.replace(/'/g,"\\'")}', this)">🎤 Try it</button>
+    </div>
+  `).join('');
+}
+
+function listenAndCompare(target, btn) {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) { alert('Speech recognition not supported. Try Chrome or Edge.'); return; }
+  const r = new SR();
+  r.lang = 'en-US';
+  r.interimResults = false;
+  btn.textContent = '🎙️ Listening...';
+  btn.style.background = 'var(--rose)';
+  btn.style.color = 'white';
+  btn.style.border = 'none';
+  r.onresult = (e) => {
+    const heard = e.results[0][0].transcript;
+    const sim = similarity(heard.toLowerCase(), target.toLowerCase());
+    const pct = Math.round(sim * 100);
+    btn.textContent = pct > 70 ? `✅ ${pct}%` : `❌ ${pct}%`;
+    btn.style.background = pct > 70 ? 'var(--ok)' : 'var(--rose)';
+    btn.title = `You said: "${heard}"`;
+    setTimeout(() => { btn.textContent = '🎤 Try it'; btn.style.background=''; btn.style.color=''; btn.style.border=''; }, 3500);
+  };
+  r.onerror = () => { btn.textContent = '🎤 Try it'; btn.style.background=''; btn.style.color=''; btn.style.border=''; };
+  r.start();
+}
+
+function similarity(a, b) {
+  const la = a.replace(/[^\w\s]/g,'').split(/\s+/);
+  const lb = b.replace(/[^\w\s]/g,'').split(/\s+/);
+  const sa = new Set(la), sb = new Set(lb);
+  let common = 0;
+  sa.forEach(w => { if (sb.has(w)) common++; });
+  return common / Math.max(sa.size, sb.size);
+}
+
+let recognition = null, recording = false;
+function toggleRecord() {
+  const btn = document.getElementById('mic-btn');
+  const trans = document.getElementById('speak-transcript');
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) { alert('Not supported in this browser. Use Chrome or Edge.'); return; }
+  if (!recording) {
+    recognition = new SR();
+    recognition.lang = 'en-US';
+    recognition.continuous = true;
+    recognition.interimResults = true;
+    let final = '';
+    recognition.onresult = (e) => {
+      let interim = '';
+      for (let i = e.resultIndex; i < e.results.length; i++) {
+        if (e.results[i].isFinal) final += e.results[i][0].transcript + ' ';
+        else interim += e.results[i][0].transcript;
+      }
+      trans.style.fontStyle = 'normal';
+      trans.style.color = 'var(--ink)';
+      trans.innerHTML = `<b>${final}</b><i style="color:var(--ink-soft);">${interim}</i>`;
+    };
+    recognition.onerror = () => { stopRec(); };
+    recognition.start();
+    btn.textContent = '⏹️ Stop recording';
+    recording = true;
+  } else {
+    stopRec();
+  }
+  function stopRec() {
+    if (recognition) recognition.stop();
+    btn.textContent = '🎤 Start recording';
+    recording = false;
+  }
+}
+
+// ---------- STATE ----------
+const state = {
+  correct: 0,
+  words: parseInt(localStorage.getItem('gina-words') || '12'),
+  streak: parseInt(localStorage.getItem('gina-streak') || '3'),
+  time: parseInt(localStorage.getItem('gina-time') || '8')
+};
+function updateStats() {
+  state.words += 1;
+  document.getElementById('stat-words').textContent = state.words;
+  document.getElementById('stat-streak').textContent = state.streak;
+  document.getElementById('stat-time').textContent = state.time + ' min';
+  localStorage.setItem('gina-words', state.words);
+}
+
+// ---------- INIT ----------
+function init() {
+  buildVocabTable('vocab-list-1', DATA.vocab_u1);
+  buildTwoCol('vocab-family', DATA.vocab_family);
+  buildTwoCol('vocab-colors', DATA.vocab_colors);
+  buildTwoCol('vocab-days', DATA.vocab_days);
+  buildTwoCol('vocab-months', DATA.vocab_months);
+  buildTwoCol('vocab-verbs-a1', DATA.vocab_verbs_a1);
+  buildTwoCol('vocab-adj-a1', DATA.vocab_adj_a1);
+  buildTwoCol('vocab-prep', DATA.vocab_prep);
+  buildTwoCol('vocab-wh', DATA.vocab_wh);
+  buildTwoCol('vocab-food', DATA.vocab_food);
+  buildTwoCol('vocab-emotions', DATA.vocab_emotions);
+  buildTwoCol('vocab-personal', DATA.vocab_personal);
+  buildTwoCol('vocab-emergency', DATA.vocab_emergency);
+  buildTwoCol('cardio-diseases', DATA.cardioDiseases);
+  buildTwoCol('procedures-list', DATA.procedures);
+  buildTwoCol('iv-therapy', DATA.ivTherapy);
+  buildTwoCol('warning-symptoms', DATA.warningSymptoms);
+  buildTwoCol('abbreviations-list', DATA.abbreviations);
+  buildTwoCol('nursing-actions', DATA.nursingActions);
+  buildTwoCol('patient-education', DATA.patientEducation);
+  buildTwoCol('phrasal-verbs', DATA.phrasalVerbs);
+  buildTwoCol('phrases-list-1', DATA.phrases_u1);
+  renderQuiz('quiz-1-container', DATA.quiz1);
+
+  // Numbers grid
+  const ng = document.getElementById('numbers-grid');
+  if (ng) {
+    ng.innerHTML = DATA.numbers.map(n => `
+      <div style="background: var(--bg); padding: 10px; border-radius: 10px; text-align:center; cursor:pointer;" onclick="speak('${n[1]}')">
+        <div style="font-size: 22px; font-weight:700; color: var(--teal-dark);">${n[0]}</div>
+        <div style="font-size: 13px;">${n[1]}</div>
+        <div style="font-size: 11px; color: var(--sky); font-family: 'Courier New';">${n[2]}</div>
+      </div>
+    `).join('');
+  }
+  // Time
+  const te = document.getElementById('time-examples');
+  if (te) te.innerHTML = DATA.timeExamples.map(t => `
+    <div style="padding: 10px; border-bottom: 1px solid var(--line); display:grid; grid-template-columns: 60px 1fr 40px; gap: 10px; align-items: center;">
+      <div style="background: var(--sky); color: white; padding: 6px; text-align:center; border-radius: 6px; font-weight:700;">${t[0]}</div>
+      <div>
+        <div style="font-weight:500;">${t[1]}</div>
+        <div style="font-size: 13px; color: var(--ink-soft); font-style:italic;">${t[2]}</div>
+      </div>
+      <button class="audio-btn" onclick="speak('${t[1].replace(/'/g,"\\'")}')">🔊</button>
+    </div>
+  `).join('');
+
+  buildTwoCol('nursing-numbers', DATA.nursingNumbers);
+  buildTwoCol('symptoms-list', DATA.symptoms);
+  buildTwoCol('symptom-questions', DATA.symptomQuestions);
+  buildTwoCol('hospital-places', DATA.hospitalPlaces);
+  buildTwoCol('medical-team', DATA.medicalTeam);
+  buildTwoCol('equipment-list', DATA.equipment);
+  buildVocabTable('cardio-vocab', DATA.cardioVocab);
+  buildTwoCol('intake-questions', DATA.intakeQuestions);
+  buildTwoCol('vitals-list', DATA.vitals);
+  buildTwoCol('pain-questions', DATA.painQuestions);
+  buildTwoCol('pain-types', DATA.painTypes);
+  buildTwoCol('postop-vocab', DATA.postopVocab);
+  buildTwoCol('warning-signs', DATA.warningSigns);
+  buildTwoCol('med-phrases', DATA.medPhrases);
+
+  const bf = document.getElementById('blood-flow');
+  if (bf) bf.innerHTML = DATA.bloodFlow.map(s => `<li>${s} <button class="audio-btn" style="width:24px; height:24px; font-size:11px;" onclick="speak(this.parentElement.textContent)">🔊</button></li>`).join('');
+
+  renderMeds();
+  renderDialogue(1, DATA.dialogue1);
+  renderDialogue(2, DATA.dialogue2);
+  renderDialogue(3, DATA.dialogue3);
+  renderDialogue(4, DATA.dialogue4);
+  renderDialogue(5, DATA.dialogue5);
+  renderDialogue(6, DATA.dialogue6);
+  renderDialogue(7, DATA.dialogue7);
+  renderDialogue(8, DATA.dialogue8);
+  ['u1','u2','u3','u4','a21','a22','a23','a24','a25'].forEach(renderMini);
+  renderSpeakPractice();
+  showFC();
+
+  document.getElementById('stat-words').textContent = state.words;
+  document.getElementById('stat-streak').textContent = state.streak;
+  document.getElementById('stat-time').textContent = state.time + ' min';
+  document.getElementById('year').textContent = new Date().getFullYear();
+  if (window.speechSynthesis) {
+    loadVoices();
+    const warm = new SpeechSynthesisUtterance(' ');
+    warm.volume = 0; warm.rate = 1;
+    window.speechSynthesis.speak(warm);
+  }
+}
+window.addEventListener('load', init);
+if (window.speechSynthesis) {
+  window.speechSynthesis.onvoiceschanged = loadVoices;
+  loadVoices();
+}
+</script>
+</body>
+</html>

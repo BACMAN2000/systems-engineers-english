@@ -1,0 +1,1701 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COHASSET Language Center - Aprende Inglés Profesionalmente</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #F4A261;
+            --primary-light: #FDDBB5;
+            --primary-very-light: #FFF5EB;
+            --secondary: #8BA888;
+            --secondary-light: #B5C9B3;
+            --secondary-very-light: #EDF3EC;
+            --dark: #2D3436;
+            --medium: #636E72;
+            --white: #FFFFFF;
+            --light-bg: #FAFAF8;
+            --transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: var(--light-bg);
+            overflow-x: hidden;
+        }
+
+        /* ========== NAVBAR ========== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
+        }
+
+        .navbar.scrolled {
+            padding: 0.75rem 2rem;
+            background: rgba(255, 255, 255, 0.98);
+        }
+
+        .logo {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary);
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            font-size: 0.95rem;
+            position: relative;
+            transition: var(--transition);
+        }
+
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: var(--transition);
+        }
+
+        .nav-menu a:hover::after,
+        .nav-menu a.active::after {
+            width: 100%;
+        }
+
+        .nav-menu a:hover {
+            color: var(--primary);
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            gap: 5px;
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: var(--dark);
+            border-radius: 2px;
+            transition: var(--transition);
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(8px, 8px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(8px, -8px);
+        }
+
+        /* ========== HERO SECTION ========== */
+        .hero {
+            margin-top: 80px;
+            padding: 80px 2rem;
+            background: linear-gradient(135deg, var(--primary-very-light) 0%, var(--secondary-very-light) 100%);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            min-height: calc(100vh - 80px);
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            line-height: 1.2;
+            color: var(--dark);
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+
+        .hero-content p {
+            font-size: 1.2rem;
+            color: var(--medium);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 15px 40px;
+            background: var(--primary);
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: var(--transition);
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(244, 162, 97, 0.2);
+        }
+
+        .cta-button:hover {
+            background: #E8923D;
+            box-shadow: 0 15px 40px rgba(244, 162, 97, 0.3);
+            transform: translateY(-3px);
+        }
+
+        .hero-image {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 500px;
+        }
+
+        .hero-image-placeholder {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 4rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+        }
+
+        /* ========== STATS SECTION ========== */
+        .stats {
+            padding: 60px 2rem;
+            background: var(--white);
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 3rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            color: var(--medium);
+            font-weight: 500;
+        }
+
+        /* ========== FEATURED COURSES SECTION ========== */
+        .featured-section {
+            padding: 80px 2rem;
+            background: var(--light-bg);
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--medium);
+            margin-bottom: 3rem;
+            max-width: 600px;
+        }
+
+        .courses-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .course-card {
+            background: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .course-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .course-header {
+            padding: 30px;
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--secondary-light) 100%);
+            min-height: 150px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .course-badge {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+            width: fit-content;
+        }
+
+        .course-title {
+            font-size: 1.5rem;
+            color: var(--dark);
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .course-body {
+            padding: 30px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .course-description {
+            color: var(--medium);
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .course-info {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+            color: var(--medium);
+            margin-top: auto;
+        }
+
+        .course-info-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .course-footer {
+            padding: 0 30px 30px 30px;
+            border-top: 1px solid #E8E8E8;
+            padding-top: 20px;
+            margin-top: auto;
+        }
+
+        /* ========== WHY CHOOSE US ========== */
+        .why-choose {
+            padding: 80px 2rem;
+            background: var(--white);
+        }
+
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .why-item {
+            text-align: center;
+            padding: 30px;
+            border-radius: 15px;
+            background: var(--light-bg);
+            transition: var(--transition);
+        }
+
+        .why-item:hover {
+            background: var(--primary-very-light);
+            transform: translateY(-5px);
+        }
+
+        .why-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+        }
+
+        .why-title {
+            font-size: 1.2rem;
+            color: var(--dark);
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .why-text {
+            color: var(--medium);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* ========== COURSES PAGE FILTERS ========== */
+        .filter-buttons {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 10px 25px;
+            border: 2px solid var(--secondary);
+            background: transparent;
+            color: var(--secondary);
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            font-size: 0.95rem;
+        }
+
+        .filter-btn.active {
+            background: var(--secondary);
+            color: white;
+        }
+
+        .filter-btn:hover {
+            background: var(--secondary);
+            color: white;
+        }
+
+        /* ========== FULL COURSES GRID ========== */
+        .full-courses-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        /* ========== ABOUT PAGE ========== */
+        .about-section {
+            padding: 80px 2rem;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            margin-bottom: 80px;
+        }
+
+        .about-image {
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(135deg, var(--secondary-light) 0%, var(--primary-light) 100%);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            color: white;
+        }
+
+        .about-content h2 {
+            font-size: 2.5rem;
+            color: var(--dark);
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+        }
+
+        .about-content p {
+            color: var(--medium);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+
+        /* ========== TEAM SECTION ========== */
+        .team-section {
+            padding: 80px 2rem;
+            background: var(--light-bg);
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .team-member {
+            background: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+            transition: var(--transition);
+            text-align: center;
+        }
+
+        .team-member:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.15);
+        }
+
+        .team-member-image {
+            width: 100%;
+            height: 250px;
+            background: linear-gradient(135deg, var(--primary-light) 0%, var(--secondary-light) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+        }
+
+        .team-member-info {
+            padding: 25px;
+        }
+
+        .team-member-name {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 5px;
+        }
+
+        .team-member-role {
+            color: var(--primary);
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .team-member-bio {
+            color: var(--medium);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* ========== TESTIMONIALS ========== */
+        .testimonials-section {
+            padding: 80px 2rem;
+            background: var(--white);
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .testimonial-card {
+            background: var(--light-bg);
+            padding: 30px;
+            border-radius: 15px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .stars {
+            color: #FFD700;
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+
+        .testimonial-text {
+            color: var(--medium);
+            margin-bottom: 15px;
+            line-height: 1.7;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .testimonial-role {
+            color: var(--secondary);
+            font-size: 0.9rem;
+        }
+
+        /* ========== CONTACT PAGE ========== */
+        .contact-section {
+            padding: 80px 2rem;
+            background: var(--light-bg);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .contact-form {
+            background: var(--white);
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--dark);
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #E8E8E8;
+            border-radius: 8px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 1rem;
+            transition: var(--transition);
+            color: var(--dark);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(244, 162, 97, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .submit-btn:hover {
+            background: #E8923D;
+            transform: translateY(-2px);
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .info-card {
+            background: var(--white);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+
+        .info-icon {
+            font-size: 2rem;
+            color: var(--primary);
+            min-width: 50px;
+            text-align: center;
+        }
+
+        .info-content h3 {
+            color: var(--dark);
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        .info-content p {
+            color: var(--medium);
+            margin: 0;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-very-light);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 1.2rem;
+        }
+
+        .social-link:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        /* ========== FOOTER ========== */
+        .footer {
+            background: var(--dark);
+            color: var(--white);
+            padding: 50px 2rem 30px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 3rem;
+            margin-bottom: 40px;
+        }
+
+        .footer-section h3 {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-section a {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 0.95rem;
+        }
+
+        .footer-section a:hover {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 30px;
+            text-align: center;
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        /* ========== WHATSAPP BUTTON ========== */
+        .whatsapp-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: #25D366;
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            font-size: 1.8rem;
+            box-shadow: 0 5px 25px rgba(37, 211, 102, 0.3);
+            transition: var(--transition);
+            z-index: 999;
+        }
+
+        .whatsapp-btn:hover {
+            background: #20BA5A;
+            box-shadow: 0 10px 35px rgba(37, 211, 102, 0.4);
+            transform: scale(1.1);
+        }
+
+        /* ========== PAGE SECTIONS ========== */
+        .page-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .page-section.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ========== RESPONSIVE ========== */
+        @media (max-width: 1200px) {
+            .courses-grid,
+            .why-grid,
+            .full-courses-grid,
+            .team-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .hero {
+                grid-template-columns: 1fr;
+                padding: 60px 2rem;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-menu {
+                position: fixed;
+                left: 0;
+                top: 60px;
+                flex-direction: column;
+                background: white;
+                width: 100%;
+                text-align: center;
+                display: none;
+                box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            }
+
+            .nav-menu.active {
+                display: flex;
+                gap: 0;
+            }
+
+            .nav-menu li {
+                padding: 1rem 0;
+                border-bottom: 1px solid #E8E8E8;
+            }
+
+            .nav-menu a::after {
+                display: none;
+            }
+
+            .nav-menu a:hover {
+                color: var(--primary);
+            }
+
+            .hamburger {
+                display: flex;
+            }
+
+            .navbar {
+                padding: 1rem;
+            }
+
+            .logo {
+                font-size: 1.1rem;
+            }
+
+            .hero {
+                padding: 40px 1.5rem;
+                min-height: auto;
+            }
+
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .hero-content p {
+                font-size: 1rem;
+            }
+
+            .hero-image-placeholder {
+                height: 250px;
+            }
+
+            .stats {
+                grid-template-columns: 1fr;
+                padding: 40px 1.5rem;
+            }
+
+            .featured-section,
+            .why-choose,
+            .about-section,
+            .team-section,
+            .testimonials-section,
+            .contact-section {
+                padding: 50px 1.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .courses-grid,
+            .why-grid,
+            .full-courses-grid,
+            .team-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+
+            .whatsapp-btn {
+                bottom: 20px;
+                right: 20px;
+                width: 55px;
+                height: 55px;
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-content h1 {
+                font-size: 1.8rem;
+            }
+
+            .section-title {
+                font-size: 1.5rem;
+            }
+
+            .hero {
+                padding: 30px 1rem;
+            }
+
+            .featured-section,
+            .why-choose,
+            .about-section,
+            .team-section,
+            .testimonials-section,
+            .contact-section {
+                padding: 40px 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <a href="#" class="logo" onclick="goToPage('inicio'); return false;"><img src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNDAwIDIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAKICAGPGRLZNM+CiAgICAgIDwhLS0gR3JhZGllbnQgZm9yIDNEIGVmZmVjdCBvbiBjaXJjbGVzIC0tPgogICAgICA8cmFkaWFsR3JhZGllbnQgaWQ9ImNpcmNsZUdyYWRpZW50IiBjeD0iMzUlIiBjeT0iMzUlIj4KICAgICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojM0I4MkY2O3N0b3Atb3BhY2l0eToxIiAvPgogICAgICAgIDxzdG9wIG9mZnNldD0iNzAlIiBzdHlsZT0ic3RvcC1jb2xvcjojMjU2M0VCO3N0b3Atb3BhY2l0eToxIiAvPgogICAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzFFNDBBRjtzdG9wLW9wYWNpdHk6MSIgLz4KICAgICAgPC9yYWRpYWxHcmFkaWVudD4KCiAgICAgIDwhLS0gU2hhZG93IGZpbHRlciBmb3IgY2lyY2xlcyAtLT4KICAgICAgPGZpbHRlciBpZD0iY2lyY2xlU2hhZG93IiB4PSItNTAlIiB5PSItNTAlIiB3aWR0aD0iMjAwJSIgaGVpZ2h0PSIyMDAliI+CiAgICAgICAgPGZlRHJvcFNoYWRvdyBkeD0iMiIgZHk9IjIiIHN0ZERldmlhdGlvbj0iMS41IiBmbG9vZC1vcGFjaXR5PSIwLjMiIC8+CiAgICAgIDwvZmlsdGVyPgogICA8L2RlZnM+CgogIDwhLS0gU3VuYnVyc3QgY2lyY2xlIHBhdHRlcm4gb24gdGhlIGxlZnQgLS0+CiAgPGcgaWQ9InN1bmJ1cnN0Ij4KICAgIDwhLS0gQ2VudGVyIHBvaW50IGF0IGFwcHJveGltYXRlbHkgeD04MCwgeT0xMDAgLS0+CgogICAgPCEtLSBSaWdodCByYXkgKDAgZGVncmVlcykgLS0+CiAgICA8Y2lyY2xlIGN4PSIxMDAiIGN5PSIxMDAiIHI9IjEyIiBmaWxsPSJ1cmwoI2NpcmNsZUdyYWRpZW50KSIgZmlsdGVyPSJ1cmwoI2NpcmNsZVNoYWRvdykiIC8+CiAgICA8Y2lyY2xlIGN4PSIxMTUiIGN5PSIxMDAiIHI9IjkiIGZpbGw9InVybCgjY2lyY2xlR3JhZGllbnQpIiBmaWx0ZXI9InVybCgjY2lyY2xlU2hhZG93KSIgLz4KICAgIDxjaXJjbGUgY3g9IjEyOCIgY3k9IjEwMCIgcj0iNiIgZmlsbD0idXJsKCNjaXJjbGVHcmFkaWVudCkiIGZpbHRlcj0idXJsKCNjaXJjbGVTaGFkb3cpIiAvPgoKICAgIDwhLS0gVG9wLXJpZ2h0IHJheSAoNDUgZGVncmVlcykgLS0+CiAgICA8Y2lyY2xlIGN4PSI5NS40IiBjeT0iNzkuNiIgcj0iMTEiIGZpbGw9InVybCgjY2lyY2xlR3JhZGllbnQpIiBmaWx0ZXI9InVybCgjY2lyY2xlU2hhZG93KSIgLz4KICAgIDxjaXJjbGUgY3g9IjEwNi42IiBjeT0iNjguNCIgcj0iOCIgZmlsbD0idXJsKCNjaXJjbGVHcmFkaWVudCkiIGZpbHRlcj0idXJsKCNjaXJjbGVTaGFkb3cpIiAvPgogICAgPGNpcmNsZSBjeD0iMTE2LjUiIGN5PSI1Ny41IiByPSI1IiBmaWxsPSJ1cmwoI2NpcmNsZUdyYWRpZW50KSIgZmlsdGVyPSJ1cmwoI2NpcmNsZVNoYWRvdykiIC8+CgogICAgPCEtLSBUb3AgcmF5ICg5MCBkZWdyZWVzKSAtLT4KICAgIDxjaXJjbGUgY3g9IjgwIiBjeT0iNzgiIHI9IjExLjUiIGZpbGw9InVybCgjY2lyY2xlR3JhZGllbnQpIiBmaWx0ZXI9InVybCgjY2lyY2xlU2hhZG93KSIgLz4KICAgIDxjaXJjbGUgY3g9IjgwIiBjeT0iNjMiIHI9IjguNSIgZmlsbD0idXJsKCNjaXJjbGVHcmFkaWVudCkiIGZpbHRlcj0idXJsKCNjaXJjbGVTaGFkb3cpIiAvPgogICAgPGNpcmNsZSBjeD0iODAiIGN5PSI1MCIgcj0iNS41IiBmaWxsPSJ1cmwoI2NpcmNsZUdyYWRpZW50KSIgZmlsdGVyPSJ1cmwoI2NpcmNsZVNoYWRvdykiIC8+CgogICAgPCEtLSBUb3AtbGVmdCByYXkgKDEzNSBkZWdyZWVzKSAtLT4KICAgIDxjaXJjbGUgY3g9IjY0LjYiIGN5PSI3OS42IiByPSIxMSIgZmlsbD0idXJsKCNjaXJjbGVHcmFkaWVudCkiIGZpbHRlcj0idXJsKCNjaXJjbGVTaGFkb3cpIiAvPgogICAgPGNpcmNsZSBjeD0iNTMuNCIgY3k9IjY4LjQiIHI9IjgiIGZpbGw9InVybCgjY2lyY2xlR3JhZGllbnQpIiBmaWx0ZXI9InVybCgjY2lyY2xlU2hhZG93KSIgLz4KICAgIDxjaXJjbGUgY3g9IjQzLjUiIGN5PSI1Ny41IiByPSI1IiBmaWxsPSJ1cmwoI2NpcmNsZUdyYWRpZW50KSIgZmlsdGVyPSJ1cmwoI2NpcmNsZVNoYWRvdykiIC8+CgogICAgPCEtLSBMZWZ0IHJheSAoMTgwIGRlZ3JlZXMpIC0tPgogICAgPGNpcmNsZSBjeD0iNjAiIGN5PSIxMDAiIHI9IjEyIiBmaWxsPSJ1cmwoI2NpcmNsZUdyYWRpZW50KSIgZmlsdGVyPSJ1cmwoI2NpcmNsZVNoYWRvdykiIC8+CiAgICA8Y2lyY2xlIGN4PSI0NSIgY3k9IjEwMCIgcj0iOSIgZmlsbD0idXJsKCNjaXJjbGVHcmFkaWVudCkiIGZpbHRlcj0idXJsKCNjaXJjbGVTaGFkb3cpIiAvPgogICAgPGNpcmNsZSBjeD0iMzIiIGN5PSIxMDAiIHI9IjYiIGZpbGw9InVybCgjY2lyY2xlR3JhZGllbnQpIiBmaWx0ZXI9InVybCgjY2lyY2xlU2hhZG93KSIgLz4KCiAgICA8IS0tIEJvdHRvbS1sZWZ0IHJheSAoMjI1IGRlZ3JlZXMpIC0tPgogICAgPGNpcmNsZSBjeD0iNjQuNiIgY3k9IjEyMC40IiByPSIxMSIgZmlsbD0idXJsKCNjaXJjbGVHcmFkaWVudCkiIGZpbHRlcj0idXJsKCNjaXJjbGVTaGFkb3cpIiAvPgogICAgPGNpcmNsZSBjeD0iNTMuNCIgY3k9IjEzMS42IiByPSI4IiBmaWxsPSJ1cmwoI2NpcmNsZUdyYWRpZW50KSIgZmlsdGVyPSJ1cmwoI2NpcmNsZVNoYWRvdykiIC8+CiAgICA8Y2lyY2xlIGN4PSI0My41IiBjeT0iMTQyLjUiIHI9IjUiIGZpbGw9InVybCgjY2lyY2xlR3JhZGllbnQpIiBmaWx0ZXI9InVybCgjY2lyY2xlU2hhZG93KSIgLz4KCiAgICA8IS0tIEJvdHRvbSByYXkgKDI3MCBkZWdyZWVzKSAtLT4KICAgIDxjaXJjbGUgY3g9IjgwIiBjeT0iMTIyIiByPSIxMS41IiBmaWxsPSJ1cmwoI2NpcmNsZUdyYWRpZW50KSIgZmlsdGVyPSJ1cmwoI2NpcmNsZVNoYWRvdykiIC8+CiAgICA8Y2lyY2xlIGN4PSI4MCIgY3k9IjEzNyIgcj0iOC41IiBmaWxsPSJ1cmwoI2NpcmNsZUdyYWRpZW50KSIgZmlsdGVyPSJ1cmwoI2NpcmNsZVNoYWRvdykiIC8+CiAgICA8Y2lyY2xlIGN4PSI4MCIgY3k9IjE1MCIgcj0iNS41IiBmaWxsPSJ1cmwoI2NpcmNsZUdyYWRpZW50KSIgZmlsdGVyPSJ1cmwoI2NpcmNsZVNoYWRvdykiIC8+CgogICAgPCEtLSBCb3R0b20tcmlnaHQgcmF5ICgzMTUgZGVncmVlcykgLS0+CiAgICA8Y2lyY2xlIGN4PSI5NS40IiBjeT0iMTIwLjQiIHI9IjExIiBmaWxsPSJ1cmwoI2NpcmNsZUdyYWRpZW50KSIgZmlsdGVyPSJ1cmwoI2NpcmNsZVNoYWRvdykiIC8+CiAgICA8Y2lyY2xlIGN4PSIxMDYuNiIgY3k9IjEzMS42IiByPSI4IiBmaWxsPSJ1cmwoI2NpcmNsZUdyYWRpZW50KSIgZmlsdGVyPSJ1cmwoI2NpcmNsZVNoYWRvdykiIC8+CiAgICA8Y2lyY2xlIGN4PSIxMTYuNSIgY3k9IjE0Mi41IiByPSI1IiBmaWxsPSJ1cmwoI2NpcmNsZUdyYWRpZW50KSIgZmlsdGVyPSJ1cmwoI2NpcmNsZVNoYWRvdykiIC8+CgogICAgPCEtLSBMYXJnZSBjZW50cmFsIGNpcmNsZSAtLT4KICAgIDxjaXJjbGUgY3g9IjgwIiBjeT0iMTAwIiByPSIxNCIgZmlsbD0idXJsKCNjaXJjbGVHcmFkaWVudCkiIGZpbHRlcj0idXJsKCNjaXJjbGVTaGFkb3cpIiAvPgogIDwvZz4KICAKICAKICAGPGCGY3VsLz4KICAKICAGKSAK" alt="Cohasset Language Center" height="50" width="auto" style="display: block;"></a>
+        <ul class="nav-menu">
+            <li><a href="#" class="nav-link active" data-page="inicio" onclick="goToPage('inicio'); return false;">Inicio</a></li>
+            <li><a href="#" class="nav-link" data-page="cursos" onclick="goToPage('cursos'); return false;">Cursos</a></li>
+            <li><a href="#" class="nav-link" data-page="nosotros" onclick="goToPage('nosotros'); return false;">Nosotros</a></li>
+            <li><a href="#" class="nav-link" data-page="contacto" onclick="goToPage('contacto'); return false;">Contacto</a></li>
+        </ul>
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </nav>
+
+    <!-- ========== INICIO (HOME) PAGE ========== -->
+    <section id="inicio" class="page-section active">
+        <!-- HERO -->
+        <div class="hero">
+            <div class="hero-content">
+                <h1>Domina el Inglés, Conquista el Mundo</h1>
+                <p>Aprende inglés con métodos innovadores y profesores certificados. Desde principiante hasta nivel avanzado, te acompañamos en cada paso de tu viaje.</p>
+                <button class="cta-button" onclick="goToPage('cursos')">Ver Nuestros Cursos</button>
+            </div>
+            <div class="hero-image">
+                <div class="hero-image-placeholder">
+                    <i class="fas fa-book-open"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- STATS -->
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-number">2,500+</div>
+                <div class="stat-label">Estudiantes Satisfechos</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">15+</div>
+                <div class="stat-label">Años de Experiencia</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">98%</div>
+                <div class="stat-label">Tasa de Satisfacción</div>
+            </div>
+        </div>
+
+        <!-- FEATURED COURSES -->
+        <div class="featured-section">
+            <h2 class="section-title">Cursos Destacados</h2>
+            <p class="section-subtitle">Explora nuestros cursos más populares diseñados para llevarte de principiante a profesional.</p>
+            <div class="courses-grid">
+                <div class="course-card">
+                    <div class="course-header">
+                        <span class="course-badge">Principiante</span>
+                        <h3 class="course-title">English Basics</h3>
+                    </div>
+                    <div class="course-body">
+                        <p class="course-description">Aprende los fundamentos del inglés desde cero. Perfecto para quienes nunca han estudiado el idioma.</p>
+                        <div class="course-info">
+                            <div class="course-info-item">
+                                <i class="fas fa-clock"></i>
+                                <span>12 semanas</span>
+                            </div>
+                            <div class="course-info-item">
+                                <i class="fas fa-calendar"></i>
+                                <span>2 veces/semana</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="course-footer">
+                        <button class="cta-button" style="width: 100%;" onclick="goToPage('contacto')">Inscríbete</button>
+                    </div>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-header">
+                        <span class="course-badge">Intermedio</span>
+                        <h3 class="course-title">Business English</h3>
+                    </div>
+                    <div class="course-body">
+                        <p class="course-description">Domina el inglés empresarial para destacar en tu carrera profesional y reuniones internacionales.</p>
+                        <div class="course-info">
+                            <div class="course-info-item">
+                                <i class="fas fa-clock"></i>
+                                <span>10 semanas</span>
+                            </div>
+                            <div class="course-info-item">
+                                <i class="fas fa-calendar"></i>
+                                <span>2 veces/semana</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="course-footer">
+                        <button class="cta-button" style="width: 100%;" onclick="goToPage('contacto')">Inscríbete</button>
+                    </div>
+                </div>
+
+                <div class="course-card">
+                    <div class="course-header">
+                        <span class="course-badge">Avanzado</span>
+                        <h3 class="course-title">Conversation Club</h3>
+                    </div>
+                    <div class="course-body">
+                        <p class="course-description">Mejora tu fluidez conversacional en un ambiente relajado y práctico con hablantes nativos.</p>
+                        <div class="course-info">
+                            <div class="course-info-item">
+                                <i class="fas fa-clock"></i>
+                                <span>8 semanas</span>
+                            </div>
+                            <div class="course-info-item">
+                                <i class="fas fa-calendar"></i>
+                                <span>1 vez/semana</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="course-footer">
+                        <button class="cta-button" style="width: 100%;" onclick="goToPage('contacto')">Inscríbete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- WHY CHOOSE US -->
+        <div class="why-choose">
+            <h2 class="section-title">Por Qué Elegirnos</h2>
+            <div class="why-grid">
+                <div class="why-item">
+                    <div class="why-icon">
+                        <i class="fas fa-chalkboard-user"></i>
+                    </div>
+                    <h3 class="why-title">Maestros Certificados</h3>
+                    <p class="why-text">Todos nuestros profesores cuentan con certificaciones internacionales y amplia experiencia docente.</p>
+                </div>
+                <div class="why-item">
+                    <div class="why-icon">
+                        <i class="fas fa-laptop"></i>
+                    </div>
+                    <h3 class="why-title">Clases Online y Presenciales</h3>
+                    <p class="why-text">Flexibilidad total. Elige estudiar desde casa o en nuestras modernas aulas equipadas.</p>
+                </div>
+                <div class="why-item">
+                    <div class="why-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="why-title">Metodología Probada</h3>
+                    <p class="why-text">Enfoque comunicativo que te permite aprender hablando desde el primer día de clase.</p>
+                </div>
+                <div class="why-item">
+                    <div class="why-icon">
+                        <i class="fas fa-certificate"></i>
+                    </div>
+                    <h3 class="why-title">Certificados Reconocidos</h3>
+                    <p class="why-text">Obtén certificados internacionales válidos en universidades y empresas de todo el mundo.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== CURSOS (COURSES) PAGE ========== -->
+    <section id="cursos" class="page-section">
+        <div style="padding: 100px 2rem 80px; background: var(--light-bg);">
+            <h1 class="section-title">Nuestros Cursos</h1>
+            <p class="section-subtitle">Ofrecemos una variedad de cursos diseñados para todos los niveles y objetivos de aprendizaje.</p>
+
+            <div class="filter-buttons">
+                <button class="filter-btn active" onclick="filterCourses('all')">Todos</button>
+                <button class="filter-btn" onclick="filterCourses('beginner')">Principiante</button>
+                <button class="filter-btn" onclick="filterCourses('intermediate')">Intermedio</button>
+                <button class="filter-btn" onclick="filterCourses('advanced')">Avanzado</button>
+            </div>
+
+            <div class="full-courses-grid">
+                <!-- BEGINNER -->
+                <div class="course-card course-item beginner" data-level="beginner">
+                    <div class="course-header">
+                        <span class="course-badge">A1-A2</span>
+                        <h3 class="course-title">English Basics</h3>
+                    </div>
+                    <div class="course-body">
+                        <p class="course-description">Aprende los fundamentos del inglés: alfabeto, números, frases básicas y vocabulario cotidiano.</p>
+                        <div class="course-info">
+                            <div class="course-info-item">
+                                <i class="fas fa-clock"></i>
+                                <span>12 semanas</span>
+                            </div>
+                            <div class="course-info-item">
+                                <i class="fas fa-users"></i>
+                                <span>Grupos pequeños</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="course-footer">
+                        <button class="cta-button" style="width: 100%;" onclick="goToPage('contacto')">Inscríbete</button>
+                    </div>
+                </div>
+
+                <div class="course-card course-item beginner" data-level="beginner">
+                    <div class="course-header">
+                        <span class="course-badge">A1-A2</span>
+                        <h3 class="course-title">Pre-Intermediate</h3>
+                    </div>
+                    <div class="course-body">
+                        <p class="course-description">Consolida lo aprendido y expande tu vocabulario. Conversaciones simples en situaciones cotidianas.</p>
+                        <div class="course-info">
+                            <div class="course-info-item">
+                                <i class="fas fa-clock"></i>
+                                <span>10 semanas</span>
+                            </div>
+                            <div class="course-info-item">
+                                <i class="fas fa-users"></i>
+                                <span>Grupos pequeños</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="course-footer">
+                        <button class="cta-button" style="width: 100%;" onclick="goToPage('contacto')">Inscríbete</button>
+                    </div>
+                </div>
+
+                <!-- INTERMEDIATE -->
+                <div class="course-card course-item intermediate" data-level="intermediate">
+                    <div class="course-header">
+                        <span class="course-badge">B1-B2</span>
+                        <h3 class="course-title">Intermediate English</h3>
+                    </div>
+                    <div class="course-body">
+                        <p class="course-description">Mejora tu fluidez y comprensión. Maneja conversaciones más complejas y textos variados.</p>
+                        <div class="course-info">
+                            <div class="course-info-item">
+                                <i class="fas fa-clock"></i>
+                                <span>12 semanas</span>
+                            </div>
+                            <div class="course-info-item">
+                                <i class="fas fa-users"></i>
+                                <span>Grupos pequeños</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="course-footer">
+                        <button class="cta-button" style="width: 100%;" onclick="goToPage('contacto')">Inscríbete</button>
+                    </div>
+                </div>
+
+                <div class="course-card course-item intermediate" data-level="intermediate">
+                    <div class="course-header">
+                        <span class="course-badge">B1-B2</span>
+                        <h3 class="course-title">Business English</h3>
+                    </div>
+                    <div class="course-body">
+                        <p class="course-description">Domina el inglés empresarial. Reuniones, presentaciones, correos y negociaciones profesionales.</p>
+                        <div class="course-info">
+                            <div class="course-info-item">
+                                <i class="fas fa-clock"></i>
+                                <span>10 semanas</span>
+                            </div>
+                            <div class="course-info-item">
+                                <i class="fas fa-users"></i>
+                                <span>Grupos pequeños</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="course-footer">
+                        <button class="cta-button" style="width: 100%;" onclick="goToPage('contacto')">Inscríbete</button>
+                    </div>
+                </div>
+
+                <!-- ADVANCED -->
+                <div class="course-card course-item advanced" data-level="advanced">
+                    <div class="course-header">
+                        <span class="course-badge">C1-C2</span>
+                        <h3 class="course-title">Advanced English</h3>
+                    </div>
+                    <div class="course-body">
+                        <p class="course-description">Alcanza el dominio completo. Expresión fluida, textos especializados y argumentación sofisticada.</p>
+                        <div class="course-info">
+                            <div class="course-info-item">
+                                <i class="fas fa-clock"></i>
+                                <span>12 semanas</span>
+                            </div>
+                            <div class="course-info-item">
+                                <i class="fas fa-users"></i>
+                                <span>Grupos pequeños</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="course-footer">
+                        <button class="cta-button" style="width: 100%;" onclick="goToPage('contacto')">Inscríbete</button>
+                    </div>
+                </div>
+
+                <div class="course-card course-item advanced" data-level="advanced">
+                    <div class="course-header">
+                        <span class="course-badge">C1-C2</span>
+                        <h3 class="course-title">Conversation Club</h3>
+                    </div>
+                    <div class="course-body">
+                        <p class="course-description">Mejora tu fluidez conversacional en ambiente relajado. Debates, presentaciones y discusiones profundas.</p>
+                        <div class="course-info">
+                            <div class="course-info-item">
+                                <i class="fas fa-clock"></i>
+                                <span>8 semanas</span>
+                            </div>
+                            <div class="course-info-item">
+                                <i class="fas fa-users"></i>
+                                <span>Grupos reducidos</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="course-footer">
+                        <button class="cta-button" style="width: 100%;" onclick="goToPage('contacto')">Inscríbete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== NOSOTROS (ABOUT) PAGE ========== -->
+    <section id="nosotros" class="page-section">
+        <!-- ABOUT MISSION -->
+        <div class="about-section">
+            <div class="about-grid">
+                <div class="about-content">
+                    <h2>Nuestra Misión</h2>
+                    <p>En COHASSET Language Center, nuestro objetivo es empoderar a nuestros estudiantes con las habilidades de inglés necesarias para triunfar en un mundo globalizado. Creemos que el aprendizaje de idiomas es la llave que abre puertas a nuevas oportunidades personales y profesionales.</p>
+                    <p>Nos comprometemos a proporcionar educación de calidad superior, accesible y efectiva, utilizando metodologías innovadoras y profesores altamente capacitados.</p>
+                </div>
+                <div class="about-image">
+                    <i class="fas fa-mission"></i>
+                </div>
+            </div>
+
+            <div class="about-grid" style="direction: rtl;">
+                <div class="about-content" style="direction: ltr;">
+                    <h2>Nuestra Visión</h2>
+                    <p>Ser el centro de aprendizaje de idiomas líder en la región, reconocido por nuestra excelencia educativa, innovación pedagógica y transformación positiva en la vida de nuestros estudiantes.</p>
+                    <p>Aspiramos a crear una comunidad global de hablantes competentes de inglés que confíen en nuestros programas para lograr sus metas académicas, profesionales y personales.</p>
+                </div>
+                <div class="about-image" style="direction: ltr;">
+                    <i class="fas fa-binoculars"></i>
+                </div>
+            </div>
+
+            <h2 class="section-title" style="text-align: center; margin-top: 80px; margin-bottom: 50px;">Nuestra Metodología</h2>
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-bottom: 80px;">
+                <div class="why-item" style="text-align: left; padding: 40px;">
+                    <h3 class="why-title" style="text-align: center;">Aprendizaje Comunicativo</h3>
+                    <p class="why-text">Enfocamos en la comunicación real desde el primer día. Aprenderás hablando, no solo estudiando gramática.</p>
+                </div>
+                <div class="why-item" style="text-align: left; padding: 40px;">
+                    <h3 class="why-title" style="text-align: center;">Clases Interactivas</h3>
+                    <p class="why-text">Nuestras clases son dinámicas, con actividades prácticas que hacen el aprendizaje divertido y efectivo.</p>
+                </div>
+                <div class="why-item" style="text-align: left; padding: 40px;">
+                    <h3 class="why-title" style="text-align: center;">Seguimiento Personalizado</h3>
+                    <p class="why-text">Cada estudiante recibe atención personalizada para identificar y fortalecer sus áreas de mejora.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- TEAM SECTION -->
+        <div class="team-section">
+            <h2 class="section-title">Nuestro Equipo de Maestros</h2>
+            <p class="section-subtitle" style="margin-bottom: 50px;">Profesionales experimentados y certificados internacionalmente</p>
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="team-member-image">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <div class="team-member-info">
+                        <h3 class="team-member-name">Sarah Johnson</h3>
+                        <p class="team-member-role">Directora de Programas</p>
+                        <p class="team-member-bio">20 años de experiencia. Certificada CELTA con especialidad en Cambridge.</p>
+                    </div>
+                </div>
+
+                <div class="team-member">
+                    <div class="team-member-image">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <div class="team-member-info">
+                        <h3 class="team-member-name">Michael Chen</h3>
+                        <p class="team-member-role">Instructor Senior</p>
+                        <p class="team-member-bio">15 años enseñando. Especialista en Business English e IELTS.</p>
+                    </div>
+                </div>
+
+                <div class="team-member">
+                    <div class="team-member-image">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <div class="team-member-info">
+                        <h3 class="team-member-name">Emma Williams</h3>
+                        <p class="team-member-role">Instructora</p>
+                        <p class="team-member-bio">10 años de experiencia. Experta en conversación y pronunciación.</p>
+                    </div>
+                </div>
+
+                <div class="team-member">
+                    <div class="team-member-image">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <div class="team-member-info">
+                        <h3 class="team-member-name">David García</h3>
+                        <p class="team-member-role">Instructor</p>
+                        <p class="team-member-bio">8 años en docencia. Especialista en gramática y escritura académica.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TESTIMONIALS -->
+        <div class="testimonials-section">
+            <h2 class="section-title">Lo Que Dicen Nuestros Estudiantes</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">"COHASSET me ayudó a pasar mi examen IELTS con una puntuación excelente. Los profesores son increíbles y la metodología es muy efectiva."</p>
+                    <p class="testimonial-author">María Rodríguez</p>
+                    <p class="testimonial-role">Estudiante de IELTS</p>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">"Gracias a los cursos de Business English, ahora puedo comunicarme con confianza en mis reuniones internacionales. Recomiendo 100% COHASSET."</p>
+                    <p class="testimonial-author">Carlos Mendoza</p>
+                    <p class="testimonial-role">Ejecutivo de Negocios</p>
+                </div>
+
+                <div class="testimonial-card">
+                    <div class="stars">
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <p class="testimonial-text">"Las clases son interactivas y divertidas. Aprendí más en COHASSET en 3 meses que en 2 años en otra institución. Muy satisfecha."</p>
+                    <p class="testimonial-author">Laura Pérez</p>
+                    <p class="testimonial-role">Estudiante Intermedia</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========== CONTACTO (CONTACT) PAGE ========== -->
+    <section id="contacto" class="page-section">
+        <div class="contact-section">
+            <h1 class="section-title">Contacto</h1>
+            <p class="section-subtitle">¿Tienes preguntas? Nos encantaría escucharte. Ponte en contacto con nosotros hoy mismo.</p>
+
+            <div class="contact-grid">
+                <div class="contact-form">
+                    <h3 style="margin-bottom: 25px; color: var(--dark); font-weight: 700;">Envíanos un Mensaje</h3>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Nombre Completo</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Correo Electrónico</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Teléfono</label>
+                            <input type="tel" id="phone" name="phone">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="course">Curso de Interés</label>
+                            <select id="course" name="course">
+                                <option value="">Selecciona un curso</option>
+                                <option value="english-basics">English Basics</option>
+                                <option value="business-english">Business English</option>
+                                <option value="conversation">Conversation Club</option>
+                                <option value="advanced">Advanced English</option>
+                                <option value="other">Otro</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Mensaje</label>
+                            <textarea id="message" name="message" required></textarea>
+                        </div>
+
+                        <button type="submit" class="submit-btn">Enviar Mensaje</button>
+                    </form>
+                </div>
+
+                <div class="contact-info">
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="info-content">
+                            <h3>Ubicación</h3>
+                            <p>Calle Principal 123<br>Nuestra Ciudad<br>CP 28001</p>
+                        </div>
+                    </div>
+
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="info-content">
+                            <h3>Teléfono</h3>
+                            <p>+34 91 123 4567<br>Lunes - Viernes: 9am - 8pm<br>Sábado: 10am - 4pm</p>
+                        </div>
+                    </div>
+
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i class="fas fa-envelope"></i>
+                        </div>
+                        <div class="info-content">
+                            <h3>Email</h3>
+                            <p>info@cohassetlanguage.com<br>cursos@cohassetlanguage.com</p>
+                        </div>
+                    </div>
+
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="info-content">
+                            <h3>Horarios</h3>
+                            <p>Lun-Vie: 9:00am - 9:00pm<br>Sábado: 10:00am - 6:00pm<br>Domingo: Cerrado</p>
+                        </div>
+                    </div>
+
+                    <div style="background: var(--white); padding: 30px; border-radius: 15px; box-shadow: 0 5px 25px rgba(0, 0, 0, 0.08);">
+                        <h3 style="color: var(--dark); margin-bottom: 15px; font-weight: 600;">Síguenos en Redes Sociales</h3>
+                        <div class="social-links">
+                            <a href="https://facebook.com" target="_blank" class="social-link" title="Facebook">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="https://instagram.com" target="_blank" class="social-link" title="Instagram">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="https://twitter.com" target="_blank" class="social-link" title="Twitter">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                            <a href="https://linkedin.com" target="_blank" class="social-link" title="LinkedIn">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <img src="data:image/svg+xml;base64,PHN2ZyB2aWV3Qm94PSIwIDAgNDAwIDIwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICAKICAGPGRLZENM+CiAgICAgIDwhLS0gR3JhZGllbnQgZm9yIDNEIGVmZmVjdCBvbiBjaXJjbGVzIC0tPgogICAgICA8cmFkaWFsR3JhZGllbnQgaWQ9ImNpcmNsZUdyYWRpZW50IiBjeD0iMzUlIiBjeT0iMzUlIj4KICAgICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojM0I4MkY2O3N0b3Atb3BhY2l0eToxIiAvPgogICAgICAgIDxzdG9wIG9mZnNldD0iNzAlIiBzdHlsZT0ic3RvcC1jb2xvcjojMjU2M0VCO3N0b3Atb3BhY2l0eToxIiAvPgogICAgICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3R5bGU9InN0b3AtY29sb3I6IzFFNDBBRjtzdG9wLW9wYWNpdHk6MSIgLz4KICAgICAgPC9yYWRpYWxHcmFkaWVudD4KCiAgICAgIDwhLS0gU2hhZG93IGZpbHRlciBmb3IgY2lyY2xlcyAtLT4KICAgICAgPGZpbHRlciBpZD0iY2lyY2xlU2hhZG93IiB4PSItNTAlIiB5PSItNTAlIiB3aWR0aD0iMjAwJSIgaGVpZ2h0PSIyMDAliI+CiAgICAgICAgPGZlRHJvcFNoYWRvdyBkeD0iMiIgZHk9IjIiIHN0ZERldmlhdGlvbj0iMS41IiBmbG9vZC1vcGFjaXR5PSIwLjMiIC8+CiAgICAgIDwvZmlsdGVyPgogICA8L2RlZnM+CgogIDwhLS0gU3VuYnVyc3QgY2lyY2xlIHBhdHRlcm4gb24gdGhlIGxlZnQgLS0+CiAgPGcgaWQ9InN1bmJ1cnN0Ij4KICAgIDwhLS0gQ2VudGVyIHBvaW50IGF0IGFwcHJveGltYXRlbHkgeD04MCwgeT0xMDAgLS0+CgogICAgPCEtLSBSaWdodCByYXkgKDAgZGVncmVlcykgLS0+CiAgICA8Y2lyY2xlIGN4PSIxMDAiIGN5PSIxMDAiIHI9IjEyIiBmaWxsPSJ1cmwoI2NpcmNsZUdyYWRpZW50KSIgZmlsdGVyPSJ1cmwoI2NpcmNsZVNoYWRvdykiIC8+CiAgICA8Y2lyY2xlIGN4PSIxMTUiIGN5PSIxMDAiIHI9IjkiIGZpbGw9InVybCgjY2lyY2xlR3JhZGllbnQpIiBmaWx0ZXI9InVybCgjY2lyY2xlU2hhZG93KSIgLz4KICAgIDxjaXJjbGUgY3g9IjEyOCIgY3k9IjEwMCIgcj0iNiIgZmlsbD0idXJsKCNjaXJjbGVHcmFkaWVudCkiIGZpbHRlcj0idXJsKCNjaXJjbGVTaGFkb3cpIiAvPgoKICAgIDwhLS0gVG9wLXJpZ2h0IHJheSAoNDUgZGVncmVlcykgLS0+CiAgICA8Y2lyY2xlIGN4PSI5NS40IiBjeT0iNzkuNiIgcj0iMTEiIGZpbGw9InVybCgjY2lyY2xlR3JhZGllbnQpIiBmaWx0ZXI9InVybCgjY2lyY2xlU2hhZG93KSIgLz4KICAgIDxjaXJjbGUgY3g9IjEwNi42IiBjeT0iNjguNCIgcj0iOCIgZmlsbD0idXJsKCNjaXJjbGVHcmFkaWVudCkiIGZpbHRlcj0idXJsKCNjaXJjbGVTaGFkb3cpIiAvPgogICAgPGNpcmNsZSBjeD0iMTE2LjUiIGN5PSI1Ny41IiByPSI1IiBmaWxsPSJ1cmwoI2NpcmNsZUdyYWRpZW50KSIgZmlsdGVyPSJ1cmwoI2NpcmNsZVNoYWRvdykiIC8+CgogICAgPCEtLSBUb3AgcmF5ICg5MCBkZWdyZWVzKSAtLT4KICAgIDxjaXJjbGUgY3g9IjgwIiBjeT0iNzgiIHI9IjExLjUiIGZpbGw9InVybCgjY2lyY2xlR3JhZGllbnQpIiBmaWx0ZXI9InVybCgjY2lyY2xlU2hhZG93KSIgLz4KICAgIDxjaXJjbGUgY3g9IjgwIiBjeT0iNjMiIHI9IjguNSIgZmlsbD0idXJsKCNjaXJjbGVHcmFkaWVudCkiIGZpbHRlcj0idXJsKCNjaXJjbGVTaGFkb3cpIiAvPgogICAgPGNpcmNsZSBjeD0iODAiIGN5PSI1MCIgcj0iNS41IiBmaWxsPSJ1cmwoI2NpcmNsZUdyYWRpZW50KSIgZmlsdGVyPSJ1cmwoI2NpcmNsZVNoYWRvdykiIC8+CgogICAgPCEtLSBUb3AtbGVmdCByYXkgKDEzNSBkZWdyZWVzKSAtLT4KICAgIDxjaXJjbGUgY3g9IjY0LjYiIGN5PSI3OS42IiByPSIxMSIgZmlsbD0idXJsKCNjaXJjbGVHcmFkaWVudCkiIGZpbHRlcj0idXJsKCNjaXJjbGVTaGFkb3cpIiAvPgogICAgPGNpcmNsZSBjeD0iNTMuNCIgY3k9IjY4LjQiIHI9IjgiIGZpbGw9InVybCgjY2lyY2xlR3JhZGllbnQpIiBmaWx0ZXI9InVybCgjY2lyY2xlU2hhZG93KSIgLz4KICAgIDxjaXJjbGUgY3g9IjQzLjUiIGN5PSI1Ny41IiByPSI1IiBmaWxsPSJ1cmwoI2NpcmNsZUdyYWRpZW50KSIgZmlsdGVyPSJ1cmwoI2NpcmNsZVNoYWRvdykiIC8+CgogICAgPCEtLSBMZWZ0IHJheSAoMTgwIGRlZ3JlZXMpIC0tPgogICAgPGNpcmNsZSBjeD0iNjAiIGN5PSIxMDAiIHI9IjEyIiBmaWxsPSJ1cmwoI2NpcmNsZUdyYWRpZW50KSIgZmlsdGVyPSJ1cmwoI2NpcmNsZVNoYWRvdykiIC8+CiAgICA8Y2lyY2xlIGN4PSI0NSIgY3k9IjEwMCIgcj0iOSIgZmlsbD0idXJsKCNjaXJjbGVHcmFkaWVudCkiIGZpbHRlcj0idXJsKCNjaXJjbGVTaGFkb3cpIiAvPgogICAgPGNpcmNsZSBjeD0iMzIiIGN5PSIxMDAiIHI9IjYiIGZpbGw9InVybCgjY2lyY2xlR3JhZGllbnQpIiBmaWx0ZXI9InVybCgjY2lyY2xlU2hhZG93KSIgLz4KCiAgICA8IS0tIEJvdHRvbS1sZWZ0IHJheSAoMjI1IGRlZ3JlZXMpIC0tPgogICAgPGNpcmNsZSBjeD0iNjQuNiIgY3k9IjEyMC40IiByPSIxMSIgZmlsbD0idXJsKCNjaXJjbGVHcmFkaWVudCkiIGZpbHRlcj0idXJsKCNjaXJjbGVTaGFkb3cpIiAvPgogICAgPGNpcmNsZSBjeD0iNTMuNCIgY3k9IjEzMS42IiByPSI4IiBmaWxsPSJ1cmwoI2NpcmNsZUdyYWRpZW50KSIgZmlsdGVyPSJ1cmwoI2NpcmNsZVNoYWRvdykiIC8+CiAgICA8Y2lyY2xlIGN4PSI0My41IiBjeT0iMTQyLjUiIHI9IjUiIGZpbGw9InVybCgjY2lyY2xlR3JhZGllbnQpIiBmaWx0ZXI9InVybCgjY2lyY2xlU2hhZG93KSIgLz4KCiAgICA8IS0tIEJvdHRvbSByYXkgKDI3MCBkZWdyZWVzKSAtLT4KICAgIDxjaXJjbGUgY3g9IjgwIiBjeT0iMTIyIiByPSIxMS41IiBmaWxsPSJ1cmwoI2NpcmNsZUdyYWRpZW50KSIgZmlsdGVyPSJ1cmwoI2NpcmNsZVNoYWRvdykiIC8+CiAgICA8Y2lyY2xlIGN4PSI4MCIgY3k9IjEzNyIgcj0iOC41IiBmaWxsPSJ1cmwoI2NpcmNsZUdyYWRpZW50KSIgZmlsdGVyPSJ1cmwoI2NpcmNsZVNoYWRvdykiIC8+CiAgICA8Y2lyY2xlIGN4PSI4MCIgY3k9IjE1MCIgcj0iNS41IiBmaWxsPSJ1cmwoI2NpcmNsZUdyYWRpZW50KSIgZmlsdGVyPSJ1cmwoI2NpcmNsZVNoYWRvdykiIC8+CgogICAgPCEtLSBCb3R0b20tcmlnaHQgcmF5ICgzMTUgZGVncmVlcykgLS0+CiAgICA8Y2lyY2xlIGN4PSI5NS40IiBjeT0iMTIwLjQiIHI9IjExIiBmaWxsPSJ1cmwoI2NpcmNsZUdyYWRpZW50KSIgZmlsdGVyPSJ1cmwoI2NpcmNsZVNoYWRvdykiIC8+CiAgICA8Y2lyY2xlIGN4PSIxMDYuNiIgY3k9IjEzMS42IiByPSI4IiBmaWxsPSJ1cmwoI2NpcmNsZUdyYWRpZW50KSIgZmlsdGVyPSJ1cmwoI2NpcmNsZVNoYWRvdykiIC8+CiAgICA8Y2lyY2xlIGN4PSIxMTYuNSIgY3k9IjE0Mi41IiByPSI1IiBmaWxsPSJ1cmwoI2NpcmNsZUdyYWRpZW50KSIgZmlsdGVyPSJ1cmwoI2NpcmNsZVNoYWRvdykiIC8+CgogICAgPCEtLSBMYXJnZSBjZW50cmFsIGNpcmNsZSAtLT4KICAgIDxjaXJjbGUgY3g9IjgwIiBjeT0iMTAwIiByPSIxNCIgZmlsbD0idXJsKCNjaXJjbGVHcmFkaWVudCkiIGZpbHRlcj0idXJsKCNjaXJjbGVTaGFkb3cpIiAvPgogIDwvZz4KICAKICAKICAGKSAK" alt="Cohasset Language Center" height="50" width="auto" style="display: block; margin-bottom: 15px;">
+                <p style="color: rgba(255, 255, 255, 0.7); margin-bottom: 15px;">Transformando vidas a través del aprendizaje del inglés.</p>
+                <div class="social-links" style="gap: 10px;">
+                    <a href="https://facebook.com" target="_blank" class="social-link" title="Facebook">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="https://instagram.com" target="_blank" class="social-link" title="Instagram">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="https://twitter.com" target="_blank" class="social-link" title="Twitter">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h3>Navegación</h3>
+                <ul>
+                    <li><a href="#" onclick="goToPage('inicio'); return false;">Inicio</a></li>
+                    <li><a href="#" onclick="goToPage('cursos'); return false;">Cursos</a></li>
+                    <li><a href="#" onclick="goToPage('nosotros'); return false;">Nosotros</a></li>
+                    <li><a href="#" onclick="goToPage('contacto'); return false;">Contacto</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Cursos</h3>
+                <ul>
+                    <li><a href="#" onclick="goToPage('cursos'); return false;">English Basics</a></li>
+                    <li><a href="#" onclick="goToPage('cursos'); return false;">Business English</a></li>
+                    <li><a href="#" onclick="goToPage('cursos'); return false;">Conversation Club</a></li>
+                    <li><a href="#" onclick="goToPage('cursos'); return false;">Advanced English</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3>Contacto</h3>
+                <ul>
+                    <li><a href="mailto:info@cohassetlanguage.com">info@cohassetlanguage.com</a></li>
+                    <li><a href="tel:+34911234567">+34 91 123 4567</a></li>
+                    <li><a href="#">Lun-Vie: 9am - 9pm</a></li>
+                    <li><a href="#">Sábado: 10am - 6pm</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2024 COHASSET Language Center. Todos los derechos reservados. | <a href="#" style="color: var(--primary); text-decoration: none;">Política de Privacidad</a> | <a href="#" style="color: var(--primary); text-decoration: none;">Términos de Servicio</a></p>
+        </div>
+    </footer>
+
+    <!-- WHATSAPP BUTTON -->
+    <a href="https://wa.me/34911234567" target="_blank" class="whatsapp-btn" title="Contactar por WhatsApp">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <script>
+        // ========== NAVIGATION AND PAGE SWITCHING ==========
+        function goToPage(pageId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page-section');
+            pages.forEach(page => {
+                page.classList.remove('active');
+            });
+
+            // Show the selected page
+            const selectedPage = document.getElementById(pageId);
+            if (selectedPage) {
+                selectedPage.classList.add('active');
+                window.scrollTo(0, 0);
+            }
+
+            // Update nav links
+            const navLinks = document.querySelectorAll('.nav-link');
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('data-page') === pageId) {
+                    link.classList.add('active');
+                }
+            });
+
+            // Close mobile menu
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+            if (hamburger && navMenu) {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            }
+        }
+
+        // ========== HAMBURGER MENU ==========
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+
+        if (hamburger) {
+            hamburger.addEventListener('click', () => {
+                hamburger.classList.toggle('active');
+                navMenu.classList.toggle('active');
+            });
+        }
+
+        // Close menu when a link is clicked
+        const navLinks = document.querySelectorAll('.nav-menu a');
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger.classList.remove('active');
+                navMenu.classList.remove('active');
+            });
+        });
+
+        // ========== NAVBAR SCROLL EFFECT ==========
+        const navbar = document.querySelector('.navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // ========== COURSE FILTER ==========
+        function filterCourses(level) {
+            const courses = document.querySelectorAll('.course-item');
+            const buttons = document.querySelectorAll('.filter-btn');
+
+            // Update active button
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Filter courses
+            courses.forEach(course => {
+                if (level === 'all') {
+                    course.style.display = 'flex';
+                    course.style.animation = 'fadeIn 0.5s ease-in';
+                } else if (course.getAttribute('data-level') === level) {
+                    course.style.display = 'flex';
+                    course.style.animation = 'fadeIn 0.5s ease-in';
+                } else {
+                    course.style.display = 'none';
+                }
+            });
+        }
+
+        // ========== CONTACT FORM SUBMISSION ==========
+        const contactForm = document.getElementById('contactForm');
+        if (contactForm) {
+            contactForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const phone = document.getElementById('phone').value;
+                const course = document.getElementById('course').value;
+                const message = document.getElementById('message').value;
+
+                // Simulate form submission
+                alert(`¡Gracias ${name}! Tu mensaje ha sido enviado. Nos pondremos en contacto pronto a través de ${email}.`);
+
+                // Reset form
+                contactForm.reset();
+            });
+        }
+
+        // ========== SMOOTH SCROLL ==========
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href !== '#' && !href.includes('mailto') && !href.includes('tel')) {
+                    const target = document.querySelector(href);
+                    if (target) {
+                        e.preventDefault();
+                        target.scrollIntoView({ behavior: 'smooth' });
+                    }
+                }
+            });
+        });
+
+        // ========== INITIAL PAGE LOAD ==========
+        goToPage('inicio');
+    </script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Blox English — Acceso desde cualquier navegador</title>
+<style>
+  body{font-family:-apple-system,'Segoe UI',sans-serif;background:linear-gradient(180deg,#0b1d3a,#1d5ab8);
+       color:#fff;margin:0;padding:30px;min-height:100vh;text-align:center}
+  .card{background:#fff;color:#0a1430;border-radius:20px;padding:30px;max-width:520px;margin:0 auto 20px;
+        box-shadow:0 20px 60px #0008}
+  h1{margin:0 0 6px;font-size:24px}
+  .url{background:#f4f8ff;border:2px dashed #1f5fdf;padding:12px;border-radius:10px;
+       font-family:monospace;font-size:13px;word-break:break-all;color:#1f5fdf;margin:14px 0}
+  .qr{background:#fff;padding:14px;border-radius:14px;display:inline-block;margin:10px 0}
+  .qr img{display:block;width:280px;height:280px}
+  .step{text-align:left;background:#f4f8ff;padding:12px 16px;border-radius:10px;margin:8px 0;
+        border-left:4px solid #1f5fdf}
+  .step b{color:#1f5fdf}
+  .pill{display:inline-block;background:#ffd23f;color:#3a2a00;padding:4px 12px;border-radius:99px;
+        font-weight:800;font-size:12px}
+  .copy{background:#1f5fdf;color:#fff;border:none;padding:10px 16px;border-radius:10px;
+        font-weight:700;cursor:pointer;margin-top:6px}
+  .warn{background:#fff7d6;border:2px solid #f1c40f;color:#7a5a00;padding:12px;border-radius:10px;
+        text-align:left;margin-top:12px;font-size:13px}
+  .lan{background:#dcfce7;border:2px solid #16a34a;color:#14532d;padding:12px;border-radius:10px;
+       text-align:left;margin-top:8px;font-size:13px}
+</style>
+</head>
+<body>
+
+<div class="card">
+  <span class="pill">🌐 ACCESO PÚBLICO — CUALQUIER NAVEGADOR</span>
+  <h1>🍇 Blox English Adventure</h1>
+  <p>App + 7 lecciones en <b>inglés puro</b> · 7 coaches de fútbol · power-ups Roblox</p>
+
+  <div class="qr">
+    <img src="https://api.qrserver.com/v1/create-qr-code/?size=400x400&margin=10&data=https%3A%2F%2Fhope-lexmark-ottawa-agreement.trycloudflare.com%2Falejandro-blox-english-mobile.html" alt="QR">
+  </div>
+
+  <p>Escanea el QR o copia esta URL en cualquier dispositivo (cel/PC/tablet):</p>
+  <div class="url" id="url">https://hope-lexmark-ottawa-agreement.trycloudflare.com/alejandro-blox-english-mobile.html</div>
+  <button class="copy" onclick="navigator.clipboard.writeText(document.getElementById('url').textContent);this.textContent='✅ Copiado'">📋 Copiar URL</button>
+</div>
+
+<div class="card">
+  <span class="pill">📱 INSTALAR COMO APP</span>
+  <h2 style="margin-top:10px">Hazla parecer una app de verdad</h2>
+  <div class="step">
+    <b>Android (Chrome):</b> menú <b>⋮</b> → <b>"Añadir a pantalla de inicio"</b> → "Instalar"
+  </div>
+  <div class="step">
+    <b>iPhone (Safari):</b> botón <b>📤 Compartir</b> → <b>"Añadir a pantalla principal"</b>
+  </div>
+  <div class="step">
+    <b>PC (Chrome/Edge):</b> ícono ➕ en la barra de direcciones → "Instalar Blox English"
+  </div>
+  <p style="margin-top:14px;color:#465a8a">El icono 🍇 aparecerá en la pantalla. Funciona offline una vez cargada y guarda el progreso.</p>
+</div>
+
+<div class="card">
+  <span class="pill">📦 APK INSTALABLE</span>
+  <h2 style="margin-top:10px">¿Quieres el .apk para Android?</h2>
+  <p>Tienes el APK en tu PC (83 KB):</p>
+  <div class="url" style="font-family:monospace">E:\CLAUDE\PAOLO BACA MANRIQUE\BloxEnglish-Alejandro.apk</div>
+  <p style="text-align:left;color:#465a8a;font-size:13px">
+    1. Pasa el archivo al cel (WhatsApp, Drive, USB)<br>
+    2. <b>Desinstala</b> primero la versión anterior si la tenías<br>
+    3. Activa "Instalar de fuentes desconocidas" si te lo pide<br>
+    4. Toca el .apk → Instalar
+  </p>
+</div>
+
+<div class="card">
+  <span class="pill">🏠 ACCESO LOCAL (misma WiFi)</span>
+  <h2 style="margin-top:10px">Sin túnel — más rápido</h2>
+  <div class="lan">
+    Si todos los dispositivos están en tu WiFi, también puedes usar:<br><br>
+    <b>http://192.168.31.23:8000/alejandro-blox-english-mobile.html</b><br><br>
+    Esta URL no necesita internet, pero solo funciona en tu casa.
+  </div>
+</div>
+
+<div class="card" style="background:#0a1430;color:#fff">
+  <p style="margin:0;font-size:13px;opacity:.9">
+    ✅ Servidor HTTP en :8000 (background)<br>
+    ✅ Túnel Cloudflare activo<br>
+    ✅ APK firmado (debug, válido 30 años)<br>
+    ✅ Lecciones 100% en inglés
+  </p>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html><html><head><title>BE Curriculum Test</title></head><body><div id="result">Loading...</div><script src="be-curriculum-data.js"></script><script>
+try {
+  if (typeof BE_CURRICULUM === 'undefined') throw new Error('BE_CURRICULUM not defined');
+  const summary = {
+    ok: true,
+    levels: Object.keys(BE_CURRICULUM).length,
+    lessonsByLevel: {},
+    totalLessons: 0,
+    totalExercises: 0,
+    exerciseTypes: {}
+  };
+  Object.entries(BE_CURRICULUM).forEach(([k,lv]) => {
+    summary.lessonsByLevel[k] = lv.lessons.length;
+    summary.totalLessons += lv.lessons.length;
+    lv.lessons.forEach(les => {
+      summary.totalExercises += les.exercises.length;
+      les.exercises.forEach(ex => {
+        summary.exerciseTypes[ex.type] = (summary.exerciseTypes[ex.type]||0) + 1;
+      });
+    });
+  });
+  window.__TEST_RESULT__ = summary;
+  document.getElementById('result').textContent = JSON.stringify(summary, null, 2);
+} catch(e) {
+  window.__TEST_RESULT__ = {ok: false, error: e.message, stack: e.stack};
+  document.getElementById('result').textContent = 'ERROR: ' + e.message;
+}
+</script></body></html>

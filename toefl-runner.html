@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TOEFL Practice Tests — Cohasset</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --p:#2563EB;--pd:#1E40AF;--pvl:#EFF6FF;--a:#DC2626;--d:#1E293B;--m:#475569;--l:#94A3B8;
+  --w:#FFF;--bg:#F8FAFC;--ok:#10B981;--er:#EF4444;--wa:#F59E0B;--b:#E2E8F0;
+  --sh:0 4px 20px rgba(0,0,0,.08);
+}
+html,body{height:100%}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--d);line-height:1.6}
+.hd{background:#0F172A;color:#fff;padding:12px 24px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;box-shadow:var(--sh);gap:12px}
+.hd h1{font-size:1rem;font-weight:700;display:flex;align-items:center;gap:12px}
+.hd h1 img{height:48px;width:auto;display:block;background:#fff;border-radius:8px;padding:3px 8px}
+.hd h1 .sub{font-size:.78rem;font-weight:500;color:#93C5FD;text-transform:uppercase;letter-spacing:1.2px;padding-left:4px;border-left:2px solid rgba(255,255,255,.15);padding-left:12px}
+.hd .back{background:rgba(255,255,255,.18);color:#fff;text-decoration:none;padding:7px 14px;border-radius:8px;font-size:.85rem;font-weight:600;transition:all .2s}
+.hd .back:hover{background:rgba(255,255,255,.28)}
+.timer{background:rgba(0,0,0,.25);padding:6px 14px;border-radius:8px;font-size:.9rem;font-weight:700;font-family:'Consolas',monospace;display:none}
+.timer.on{display:inline-flex;align-items:center;gap:6px}
+.timer.warn{background:#FBBF24;color:#78350F}
+.timer.expired{background:#DC2626}
+
+.wrap{max-width:1100px;margin:0 auto;padding:24px 20px}
+.lobby h2{font-size:1.5rem;margin-bottom:8px;color:var(--d)}
+.lobby p{color:var(--m);margin-bottom:20px;font-size:.95rem}
+.tests{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-bottom:24px}
+.tcard{background:var(--w);border:1px solid var(--b);border-radius:14px;padding:20px;box-shadow:var(--sh);transition:transform .18s}
+.tcard:hover{transform:translateY(-3px)}
+.tcard h3{font-size:1.1rem;color:var(--a);margin-bottom:4px}
+.tcard p{font-size:.85rem;color:var(--m);margin-bottom:14px}
+.sects{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+.sbtn{background:var(--pvl);color:var(--p);border:1px solid #DBEAFE;padding:9px 10px;border-radius:8px;font-size:.82rem;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px;transition:all .2s}
+.sbtn:hover{background:var(--p);color:#fff;border-color:var(--p)}
+.sbtn i{font-size:.78rem}
+
+.overview{background:var(--w);border-radius:14px;padding:24px;margin-bottom:24px;box-shadow:var(--sh)}
+.overview h3{font-size:1rem;color:var(--d);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.overview p{font-size:.9rem;color:var(--m);margin-bottom:10px}
+
+/* EXAM AREA */
+.exam-hd{background:var(--w);border-bottom:1px solid var(--b);padding:10px 20px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:62px;z-index:90}
+.exam-hd .st{font-weight:600;color:var(--d);font-size:.92rem;display:flex;align-items:center;gap:8px}
+.exam-hd .nav{display:flex;gap:8px}
+.nbtn{background:var(--w);border:1px solid var(--b);padding:7px 14px;border-radius:8px;font-size:.85rem;font-weight:600;cursor:pointer;color:var(--d);transition:all .2s}
+.nbtn:hover:not(:disabled){background:var(--pvl);border-color:var(--p);color:var(--p)}
+.nbtn.primary{background:var(--p);color:#fff;border-color:var(--p)}
+.nbtn.primary:hover{background:var(--pd)}
+.nbtn:disabled{opacity:.4;cursor:not-allowed}
+
+.qbox{background:var(--w);border-radius:14px;padding:28px;box-shadow:var(--sh);margin-bottom:20px}
+.qheader{font-size:.8rem;font-weight:700;color:var(--a);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px}
+.qtext{font-size:.96rem;color:var(--d);margin-bottom:16px}
+.qtext p{margin-bottom:12px}
+.qtext h1{font-size:1.2rem;margin-bottom:14px;color:var(--d)}
+.qtext strong{color:var(--d)}
+.qtext em{font-style:italic;color:var(--m)}
+.qtext ul,.qtext ol{margin:10px 0 10px 24px}
+.qtext li{margin-bottom:5px}
+.qtext a{color:var(--p);text-decoration:underline}
+.qtext table{border-collapse:collapse;margin:12px 0;width:100%}
+.qtext table td,.qtext table th{border:1px solid var(--b);padding:8px 10px;text-align:left;font-size:.88rem;vertical-align:top}
+.qtext table th{background:var(--pvl);color:var(--pd)}
+.qtext img{max-width:100%;height:auto;margin:10px 0}
+
+.split{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+@media(max-width:900px){.split{grid-template-columns:1fr}}
+.pane{background:#FAFAFB;border:1px solid var(--b);border-radius:10px;padding:18px;max-height:70vh;overflow-y:auto}
+.pane h3{font-size:1rem;margin-bottom:10px;color:var(--d)}
+
+.choices{display:flex;flex-direction:column;gap:9px;margin-top:10px}
+.ch{background:var(--bg);border:2px solid var(--b);border-radius:10px;padding:13px 16px;cursor:pointer;transition:all .18s;font-size:.93rem;display:flex;gap:10px;align-items:flex-start}
+.ch:hover{border-color:var(--p);background:var(--pvl)}
+.ch.sel{border-color:var(--p);background:var(--pvl);color:var(--pd);font-weight:600}
+.ch.correct{border-color:var(--ok);background:#D1FAE5;color:#065F46}
+.ch.wrong{border-color:var(--er);background:#FEE2E2;color:#991B1B}
+.ch input{margin-top:3px;flex-shrink:0}
+.ch-letter{background:var(--p);color:#fff;min-width:26px;height:26px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:.78rem;font-weight:700;flex-shrink:0;margin-top:1px}
+.ch.correct .ch-letter{background:var(--ok)}
+.ch.wrong .ch-letter{background:var(--er)}
+
+.audio-box{background:var(--pvl);border:1px solid #DBEAFE;border-radius:10px;padding:16px;margin-bottom:16px;display:flex;align-items:center;gap:14px}
+.audio-box i{font-size:1.4rem;color:var(--p)}
+.audio-box audio{flex:1}
+.audio-label{font-weight:600;color:var(--pd);font-size:.9rem}
+
+.btn{padding:10px 22px;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:.9rem;display:inline-flex;align-items:center;gap:7px}
+.btn.primary{background:var(--p);color:#fff}
+.btn.primary:hover{background:var(--pd)}
+.btn.danger{background:var(--a);color:#fff}
+.btn.danger:hover{background:#991B1B}
+.btn.ghost{background:var(--w);color:var(--d);border:1px solid var(--b)}
+
+.review{margin-top:14px;padding:14px;background:#FEF3C7;border-left:4px solid #F59E0B;border-radius:8px}
+.review h4{font-size:.85rem;color:#78350F;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.review p,.review div{font-size:.88rem;color:#78350F}
+
+.prose-drag{margin-top:10px}
+.prose-target{background:var(--pvl);border:2px dashed var(--p);border-radius:10px;padding:14px;min-height:60px;margin-bottom:10px;color:var(--m);font-size:.88rem}
+.prose-target.has{background:#D1FAE5;border-color:var(--ok);border-style:solid;color:var(--d)}
+.prose-options{display:flex;flex-direction:column;gap:8px}
+.prose-opt{background:var(--w);border:2px solid var(--b);border-radius:10px;padding:10px 14px;cursor:move;font-size:.88rem;transition:all .2s}
+.prose-opt.used{opacity:.4;pointer-events:none}
+.prose-opt:hover{border-color:var(--p)}
+
+.insert-btn{background:var(--p);color:#fff;border:none;padding:2px 7px;margin:0 2px;border-radius:4px;cursor:pointer;font-size:.75rem;font-weight:700}
+.insert-btn.selected{background:var(--ok)}
+.insert-marker{color:var(--a);font-weight:900;font-size:1.1em}
+
+.sidebar-nav{background:var(--w);border-radius:10px;padding:12px;margin-bottom:16px;box-shadow:var(--sh)}
+.q-dots{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.q-dot{width:30px;height:30px;border-radius:6px;border:1px solid var(--b);background:var(--w);cursor:pointer;font-size:.72rem;font-weight:700;color:var(--m);display:flex;align-items:center;justify-content:center}
+.q-dot.ans{background:var(--pvl);color:var(--pd);border-color:var(--p)}
+.q-dot.cur{background:var(--p);color:#fff;border-color:var(--p)}
+
+.writing-area{width:100%;min-height:350px;padding:14px;border:1px solid var(--b);border-radius:10px;font-family:'DM Sans',sans-serif;font-size:.95rem;line-height:1.6;resize:vertical}
+.writing-area:focus{outline:2px solid var(--p);outline-offset:-1px}
+.wc{text-align:right;font-size:.82rem;color:var(--m);margin-top:6px}
+
+.result{background:linear-gradient(135deg,var(--pvl),#DBEAFE);border-radius:14px;padding:30px;text-align:center;margin-bottom:20px}
+.result h2{font-size:1.6rem;color:var(--pd);margin-bottom:8px}
+.result .score{font-size:2.6rem;font-weight:800;color:var(--a);margin:12px 0}
+.result .detail{color:var(--m);font-size:.92rem}
+
+.hidden{display:none!important}
+.flag{color:var(--a);font-size:.8rem;margin-left:6px}
+.passage-scroll{max-height:70vh;overflow-y:auto;padding:4px 4px 4px 0}
+.spk-timer-row{display:flex;gap:20px;justify-content:center;margin:18px 0}
+.spk-timer{text-align:center;padding:14px 24px;background:var(--bg);border:1px solid var(--b);border-radius:10px;min-width:130px}
+.spk-timer .lbl{font-size:.75rem;color:var(--m);text-transform:uppercase;letter-spacing:1px;font-weight:600}
+.spk-timer .val{font-size:1.8rem;font-weight:800;color:var(--p);font-family:'Consolas',monospace}
+.spk-timer.active{border-color:var(--p);background:var(--pvl)}
+.spk-timer.active .val{color:var(--a)}
+
+.sample-box{background:#F0FDF4;border-left:4px solid var(--ok);border-radius:8px;padding:14px;margin-top:12px}
+.sample-box h4{color:#065F46;margin-bottom:8px;font-size:.95rem}
+.sample-box audio{width:100%;margin:8px 0}
+
+.loader{text-align:center;padding:60px;color:var(--m)}
+.loader i{font-size:2.5rem;color:var(--p);margin-bottom:10px}
+
+#q3highlight{background:#FEF9C3;padding:2px 4px;border-radius:3px}
+
+/* ---------- Mobile-preview toggle ---------- */
+.mobile-toggle{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:9998;background:var(--p);color:#fff;border:none;border-radius:50%;width:48px;height:48px;box-shadow:0 4px 14px rgba(0,0,0,.25);cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:all .18s}
+.mobile-toggle:hover{transform:translateX(-50%) scale(1.08);background:var(--pd)}
+.mobile-toggle.active{background:var(--a)}
+body.mobile-preview{background:#1a1a1a;padding:20px 0}
+body.mobile-preview .hd,
+body.mobile-preview .wrap{max-width:390px;margin-left:auto;margin-right:auto;box-sizing:border-box;position:relative;left:0;right:0}
+body.mobile-preview .hd{border-radius:22px 22px 0 0;padding:10px 14px;position:static;box-shadow:0 0 0 10px #1a1a1a, 0 0 0 12px #333}
+body.mobile-preview .hd h1{font-size:.95rem}
+body.mobile-preview .hd .back{padding:5px 10px;font-size:.75rem}
+body.mobile-preview .wrap{padding:16px;background:var(--bg);border-radius:0 0 22px 22px;box-shadow:0 0 0 10px #1a1a1a, 0 0 0 12px #333, 0 20px 50px rgba(0,0,0,.5);min-height:calc(100vh - 80px)}
+body.mobile-preview .tests{grid-template-columns:1fr}
+body.mobile-preview .split{grid-template-columns:1fr}
+body.mobile-preview .pane{max-height:none}
+body.mobile-preview .exam-hd{padding:8px 14px;top:0;position:static}
+</style>
+</head>
+<body>
+<div class="hd">
+  <h1><img src="cohasset-logo.svg" alt="Cohasset"><span class="sub">TOEFL Practice · Free</span></h1>
+  <span class="timer" id="timer"><i class="fas fa-clock"></i> <span id="timerVal">00:00</span></span>
+  <a href="COHASSET-platform-standalone.html" class="back"><i class="fas fa-arrow-left"></i> Back to Cohasset</a>
+</div>
+
+<div class="wrap" id="app">
+  <div class="loader" id="loader">
+    <i class="fas fa-spinner fa-spin"></i>
+    <p>Loading practice tests...</p>
+  </div>
+</div>
+
+<button class="mobile-toggle" id="btnMobileToggle" title="Toggle mobile preview" aria-label="Toggle mobile preview">
+  <i class="fas fa-mobile-screen-button"></i>
+</button>
+<script>
+(function(){
+  const btn = document.getElementById('btnMobileToggle');
+  const KEY = 'toefl_mobile_preview';
+  function apply(on){
+    document.body.classList.toggle('mobile-preview', on);
+    btn.classList.toggle('active', on);
+    btn.innerHTML = on ? '<i class="fas fa-display"></i>' : '<i class="fas fa-mobile-screen-button"></i>';
+    btn.title = on ? 'Switch to desktop view' : 'Switch to mobile preview';
+  }
+  apply(localStorage.getItem(KEY) === '1');
+  btn.addEventListener('click', () => {
+    const on = !document.body.classList.contains('mobile-preview');
+    localStorage.setItem(KEY, on ? '1' : '0');
+    apply(on);
+  });
+})();
+</script>
+
+<script>
+// ============ PATHS ============
+const TOEFL_ASSETS = 'toefl-assets/';
+const DATA_PATH = TOEFL_ASSETS + 'data/';
+const MP3_PATH = TOEFL_ASSETS + 'mp3/';
+const IMG_PATH = TOEFL_ASSETS + 'images/';
+
+// ============ STATE ============
+let META = null;
+let CUR_TEST = null;
+let CUR_SECTION = null;
+let SECTION_DATA = null;
+let CUR_Q = 0;
+let ANSWERS = {};
+let TIMER_INT = null;
+let TIMER_SEC = 0;
+
+// ============ HELPERS ============
+function esc(s){return s||'';}
+function fmtTime(s){const m=Math.floor(s/60),x=s%60;return String(m).padStart(2,'0')+':'+String(x).padStart(2,'0');}
+
+function startTimer(seconds){
+  stopTimer();
+  TIMER_SEC = seconds;
+  const el = document.getElementById('timer');
+  const val = document.getElementById('timerVal');
+  el.classList.add('on');
+  el.classList.remove('warn','expired');
+  val.textContent = fmtTime(TIMER_SEC);
+  TIMER_INT = setInterval(()=>{
+    TIMER_SEC--;
+    val.textContent = fmtTime(Math.max(0,TIMER_SEC));
+    if(TIMER_SEC <= 300) el.classList.add('warn');
+    if(TIMER_SEC <= 0){
+      stopTimer();
+      el.classList.add('expired');
+      val.textContent = 'TIME UP';
+      alert('Time is up! You can continue reviewing but in the real test, time would be enforced.');
+    }
+  },1000);
+}
+function stopTimer(){
+  if(TIMER_INT){clearInterval(TIMER_INT); TIMER_INT=null;}
+  document.getElementById('timer').classList.remove('on');
+}
+
+// ============ INIT ============
+async function init(){
+  try{
+    const resp = await fetch(DATA_PATH + 'TestMetaData.json');
+    if(!resp.ok) throw new Error('Cannot load TestMetaData.json (status '+resp.status+')');
+    META = await resp.json();
+    renderLobby();
+  } catch(e){
+    document.getElementById('app').innerHTML = `
+      <div class="qbox" style="text-align:center">
+        <h2 style="color:var(--er)"><i class="fas fa-exclamation-triangle"></i> Could not load TOEFL data</h2>
+        <p style="margin-top:10px;color:var(--m)">${e.message}</p>
+        <p style="margin-top:16px;font-size:.85rem;color:var(--m)">Make sure the <code>toefl-assets/</code> folder is next to this HTML file, and that you are opening it from the same folder (or via a local server).</p>
+        <p style="margin-top:8px;font-size:.85rem;color:var(--m)">For Chrome/Edge, you may need to serve via a simple HTTP server (e.g. <code>python -m http.server</code>) because browsers block fetch() from file:// URLs.</p>
+      </div>`;
+  }
+}
+
+// ============ LOBBY ============
+function renderLobby(){
+  stopTimer();
+  const app = document.getElementById('app');
+  document.getElementById('loader') && document.getElementById('loader').remove();
+  let h = `<div class="lobby">
+    <h2>Select a Practice Test</h2>
+    <p>Four full-length TOEFL practice tests. Click a test to see its sections.</p>
+    <div class="tests">`;
+  META.forEach(test => {
+    h += `<div class="tcard" style="cursor:pointer" onclick="renderTestMenu('${test.testId}')">
+      <h3><i class="fas fa-scroll"></i> ${test.text}</h3>
+      <p>4 sections · Full-length test</p>
+    </div>`;
+  });
+  h += `</div></div>`;
+  app.innerHTML = h;
+}
+
+function renderTestMenu(testId){
+  stopTimer();
+  const app = document.getElementById('app');
+  const test = META.find(t => t.testId === testId);
+  if(!test){ renderLobby(); return; }
+  const icons = {Reading:'fa-book-open',Listening:'fa-headphones',Speaking:'fa-microphone',Writing:'fa-pen'};
+  let h = `<div class="lobby">
+    <button class="btn ghost" onclick="renderLobby()" style="margin-bottom:14px"><i class="fas fa-arrow-left"></i> All Tests</button>
+    <h2><i class="fas fa-scroll"></i> ${test.text}</h2>
+    <p>Choose a section to begin.</p>
+    <div class="tests">`;
+  test.children.forEach(s => {
+    h += `<div class="tcard" style="cursor:pointer" onclick="startSection('${test.testId}','${s.sectionId}','${s.type}',${s.maxDuration||0})">
+      <h3 style="color:var(--p)"><i class="fas ${icons[s.type]||'fa-circle'}"></i> ${s.text}</h3>
+      <p>${s.type} section${s.maxDuration?` · ${s.maxDuration} min`:''}</p>
+    </div>`;
+  });
+  h += `</div></div>`;
+  app.innerHTML = h;
+}
+
+// ============ SECTION LOADER ============
+async function startSection(testId, sectionId, type, maxDuration){
+  const app = document.getElementById('app');
+  app.innerHTML = `<div class="loader"><i class="fas fa-spinner fa-spin"></i><p>Loading ${type}...</p></div>`;
+  try {
+    const resp = await fetch(DATA_PATH + sectionId + '.json');
+    if(!resp.ok) throw new Error('Not found');
+    SECTION_DATA = await resp.json();
+    CUR_TEST = META.find(t => t.testId === testId);
+    CUR_SECTION = CUR_TEST.children.find(s => s.sectionId === sectionId);
+    CUR_Q = 0;
+    ANSWERS = {};
+    if(maxDuration > 0) startTimer(maxDuration * 60);
+    renderQuestion();
+  } catch(e) {
+    app.innerHTML = `<div class="qbox"><p style="color:var(--er)">Failed to load section: ${e.message}</p>
+      <button class="btn primary" onclick="renderLobby()">Back</button></div>`;
+  }
+}
+
+// ============ QUESTION RENDERER ============
+function renderQuestion(){
+  const q = SECTION_DATA[CUR_Q];
+  const app = document.getElementById('app');
+  let h = `<div class="exam-hd">
+    <span class="st"><i class="fas fa-list-ol"></i> ${CUR_TEST.text} · ${CUR_SECTION.text} · Q ${CUR_Q+1} of ${SECTION_DATA.length}</span>
+    <div class="nav">
+      <button class="nbtn" onclick="exitSection()"><i class="fas fa-times"></i> Exit</button>
+      <button class="nbtn" onclick="prevQ()" ${CUR_Q===0?'disabled':''}><i class="fas fa-arrow-left"></i> Back</button>
+      <button class="nbtn primary" onclick="nextQ()">${CUR_Q===SECTION_DATA.length-1?'Finish':'Next'} <i class="fas fa-arrow-right"></i></button>
+    </div>
+  </div><div style="padding:16px 0">`;
+
+  // Render question navigation (dots)
+  h += `<div class="sidebar-nav"><div style="font-size:.8rem;color:var(--m);font-weight:600">Question Map</div><div class="q-dots">`;
+  SECTION_DATA.forEach((qq,i) => {
+    const cls = i===CUR_Q ? 'cur' : (ANSWERS[i]!=null ? 'ans' : '');
+    h += `<div class="q-dot ${cls}" onclick="jumpTo(${i})">${i+1}</div>`;
+  });
+  h += `</div></div>`;
+
+  // Route to type-specific renderer
+  h += renderByType(q);
+  h += `</div>`;
+  app.innerHTML = h;
+  bindHandlers(q);
+}
+
+function renderByType(q){
+  switch(q.type){
+    case 'Instructions':
+    case 'FullPassage':
+    case 'ListeningPreview':
+      return renderInstructions(q);
+    case 'MultipleChoice':
+    case 'AorBorC':
+      return renderMultipleChoice(q);
+    case 'AllThatApply':
+      return renderAllThatApply(q);
+    case 'InsertText':
+      return renderInsertText(q);
+    case 'ProseSummary':
+      return renderProseSummary(q);
+    case 'Listen':
+      return renderListen(q);
+    case 'SpeakingPrep':
+    case 'SpeakingPrepWithReadingTimer':
+      return renderSpeakingPrep(q);
+    case 'SpeakingQuestion':
+      return renderSpeakingQuestion(q);
+    case 'Essay':
+    case 'TaskInstructionsWithReadingTimer':
+      return renderEssay(q);
+    default:
+      return `<div class="qbox"><h3>${q.screenHeader||q.type}</h3><div class="qtext">${q.text||q.question||''}</div><pre style="font-size:.75rem;color:var(--m)">${JSON.stringify(q,null,2).substring(0,500)}...</pre></div>`;
+  }
+}
+
+function renderInstructions(q){
+  let h = `<div class="qbox"><div class="qheader">${q.screenHeader||''}</div>`;
+  if(q.text) h += `<div class="qtext">${q.text}</div>`;
+  if(q.audio) h += `<div class="audio-box"><i class="fas fa-volume-up"></i><div class="audio-label">${q.audioButtonLabel||'Listen'}</div><audio controls src="${MP3_PATH}${q.audio}"></audio></div>`;
+  if(q.audioTranscript) h += `<details style="margin-top:10px"><summary style="cursor:pointer;color:var(--p);font-size:.85rem">View transcript</summary><div style="margin-top:8px;font-size:.88rem;color:var(--m);padding:12px;background:var(--bg);border-radius:8px">${q.audioTranscript}</div></details>`;
+  if(q.image) h += `<img src="${IMG_PATH}${q.image}" style="max-width:100%;margin-top:10px;border-radius:8px">`;
+  h += `</div>`;
+  return h;
+}
+
+function renderMultipleChoice(q){
+  const ans = ANSWERS[CUR_Q];
+  const showReview = ans && ans.submitted;
+  let h = `<div class="qbox"><div class="qheader">${q.screenHeader||''}</div>`;
+  if(q.audio) h += `<div class="audio-box"><i class="fas fa-volume-up"></i><div class="audio-label">${q.audioButtonLabel||'Audio'}</div><audio controls src="${MP3_PATH}${q.audio}"></audio></div>`;
+  if(q.passage){
+    h += `<div class="split"><div class="pane passage-scroll"><h3><i class="fas fa-book-open"></i> ${q.passageButton||'Passage'}</h3><div class="qtext">${q.passage}</div></div><div>`;
+  }
+  h += `<div class="qtext">${q.question||q.text||''}</div>`;
+  if(q.image) h += `<img src="${IMG_PATH}${q.image}" style="max-width:100%;margin:10px 0;border-radius:8px">`;
+  h += `<div class="choices">`;
+  (q.answerChoices||[]).forEach((c,i)=>{
+    const letter = String.fromCharCode(65+i);
+    let cls='';
+    if(showReview){
+      if(i===q.correctAnswerChoice) cls='correct';
+      else if(i===ans.value) cls='wrong';
+    } else if(ans && ans.value===i) cls='sel';
+    h += `<div class="ch ${cls}" onclick="selectMC(${i})"><span class="ch-letter">${letter}</span><span>${c}</span></div>`;
+  });
+  h += `</div>`;
+  if(!showReview && ans && ans.value!=null){
+    h += `<div style="margin-top:16px"><button class="btn primary" onclick="submitMC()"><i class="fas fa-check"></i> Check Answer</button></div>`;
+  }
+  if(showReview && q.rationale){
+    h += `<div class="review"><h4><i class="fas fa-lightbulb"></i> Explanation</h4><div>${q.rationale}</div></div>`;
+  }
+  if(q.passage) h += `</div></div>`;
+  h += `</div>`;
+  return h;
+}
+
+function renderAllThatApply(q){
+  const ans = ANSWERS[CUR_Q] || {value:[], submitted:false};
+  const showReview = ans.submitted;
+  let h = `<div class="qbox"><div class="qheader">${q.screenHeader||''}</div>`;
+  if(q.audio) h += `<div class="audio-box"><i class="fas fa-volume-up"></i><div class="audio-label">Audio</div><audio controls src="${MP3_PATH}${q.audio}"></audio></div>`;
+  h += `<div class="qtext">${q.question||q.text||''}</div>`;
+  h += `<p style="font-size:.82rem;color:var(--m);margin-bottom:8px"><i class="fas fa-info-circle"></i> Select all that apply.</p>`;
+  h += `<div class="choices">`;
+  const correct = q.correctAnswerChoices || [];
+  (q.answerChoices||[]).forEach((c,i)=>{
+    const letter = String.fromCharCode(65+i);
+    const isSelected = ans.value.includes(i);
+    let cls='';
+    if(showReview){
+      if(correct.includes(i)) cls='correct';
+      else if(isSelected) cls='wrong';
+    } else if(isSelected) cls='sel';
+    h += `<div class="ch ${cls}" onclick="toggleATA(${i})"><span class="ch-letter">${letter}</span><span>${c}</span></div>`;
+  });
+  h += `</div>`;
+  if(!showReview && ans.value.length>0){
+    h += `<div style="margin-top:16px"><button class="btn primary" onclick="submitATA()"><i class="fas fa-check"></i> Check Answer</button></div>`;
+  }
+  if(showReview && q.rationale){
+    h += `<div class="review"><h4><i class="fas fa-lightbulb"></i> Explanation</h4><div>${q.rationale}</div></div>`;
+  }
+  h += `</div>`;
+  return h;
+}
+
+function renderInsertText(q){
+  const ans = ANSWERS[CUR_Q];
+  const showReview = ans && ans.submitted;
+  let h = `<div class="qbox"><div class="qheader">${q.screenHeader||''}</div>`;
+  h += `<div class="qtext">${q.question||q.text||''}</div>`;
+  if(q.passage){
+    // Replace the insert markers with clickable buttons
+    let passage = q.passage;
+    // The passage typically has [?] markers; replace each with a button
+    let markerIdx = 0;
+    passage = passage.replace(/(\[?\s*\?\s*\]?|■|◘|▲|●|★|◆)/g, (m)=>{
+      if(markerIdx++ < 4){
+        const pos = markerIdx - 1;
+        const sel = ans && ans.value === pos ? 'selected' : '';
+        return `<button class="insert-btn ${sel}" onclick="selectInsert(${pos})">${pos+1}</button>`;
+      }
+      return m;
+    });
+    h += `<div class="pane passage-scroll" style="margin-top:14px">${passage}</div>`;
+  }
+  if(q.sentence){
+    h += `<div style="margin-top:14px;padding:14px;background:#FEF9C3;border-left:4px solid var(--wa);border-radius:8px"><strong>Sentence to insert:</strong> ${q.sentence}</div>`;
+  }
+  if(!showReview && ans && ans.value!=null){
+    h += `<div style="margin-top:16px"><button class="btn primary" onclick="submitMC()"><i class="fas fa-check"></i> Check Answer</button></div>`;
+  }
+  if(showReview){
+    const correct = q.correctAnswerChoice != null ? q.correctAnswerChoice : q.correctInsertionPosition;
+    h += `<div class="review"><h4><i class="fas fa-lightbulb"></i> Result</h4><div>Correct position: <strong>${(correct||0)+1}</strong>. ${q.rationale||''}</div></div>`;
+  }
+  h += `</div>`;
+  return h;
+}
+
+function renderProseSummary(q){
+  const ans = ANSWERS[CUR_Q] || {value:[], submitted:false};
+  const showReview = ans.submitted;
+  let h = `<div class="qbox"><div class="qheader">${q.screenHeader||''}</div>`;
+  h += `<div class="qtext">${q.question||q.text||''}</div>`;
+  if(q.introductorySentence){
+    h += `<div style="margin:14px 0;padding:14px;background:var(--pvl);border-left:4px solid var(--p);border-radius:8px;font-weight:600">${q.introductorySentence}</div>`;
+  }
+  // Display 3 target slots
+  h += `<div class="prose-drag"><div style="font-size:.85rem;color:var(--m);margin-bottom:6px">Select 3 answer choices that best summarize the most important ideas in the passage:</div>`;
+  for(let i=0; i<3; i++){
+    const chosen = ans.value[i];
+    const choice = chosen != null ? (q.answerChoices||[])[chosen] : null;
+    h += `<div class="prose-target ${choice?'has':''}">${choice || `• Slot ${i+1}: click a choice below`}</div>`;
+  }
+  h += `<div class="prose-options">`;
+  (q.answerChoices||[]).forEach((c,i)=>{
+    const used = ans.value.includes(i);
+    let cls = used ? 'used':'';
+    if(showReview){
+      if((q.correctAnswerChoices||[]).includes(i)) cls += ' correct';
+      else if(used) cls += ' wrong';
+    }
+    h += `<div class="ch ${cls}" onclick="selectProse(${i})"><span class="ch-letter">${String.fromCharCode(65+i)}</span><span>${c}</span></div>`;
+  });
+  h += `</div></div>`;
+  if(!showReview && ans.value.filter(x=>x!=null).length===3){
+    h += `<div style="margin-top:14px"><button class="btn primary" onclick="submitProse()"><i class="fas fa-check"></i> Check Answer</button>
+    <button class="btn ghost" onclick="ANSWERS[CUR_Q]={value:[],submitted:false};renderQuestion()"><i class="fas fa-undo"></i> Reset</button></div>`;
+  }
+  if(showReview && q.rationale){
+    h += `<div class="review"><h4><i class="fas fa-lightbulb"></i> Explanation</h4><div>${q.rationale}</div></div>`;
+  }
+  h += `</div>`;
+  return h;
+}
+
+function renderListen(q){
+  let h = `<div class="qbox"><div class="qheader">${q.screenHeader||''}</div>`;
+  if(q.text) h += `<div class="qtext">${q.text}</div>`;
+  if(q.image) h += `<img src="${IMG_PATH}${q.image}" style="max-width:100%;margin:10px 0;border-radius:8px">`;
+  if(q.audio) h += `<div class="audio-box"><i class="fas fa-volume-up"></i><div class="audio-label">${q.audioButtonLabel||'Listen'}</div><audio controls src="${MP3_PATH}${q.audio}"></audio></div>`;
+  if(q.audioTranscript) h += `<details style="margin-top:10px"><summary style="cursor:pointer;color:var(--p);font-size:.85rem">View transcript</summary><div style="margin-top:8px;font-size:.88rem;color:var(--m);padding:12px;background:var(--bg);border-radius:8px;white-space:pre-wrap">${q.audioTranscript}</div></details>`;
+  h += `</div>`;
+  return h;
+}
+
+function renderSpeakingPrep(q){
+  let h = `<div class="qbox"><div class="qheader">${q.screenHeader||''}</div>`;
+  if(q.text) h += `<div class="qtext">${q.text}</div>`;
+  if(q.orientationInformation) h += `<div style="padding:12px;background:var(--bg);border-radius:8px;font-size:.88rem;color:var(--m);margin-bottom:12px">${q.orientationInformation}</div>`;
+  if(q.readingText) h += `<div class="pane" style="margin-bottom:12px"><h3>Reading Passage</h3><div class="qtext">${q.readingText}</div></div>`;
+  if(q.audio) h += `<div class="audio-box"><i class="fas fa-volume-up"></i><div class="audio-label">${q.audioButtonLabel||'Listen'}</div><audio controls src="${MP3_PATH}${q.audio}"></audio></div>`;
+  if(q.audioTranscript) h += `<details style="margin-top:10px"><summary style="cursor:pointer;color:var(--p);font-size:.85rem">View transcript</summary><div style="margin-top:8px;font-size:.88rem;color:var(--m);padding:12px;background:var(--bg);border-radius:8px;white-space:pre-wrap">${q.audioTranscript}</div></details>`;
+  h += `</div>`;
+  return h;
+}
+
+function renderSpeakingQuestion(q){
+  let h = `<div class="qbox"><div class="qheader">${q.screenHeader||''}</div>`;
+  h += `<div class="qtext" style="font-size:1.05rem;padding:14px;background:var(--pvl);border-left:4px solid var(--p);border-radius:8px;margin-bottom:14px"><strong>Question:</strong> ${q.question}</div>`;
+  if(q.timers && q.timers.length){
+    h += `<div class="spk-timer-row">`;
+    q.timers.forEach((t,i)=>{
+      const label = i===0 ? 'Preparation' : 'Response';
+      h += `<div class="spk-timer" id="spkTimer${i}"><div class="lbl">${label}</div><div class="val">${t.duration}s</div></div>`;
+    });
+    h += `</div>`;
+    h += `<div style="text-align:center;margin-bottom:14px"><button class="btn primary" onclick="runSpeakingTimers(${JSON.stringify(q.timers).replace(/"/g,'&quot;')})"><i class="fas fa-play"></i> Start Preparation & Response Timers</button></div>`;
+  }
+  if(q.audio) h += `<div class="audio-box"><i class="fas fa-volume-up"></i><div class="audio-label">Question audio (with beeps)</div><audio controls src="${MP3_PATH}${q.audio}"></audio></div>`;
+  if(q.rationaleAudio && q.rationaleAudio.length){
+    h += `<details style="margin-top:14px"><summary style="cursor:pointer;color:var(--p);font-weight:600;font-size:.95rem">${q.rationalAudioHeader||'Sample Responses & Rater Comments'}</summary>`;
+    q.rationaleAudio.forEach(r => {
+      h += `<div class="sample-box"><h4>${r.audioHeader}</h4>`;
+      if(r.audio) h += `<audio controls src="${MP3_PATH}${r.audio}"></audio>`;
+      if(r.audioTranscript) h += `<div style="font-size:.88rem;margin-top:8px;white-space:pre-wrap">${r.audioTranscript}</div>`;
+      if(r.raterText) h += `<div style="margin-top:10px;padding-top:10px;border-top:1px solid var(--b);font-size:.85rem"><strong>${r.raterHeader||'Rater'}:</strong> ${r.raterText}</div>`;
+      h += `</div>`;
+    });
+    h += `</details>`;
+  }
+  h += `</div>`;
+  return h;
+}
+
+function renderEssay(q){
+  const ans = ANSWERS[CUR_Q] || {value:'',submitted:false};
+  let h = `<div class="qbox"><div class="qheader">${q.screenHeader||''}</div>`;
+  if(q.text) h += `<div class="qtext">${q.text}</div>`;
+  if(q.passage) h += `<div class="pane" style="margin-bottom:12px"><h3><i class="fas fa-book-open"></i> Reading Passage</h3><div class="qtext">${q.passage}</div></div>`;
+  if(q.audio) h += `<div class="audio-box"><i class="fas fa-volume-up"></i><div class="audio-label">${q.audioButtonLabel||'Lecture audio'}</div><audio controls src="${MP3_PATH}${q.audio}"></audio></div>`;
+  if(q.audioTranscript) h += `<details style="margin-top:10px"><summary style="cursor:pointer;color:var(--p);font-size:.85rem">View lecture transcript</summary><div style="margin-top:8px;font-size:.88rem;color:var(--m);padding:12px;background:var(--bg);border-radius:8px;white-space:pre-wrap">${q.audioTranscript}</div></details>`;
+  if(q.question) h += `<div class="qtext" style="margin-top:14px;padding:14px;background:var(--pvl);border-left:4px solid var(--p);border-radius:8px"><strong>Task:</strong> ${q.question}</div>`;
+  if(q.timerDuration) h += `<p style="color:var(--m);font-size:.85rem;margin-top:8px"><i class="fas fa-clock"></i> Suggested time: ${Math.floor(q.timerDuration/60)} minutes</p>`;
+  h += `<div style="margin-top:14px"><textarea class="writing-area" id="essay_${CUR_Q}" oninput="updateEssay()" placeholder="Type your response here...">${ans.value}</textarea>
+  <div class="wc" id="wc_${CUR_Q}">${wordCount(ans.value)} words</div></div>`;
+  if(q.rationale){
+    h += `<details style="margin-top:14px"><summary style="cursor:pointer;color:var(--p);font-weight:600">View Topic Notes & Sample Response</summary><div class="review" style="margin-top:8px">${q.rationale}</div></details>`;
+  }
+  h += `</div>`;
+  return h;
+}
+
+function wordCount(s){return (s||'').trim().split(/\s+/).filter(x=>x).length;}
+
+// ============ HANDLERS ============
+function bindHandlers(q){/* no-op - we use inline onclick */}
+
+function selectMC(i){ANSWERS[CUR_Q] = {value:i, submitted:false}; renderQuestion();}
+function submitMC(){if(ANSWERS[CUR_Q]){ANSWERS[CUR_Q].submitted = true; renderQuestion();}}
+function toggleATA(i){
+  const ans = ANSWERS[CUR_Q] || {value:[], submitted:false};
+  if(ans.value.includes(i)) ans.value = ans.value.filter(x=>x!==i);
+  else ans.value.push(i);
+  ANSWERS[CUR_Q] = ans; renderQuestion();
+}
+function submitATA(){if(ANSWERS[CUR_Q]){ANSWERS[CUR_Q].submitted = true; renderQuestion();}}
+function selectInsert(i){ANSWERS[CUR_Q] = {value:i, submitted:false}; renderQuestion();}
+function selectProse(i){
+  const ans = ANSWERS[CUR_Q] || {value:[], submitted:false};
+  if(ans.submitted) return;
+  // Find first empty slot
+  const filled = ans.value.filter(x=>x!=null).length;
+  if(ans.value.includes(i)){
+    // Deselect: remove from list
+    ans.value = ans.value.filter(x=>x!==i);
+  } else if(filled<3){
+    ans.value.push(i);
+  }
+  ANSWERS[CUR_Q] = ans; renderQuestion();
+}
+function submitProse(){if(ANSWERS[CUR_Q]){ANSWERS[CUR_Q].submitted = true; renderQuestion();}}
+
+function updateEssay(){
+  const el = document.getElementById('essay_'+CUR_Q);
+  if(!el) return;
+  ANSWERS[CUR_Q] = {value:el.value, submitted:false};
+  document.getElementById('wc_'+CUR_Q).textContent = wordCount(el.value) + ' words';
+}
+
+let spkInterval = null;
+function runSpeakingTimers(timers){
+  if(spkInterval){clearInterval(spkInterval);}
+  let phase = 0; // 0 = preparation, 1 = response
+  let remaining = timers[0].duration;
+  document.getElementById('spkTimer0').classList.add('active');
+  spkInterval = setInterval(()=>{
+    remaining--;
+    if(remaining<=0){
+      document.getElementById('spkTimer'+phase).classList.remove('active');
+      phase++;
+      if(phase >= timers.length){
+        clearInterval(spkInterval);
+        alert('Speaking time completed!');
+        return;
+      }
+      remaining = timers[phase].duration;
+      document.getElementById('spkTimer'+phase).classList.add('active');
+    }
+    const t = document.getElementById('spkTimer'+phase);
+    if(t) t.querySelector('.val').textContent = remaining + 's';
+  }, 1000);
+}
+
+function prevQ(){if(CUR_Q>0){CUR_Q--; renderQuestion();}}
+function nextQ(){
+  if(CUR_Q < SECTION_DATA.length-1){CUR_Q++; renderQuestion();}
+  else finishSection();
+}
+function jumpTo(i){CUR_Q = i; renderQuestion();}
+
+function finishSection(){
+  stopTimer();
+  // Calculate score for MC/ATA/Prose
+  let correct=0, total=0;
+  SECTION_DATA.forEach((q,i)=>{
+    if(q.type==='MultipleChoice' || q.type==='AorBorC' || q.type==='InsertText'){
+      total++;
+      const ans = ANSWERS[i];
+      const correctAns = q.correctAnswerChoice != null ? q.correctAnswerChoice : q.correctInsertionPosition;
+      if(ans && ans.value === correctAns) correct++;
+    } else if(q.type==='AllThatApply'){
+      total++;
+      const ans = ANSWERS[i];
+      const corr = q.correctAnswerChoices || [];
+      if(ans && ans.value && ans.value.length===corr.length && ans.value.every(v=>corr.includes(v))) correct++;
+    } else if(q.type==='ProseSummary'){
+      total++;
+      const ans = ANSWERS[i];
+      const corr = q.correctAnswerChoices || [];
+      if(ans && ans.value && ans.value.length===3 && ans.value.every(v=>corr.includes(v))) correct++;
+    }
+  });
+  const pct = total>0 ? Math.round(100*correct/total) : null;
+  const app = document.getElementById('app');
+  let h = `<div class="result">
+    <h2><i class="fas fa-trophy"></i> ${CUR_TEST.text} · ${CUR_SECTION.text} Complete</h2>`;
+  if(pct !== null){
+    h += `<div class="score">${correct}/${total}</div>
+    <div class="detail">${pct}% correct · Raw score (not scaled TOEFL points)</div>`;
+  } else {
+    h += `<div class="detail" style="margin-top:14px">This section requires human rating. Review sample responses and rater comments to self-assess.</div>`;
+  }
+  h += `</div>
+  <div style="text-align:center">
+    <button class="btn primary" onclick="CUR_Q=0;renderQuestion()"><i class="fas fa-redo"></i> Review</button>
+    <button class="btn ghost" onclick="renderLobby()"><i class="fas fa-home"></i> Back to Lobby</button>
+  </div>`;
+  app.innerHTML = h;
+}
+
+function exitSection(){
+  if(confirm('Exit this section? Your progress will be lost.')){
+    stopTimer();
+    if(CUR_TEST) renderTestMenu(CUR_TEST.testId); else renderLobby();
+  }
+}
+
+// ============ GO ============
+init();
+</script>
+</body>
+</html>

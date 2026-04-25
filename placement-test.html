@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cohasset Placement Test — Find Your English Level</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --p:#2563EB;--pd:#1E40AF;--pvl:#EFF6FF;--a:#DC2626;--d:#1E293B;--m:#475569;--l:#94A3B8;
+  --w:#FFF;--bg:#F8FAFC;--ok:#10B981;--er:#EF4444;--wa:#F59E0B;--b:#E2E8F0;
+  --sh:0 4px 20px rgba(0,0,0,.08);
+  --slate:#0F172A;
+}
+html,body{height:100%}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--d);line-height:1.6}
+
+.hd{background:var(--slate);color:#fff;padding:12px 24px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;box-shadow:var(--sh);gap:12px}
+.hd .brand{display:flex;align-items:center;gap:12px}
+.hd .brand img{height:48px;width:auto;background:#fff;border-radius:8px;padding:3px 8px}
+.hd .brand-text{font-size:.78rem;font-weight:500;color:#93C5FD;text-transform:uppercase;letter-spacing:1.2px;padding-left:12px;border-left:2px solid rgba(255,255,255,.15)}
+.hd .right{display:flex;align-items:center;gap:10px}
+.hd .back{background:rgba(255,255,255,.18);color:#fff;text-decoration:none;padding:7px 14px;border-radius:8px;font-size:.85rem;font-weight:600;display:inline-flex;align-items:center;gap:6px;transition:all .2s}
+.hd .back:hover{background:rgba(255,255,255,.28)}
+.timer{background:rgba(0,0,0,.25);padding:6px 14px;border-radius:8px;font-size:.9rem;font-weight:700;font-family:'Consolas',monospace;display:none;align-items:center;gap:6px}
+.timer.on{display:inline-flex}
+
+.wrap{max-width:1200px;margin:0 auto;padding:24px 20px 60px}
+
+/* --- Welcome + Register --- */
+.welcome{background:#fff;border-radius:16px;padding:36px 32px;box-shadow:var(--sh);max-width:720px;margin:0 auto}
+.welcome h1{font-size:1.8rem;color:var(--pd);margin-bottom:10px;text-align:center}
+.welcome p.intro{color:var(--m);margin-bottom:22px;font-size:.98rem;text-align:center;max-width:560px;margin-left:auto;margin-right:auto}
+.welcome .facts{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px auto 26px;max-width:560px}
+.welcome .fact{background:var(--pvl);padding:14px 8px;border-radius:12px;border-top:3px solid var(--p);text-align:center}
+.welcome .fact .n{font-size:1.4rem;font-weight:800;color:var(--pd);line-height:1}
+.welcome .fact .l{font-size:.72rem;color:var(--m);text-transform:uppercase;letter-spacing:1px;margin-top:6px}
+
+.form-block{max-width:460px;margin:0 auto}
+.form-block h3{font-size:1rem;color:var(--d);margin-bottom:14px;text-align:center}
+.field{margin-bottom:14px}
+.field label{display:block;font-size:.78rem;font-weight:600;color:var(--m);margin-bottom:6px;text-transform:uppercase;letter-spacing:.8px}
+.field label .req{color:var(--a);margin-left:3px}
+.field input{width:100%;padding:12px 14px;border:1px solid var(--b);border-radius:10px;font-size:.95rem;font-family:inherit;background:#fff;transition:all .15s}
+.field input:focus{outline:none;border-color:var(--p);box-shadow:0 0 0 3px rgba(37,99,235,.15)}
+.field .help{font-size:.75rem;color:var(--m);margin-top:4px}
+.field .error{font-size:.8rem;color:var(--er);margin-top:4px;display:none}
+.field.invalid input{border-color:var(--er)}
+.field.invalid .error{display:block}
+.consent{display:flex;gap:8px;align-items:flex-start;font-size:.82rem;color:var(--m);margin:12px 0 18px;padding:12px 14px;background:var(--bg);border-radius:10px;border:1px solid var(--b)}
+.consent input{margin-top:3px;flex-shrink:0}
+
+.btn{padding:12px 28px;border:none;border-radius:10px;font-weight:700;cursor:pointer;font-size:.95rem;font-family:'DM Sans',sans-serif;display:inline-flex;align-items:center;gap:8px;transition:all .18s}
+.btn.primary{background:var(--p);color:#fff;box-shadow:0 4px 12px rgba(37,99,235,.3)}
+.btn.primary:hover:not(:disabled){background:var(--pd);transform:translateY(-1px)}
+.btn.primary:disabled{background:var(--l);cursor:not-allowed;box-shadow:none}
+.btn.ghost{background:#fff;color:var(--d);border:1px solid var(--b)}
+.btn.ghost:hover{border-color:var(--p);color:var(--p)}
+.btn.finish-now{background:#FEF3C7;color:#78350F;border:1px solid #FCD34D;width:100%;justify-content:center}
+.btn.finish-now:hover{background:#FDE68A;border-color:#F59E0B}
+.btn.wide{width:100%;justify-content:center}
+
+/* --- Exam grid: left main + right sticky sidebar --- */
+.exam-grid{display:grid;grid-template-columns:1fr 280px;gap:20px;align-items:start}
+@media(max-width:900px){.exam-grid{grid-template-columns:1fr}}
+
+.qcard{background:#fff;border-radius:16px;padding:28px 32px;box-shadow:var(--sh);margin-bottom:16px}
+.qtop{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-size:.82rem;color:var(--m);font-weight:600;text-transform:uppercase;letter-spacing:1px}
+.qnum{color:var(--a)}
+.qprog{width:100%;height:6px;background:var(--b);border-radius:3px;overflow:hidden;margin-bottom:20px}
+.qprog .bar{height:100%;background:linear-gradient(90deg,var(--p),var(--pd));transition:width .3s;border-radius:3px}
+.qtext{font-size:1.05rem;color:var(--d);margin-bottom:18px;line-height:1.5}
+.opts{display:flex;flex-direction:column;gap:10px}
+.opt{background:var(--bg);border:2px solid var(--b);border-radius:10px;padding:13px 16px;cursor:pointer;transition:all .15s;font-size:.95rem;display:flex;gap:12px;align-items:flex-start}
+.opt:hover{border-color:var(--p);background:var(--pvl)}
+.opt.sel{border-color:var(--p);background:var(--pvl);color:var(--pd);font-weight:600}
+.opt .letter{min-width:28px;height:28px;border-radius:50%;background:var(--w);border:2px solid var(--b);display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:.82rem;color:var(--m);flex-shrink:0;margin-top:-2px}
+.opt.sel .letter{background:var(--p);color:#fff;border-color:var(--p)}
+
+.qnav-inline{display:flex;justify-content:space-between;gap:12px;margin-top:22px}
+
+/* --- Sticky sidebar --- */
+.sidebar{position:sticky;top:92px;background:#fff;border-radius:16px;padding:20px;box-shadow:var(--sh);align-self:start;display:flex;flex-direction:column;gap:14px}
+.sb-sec{padding-bottom:12px;border-bottom:1px dashed var(--b)}
+.sb-sec:last-child{border-bottom:none;padding-bottom:0}
+.sb-title{font-size:.72rem;font-weight:700;color:var(--m);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:8px}
+.sb-prog-n{font-size:1.6rem;font-weight:800;color:var(--pd);line-height:1}
+.sb-prog-n small{font-size:.9rem;color:var(--m);font-weight:600}
+.sb-prog-bar{width:100%;height:6px;background:var(--b);border-radius:3px;overflow:hidden;margin-top:6px}
+.sb-prog-bar .fill{height:100%;background:linear-gradient(90deg,var(--p),var(--pd));transition:width .3s}
+.sb-dots{display:grid;grid-template-columns:repeat(10,1fr);gap:4px;max-height:240px;overflow-y:auto}
+.dot{height:22px;border-radius:4px;border:1px solid var(--b);background:var(--w);cursor:pointer;font-size:.65rem;font-weight:700;color:var(--m);display:flex;align-items:center;justify-content:center;transition:all .12s;padding:0}
+.dot:hover{border-color:var(--p)}
+.dot.ans{background:var(--pvl);color:var(--pd);border-color:var(--p)}
+.dot.cur{background:var(--p);color:#fff;border-color:var(--p)}
+
+.sb-user{display:flex;flex-direction:column;gap:2px;font-size:.82rem;color:var(--d)}
+.sb-user .n{font-weight:700}
+.sb-user .e{color:var(--m);font-size:.75rem;word-break:break-all}
+
+/* --- Result --- */
+.result{background:linear-gradient(135deg,#1E40AF,#2563EB);color:#fff;border-radius:20px;padding:40px 30px;text-align:center;box-shadow:var(--sh);margin-bottom:20px}
+.result .lvl{font-size:4.5rem;font-weight:900;margin:16px 0 8px;letter-spacing:-2px}
+.result .lvl-label{font-size:1.2rem;font-weight:700;opacity:.95;margin-bottom:6px}
+.result .lvl-desc{font-size:.95rem;opacity:.9;max-width:500px;margin:0 auto}
+.result .score{display:inline-block;background:rgba(255,255,255,.2);padding:8px 20px;border-radius:999px;font-size:.95rem;margin-top:18px;font-weight:700}
+.result .who{font-size:.82rem;opacity:.85;margin-top:14px}
+.breakdown{background:#fff;border-radius:16px;padding:22px 26px;box-shadow:var(--sh);margin-bottom:16px;max-width:900px;margin-left:auto;margin-right:auto}
+.breakdown h3{font-size:1.05rem;margin-bottom:12px;color:var(--d)}
+.bd-row{display:grid;grid-template-columns:70px 1fr 60px;align-items:center;gap:12px;padding:8px 0;border-bottom:1px dashed var(--b);font-size:.88rem}
+.bd-row:last-child{border-bottom:none}
+.bd-row .lbl{font-weight:700;color:var(--pd)}
+.bd-row .meter{height:10px;background:var(--b);border-radius:5px;overflow:hidden}
+.bd-row .meter .fill{height:100%;border-radius:5px}
+.bd-row .pct{text-align:right;font-weight:600;color:var(--m)}
+.review-title{font-size:1.05rem;font-weight:700;margin:20px 0 10px;color:var(--d)}
+.review-item{border-left:4px solid var(--b);background:#fff;padding:12px 16px;border-radius:0 10px 10px 0;margin-bottom:8px;font-size:.88rem;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.review-item.correct{border-color:var(--ok)}
+.review-item.wrong{border-color:var(--er);background:#FEF2F2}
+.review-item .q{font-weight:600;margin-bottom:6px;color:var(--d)}
+.review-item .a{color:var(--m);font-size:.85rem}
+.review-item .a b{color:var(--d)}
+.hidden{display:none!important}
+
+/* Admin CSV panel */
+.admin-panel{background:#FEF3C7;border-left:4px solid #F59E0B;padding:16px 20px;border-radius:0 12px 12px 0;margin-bottom:16px}
+.admin-panel h3{font-size:1rem;margin-bottom:8px;color:#78350F}
+.admin-panel p{font-size:.85rem;color:#78350F;margin-bottom:10px}
+.admin-panel table{width:100%;font-size:.82rem;border-collapse:collapse;margin-top:10px;background:#fff;border-radius:8px;overflow:hidden}
+.admin-panel th, .admin-panel td{padding:8px 10px;border-bottom:1px solid #F59E0B;text-align:left}
+.admin-panel th{background:#F59E0B;color:#fff;font-weight:700;font-size:.78rem;text-transform:uppercase;letter-spacing:.5px}
+.admin-panel td{color:#78350F}
+
+@media(max-width:640px){
+  .wrap{padding:16px}
+  .welcome{padding:24px 20px}
+  .welcome h1{font-size:1.4rem}
+  .welcome .facts{grid-template-columns:repeat(3,1fr);gap:8px}
+  .qcard{padding:20px}
+  .result .lvl{font-size:3.2rem}
+  .sb-dots{grid-template-columns:repeat(7,1fr)}
+}
+
+/* Header mobile-preview toggle */
+.hdr-mobile-toggle{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:8px;width:36px;height:36px;cursor:pointer;font-size:.95rem;display:inline-flex;align-items:center;justify-content:center;transition:all .18s}
+.hdr-mobile-toggle:hover{background:rgba(255,255,255,.28)}
+.hdr-mobile-toggle.active{background:var(--a);border-color:var(--a)}
+body.mobile-preview{background:#1a1a1a;padding:20px 0}
+body.mobile-preview .hd, body.mobile-preview .wrap{max-width:390px;margin-left:auto!important;margin-right:auto!important;box-sizing:border-box}
+body.mobile-preview .hd{position:static;border-radius:22px 22px 0 0;padding:10px 14px;box-shadow:0 0 0 10px #1a1a1a, 0 0 0 12px #333}
+body.mobile-preview .wrap{background:var(--bg);border-radius:0 0 22px 22px;box-shadow:0 0 0 10px #1a1a1a, 0 0 0 12px #333, 0 20px 50px rgba(0,0,0,.5);min-height:calc(100vh - 80px)}
+body.mobile-preview .exam-grid{grid-template-columns:1fr}
+body.mobile-preview .sidebar{position:static;margin-top:14px}
+</style>
+</head>
+<body>
+<div class="hd">
+  <div class="brand">
+    <img src="cohasset-logo.svg" alt="Cohasset">
+    <div class="brand-text">Placement Test</div>
+  </div>
+  <div class="right">
+    <span class="timer" id="timer"><i class="fas fa-clock"></i><span id="timerVal">00:00</span></span>
+    <button class="hdr-mobile-toggle" id="btnMobileToggle" title="Toggle mobile preview"><i class="fas fa-mobile-screen-button"></i></button>
+    <a href="COHASSET-platform-standalone.html" class="back"><i class="fas fa-arrow-left"></i> Back</a>
+  </div>
+</div>
+
+<div class="wrap" id="app"></div>
+
+<script src="placement-test-data.js"></script>
+<script>
+const DB_KEY = 'cohasset_placement_db';
+const LAST_RESULT_KEY = 'cohasset_placement_result';
+const ADMIN_PARAM = new URLSearchParams(location.search).has('admin');
+
+let CUR = 0;
+let ANSWERS = {};
+let PHASE = 'register';
+let TIMER_INT = null, TIMER_SEC = 0;
+let CUR_USER = null;
+
+function fmtTime(s){ const m=Math.floor(s/60), x=s%60; return String(m).padStart(2,'0')+':'+String(x).padStart(2,'0'); }
+function startTimer(){
+  if(TIMER_INT) clearInterval(TIMER_INT);
+  TIMER_SEC = 0;
+  document.getElementById('timer').classList.add('on');
+  TIMER_INT = setInterval(() => {
+    TIMER_SEC++;
+    document.getElementById('timerVal').textContent = fmtTime(TIMER_SEC);
+  }, 1000);
+}
+function stopTimer(){ if(TIMER_INT){ clearInterval(TIMER_INT); TIMER_INT=null; } document.getElementById('timer').classList.remove('on'); }
+function esc(s){ return String(s||'').replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]); }
+
+// ---------- Database (localStorage) ----------
+function loadDB(){ try { return JSON.parse(localStorage.getItem(DB_KEY)||'[]'); } catch { return []; } }
+function saveRecord(rec){
+  const db = loadDB();
+  db.push(rec);
+  localStorage.setItem(DB_KEY, JSON.stringify(db));
+}
+
+// ---------- Registration screen ----------
+function renderRegister(){
+  PHASE = 'register';
+  stopTimer();
+  const app = document.getElementById('app');
+  app.innerHTML = `
+    <div class="welcome">
+      <h1>Cohasset Placement Test</h1>
+      <p class="intro">Find out your English level on the CEFR scale (A1 to C2). We'll email your results to the address you provide below.</p>
+      <div class="facts">
+        <div class="fact"><div class="n">70</div><div class="l">Questions</div></div>
+        <div class="fact"><div class="n">~25</div><div class="l">Minutes</div></div>
+        <div class="fact"><div class="n">6</div><div class="l">CEFR Levels</div></div>
+      </div>
+      <div class="form-block">
+        <h3>Register to start the test</h3>
+        <form id="regForm" onsubmit="return submitRegister(event)">
+          <div class="field" id="f-name">
+            <label for="regName">Full name<span class="req">*</span></label>
+            <input id="regName" type="text" placeholder="e.g. Maria García López" autocomplete="name" required>
+            <div class="error">Please enter your full name.</div>
+          </div>
+          <div class="field" id="f-email">
+            <label for="regEmail">Email<span class="req">*</span></label>
+            <input id="regEmail" type="email" placeholder="you@example.com" autocomplete="email" required>
+            <div class="help">We'll send your results here.</div>
+            <div class="error">Please enter a valid email address.</div>
+          </div>
+          <div class="field" id="f-phone">
+            <label for="regPhone">WhatsApp / phone <span style="font-weight:normal;text-transform:none;color:var(--l)">(optional)</span></label>
+            <input id="regPhone" type="tel" placeholder="+51 999 999 999" autocomplete="tel">
+          </div>
+          <label class="consent">
+            <input id="regConsent" type="checkbox" required>
+            <span>I agree to Cohasset storing my name and email to send me my placement results and follow-up course information.</span>
+          </label>
+          <button type="submit" class="btn primary wide"><i class="fas fa-play"></i> Start Placement Test</button>
+          <div style="text-align:center;margin-top:10px"><a href="COHASSET-platform-standalone.html" style="color:var(--m);font-size:.85rem;text-decoration:none">&larr; Back to platform</a></div>
+        </form>
+      </div>
+    </div>
+    ${ADMIN_PARAM ? renderAdminPanel() : ''}`;
+  if(ADMIN_PARAM) bindAdmin();
+}
+
+function submitRegister(e){
+  e.preventDefault();
+  const name  = document.getElementById('regName').value.trim();
+  const email = document.getElementById('regEmail').value.trim();
+  const phone = document.getElementById('regPhone').value.trim();
+  const consent = document.getElementById('regConsent').checked;
+  let ok = true;
+  document.getElementById('f-name').classList.toggle('invalid', name.length < 3 || !/\s/.test(name));
+  if(name.length < 3 || !/\s/.test(name)) ok = false;
+  const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  document.getElementById('f-email').classList.toggle('invalid', !emailRe.test(email));
+  if(!emailRe.test(email)) ok = false;
+  if(!consent){ alert('Please accept the consent notice to continue.'); ok = false; }
+  if(!ok) return false;
+  CUR_USER = { name, email, phone, startedAt: new Date().toISOString() };
+  start();
+  return false;
+}
+
+// ---------- Exam ----------
+function start(){
+  CUR = 0;
+  ANSWERS = {};
+  PHASE = 'exam';
+  startTimer();
+  renderExam();
+}
+
+function renderExam(){
+  const total = PLACEMENT_QUESTIONS.length;
+  const app = document.getElementById('app');
+  app.innerHTML = `
+    <div class="exam-grid">
+      <div id="qmain"></div>
+      <aside class="sidebar" id="sbMain"></aside>
+    </div>`;
+  renderAllQs();
+  renderSidebar();
+}
+
+function renderAllQs(){
+  // Render the current question in the main column (scrolls below the header)
+  const total = PLACEMENT_QUESTIONS.length;
+  const q = PLACEMENT_QUESTIONS[CUR];
+  const letters = ['A','B','C','D'];
+  const pct = Math.round((CUR+1)/total*100);
+  document.getElementById('qmain').innerHTML = `
+    <div class="qcard" id="qcard">
+      <div class="qtop"><span>Placement Test</span><span class="qnum">Question ${CUR+1} of ${total}</span></div>
+      <div class="qprog"><div class="bar" style="width:${pct}%"></div></div>
+      <div class="qtext">${esc(q.q)}</div>
+      <div class="opts">
+        ${q.options.map((o,i) => `
+          <div class="opt ${ANSWERS[CUR]===i?'sel':''}" onclick="pick(${i})">
+            <span class="letter">${letters[i]}</span>
+            <span class="body">${esc(o)}</span>
+          </div>`).join('')}
+      </div>
+      <div class="qnav-inline">
+        <button class="btn ghost" onclick="prev()" ${CUR===0?'disabled style="opacity:.4;cursor:not-allowed"':''}><i class="fas fa-arrow-left"></i> Back</button>
+        ${CUR === total-1
+          ? `<button class="btn primary" onclick="finish()"><i class="fas fa-check"></i> Finish Test</button>`
+          : `<button class="btn primary" onclick="next()">Next <i class="fas fa-arrow-right"></i></button>`}
+      </div>
+    </div>`;
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function renderSidebar(){
+  const total = PLACEMENT_QUESTIONS.length;
+  const answered = Object.keys(ANSWERS).length;
+  const pct = Math.round(answered/total*100);
+  document.getElementById('sbMain').innerHTML = `
+    <div class="sb-sec">
+      <div class="sb-title"><i class="fas fa-user" style="margin-right:6px"></i>Test Taker</div>
+      <div class="sb-user">
+        <span class="n">${esc(CUR_USER?.name||'')}</span>
+        <span class="e">${esc(CUR_USER?.email||'')}</span>
+      </div>
+    </div>
+    <div class="sb-sec">
+      <div class="sb-title">Progress</div>
+      <div class="sb-prog-n">${answered}<small> / ${total}</small></div>
+      <div class="sb-prog-bar"><div class="fill" style="width:${pct}%"></div></div>
+    </div>
+    <div class="sb-sec">
+      <div class="sb-title">Question Map</div>
+      <div class="sb-dots">
+        ${PLACEMENT_QUESTIONS.map((_,i) => {
+          const cls = i===CUR ? 'cur' : (ANSWERS[i]!=null ? 'ans' : '');
+          return `<button class="dot ${cls}" onclick="jumpTo(${i})" title="Question ${i+1}">${i+1}</button>`;
+        }).join('')}
+      </div>
+    </div>
+    <div class="sb-sec">
+      <button class="btn finish-now" onclick="finishNow()" title="End the test now and see your level"><i class="fas fa-flag-checkered"></i> Finish Test Now</button>
+    </div>`;
+}
+
+function pick(i){
+  ANSWERS[CUR] = i;
+  // Update selected opt visually without full re-render of card
+  document.querySelectorAll('.opt').forEach((el,idx) => el.classList.toggle('sel', idx===i));
+  renderSidebar();
+}
+function finishNow(){
+  const total = PLACEMENT_QUESTIONS.length;
+  const answered = Object.keys(ANSWERS).length;
+  const msg = answered < total
+    ? `You've answered ${answered} of ${total} questions. Finish now and see your level based on what you've answered so far?`
+    : 'All questions answered. Finish and see your level?';
+  if(confirm(msg)) finish();
+}
+function next(){ if(CUR < PLACEMENT_QUESTIONS.length-1){ CUR++; renderAllQs(); renderSidebar(); } }
+function prev(){ if(CUR > 0){ CUR--; renderAllQs(); renderSidebar(); } }
+function jumpTo(i){ CUR = i; renderAllQs(); renderSidebar(); }
+
+function finish(){
+  PHASE = 'result';
+  stopTimer();
+  let correct = 0;
+  const perBand = PLACEMENT_BANDS.map(b => ({ ...b, got:0, total:b.end-b.start }));
+  PLACEMENT_QUESTIONS.forEach((q, i) => {
+    const ok = ANSWERS[i] === q.answer;
+    if(ok) correct++;
+    perBand.forEach(b => { if(i >= b.start && i < b.end && ok) b.got++; });
+  });
+  const lvl = scoreToLevel(correct);
+  const lvlInfo = PLACEMENT_BANDS.find(b => b.level === lvl);
+  const elapsed = TIMER_SEC;
+  // Persist
+  const record = {
+    id: 'plc-' + Date.now() + '-' + Math.random().toString(36).slice(2,7),
+    name: CUR_USER.name, email: CUR_USER.email, phone: CUR_USER.phone,
+    startedAt: CUR_USER.startedAt,
+    finishedAt: new Date().toISOString(),
+    durationSec: elapsed,
+    correct, total: PLACEMENT_QUESTIONS.length,
+    level: lvl,
+    answers: Object.keys(ANSWERS).reduce((a,k)=>{ a[k]=ANSWERS[k]; return a; }, {}),
+  };
+  saveRecord(record);
+  try { localStorage.setItem(LAST_RESULT_KEY, JSON.stringify({ level: lvl, correct, total: PLACEMENT_QUESTIONS.length, at: Date.now(), name: CUR_USER.name })); } catch(e){}
+  const mailtoBody = encodeURIComponent(`Hi ${CUR_USER.name},\n\nYour Cohasset Placement Test results:\n\nLevel: ${lvl} — ${lvlInfo.label}\nScore: ${correct}/${PLACEMENT_QUESTIONS.length}\nTime: ${fmtTime(elapsed)}\n\n${lvlInfo.desc}\n\nBest regards,\nCohasset Learning Platform`);
+  const mailtoSubject = encodeURIComponent(`Your Cohasset Placement Test result: ${lvl}`);
+
+  const app = document.getElementById('app');
+  app.innerHTML = `
+    <div class="result">
+      <div style="font-size:.78rem;opacity:.85;text-transform:uppercase;letter-spacing:2px;font-weight:700">Your English level is</div>
+      <div class="lvl">${lvl}</div>
+      <div class="lvl-label">${lvlInfo.label}</div>
+      <div class="lvl-desc">${lvlInfo.desc}</div>
+      <div class="score">${correct} / ${PLACEMENT_QUESTIONS.length} correct · Time: ${fmtTime(elapsed)}</div>
+      <div class="who">Result saved for: <b>${esc(CUR_USER.name)}</b> · ${esc(CUR_USER.email)}</div>
+    </div>
+    <div class="breakdown">
+      <h3><i class="fas fa-chart-bar" style="color:var(--p);margin-right:8px"></i>Performance by level</h3>
+      ${perBand.map(b => {
+        const p = b.total > 0 ? Math.round(b.got/b.total*100) : 0;
+        const color = p>=70?'var(--ok)':p>=40?'var(--wa)':'var(--er)';
+        return `<div class="bd-row">
+          <div class="lbl">${b.level}</div>
+          <div class="meter"><div class="fill" style="width:${p}%;background:${color}"></div></div>
+          <div class="pct">${b.got}/${b.total}</div>
+        </div>`;
+      }).join('')}
+    </div>
+    <div style="display:flex;gap:10px;justify-content:center;margin:20px 0;flex-wrap:wrap">
+      <a class="btn primary" href="mailto:${encodeURIComponent(CUR_USER.email)}?subject=${mailtoSubject}&body=${mailtoBody}"><i class="fas fa-envelope"></i> Email My Results</a>
+      <button class="btn ghost" onclick="toggleReview()" id="btnReview"><i class="fas fa-list-check"></i> Show Detailed Review</button>
+      <button class="btn ghost" onclick="renderRegister()"><i class="fas fa-redo"></i> Retake Test</button>
+      <a class="btn ghost" href="COHASSET-platform-standalone.html"><i class="fas fa-home"></i> Back to Platform</a>
+    </div>
+    <div id="reviewBlock" class="hidden"></div>`;
+}
+
+function toggleReview(){
+  const el = document.getElementById('reviewBlock');
+  const btn = document.getElementById('btnReview');
+  if(!el) return;
+  if(el.classList.contains('hidden')){
+    const letters = ['A','B','C','D'];
+    let h = `<div class="breakdown"><div class="review-title">Answer review</div>`;
+    PLACEMENT_QUESTIONS.forEach((q,i) => {
+      const given = ANSWERS[i];
+      const ok = given === q.answer;
+      h += `<div class="review-item ${ok?'correct':'wrong'}">
+        <div class="q">Q${i+1}. ${esc(q.q)}</div>
+        <div class="a">Your answer: <b>${given!=null?letters[given]+'. '+esc(q.options[given]):'— (not answered)'}</b> · Correct: <b>${letters[q.answer]}. ${esc(q.options[q.answer])}</b></div>
+      </div>`;
+    });
+    h += '</div>';
+    el.innerHTML = h;
+    el.classList.remove('hidden');
+    btn.innerHTML = '<i class="fas fa-eye-slash"></i> Hide Detailed Review';
+  } else {
+    el.classList.add('hidden');
+    btn.innerHTML = '<i class="fas fa-list-check"></i> Show Detailed Review';
+  }
+}
+
+// ---------- Admin panel ----------
+function renderAdminPanel(){
+  const db = loadDB();
+  return `
+    <div class="admin-panel" style="max-width:720px;margin:20px auto 0">
+      <h3><i class="fas fa-user-shield"></i> Admin — Placement Test Database</h3>
+      <p>${db.length} record${db.length===1?'':'s'} stored in this browser. Export as CSV to share with the team.</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+        <button class="btn primary" id="btnExportCSV" style="padding:8px 16px;font-size:.85rem"><i class="fas fa-file-csv"></i> Download CSV</button>
+        <button class="btn ghost" id="btnClearDB" style="padding:8px 16px;font-size:.85rem;color:var(--er);border-color:var(--er)"><i class="fas fa-trash"></i> Clear database</button>
+      </div>
+      ${db.length ? `
+        <table>
+          <thead><tr><th>#</th><th>Name</th><th>Email</th><th>Level</th><th>Score</th><th>Finished</th></tr></thead>
+          <tbody>
+            ${db.slice().reverse().slice(0,20).map((r,i) => `<tr>
+              <td>${db.length-i}</td>
+              <td>${esc(r.name)}</td>
+              <td>${esc(r.email)}</td>
+              <td><b>${r.level}</b></td>
+              <td>${r.correct}/${r.total}</td>
+              <td>${new Date(r.finishedAt).toLocaleString()}</td>
+            </tr>`).join('')}
+          </tbody>
+        </table>
+        ${db.length > 20 ? `<p style="font-size:.78rem;margin-top:8px">Showing latest 20 of ${db.length}. Export CSV for the full list.</p>` : ''}
+      ` : '<p style="font-style:italic">No test results recorded yet.</p>'}
+    </div>`;
+}
+function bindAdmin(){
+  const exp = document.getElementById('btnExportCSV');
+  if(exp) exp.addEventListener('click', exportCSV);
+  const clr = document.getElementById('btnClearDB');
+  if(clr) clr.addEventListener('click', () => {
+    if(confirm('Delete ALL placement-test records from this browser? This cannot be undone.')){
+      localStorage.removeItem(DB_KEY);
+      renderRegister();
+    }
+  });
+}
+function exportCSV(){
+  const db = loadDB();
+  if(!db.length){ alert('No records to export.'); return; }
+  const headers = ['id','name','email','phone','level','correct','total','pct','durationSec','startedAt','finishedAt'];
+  const rows = [headers.join(',')];
+  db.forEach(r => {
+    const pct = Math.round(r.correct/r.total*100);
+    const row = [r.id, r.name, r.email, r.phone||'', r.level, r.correct, r.total, pct, r.durationSec, r.startedAt, r.finishedAt]
+      .map(v => {
+        const s = String(v||'');
+        return /[",\n]/.test(s) ? '"'+s.replace(/"/g,'""')+'"' : s;
+      }).join(',');
+    rows.push(row);
+  });
+  const csv = rows.join('\n');
+  const blob = new Blob(['\ufeff'+csv], {type:'text/csv;charset=utf-8'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'cohasset-placement-' + new Date().toISOString().slice(0,10) + '.csv';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+// Mobile-preview toggle
+(function(){
+  const btn = document.getElementById('btnMobileToggle');
+  const KEY = 'toefl_mobile_preview';
+  function apply(on){
+    document.body.classList.toggle('mobile-preview', on);
+    btn.classList.toggle('active', on);
+    btn.innerHTML = on ? '<i class="fas fa-display"></i>' : '<i class="fas fa-mobile-screen-button"></i>';
+  }
+  apply(localStorage.getItem(KEY) === '1');
+  btn.addEventListener('click', () => {
+    const on = !document.body.classList.contains('mobile-preview');
+    localStorage.setItem(KEY, on ? '1' : '0');
+    apply(on);
+  });
+})();
+
+renderRegister();
+</script>
+</body>
+</html>

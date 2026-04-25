@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Alejandro's Blox English Adventure — 5 Levels</title>
+<style>
+  :root{
+    --bg1:#0b1d3a; --bg2:#11366b; --bg3:#1d5ab8;
+    --gold:#ffd23f; --coral:#ff6b6b; --aqua:#4ee0d0;
+    --ok:#34d399; --bad:#f87171; --ink:#0a1430;
+    --card:#ffffffee; --soft:#e6f0ff;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;font-family:'Segoe UI',system-ui,sans-serif;color:#0a1430}
+  body{
+    min-height:100vh;
+    background:
+      radial-gradient(circle at 20% 10%, #2a7fff55 0, transparent 40%),
+      radial-gradient(circle at 80% 80%, #ff6b6b44 0, transparent 45%),
+      linear-gradient(180deg,var(--bg1),var(--bg2) 40%,var(--bg3));
+    overflow-x:hidden;
+  }
+  .wave{
+    position:fixed;left:0;right:0;bottom:0;height:120px;z-index:0;
+    background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120'><path d='M0 60 Q300 0 600 60 T1200 60 V120 H0 Z' fill='%231d5ab855'/></svg>") repeat-x;
+    animation:wave 12s linear infinite;
+  }
+  @keyframes wave{from{background-position:0 0}to{background-position:1200px 0}}
+  .app{position:relative;z-index:2;max-width:980px;margin:0 auto;padding:18px 16px 160px}
+  header.top{display:flex;align-items:center;gap:10px;color:#fff;margin-bottom:14px;flex-wrap:wrap}
+  .logo{
+    font-size:26px;font-weight:900;letter-spacing:.5px;
+    background:linear-gradient(90deg,var(--gold),#fff7b3,var(--coral));
+    -webkit-background-clip:text;background-clip:text;color:transparent;
+    text-shadow:0 2px 0 rgba(0,0,0,.2);
+  }
+  .pill{background:#ffffff22;border:1px solid #ffffff44;color:#fff;padding:6px 12px;border-radius:999px;font-weight:600;font-size:13px;backdrop-filter:blur(6px)}
+  .stats{margin-left:auto;display:flex;gap:6px;flex-wrap:wrap}
+  .card{background:var(--card);border-radius:22px;padding:22px;box-shadow:0 18px 40px #00000033, inset 0 1px 0 #fff;border:1px solid #ffffff}
+  h2.title{margin:0 0 6px;font-size:22px}
+  .sub{color:#3d4d7a;margin-bottom:14px;font-size:14px}
+  .grid{display:grid;gap:12px}
+  .grid.cols-2{grid-template-columns:repeat(2,1fr)}
+  .grid.cols-3{grid-template-columns:repeat(3,1fr)}
+  .grid.cols-5{grid-template-columns:repeat(5,1fr)}
+  @media(max-width:760px){.grid.cols-3{grid-template-columns:repeat(2,1fr)} .grid.cols-5{grid-template-columns:repeat(2,1fr)}}
+  .btn{cursor:pointer;border:none;border-radius:14px;padding:12px 16px;font-weight:700;font-size:15px;background:linear-gradient(180deg,#3a8bff,#1f5fdf);color:#fff;box-shadow:0 6px 0 #103e9a, 0 10px 18px #0006;transition:.08s transform}
+  .btn:hover{transform:translateY(-1px)}
+  .btn:active{transform:translateY(2px);box-shadow:0 4px 0 #103e9a,0 6px 10px #0006}
+  .btn:disabled{opacity:.45;cursor:not-allowed;filter:grayscale(.4)}
+  .btn.ghost{background:#fff;color:#1f5fdf;box-shadow:0 6px 0 #c9d6ee}
+  .btn.gold{background:linear-gradient(180deg,#ffd23f,#e6a700);color:#3a2a00;box-shadow:0 6px 0 #a07300}
+  .btn.coral{background:linear-gradient(180deg,#ff8a8a,#e23a3a);box-shadow:0 6px 0 #8a1a1a}
+  .btn.green{background:linear-gradient(180deg,#5be09a,#1ea567);box-shadow:0 6px 0 #0e6a3f}
+  .menu .tile{cursor:pointer;border-radius:18px;padding:16px;background:linear-gradient(160deg,#fff,#eaf2ff);border:2px solid #cdd9f2;text-align:left;transition:.15s;position:relative;overflow:hidden}
+  .menu .tile:hover{transform:translateY(-3px);box-shadow:0 14px 26px #0003;border-color:#1f5fdf}
+  .tile .emoji{font-size:30px}
+  .tile h3{margin:6px 0 2px;font-size:16px}
+  .tile p{margin:0;font-size:12px;color:#465a8a}
+  .tile .stars{position:absolute;top:8px;right:10px;font-size:14px;color:#f1c40f;font-weight:800}
+  .tile.locked{opacity:.5;filter:grayscale(.7);cursor:not-allowed}
+  .tile.locked::after{content:'🔒';position:absolute;font-size:38px;top:50%;left:50%;transform:translate(-50%,-50%);text-shadow:0 0 14px #fff}
+  .tile.done{border-color:#16a34a;background:linear-gradient(160deg,#f0fdf4,#dcfce7)}
+  .qcard{background:linear-gradient(180deg,#fff,#f4f8ff);border:2px solid #e3ecfb;border-radius:16px;padding:16px;margin:10px 0}
+  .opt{display:block;width:100%;text-align:left;background:#fff;border:2px solid #cdd9f2;border-radius:12px;padding:12px 14px;margin:8px 0;cursor:pointer;font-size:15px;font-weight:600;color:#1c2a55;transition:.1s}
+  .opt:hover{border-color:#1f5fdf;background:#eef4ff}
+  .opt.correct{background:#dcfce7;border-color:#16a34a;color:#14532d}
+  .opt.wrong{background:#fee2e2;border-color:#dc2626;color:#7f1d1d}
+  .opt[disabled]{cursor:default;opacity:.95}
+  .feedback{margin-top:8px;font-weight:700}
+  .feedback.ok{color:#15803d}
+  .feedback.bad{color:#b91c1c}
+  .input{width:100%;padding:12px 14px;border-radius:12px;border:2px solid #cdd9f2;font-size:16px;font-weight:600;background:#fff;color:#1c2a55}
+  .chip{display:inline-block;padding:8px 12px;border-radius:999px;background:#eaf2ff;border:2px solid #cdd9f2;margin:4px;cursor:pointer;font-weight:700;color:#1c2a55;user-select:none}
+  .chip.used{opacity:.35;text-decoration:line-through;cursor:not-allowed}
+  .slot{display:inline-block;min-width:60px;padding:6px 10px;border-bottom:3px dashed #1f5fdf;margin:0 3px;font-weight:800;color:#1f5fdf;text-align:center;cursor:pointer}
+  .progress{height:10px;background:#dbe6ff;border-radius:99px;overflow:hidden;margin:8px 0 14px}
+  .progress > div{height:100%;background:linear-gradient(90deg,var(--ok),var(--gold));transition:.4s width}
+  .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .nav{display:flex;justify-content:space-between;margin-top:14px;gap:10px;flex-wrap:wrap}
+  .badge{display:inline-flex;align-items:center;gap:6px;background:#fff7d6;border:2px solid #f1c40f;color:#7a5a00;border-radius:999px;padding:4px 10px;font-weight:800;font-size:12px}
+  .pair{background:#fff;border:2px solid #cdd9f2;border-radius:12px;padding:10px;cursor:pointer;text-align:center;font-weight:700;color:#1c2a55;font-size:15px;min-height:54px;display:flex;align-items:center;justify-content:center}
+  .pair.sel{border-color:#1f5fdf;background:#eaf2ff;transform:scale(.98)}
+  .pair.matched{background:#dcfce7;border-color:#16a34a;color:#14532d;cursor:default}
+  .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:30px;background:#0a1430;color:#fff;padding:14px 22px;border-radius:14px;font-weight:800;box-shadow:0 10px 30px #000a;z-index:99;opacity:0;pointer-events:none;transition:.3s}
+  .toast.show{opacity:1;transform:translate(-50%,-8px)}
+  .audio-btn{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(180deg,#a78bfa,#7c3aed);color:#fff;border:none;padding:10px 16px;border-radius:12px;font-weight:800;cursor:pointer;box-shadow:0 5px 0 #4c1d95;margin:4px 6px 4px 0}
+  .reading{background:#fffef2;border:2px dashed #f1c40f;border-radius:14px;padding:14px;line-height:1.55;color:#3a2a00}
+  footer{position:fixed;left:0;right:0;bottom:0;padding:8px 16px;text-align:center;color:#cfe1ff;font-size:12px;z-index:3;background:linear-gradient(180deg,transparent,#0008)}
+  .hidden{display:none}
+  .confetti{position:fixed;inset:0;pointer-events:none;z-index:50}
+  .level-ribbon{display:inline-block;background:#ff6b6b;color:#fff;padding:3px 10px;border-radius:6px;font-size:12px;font-weight:800;letter-spacing:.5px;margin-left:6px}
+  .hint{font-size:13px;color:#465a8a;margin-top:6px}
+  .key{background:#fff;border:2px solid #cdd9f2;color:#1c2a55;border-radius:8px;padding:2px 8px;font-weight:800;cursor:pointer;display:inline-block;margin:2px}
+  .levelbar{display:flex;gap:6px;align-items:center;flex-wrap:wrap;margin:0 0 14px}
+  .lvchip{padding:6px 10px;border-radius:10px;background:#fff;border:2px solid #cdd9f2;font-weight:800;color:#1c2a55;font-size:13px;cursor:pointer}
+  .lvchip.active{background:linear-gradient(180deg,#ffd23f,#e6a700);border-color:#a07300;color:#3a2a00}
+  .lvchip.locked{opacity:.4;cursor:not-allowed}
+  .lvchip.cleared{background:#dcfce7;border-color:#16a34a;color:#14532d}
+  .badge-tile{background:#fff;border:2px solid #cdd9f2;border-radius:14px;padding:10px;text-align:center;font-weight:700;font-size:12px;color:#1c2a55}
+  .badge-tile.earned{background:linear-gradient(160deg,#fff7d6,#ffe4a3);border-color:#f1c40f}
+  .badge-tile.locked{opacity:.45;filter:grayscale(.7)}
+  .badge-tile .em{font-size:32px;display:block;margin-bottom:4px}
+  .nameInput{font-size:16px;padding:10px 14px;border-radius:12px;border:2px solid #cdd9f2;width:100%;font-weight:700}
+  dialog.modal{border:none;border-radius:22px;padding:0;max-width:520px;background:transparent}
+  dialog.modal::backdrop{background:#000a;backdrop-filter:blur(4px)}
+  .modal-card{background:#fff;border-radius:22px;padding:26px;text-align:center}
+  .modal-card .big{font-size:60px;margin:6px}
+  .stars-row{font-size:30px;color:#f1c40f;margin:8px}
+</style>
+</head>
+<body>
+<div class="wave"></div>
+
+<div class="app">
+  <header class="top">
+    <div class="logo">🍇 Blox English</div>
+    <span class="pill">Captain: <b id="playerName">Alejandro</b></span>
+    <span class="pill" id="lvlPill">Lv 1 — Cabin Boy <span class="level-ribbon" id="cefrPill">Pre-A1</span></span>
+    <div class="stats">
+      <span class="badge">⭐ <span id="score">0</span> XP</span>
+      <span class="badge">🍎 <span id="fruits">0</span></span>
+      <span class="badge">🔥 <span id="streak">0</span></span>
+      <span class="badge">🏅 <span id="badgeCount">0</span></span>
+    </div>
+  </header>
+
+  <main id="main"></main>
+</div>
+
+<div id="toast" class="toast"></div>
+<dialog id="modal" class="modal"><div class="modal-card" id="modalBody"></div></dialog>
+<footer>Made for Alejandro — practice English like a Pirate King 🏴‍☠️</footer>
+
+<script>
+/* =====================================================================
+   Blox English Adventure — 5 levels, save, badges, unlocks
+   ===================================================================== */
+
+/* ---------- LEVEL CONTENT ---------- */
+const LEVELS = {
+  1: {
+    name:'Cabin Boy', emoji:'🧒', cefr:'Pre-A1 Starters',
+    desc:'Tiny words, easy sentences. Start here!',
+    vocab:[
+      {w:'Sea',e:'🌊',d:'Big blue water.'},
+      {w:'Boat',e:'⛵',d:'You go on the sea in this.'},
+      {w:'Fish',e:'🐟',d:'An animal in the water.'},
+      {w:'Sun',e:'☀️',d:'It is yellow and hot in the sky.'},
+      {w:'Tree',e:'🌳',d:'A big plant.'},
+      {w:'Hat',e:'🎩',d:'You put it on your head.'},
+      {w:'Bag',e:'🎒',d:'You put your books in it.'},
+      {w:'Cat',e:'🐱',d:'A small animal that says meow.'},
+      {w:'Apple',e:'🍎',d:'A red or green fruit.'},
+      {w:'Star',e:'⭐',d:'A small light in the sky at night.'},
+    ],
+    reading:{
+      text:`This is Sam. Sam is a little pirate. He is six years old. He has a small boat and a brown hat.
+Today the sun is hot. Sam is happy. His cat is on the boat. Her name is Mimi. Mimi is black and white.
+Sam and Mimi see a big fish. The fish is blue. Sam says hello to the fish.`,
+      qs:[
+        {q:'How old is Sam?',a:'Six.',opts:['Five.','Six.','Seven.','Eight.']},
+        {q:"What colour is Sam's hat?",a:'Brown.',opts:['Black.','Brown.','Red.','Blue.']},
+        {q:"What is the cat's name?",a:'Mimi.',opts:['Lulu.','Mimi.','Nina.','Sam.']},
+        {q:'What colour is the fish?',a:'Blue.',opts:['Red.','Yellow.','Blue.','Green.']},
+      ],
+    },
+    gap:[
+      {text:'My name ___1___ Sam. I ___2___ a pirate. I ___3___ a hat and a ___4___. The sun ___5___ hot.',
+       bank:['is','am','have','boat','is'],
+       hints:['(name ___ Sam)','(I ___)','(I ___ a hat)','(small ship)','(sun ___ hot)']},
+    ],
+    listen:[
+      {text:"My name is Tom. I am seven years old.", q:'How old is Tom?', a:'Seven.', opts:['Six.','Seven.','Eight.','Nine.']},
+      {text:"The cat is under the table.", q:'Where is the cat?', a:'Under the table.', opts:['On the table.','Under the table.','Next to the table.','Behind the table.']},
+      {text:"I have two red apples and one green apple.", q:'How many apples?', a:'Three.', opts:['Two.','Three.','Four.','One.']},
+      {text:"My favourite colour is yellow.", q:'What colour does she like?', a:'Yellow.', opts:['Red.','Blue.','Yellow.','Green.']},
+    ],
+    sentences:["I have a red hat.","The sun is hot today.","My cat is on the boat.","I am six years old."],
+    spell:['cat','sun','boat','fish','hat','red'],
+    boss:[
+      {q:'"I ___ Alejandro."', a:'am', opts:['am','is','are','be']},
+      {q:'"She ___ a cat."', a:'has', opts:['have','has','had','is']},
+      {q:'Plural of "fish"?', a:'fish', opts:['fishs','fishes','fish','fishies']},
+      {q:'"There ___ two boats."', a:'are', opts:['is','are','am','be']},
+      {q:'"This ___ my hat."', a:'is', opts:['is','are','am','be']},
+      {q:'Choose the colour:', a:'red', opts:['cat','red','tree','sun']},
+    ],
+  },
+
+  2: {
+    name:'Sailor', emoji:'⚓', cefr:'Movers / A1',
+    desc:'Past simple, comparatives, more vocabulary.',
+    vocab:[
+      {w:'Pirate',e:'🏴‍☠️',d:'A man or woman who sails and looks for treasure.'},
+      {w:'Treasure',e:'💰',d:'Gold and money.'},
+      {w:'Island',e:'🏝️',d:'Land in the middle of the sea.'},
+      {w:'Map',e:'🗺️',d:'A drawing of places.'},
+      {w:'Sword',e:'⚔️',d:'A long sharp weapon.'},
+      {w:'Hero',e:'🦸',d:'A brave person who helps people.'},
+      {w:'Beast',e:'🐉',d:'A big and scary animal.'},
+      {w:'Jungle',e:'🌴',d:'A place with many trees and animals.'},
+      {w:'Cave',e:'🕳️',d:'A big hole in a mountain.'},
+      {w:'Friend',e:'👬',d:'A person you like to play with.'},
+    ],
+    reading:{
+      text:`Yesterday, Lucas walked to the beach with his dog. The dog's name is Rex.
+They played in the sand and they swam in the sea. After lunch they found a small map under a rock.
+The map was old and brown. It showed a big tree on the island. Lucas and Rex walked to the tree.
+Under the tree, they found a small box with three gold coins inside. Lucas was very happy.`,
+      qs:[
+        {q:'When did Lucas go to the beach?',a:'Yesterday.',opts:['Today.','Yesterday.','Tomorrow.','Last week.']},
+        {q:"What is the dog's name?",a:'Rex.',opts:['Max.','Rex.','Leo.','Luna.']},
+        {q:'Where did they find the map?',a:'Under a rock.',opts:['In the sea.','Under a rock.','In a tree.','In a cave.']},
+        {q:'How many coins were in the box?',a:'Three.',opts:['One.','Two.','Three.','Four.']},
+        {q:'How did Lucas feel at the end?',a:'Happy.',opts:['Sad.','Angry.','Happy.','Tired.']},
+      ],
+    },
+    gap:[
+      {text:'Last weekend I ___1___ to the island with my ___2___. We ___3___ a treasure map and we ___4___ for gold. The sea was ___5___ than the river.',
+       bank:['went','friend','found','looked','bigger'],
+       hints:['(past of go)','(person you play with)','(past of find)','(searched ___ for)','(comparative of big)']},
+    ],
+    listen:[
+      {text:"My sister is taller than me. She is twelve and I am ten.", q:'Who is taller?', a:'Her sister.', opts:['Her sister.','She is.','Her brother.','Her dad.']},
+      {text:"Yesterday we played football in the park. We didn't win, but we had fun.", q:'Did they win?', a:'No.', opts:['Yes.','No.','Maybe.','We don\'t know.']},
+      {text:"The treasure is inside the cave, behind the big rock.", q:'Where is the treasure?', a:'Behind the big rock.', opts:['On the rock.','Under the cave.','Behind the big rock.','In the tree.']},
+      {text:"I usually drink milk in the morning, but today I drank orange juice.", q:'What did she drink today?', a:'Orange juice.', opts:['Milk.','Water.','Orange juice.','Tea.']},
+    ],
+    sentences:["My friend found a treasure map.","I went to the island yesterday.","The cave is bigger than my house.","We did not see the beast."],
+    spell:['island','treasure','jungle','friend','sword','beast'],
+    boss:[
+      {q:'Past of "go"?', a:'went', opts:['goed','wented','went','goes']},
+      {q:'"She ___ a sword last week."', a:'found', opts:['find','founded','found','founds']},
+      {q:'Comparative of "small"', a:'smaller', opts:['more small','smaller','smallest','smally']},
+      {q:'"My brother is ___ than me."', a:'taller', opts:['tall','more tall','taller','tallest']},
+      {q:'"They ___ play football yesterday." (negative)', a:"didn't", opts:["don't","didn't","doesn't","weren't"]},
+      {q:'Choose the past time word:', a:'yesterday', opts:['tomorrow','now','yesterday','soon']},
+    ],
+  },
+
+  3: {
+    name:'Pirate', emoji:'🏴‍☠️', cefr:'Flyers / A2',
+    desc:'Cambridge Flyers level — adventure stories and grammar.',
+    vocab:[
+      {w:'Devil Fruit',e:'🍇',d:'A magic fruit that gives you a power.'},
+      {w:'Captain',e:'🧑‍✈️',d:'The leader of a crew.'},
+      {w:'Adventure',e:'🗺️',d:'An exciting trip.'},
+      {w:'Brave',e:'🦁',d:'Not scared of difficult things.'},
+      {w:'Strong',e:'💪',d:'Has a lot of power.'},
+      {w:'Dangerous',e:'⚠️',d:'Something that can hurt you.'},
+      {w:'Fight',e:'🥊',d:'To use your body or weapons against someone.'},
+      {w:'Win',e:'🏆',d:'To be number one in a game.'},
+      {w:'Lose',e:'💔',d:'The opposite of win.'},
+      {w:'Crew',e:'👥',d:'A group of people who work together.'},
+    ],
+    reading:{
+      text:`Last Saturday, Alejandro and his friend Diego went to a small island.
+They wanted to find a special Devil Fruit. The sun was hot and the sea was blue.
+On the beach they met an old man with a brown hat. "Be careful!" he said.
+"There is a big sea beast in the water." The boys were a little scared, but they were brave.
+They climbed a tall tree and saw a red fruit at the top. Alejandro took the fruit and they ran back to their boat.
+They didn't see the sea beast, but they heard it sing a strange song. At night, they ate fish and looked at the stars.`,
+      qs:[
+        {q:'Where did the boys go?',a:'To a small island.',opts:['To a big city.','To a small island.','To school.','To a forest.']},
+        {q:'What was the weather like?',a:'It was hot and sunny.',opts:['Cold and rainy.','Hot and sunny.','Windy.','Snowing.']},
+        {q:'Who did they meet on the beach?',a:'An old man with a brown hat.',opts:['A young pirate.','A girl with a red dress.','An old man with a brown hat.','A marine soldier.']},
+        {q:'What colour was the fruit?',a:'Red.',opts:['Blue.','Green.','Yellow.','Red.']},
+        {q:'Did the boys see the sea beast?',a:'No, they only heard it.',opts:['Yes, they fought it.','No, they only heard it.','Yes, they took a photo.','No, the old man took it away.']},
+      ],
+    },
+    gap:[
+      {text:'Yesterday I ___1___ a strong boss. He was ___2___ than me but I ___3___ a special sword. After the fight, I ___4___ a new fruit and I was very ___5___.',
+       bank:['fought','stronger','had','got','happy'],
+       hints:['(past of fight)','(comparative of strong)','(past of have)','(past of get)','(feeling 😊)']},
+    ],
+    listen:[
+      {text:"My friend's name is Diego. He has black hair and brown eyes. He is eleven years old.",
+       q:"How old is Diego?", a:"Eleven.", opts:["Ten.","Eleven.","Twelve.","Nine."]},
+      {text:"On Sunday, Alejandro went to the beach with his family. They saw three turtles in the water.",
+       q:"What did they see?", a:"Three turtles.", opts:["Three sharks.","Two turtles.","Three turtles.","A big fish."]},
+      {text:"The pirate captain is wearing a red coat, big black boots and a yellow hat.",
+       q:"What colour is the captain's hat?", a:"Yellow.", opts:["Red.","Black.","Brown.","Yellow."]},
+      {text:"Diego likes strawberry ice cream, but his sister prefers chocolate.",
+       q:"What does Diego's sister like?", a:"Chocolate ice cream.", opts:["Strawberry.","Vanilla.","Chocolate ice cream.","Mango."]},
+    ],
+    sentences:["I want to be the strongest pirate in the world.","Yesterday my friend found a blue Devil Fruit.","The sea beast is bigger than our boat.","We are going to fight the boss tomorrow."],
+    spell:['adventure','dangerous','captain','because','tomorrow','strong'],
+    boss:[
+      {q:'"He ___ to the island yesterday."', a:'went', opts:['go','goes','went','going']},
+      {q:'Past of "find"?', a:'found', opts:['finded','found','find','founded']},
+      {q:'Superlative of "strong"', a:'strongest', opts:['more strong','strongest','stronger','most strong']},
+      {q:'Choose the correct question:', a:'What did you do yesterday?', opts:['What you did yesterday?','What did you did yesterday?','What did you do yesterday?','What you do yesterday?']},
+      {q:'"They ___ playing Roblox now."', a:'are', opts:['is','are','am','be']},
+      {q:'"I have ___ apple."', a:'an', opts:['a','an','the','—']},
+    ],
+  },
+
+  4: {
+    name:'Captain', emoji:'🧑‍✈️', cefr:'KET / A2+',
+    desc:'Present perfect, will/going to, longer texts.',
+    vocab:[
+      {w:'Power',e:'⚡',d:'The ability to do something special.'},
+      {w:'Mission',e:'🎯',d:'A task you have to do.'},
+      {w:'Victory',e:'🥇',d:'When you win.'},
+      {w:'Defeat',e:'❌',d:'When you lose.'},
+      {w:'Journey',e:'🛤️',d:'A long trip.'},
+      {w:'Weapon',e:'🗡️',d:'A thing used in a fight.'},
+      {w:'Mystery',e:'❓',d:'Something we do not know or understand.'},
+      {w:'Decision',e:'🤔',d:'When you choose between things.'},
+      {w:'Skill',e:'🎮',d:'Something you can do well after practice.'},
+      {w:'Enemy',e:'😈',d:'A person who is against you.'},
+    ],
+    reading:{
+      text:`My name is Mateo and I have played Blox Fruits for two years. Last summer my cousin showed me the game and I loved it from the first day.
+At the start, I only had a small wooden sword and I was very weak. I lost most of my fights and sometimes I wanted to stop playing. However, my cousin told me, "Don't give up. Practice every day."
+After a few months, I bought my first Devil Fruit. It was an Ice Fruit and it changed everything. I trained for hours every weekend and I learned new combos. Now I am in a big crew and we help new players. Yesterday, we defeated a sea boss together for the first time. I think the best part of the game is not winning — it is making friends.`,
+      qs:[
+        {q:'How long has Mateo played Blox Fruits?',a:'For two years.',opts:['For one year.','For two years.','For six months.','Since last summer only.']},
+        {q:'Who showed him the game?',a:'His cousin.',opts:['His brother.','His friend.','His cousin.','His teacher.']},
+        {q:'What was his first Devil Fruit?',a:'An Ice Fruit.',opts:['A Fire Fruit.','An Ice Fruit.','A Light Fruit.','A Dark Fruit.']},
+        {q:'When did his crew defeat the sea boss?',a:'Yesterday.',opts:['Last week.','Yesterday.','Today.','Last month.']},
+        {q:'According to Mateo, what is the best part of the game?',a:'Making friends.',opts:['Winning fights.','Buying new fruits.','Making friends.','Beating bosses.']},
+      ],
+    },
+    gap:[
+      {text:'I ___1___ never ___2___ such a difficult boss before. We ___3___ to need a new strategy if we ___4___ to win. My friend ___5___ already bought a new sword.',
+       bank:['have','seen','are going','want','has'],
+       hints:['(present perfect aux)','(past participle of see)','(future plan)','(verb after if)','(present perfect aux 3rd person)']},
+    ],
+    listen:[
+      {text:"I have lived in this city since I was five years old. Before that, I lived in the mountains.",
+       q:'Where did she live before?', a:'In the mountains.', opts:['In a small city.','By the sea.','In the mountains.','In another country.']},
+      {text:"Don't worry, I will help you with your homework after dinner.",
+       q:'When will he help?', a:'After dinner.', opts:['Before dinner.','After dinner.','Tomorrow morning.','Right now.']},
+      {text:"If it rains tomorrow, we are going to stay at home and play video games.",
+       q:'What will they do if it rains?', a:'Play video games at home.', opts:['Go to the cinema.','Play football.','Play video games at home.','Visit grandma.']},
+      {text:"The match starts at half past seven. Please be there fifteen minutes earlier.",
+       q:'What time should they arrive?', a:'At quarter past seven.', opts:['At seven o\'clock.','At quarter past seven.','At half past seven.','At quarter to eight.']},
+    ],
+    sentences:["I have never seen such a strong boss.","If you train every day, you will improve.","She is going to buy a new sword tomorrow.","We have been friends since last year."],
+    spell:['journey','decision','mysterious','victory','weapon','enemy'],
+    boss:[
+      {q:'"I ___ this game since 2024."', a:'have played', opts:['played','have played','am playing','play']},
+      {q:'"They ___ never visited that island."', a:'have', opts:['has','have','are','were']},
+      {q:'"If it rains, we ___ stay home."', a:'will', opts:['will','would','are','have']},
+      {q:'Past participle of "win"?', a:'won', opts:['win','wan','won','winned']},
+      {q:'"She is ___ leave at 8."', a:'going to', opts:['going','going to','will','to go']},
+      {q:'"We ___ already finished the mission."', a:'have', opts:['have','has','are','were']},
+    ],
+  },
+
+  5: {
+    name:'Pirate King', emoji:'👑', cefr:'PET / B1',
+    desc:'Conditionals, passives, harder reading. Final boss!',
+    vocab:[
+      {w:'Strategy',e:'♟️',d:'A clever plan to win.'},
+      {w:'Opponent',e:'🆚',d:'The person you play against.'},
+      {w:'Achievement',e:'🏅',d:'Something difficult that you finished.'},
+      {w:'Opportunity',e:'🚪',d:'A good moment to do something.'},
+      {w:'Challenge',e:'🧗',d:'A difficult task.'},
+      {w:'Equipment',e:'🛡️',d:'The tools or items you use.'},
+      {w:'Improve',e:'📈',d:'To become better.'},
+      {w:'Reward',e:'🎁',d:'A prize you get for doing something well.'},
+      {w:'Confident',e:'😎',d:'Sure of yourself.'},
+      {w:'Struggle',e:'😣',d:'To have a hard time doing something.'},
+    ],
+    reading:{
+      text:`Online games like Blox Fruits have become extremely popular among children and teenagers. Some parents worry that their kids spend too many hours in front of a screen, but research shows that gaming can also bring real benefits.
+Firstly, players develop important skills such as patience, problem-solving and teamwork. When a mission is hard, the player has to think carefully and try different strategies. If the first plan doesn't work, they have to invent a new one. Secondly, multiplayer games allow children to make friends from many countries. To communicate, they often have to read and write in English, which improves their language skills naturally.
+However, balance is essential. Experts suggest that no child should play more than two hours a day, and never just before bedtime. Sleep, exercise and family time are equally important. Used wisely, video games are not just entertainment — they can also be a powerful tool for learning.`,
+      qs:[
+        {q:'What is the main idea of the text?',a:'Gaming has benefits if it is balanced.',opts:['All video games are dangerous.','Gaming has benefits if it is balanced.','Children should not play games.','Parents should never worry.']},
+        {q:'Which skill is NOT mentioned?',a:'Drawing.',opts:['Patience.','Teamwork.','Drawing.','Problem-solving.']},
+        {q:'How can games improve English?',a:'Players read and write to talk to others.',opts:['Players watch English videos.','Players take English classes.','Players read and write to talk to others.','Players translate the menu.']},
+        {q:'According to experts, the maximum daily time is...',a:'Two hours.',opts:['One hour.','Two hours.','Three hours.','Four hours.']},
+        {q:'What is the writer\'s opinion?',a:'Games can help kids learn if used wisely.',opts:['Games are a waste of time.','Games can help kids learn if used wisely.','Parents should choose the games.','Only educational games are good.']},
+      ],
+    },
+    gap:[
+      {text:'If I ___1___ more time, I would play every day. Yesterday, a new map ___2___ added to the game. Many players ___3___ already finished it. I ___4___ practice more if I ___5___ to win the next tournament.',
+       bank:['had','was','have','must','want'],
+       hints:['(2nd conditional)','(passive past)','(present perfect aux pl.)','(necessity)','(if I ___ to)']},
+    ],
+    listen:[
+      {text:"Although I was tired, I decided to keep training because the tournament starts on Monday.",
+       q:'Why did she keep training?', a:'Because of the tournament.', opts:['Because she was tired.','Because she had time.','Because of the tournament.','Because her friend asked.']},
+      {text:"If I had more money, I would buy the legendary sword. Unfortunately, it is too expensive at the moment.",
+       q:'Will he buy the sword now?', a:'No, it is too expensive.', opts:['Yes, today.','No, it is too expensive.','Yes, tomorrow.','He already bought it.']},
+      {text:"The new update was released yesterday, but it has caused a lot of problems for many players.",
+       q:'When was the update released?', a:'Yesterday.', opts:['Today.','Yesterday.','Last week.','Tomorrow.']},
+      {text:"Even though Maria is younger than her brother, she plays much better than him.",
+       q:'Who is the better player?', a:'Maria.', opts:['Her brother.','Maria.','Both are equal.','We don\'t know.']},
+    ],
+    sentences:["If you practised every day, you would improve quickly.","The new island was discovered last week.","I have been playing this game since I was eight.","Although the boss was strong, we managed to defeat it."],
+    spell:['strategy','achievement','opportunity','confident','equipment','challenging'],
+    boss:[
+      {q:'"If I ___ rich, I would buy the legendary fruit."', a:'were', opts:['am','was','were','be']},
+      {q:'"The treasure ___ found by the pirates last week."', a:'was', opts:['is','was','were','has']},
+      {q:'Choose the correct: "He suggested ___ a new strategy."', a:'trying', opts:['to try','trying','try','tried']},
+      {q:'"By next year, I ___ this game for three years."', a:'will have played', opts:['will play','have played','will have played','am playing']},
+      {q:'Choose the reported: She said, "I am tired." →', a:'She said she was tired.', opts:['She said she is tired.','She said she was tired.','She said I was tired.','She said being tired.']},
+      {q:'"I wish I ___ more time to play."', a:'had', opts:['have','had','having','would have']},
+    ],
+  },
+};
+
+/* ---------- BADGES ---------- */
+const BADGES = [
+  {id:'first', em:'🌊', name:'First Mission', cond:s=>s.totalMissions>=1},
+  {id:'star3', em:'⭐', name:'Triple Star', cond:s=>s.tripleStars>=1},
+  {id:'fruits5', em:'🍎', name:'Fruit Collector', cond:s=>s.fruits>=5},
+  {id:'streak10', em:'🔥', name:'Hot Streak', cond:s=>s.maxStreak>=10},
+  {id:'boss1', em:'⚔️', name:'Boss Slayer', cond:s=>s.bossesBeaten>=1},
+  {id:'word', em:'🧠', name:'Word Master', cond:s=>s.perfectVocab>=1},
+  {id:'ear', em:'🎧', name:'Sharp Ear', cond:s=>s.perfectListen>=1},
+  {id:'spell', em:'✍️', name:'Spelling Bee', cond:s=>s.perfectSpell>=1},
+  {id:'lv2', em:'⚓', name:'Sailor', cond:s=>s.unlocked.includes(2)},
+  {id:'lv3', em:'🏴‍☠️', name:'Pirate', cond:s=>s.unlocked.includes(3)},
+  {id:'lv4', em:'🧑‍✈️', name:'Captain', cond:s=>s.unlocked.includes(4)},
+  {id:'lv5', em:'👑', name:'Pirate King', cond:s=>s.unlocked.includes(5)},
+  {id:'xp100', em:'💯', name:'Centurion', cond:s=>s.score>=100},
+  {id:'xp500', em:'🏆', name:'Champion', cond:s=>s.score>=500},
+  {id:'xp1000', em:'🌟', name:'Legend', cond:s=>s.score>=1000},
+  {id:'allDone', em:'🎖️', name:'Master Pirate', cond:s=>s.unlocked.includes(5)&&s.bossesBeaten>=5},
+];
+
+/* ---------- SAVE / STATE ---------- */
+const SAVE_KEY = 'alejandro-blox-save-v2';
+const DEFAULT_SAVE = {
+  name:'Alejandro', currentLevel:1, score:0, fruits:0, streak:0, maxStreak:0,
+  unlocked:[1],
+  // missions[level][missionKey] = stars (0..3)
+  missions:{1:{},2:{},3:{},4:{},5:{}},
+  badges:[],
+  totalMissions:0, tripleStars:0, bossesBeaten:0,
+  perfectVocab:0, perfectListen:0, perfectSpell:0,
+};
+let state = load();
+
+function load(){
+  try{
+    const raw = localStorage.getItem(SAVE_KEY);
+    if(!raw) return structuredClone(DEFAULT_SAVE);
+    const parsed = JSON.parse(raw);
+    return Object.assign(structuredClone(DEFAULT_SAVE), parsed);
+  }catch{ return structuredClone(DEFAULT_SAVE); }
+}
+function save(){ try{ localStorage.setItem(SAVE_KEY, JSON.stringify(state)); }catch{} }
+
+/* ---------- helpers ---------- */
+const $ = sel => document.querySelector(sel);
+const main = $('#main');
+
+function updateStats(){
+  $('#playerName').textContent = state.name;
+  const L = LEVELS[state.currentLevel];
+  $('#lvlPill').innerHTML = `Lv ${state.currentLevel} — ${L.name} <span class="level-ribbon">${L.cefr}</span>`;
+  $('#score').textContent = state.score;
+  $('#fruits').textContent = state.fruits;
+  $('#streak').textContent = state.streak;
+  $('#badgeCount').textContent = state.badges.length;
+}
+function toast(msg){
+  const t=$('#toast'); t.textContent=msg; t.classList.add('show');
+  clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove('show'),1700);
+}
+function award(ok, xp=10){
+  if(ok){
+    state.score += xp; state.streak += 1;
+    if(state.streak>state.maxStreak) state.maxStreak=state.streak;
+    if(state.streak%3===0){ state.fruits += 1; toast('🍎 +1 Devil Fruit!'); }
+    else toast('✅ +'+xp+' XP');
+  } else {
+    state.streak = 0; toast('❌ Try again next time');
+  }
+  checkBadges(); updateStats(); save();
+}
+function speak(text, rate=0.95){
+  if(!('speechSynthesis' in window)){ toast('Audio not supported'); return; }
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang='en-US'; u.rate=rate; u.pitch=1;
+  const voices = window.speechSynthesis.getVoices();
+  const en = voices.find(v=>/en[-_]/i.test(v.lang));
+  if(en) u.voice = en;
+  window.speechSynthesis.speak(u);
+}
+function shuffle(a){return a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(x=>x[1])}
+function confetti(){
+  const c=document.createElement('div'); c.className='confetti';
+  for(let i=0;i<70;i++){
+    const s=document.createElement('div');
+    const left=Math.random()*100, dur=2+Math.random()*2, delay=Math.random()*.6;
+    const colors=['#ffd23f','#ff6b6b','#4ee0d0','#a78bfa','#5be09a'];
+    s.style.cssText=`position:absolute;top:-20px;left:${left}%;width:10px;height:14px;background:${colors[i%5]};
+      transform:rotate(${Math.random()*360}deg);animation:fall ${dur}s ${delay}s ease-in forwards;border-radius:2px`;
+    c.appendChild(s);
+  }
+  if(!document.getElementById('cfx')){
+    const st=document.createElement('style'); st.id='cfx';
+    st.textContent='@keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:0}}';
+    document.head.appendChild(st);
+  }
+  document.body.appendChild(c);
+  setTimeout(()=>c.remove(),3500);
+}
+
+/* ---------- mission completion ---------- */
+function completeMission(missionKey, stars, perfectFlags={}){
+  const lv = state.currentLevel;
+  const prev = state.missions[lv][missionKey] || 0;
+  if(stars > prev) state.missions[lv][missionKey] = stars;
+  state.totalMissions += 1;
+  if(stars===3) state.tripleStars += 1;
+  if(perfectFlags.vocab) state.perfectVocab += 1;
+  if(perfectFlags.listen) state.perfectListen += 1;
+  if(perfectFlags.spell) state.perfectSpell += 1;
+  save(); checkBadges(); updateStats();
+  // unlock boss when all 6 base missions have at least 1 star
+  const baseMissions = ['vocab','reading','gap','listen','order','spell'];
+  const allDone = baseMissions.every(k => (state.missions[lv][k]||0) >= 1);
+  if(allDone && missionKey!=='boss' && !(state.missions[lv].bossUnlockedNotified)){
+    state.missions[lv].bossUnlockedNotified = true; save();
+    setTimeout(()=>showModal({
+      icon:'⚔️', title:'Boss Battle Unlocked!', body:`Defeat the ${LEVELS[lv].name} boss to unlock the next level.`,
+      actions:[{label:'Fight Boss',cls:'btn coral',cb:()=>games.boss()},{label:'Later',cls:'btn ghost',cb:closeModal}]
+    }),600);
+  }
+}
+
+function beatBoss(score, total){
+  const lv = state.currentLevel;
+  const win = score >= Math.ceil(total*0.66);
+  if(win){
+    state.bossesBeaten += 1;
+    state.missions[lv].boss = Math.max(state.missions[lv].boss||0, score===total?3:(score>=total*0.83?2:1));
+    state.score += 50; state.fruits += 2;
+    const next = lv+1;
+    let unlockedNew = false;
+    if(LEVELS[next] && !state.unlocked.includes(next)){
+      state.unlocked.push(next); unlockedNew = true;
+    }
+    save(); checkBadges(); updateStats();
+    showModal({
+      icon:'🏆', title:'Boss Defeated!',
+      body:`+50 XP and 2 Devil Fruits!${unlockedNew?` <br><br>🎉 <b>Level ${next} unlocked: ${LEVELS[next].name}!</b>`:''}`,
+      actions: unlockedNew
+        ? [{label:`Go to Level ${next}`,cls:'btn green',cb:()=>{state.currentLevel=next;save();updateStats();closeModal();home();}},
+           {label:'Stay here',cls:'btn ghost',cb:closeModal}]
+        : [{label:'Continue',cls:'btn green',cb:closeModal}]
+    });
+    confetti();
+  } else {
+    save(); updateStats();
+    showModal({icon:'💀', title:'The Boss won!', body:`You got ${score}/${total}. Train more and try again!`,
+      actions:[{label:'Rematch',cls:'btn coral',cb:()=>games.boss()},{label:'Menu',cls:'btn ghost',cb:()=>{closeModal();home();}}]});
+  }
+}
+
+/* ---------- badges ---------- */
+function checkBadges(){
+  let newOnes = [];
+  for(const b of BADGES){
+    if(!state.badges.includes(b.id) && b.cond(state)){
+      state.badges.push(b.id); newOnes.push(b);
+    }
+  }
+  save();
+  if(newOnes.length){
+    const b = newOnes[0];
+    setTimeout(()=>showModal({
+      icon:b.em, title:`New Badge: ${b.name}!`, body:`You earned the <b>${b.name}</b> badge.`,
+      actions:[{label:'Awesome!',cls:'btn gold',cb:closeModal}]
+    }),400);
+  }
+}
+
+/* ---------- modal ---------- */
+function showModal({icon,title,body,actions=[]}){
+  const m=$('#modal'), b=$('#modalBody');
+  b.innerHTML = `<div class="big">${icon}</div><h2 style="margin:6px 0">${title}</h2><div style="color:#465a8a;margin-bottom:14px">${body}</div><div id="ma" class="row" style="justify-content:center"></div>`;
+  const ma=b.querySelector('#ma');
+  actions.forEach(a=>{
+    const btn=document.createElement('button'); btn.className=a.cls||'btn'; btn.textContent=a.label;
+    btn.onclick=()=>{ a.cb?.(); };
+    ma.appendChild(btn);
+  });
+  if(typeof m.showModal==='function') m.showModal(); else m.setAttribute('open','');
+}
+function closeModal(){ const m=$('#modal'); if(m.close) m.close(); else m.removeAttribute('open'); }
+
+/* ---------- HOME ---------- */
+function home(){
+  const lv = state.currentLevel; const L = LEVELS[lv];
+  const m = state.missions[lv]||{};
+  const starHTML = s => s ? '★'.repeat(s)+'☆'.repeat(3-s) : '';
+  const baseMissions = ['vocab','reading','gap','listen','order','spell'];
+  const allBase = baseMissions.every(k=>(m[k]||0)>=1);
+
+  main.innerHTML = `
+    <div class="card">
+      <div class="levelbar" id="lvbar"></div>
+      <h2 class="title">${L.emoji} Level ${lv} — ${L.name}</h2>
+      <div class="sub">${L.desc}</div>
+      <div class="grid cols-3 menu">
+        <div class="tile ${m.vocab?'done':''}" data-go="vocab">
+          <div class="emoji">🍇</div><h3>Vocabulary Match</h3>
+          <p>Match words to meanings</p><div class="stars">${starHTML(m.vocab||0)}</div>
+        </div>
+        <div class="tile ${m.reading?'done':''}" data-go="reading">
+          <div class="emoji">📖</div><h3>Reading Story</h3>
+          <p>Read and answer questions</p><div class="stars">${starHTML(m.reading||0)}</div>
+        </div>
+        <div class="tile ${m.gap?'done':''}" data-go="gap">
+          <div class="emoji">📝</div><h3>Gap Fill</h3>
+          <p>Choose the right words</p><div class="stars">${starHTML(m.gap||0)}</div>
+        </div>
+        <div class="tile ${m.listen?'done':''}" data-go="listen">
+          <div class="emoji">🎧</div><h3>Listening</h3>
+          <p>Hear and pick the answer</p><div class="stars">${starHTML(m.listen||0)}</div>
+        </div>
+        <div class="tile ${m.order?'done':''}" data-go="order">
+          <div class="emoji">🧩</div><h3>Build the Sentence</h3>
+          <p>Order the words correctly</p><div class="stars">${starHTML(m.order||0)}</div>
+        </div>
+        <div class="tile ${m.spell?'done':''}" data-go="spell">
+          <div class="emoji">🔤</div><h3>Spelling</h3>
+          <p>Listen and type the word</p><div class="stars">${starHTML(m.spell||0)}</div>
+        </div>
+      </div>
+      <div class="nav">
+        <button class="btn ghost" id="settingsBtn">⚙️ Settings</button>
+        <button class="btn ghost" id="badgesBtn">🏅 My Badges (${state.badges.length}/${BADGES.length})</button>
+        <button class="btn coral ${allBase?'':''}" id="bossBtn" ${allBase?'':'disabled'}>
+          ⚔️ Boss Battle ${m.boss?'★'.repeat(m.boss):''} ${allBase?'':'(complete all 6 missions first)'}
+        </button>
+      </div>
+    </div>`;
+
+  // level bar
+  const bar = $('#lvbar');
+  for(let i=1;i<=5;i++){
+    const c=document.createElement('span');
+    const unlocked = state.unlocked.includes(i);
+    const cleared = (state.missions[i]?.boss||0) >= 1;
+    c.className='lvchip'+(i===lv?' active':'')+(unlocked?'':' locked')+(cleared?' cleared':'');
+    c.textContent = `${LEVELS[i].emoji} Lv ${i}`;
+    if(unlocked) c.onclick=()=>{ state.currentLevel=i; save(); updateStats(); home(); };
+    else c.title='Locked — beat the previous boss';
+    bar.appendChild(c);
+  }
+
+  document.querySelectorAll('.tile').forEach(t=>{ t.onclick=()=>games[t.dataset.go](); });
+  $('#settingsBtn').onclick=settings;
+  $('#badgesBtn').onclick=showBadges;
+  $('#bossBtn').onclick=()=>{ if(allBase) games.boss(); };
+}
+
+/* ---------- BADGES SCREEN ---------- */
+function showBadges(){
+  main.innerHTML=`<div class="card">
+    <h2 class="title">🏅 My Badges (${state.badges.length}/${BADGES.length})</h2>
+    <div class="sub">Complete missions and challenges to earn them all!</div>
+    <div class="grid cols-5">
+      ${BADGES.map(b=>{
+        const got = state.badges.includes(b.id);
+        return `<div class="badge-tile ${got?'earned':'locked'}">
+          <span class="em">${b.em}</span>${b.name}
+        </div>`;
+      }).join('')}
+    </div>
+    ${backBar()}
+  </div>`;
+}
+
+/* ---------- SETTINGS ---------- */
+function settings(){
+  main.innerHTML=`<div class="card">
+    <h2 class="title">⚙️ Settings</h2>
+    <p style="margin:6px 0 6px;font-weight:700">Captain's name:</p>
+    <input class="nameInput" id="nm" value="${state.name}">
+    <div class="nav">
+      <button class="btn ghost" onclick="home()">⬅ Menu</button>
+      <button class="btn coral" id="reset">🗑️ Reset all progress</button>
+      <button class="btn green" id="sv">💾 Save</button>
+    </div>
+  </div>`;
+  $('#sv').onclick=()=>{ state.name = ($('#nm').value||'Pirate').trim().slice(0,20); save(); updateStats(); toast('💾 Saved'); home(); };
+  $('#reset').onclick=()=>{
+    showModal({icon:'⚠️',title:'Reset everything?',body:'This will delete all XP, badges and unlocked levels.',
+      actions:[
+        {label:'Yes, reset',cls:'btn coral',cb:()=>{ state = structuredClone(DEFAULT_SAVE); save(); updateStats(); closeModal(); home(); }},
+        {label:'Cancel',cls:'btn ghost',cb:closeModal},
+      ]});
+  };
+}
+
+/* ---------- nav helper ---------- */
+function backBar(extra=''){ return `<div class="nav"><button class="btn ghost" onclick="home()">⬅ Menu</button>${extra}</div>`; }
+
+/* ---------- star calc ---------- */
+function calcStars(score, total){
+  const pct = score/total;
+  if(pct>=1) return 3;
+  if(pct>=0.8) return 2;
+  if(pct>=0.5) return 1;
+  return 0;
+}
+
+/* =====================================================================
+   GAME 1 — Vocabulary Match
+   ===================================================================== */
+games = {};
+games.vocab = function(){
+  const L = LEVELS[state.currentLevel];
+  const items = shuffle(L.vocab).slice(0,6);
+  let matches = 0, mistakes = 0;
+  const left = items.map(o=>({key:o.w,label:o.w}));
+  const right = shuffle(items.map(o=>({key:o.w,label:o.e+'  '+o.d})));
+  let sel=null;
+
+  main.innerHTML = `
+    <div class="card">
+      <h2 class="title">🍇 Vocabulary Match</h2>
+      <div class="sub">Tap a word, then its meaning. Like Cambridge R&W Part 1.</div>
+      <div class="grid cols-2">
+        <div id="L"></div>
+        <div id="R"></div>
+      </div>
+      ${backBar()}
+    </div>`;
+  const Le=$('#L'), Re=$('#R');
+  left.forEach(o=>{
+    const d=document.createElement('div');d.className='pair';d.textContent=o.label;d.dataset.k=o.key;d.dataset.side='L';
+    d.onclick=()=>pick(d); Le.appendChild(d);
+  });
+  right.forEach(o=>{
+    const d=document.createElement('div');d.className='pair';d.textContent=o.label;d.dataset.k=o.key;d.dataset.side='R';
+    d.onclick=()=>pick(d); Re.appendChild(d);
+  });
+  function pick(el){
+    if(el.classList.contains('matched')) return;
+    if(!sel){ sel=el; el.classList.add('sel'); return; }
+    if(sel===el){ el.classList.remove('sel'); sel=null; return; }
+    if(sel.dataset.side===el.dataset.side){ sel.classList.remove('sel'); sel=el; el.classList.add('sel'); return; }
+    if(sel.dataset.k===el.dataset.k){
+      sel.classList.remove('sel');sel.classList.add('matched');el.classList.add('matched');
+      sel=null; matches++; award(true,8);
+      if(matches===items.length){
+        confetti();
+        const stars = mistakes===0?3 : mistakes<=2?2 : 1;
+        completeMission('vocab', stars, {vocab: mistakes===0});
+        setTimeout(()=>showModal({icon:'🏆',title:'Mission Complete!',body:`You matched all words with ${mistakes} mistakes.<div class="stars-row">${'★'.repeat(stars)}${'☆'.repeat(3-stars)}</div>`,
+          actions:[{label:'Menu',cls:'btn green',cb:()=>{closeModal();home();}}]}),700);
+      }
+    } else {
+      const a=sel,b=el; a.classList.remove('sel');
+      a.style.borderColor='#dc2626'; b.style.borderColor='#dc2626';
+      setTimeout(()=>{a.style.borderColor='';b.style.borderColor=''},500);
+      sel=null; mistakes++; award(false);
+    }
+  }
+};
+
+/* =====================================================================
+   GAME 2 — Reading
+   ===================================================================== */
+games.reading = function(){
+  const L = LEVELS[state.currentLevel];
+  const text = L.reading.text;
+  const qs = L.reading.qs;
+  let i=0, correct=0;
+  function render(){
+    if(i>=qs.length){
+      const stars = calcStars(correct, qs.length);
+      completeMission('reading', stars);
+      main.innerHTML = `<div class="card">
+        <h2 class="title">📖 Reading Done!</h2>
+        <p>You answered <b>${correct}/${qs.length}</b> correctly.</p>
+        <div class="stars-row">${'★'.repeat(stars)}${'☆'.repeat(3-stars)}</div>
+        ${backBar('<button class="btn green" onclick="games.reading()">Play again</button>')}
+      </div>`;
+      if(stars===3) confetti();
+      return;
+    }
+    const Q = qs[i];
+    main.innerHTML = `
+      <div class="card">
+        <h2 class="title">📖 Reading Story (${i+1}/${qs.length})</h2>
+        <div class="progress"><div style="width:${(i/qs.length)*100}%"></div></div>
+        <div class="reading">${text.replace(/\n/g,'<br>')}</div>
+        <button class="audio-btn" id="play">🔊 Listen to the story</button>
+        <div class="qcard">
+          <b>${Q.q}</b>
+          <div id="opts"></div>
+          <div id="fb" class="feedback"></div>
+        </div>
+        ${backBar()}
+      </div>`;
+    $('#play').onclick=()=>speak(text.replace(/\n/g,' '),0.92);
+    shuffle(Q.opts).forEach(o=>{
+      const b=document.createElement('button'); b.className='opt'; b.textContent=o;
+      b.onclick=()=>{
+        document.querySelectorAll('#opts .opt').forEach(x=>x.disabled=true);
+        if(o===Q.a){ b.classList.add('correct'); $('#fb').textContent='✅ Correct!'; $('#fb').className='feedback ok'; correct++; award(true,10); }
+        else{ b.classList.add('wrong'); document.querySelectorAll('#opts .opt').forEach(x=>{if(x.textContent===Q.a)x.classList.add('correct')});
+              $('#fb').textContent='❌ Correct: '+Q.a; $('#fb').className='feedback bad'; award(false); }
+        setTimeout(()=>{i++;render()},1300);
+      };
+      $('#opts').appendChild(b);
+    });
+  }
+  render();
+};
+
+/* =====================================================================
+   GAME 3 — Gap Fill
+   ===================================================================== */
+games.gap = function(){
+  const L = LEVELS[state.currentLevel];
+  const S = L.gap[Math.floor(Math.random()*L.gap.length)];
+  let answers = Array(S.bank.length).fill(null);
+  let selectedWord=null;
+  function render(){
+    let html = S.text;
+    for(let i=0;i<S.bank.length;i++){
+      const v = answers[i] ? `<span class="slot" data-slot="${i}" style="border-style:solid;background:#dcfce7">${answers[i]}</span>` :
+                             `<span class="slot" data-slot="${i}">__${i+1}__</span>`;
+      html = html.replace('___'+(i+1)+'___', v);
+    }
+    main.innerHTML=`
+      <div class="card">
+        <h2 class="title">📝 Gap Fill</h2>
+        <div class="sub">Tap a word, then a blank slot. Tap a filled slot to remove it.</div>
+        <div class="reading" id="story" style="font-size:17px">${html}</div>
+        <div style="margin-top:12px" id="bank"></div>
+        <div class="hint" id="hint">Hint will appear here when you hover/tap a slot.</div>
+        <div class="nav">
+          <button class="btn ghost" onclick="home()">⬅ Menu</button>
+          <button class="btn coral" id="clr">↺ Clear</button>
+          <button class="btn green" id="chk">✔ Check</button>
+        </div>
+      </div>`;
+    const bank=$('#bank');
+    shuffle(S.bank).forEach(w=>{
+      const c=document.createElement('span'); c.className='chip'; c.textContent=w;
+      if(answers.includes(w)) c.classList.add('used');
+      c.onclick=()=>{ if(c.classList.contains('used'))return; selectedWord=w; document.querySelectorAll('.chip').forEach(x=>x.style.outline=''); c.style.outline='3px solid #1f5fdf'; toast('"'+w+'" picked'); };
+      bank.appendChild(c);
+    });
+    document.querySelectorAll('.slot[data-slot]').forEach(s=>{
+      s.onmouseover=()=>{ const i=+s.dataset.slot; $('#hint').textContent='Hint: '+S.hints[i] };
+      s.onclick=()=>{
+        const i=+s.dataset.slot;
+        if(answers[i]){ answers[i]=null; render(); return; }
+        if(!selectedWord){ toast('Pick a word first'); return; }
+        answers[i]=selectedWord; selectedWord=null; render();
+      };
+    });
+    $('#clr').onclick=()=>{ answers=Array(S.bank.length).fill(null); render(); };
+    $('#chk').onclick=()=>{
+      let ok=0;
+      for(let i=0;i<S.bank.length;i++) if(answers[i]===S.bank[i]) ok++;
+      const stars = calcStars(ok, S.bank.length);
+      completeMission('gap', stars);
+      if(ok===S.bank.length){ confetti(); state.score+=20; updateStats(); save();
+        showModal({icon:'🏆',title:'Perfect!',body:`+20 bonus XP!<div class="stars-row">★★★</div>`,actions:[{label:'Menu',cls:'btn green',cb:()=>{closeModal();home();}}]});
+      } else {
+        showModal({icon: ok>=Math.ceil(S.bank.length*0.5)?'🌟':'📚',title:'Mission complete',body:`You got <b>${ok}/${S.bank.length}</b>.<div class="stars-row">${'★'.repeat(stars)}${'☆'.repeat(3-stars)}</div>`,
+          actions:[{label:'Try again',cls:'btn ghost',cb:()=>{closeModal();games.gap();}},{label:'Menu',cls:'btn green',cb:()=>{closeModal();home();}}]});
+        award(false);
+      }
+    };
+  }
+  render();
+};
+
+/* =====================================================================
+   GAME 4 — Listening
+   ===================================================================== */
+games.listen = function(){
+  const L = LEVELS[state.currentLevel];
+  const items = L.listen;
+  let i=0, correct=0;
+  function render(){
+    if(i>=items.length){
+      const stars = calcStars(correct, items.length);
+      completeMission('listen', stars, {listen: correct===items.length});
+      main.innerHTML = `<div class="card"><h2 class="title">🎧 Listening Done!</h2>
+        <p>You got <b>${correct}/${items.length}</b> right.</p>
+        <div class="stars-row">${'★'.repeat(stars)}${'☆'.repeat(3-stars)}</div>
+        ${backBar('<button class="btn green" onclick="games.listen()">Again</button>')}</div>`;
+      if(stars===3) confetti();
+      return;
+    }
+    const it=items[i];
+    main.innerHTML=`
+      <div class="card">
+        <h2 class="title">🎧 Listening (${i+1}/${items.length})</h2>
+        <div class="progress"><div style="width:${(i/items.length)*100}%"></div></div>
+        <div class="qcard">
+          <p>Press play and listen carefully. You can listen many times.</p>
+          <button class="audio-btn" id="play1">🔊 Listen</button>
+          <button class="audio-btn" id="play2" style="background:linear-gradient(180deg,#fbbf24,#d97706);box-shadow:0 5px 0 #92400e">🐢 Slow</button>
+          <div style="margin-top:14px"><b>${it.q}</b></div>
+          <div id="opts"></div>
+          <div id="fb" class="feedback"></div>
+        </div>
+        ${backBar()}
+      </div>`;
+    $('#play1').onclick=()=>speak(it.text,0.95);
+    $('#play2').onclick=()=>speak(it.text,0.7);
+    shuffle(it.opts).forEach(o=>{
+      const b=document.createElement('button'); b.className='opt'; b.textContent=o;
+      b.onclick=()=>{
+        document.querySelectorAll('#opts .opt').forEach(x=>x.disabled=true);
+        if(o===it.a){ b.classList.add('correct'); $('#fb').textContent='✅ Correct!'; $('#fb').className='feedback ok'; correct++; award(true,10); }
+        else{ b.classList.add('wrong'); document.querySelectorAll('#opts .opt').forEach(x=>{if(x.textContent===it.a)x.classList.add('correct')});
+              $('#fb').textContent='❌ Correct: '+it.a; $('#fb').className='feedback bad'; award(false);}
+        setTimeout(()=>{i++;render()},1400);
+      };
+      $('#opts').appendChild(b);
+    });
+    setTimeout(()=>speak(it.text,0.95),350);
+  }
+  render();
+};
+
+/* =====================================================================
+   GAME 5 — Sentence Ordering
+   ===================================================================== */
+games.order = function(){
+  const L = LEVELS[state.currentLevel];
+  const sents = L.sentences;
+  let i=0, correct=0;
+  let chosen=[], pool=[];
+  function render(){
+    if(i>=sents.length){
+      const stars = calcStars(correct, sents.length);
+      completeMission('order', stars);
+      main.innerHTML=`<div class="card"><h2 class="title">🧩 Sentences finished!</h2>
+        <p>Score: <b>${correct}/${sents.length}</b></p>
+        <div class="stars-row">${'★'.repeat(stars)}${'☆'.repeat(3-stars)}</div>
+        ${backBar('<button class="btn green" onclick="games.order()">Again</button>')}</div>`;
+      if(stars===3) confetti();
+      return;
+    }
+    const target = sents[i];
+    if(chosen.length===0 && pool.length===0){
+      pool = shuffle(target.replace(/\.$/,'').split(' '));
+    }
+    main.innerHTML=`
+      <div class="card">
+        <h2 class="title">🧩 Build the Sentence (${i+1}/${sents.length})</h2>
+        <div class="progress"><div style="width:${(i/sents.length)*100}%"></div></div>
+        <div class="qcard">
+          <p>Tap the words in the correct order.</p>
+          <div class="reading" id="line" style="min-height:48px">${chosen.map(w=>`<span class="key" data-c="${w}">${w}</span>`).join(' ')||'<i style="color:#999">— start tapping words —</i>'}</div>
+          <div style="margin-top:10px" id="pool">
+            ${pool.map(w=>`<span class="chip" data-w="${w}">${w}</span>`).join('')}
+          </div>
+          <div id="fb" class="feedback"></div>
+        </div>
+        <div class="nav">
+          <button class="btn ghost" onclick="home()">⬅ Menu</button>
+          <button class="btn coral" id="undo">↺ Clear</button>
+          <button class="btn green" id="chk">✔ Check</button>
+        </div>
+      </div>`;
+    document.querySelectorAll('#pool .chip').forEach(c=>{
+      c.onclick=()=>{ chosen.push(c.dataset.w); pool.splice(pool.indexOf(c.dataset.w),1); render(); };
+    });
+    document.querySelectorAll('#line .key').forEach(c=>{
+      c.onclick=()=>{ const w=c.dataset.c; pool.push(w); chosen.splice(chosen.indexOf(w),1); render(); };
+    });
+    $('#undo').onclick=()=>{ pool=pool.concat(chosen); chosen=[]; render(); };
+    $('#chk').onclick=()=>{
+      const made = chosen.join(' ');
+      const ok = made.toLowerCase() === target.replace(/\.$/,'').toLowerCase();
+      if(ok){ $('#fb').textContent='✅ Perfect! "'+target+'"'; $('#fb').className='feedback ok'; correct++; award(true,12); }
+      else{ $('#fb').textContent='❌ Correct: "'+target+'"'; $('#fb').className='feedback bad'; award(false); }
+      setTimeout(()=>{i++;chosen=[];pool=[];render();},1700);
+    };
+  }
+  render();
+};
+
+/* =====================================================================
+   GAME 6 — Spelling
+   ===================================================================== */
+games.spell = function(){
+  const L = LEVELS[state.currentLevel];
+  const list = shuffle(L.spell).slice(0,6);
+  let i=0, correct=0;
+  function render(){
+    if(i>=list.length){
+      const stars = calcStars(correct, list.length);
+      completeMission('spell', stars, {spell: correct===list.length});
+      main.innerHTML=`<div class="card"><h2 class="title">🔤 Spelling Done!</h2>
+        <p>Score: <b>${correct}/${list.length}</b></p>
+        <div class="stars-row">${'★'.repeat(stars)}${'☆'.repeat(3-stars)}</div>
+        ${backBar('<button class="btn green" onclick="games.spell()">Again</button>')}</div>`;
+      if(stars===3) confetti();
+      return;
+    }
+    const w=list[i];
+    main.innerHTML=`
+      <div class="card">
+        <h2 class="title">🔤 Spelling (${i+1}/${list.length})</h2>
+        <div class="progress"><div style="width:${(i/list.length)*100}%"></div></div>
+        <div class="qcard">
+          <p>Press the speaker, then write the word.</p>
+          <button class="audio-btn" id="say">🔊 Say the word</button>
+          <button class="audio-btn" id="slow" style="background:linear-gradient(180deg,#fbbf24,#d97706);box-shadow:0 5px 0 #92400e">🐢 Slow</button>
+          <div style="margin-top:14px">
+            <input class="input" id="ans" placeholder="Type here..." autocomplete="off" autocapitalize="none" spellcheck="false">
+          </div>
+          <div id="fb" class="feedback"></div>
+        </div>
+        <div class="nav">
+          <button class="btn ghost" onclick="home()">⬅ Menu</button>
+          <button class="btn green" id="chk">✔ Check</button>
+        </div>
+      </div>`;
+    $('#say').onclick=()=>speak(w,1);
+    $('#slow').onclick=()=>speak(w,0.55);
+    $('#ans').focus();
+    $('#ans').addEventListener('keydown',e=>{ if(e.key==='Enter') $('#chk').click(); });
+    $('#chk').onclick=()=>{
+      const v=($('#ans').value||'').trim().toLowerCase();
+      if(v===w){ $('#fb').textContent='✅ Correct: '+w; $('#fb').className='feedback ok'; correct++; award(true,12); }
+      else{ $('#fb').textContent='❌ Correct spelling: '+w; $('#fb').className='feedback bad'; award(false); }
+      setTimeout(()=>{i++;render();},1500);
+    };
+    setTimeout(()=>speak(w,1),300);
+  }
+  render();
+};
+
+/* =====================================================================
+   BOSS — Mixed Quiz (level-specific)
+   ===================================================================== */
+games.boss = function(){
+  const L = LEVELS[state.currentLevel];
+  const items = shuffle(L.boss).slice(0, Math.min(6, L.boss.length));
+  let i=0, correct=0;
+  function render(){
+    if(i>=items.length){
+      beatBoss(correct, items.length);
+      // also clear screen back to home behind modal
+      home();
+      return;
+    }
+    const Q=items[i];
+    main.innerHTML=`
+      <div class="card">
+        <h2 class="title">⚔️ Boss Battle — ${L.name} (${i+1}/${items.length})</h2>
+        <div class="progress"><div style="width:${(i/items.length)*100}%"></div></div>
+        <div class="qcard"><b>${Q.q}</b><div id="opts"></div><div id="fb" class="feedback"></div></div>
+        ${backBar()}
+      </div>`;
+    shuffle(Q.opts).forEach(o=>{
+      const b=document.createElement('button'); b.className='opt'; b.textContent=o;
+      b.onclick=()=>{
+        document.querySelectorAll('#opts .opt').forEach(x=>x.disabled=true);
+        if(o===Q.a){ b.classList.add('correct'); $('#fb').textContent='✅ Correct!'; $('#fb').className='feedback ok'; correct++; award(true,15); }
+        else{ b.classList.add('wrong'); document.querySelectorAll('#opts .opt').forEach(x=>{if(x.textContent===Q.a)x.classList.add('correct')});
+              $('#fb').textContent='❌ Correct: '+Q.a; $('#fb').className='feedback bad'; award(false);}
+        setTimeout(()=>{i++;render()},1300);
+      };
+      $('#opts').appendChild(b);
+    });
+  }
+  render();
+};
+
+/* ---------- boot ---------- */
+window.addEventListener('load',()=>{
+  if('speechSynthesis' in window){ window.speechSynthesis.getVoices(); }
+  updateStats(); home();
+  // welcome back
+  if(state.score>0){
+    setTimeout(()=>toast(`Welcome back, Captain ${state.name}! 🏴‍☠️`),300);
+  }
+});
+</script>
+</body>
+</html>

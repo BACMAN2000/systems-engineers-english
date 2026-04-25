@@ -1,0 +1,99 @@
+<svg viewBox="0 0 440 180" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Ambient soft shadow (no per-circle sphere gradient) -->
+    <filter id="sh" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="1.5" dy="2.5" stdDeviation="1.6" flood-color="#0B1630" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <!-- Color constants:
+       top   = flat circle face (mid-blue, the "view from above")
+       base  = offset circle behind (dark blue = the ALTITUDE / side wall you see poking out)
+  -->
+
+  <g id="sunburst" transform="rotate(-40 90 90)" filter="url(#sh)">
+
+    <!-- Reusable coin pair: dark "height" circle offset down-right + flat face on top.
+         Order below renders bases first so faces sit on top. -->
+
+    <!-- ============== BASES (dark altitude layer) ============== -->
+    <g fill="#0B1E52">
+      <!-- 4 corners r=12 -->
+      <circle cx="122" cy="62.5"  r="12"/>
+      <circle cx="62"  cy="62.5"  r="12"/>
+      <circle cx="122" cy="122.5" r="12"/>
+      <circle cx="62"  cy="122.5" r="12"/>
+      <!-- 8 small inner r=6.5 -->
+      <circle cx="81.5" cy="62"  r="6.5"/>
+      <circle cx="101.5" cy="62" r="6.5"/>
+      <circle cx="81.5" cy="122" r="6.5"/>
+      <circle cx="101.5" cy="122" r="6.5"/>
+      <circle cx="61.5" cy="82"  r="6.5"/>
+      <circle cx="61.5" cy="102" r="6.5"/>
+      <circle cx="121.5" cy="82"  r="6.5"/>
+      <circle cx="121.5" cy="102" r="6.5"/>
+      <!-- 16 outer tips r=6.5 -->
+      <circle cx="81.5" cy="46"  r="6.5"/>
+      <circle cx="101.5" cy="46" r="6.5"/>
+      <circle cx="81.5" cy="30"  r="6.5"/>
+      <circle cx="101.5" cy="30" r="6.5"/>
+      <circle cx="81.5" cy="138" r="6.5"/>
+      <circle cx="101.5" cy="138" r="6.5"/>
+      <circle cx="81.5" cy="154" r="6.5"/>
+      <circle cx="101.5" cy="154" r="6.5"/>
+      <circle cx="45.5" cy="82"  r="6.5"/>
+      <circle cx="45.5" cy="102" r="6.5"/>
+      <circle cx="29.5" cy="82"  r="6.5"/>
+      <circle cx="29.5" cy="102" r="6.5"/>
+      <circle cx="137.5" cy="82"  r="6.5"/>
+      <circle cx="137.5" cy="102" r="6.5"/>
+      <circle cx="153.5" cy="82"  r="6.5"/>
+      <circle cx="153.5" cy="102" r="6.5"/>
+      <!-- Center r=18 -->
+      <circle cx="91.5" cy="92.5" r="18"/>
+    </g>
+
+    <!-- ============== FACES (flat mid-blue top) ============== -->
+    <g fill="#2563EB">
+      <circle cx="120" cy="60"  r="12"/>
+      <circle cx="60"  cy="60"  r="12"/>
+      <circle cx="120" cy="120" r="12"/>
+      <circle cx="60"  cy="120" r="12"/>
+
+      <circle cx="80"  cy="60"  r="6.5"/>
+      <circle cx="100" cy="60"  r="6.5"/>
+      <circle cx="80"  cy="120" r="6.5"/>
+      <circle cx="100" cy="120" r="6.5"/>
+      <circle cx="60"  cy="80"  r="6.5"/>
+      <circle cx="60"  cy="100" r="6.5"/>
+      <circle cx="120" cy="80"  r="6.5"/>
+      <circle cx="120" cy="100" r="6.5"/>
+
+      <circle cx="80"  cy="44"  r="6.5"/>
+      <circle cx="100" cy="44"  r="6.5"/>
+      <circle cx="80"  cy="28"  r="6.5"/>
+      <circle cx="100" cy="28"  r="6.5"/>
+
+      <circle cx="80"  cy="136" r="6.5"/>
+      <circle cx="100" cy="136" r="6.5"/>
+      <circle cx="80"  cy="152" r="6.5"/>
+      <circle cx="100" cy="152" r="6.5"/>
+
+      <circle cx="44"  cy="80"  r="6.5"/>
+      <circle cx="44"  cy="100" r="6.5"/>
+      <circle cx="28"  cy="80"  r="6.5"/>
+      <circle cx="28"  cy="100" r="6.5"/>
+
+      <circle cx="136" cy="80"  r="6.5"/>
+      <circle cx="136" cy="100" r="6.5"/>
+      <circle cx="152" cy="80"  r="6.5"/>
+      <circle cx="152" cy="100" r="6.5"/>
+
+      <circle cx="90" cy="90" r="18"/>
+    </g>
+  </g>
+
+  <!-- COHASSET wordmark -->
+  <text x="175" y="104" font-family="Arial Black, Helvetica, sans-serif" font-weight="900" letter-spacing="-1" font-size="38" fill="#64748B">COHASSET</text>
+  <text x="177" y="128" font-family="Arial, Helvetica, sans-serif" font-weight="600" letter-spacing="3" font-size="13" fill="#94A3B8">LANGUAGE CENTER</text>
+</svg>

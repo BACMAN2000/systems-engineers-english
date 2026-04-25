@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Cohasset Logo — 4 Options</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Bricolage+Grotesque:wght@800&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:'DM Sans',sans-serif;background:#F8FAFC;color:#1E293B;padding:30px 24px 60px;line-height:1.55}
+  h1{font-size:1.6rem;font-weight:800;margin-bottom:6px;color:#0F172A}
+  h1 b{color:#2563EB}
+  p.intro{color:#475569;margin-bottom:28px;font-size:.95rem}
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(360px,1fr));gap:22px;max-width:1200px;margin:0 auto}
+  .card{background:#fff;border:1px solid #E2E8F0;border-radius:16px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.06)}
+  .tag{display:flex;justify-content:space-between;align-items:center;padding:14px 18px;border-bottom:1px solid #E2E8F0}
+  .tag .n{font-weight:800;font-size:1rem;color:#0F172A}
+  .tag .d{font-size:.78rem;color:#64748B;font-weight:500}
+  .prev-row{display:flex;flex-direction:column}
+  .prev{display:flex;align-items:center;justify-content:center;padding:28px 20px;min-height:130px}
+  .prev.light{background:#F8FAFC}
+  .prev.dark{background:#0F172A}
+  .prev.light-subtle{background:#fff}
+  .prev img{max-width:100%;height:auto;max-height:90px;display:block}
+  .prev .context{font-size:.7rem;text-transform:uppercase;letter-spacing:1.3px;font-weight:600;position:absolute;margin:-70px 0 0 14px;color:#94A3B8}
+  .prev.dark .context{color:rgba(255,255,255,.45)}
+  .actions{display:flex;gap:8px;padding:12px 18px;background:#F8FAFC;border-top:1px solid #E2E8F0}
+  .actions button{flex:1;padding:8px 10px;border:1px solid #CBD5E1;background:#fff;color:#1E293B;font-weight:600;font-size:.8rem;border-radius:8px;cursor:pointer;transition:all .15s}
+  .actions button:hover{border-color:#2563EB;color:#2563EB;background:#EFF6FF}
+  .actions button.apply{background:#2563EB;color:#fff;border-color:#2563EB}
+  .actions button.apply:hover{background:#1E40AF}
+  .note{max-width:1200px;margin:30px auto 0;padding:16px 20px;background:#FEF3C7;border-left:4px solid #F59E0B;border-radius:0 12px 12px 0;font-size:.85rem;color:#78350F}
+  .selected{outline:3px solid #10B981;outline-offset:-2px}
+  .selected-badge{display:none;background:#10B981;color:#fff;font-size:.7rem;font-weight:800;padding:3px 8px;border-radius:999px;text-transform:uppercase;letter-spacing:.8px}
+  .selected .selected-badge{display:inline-block}
+</style>
+</head>
+<body>
+  <h1>Cohasset Logo — <b>4 variants</b></h1>
+  <p class="intro">Cada opción se muestra sobre fondo claro (como en documentos) y sobre fondo slate (como en el header de la plataforma). Click en <b>Apply to platform</b> para dejarla como logo oficial en los 4 headers.</p>
+
+  <div class="grid">
+    <div class="card" data-opt="1">
+      <div class="tag">
+        <div>
+          <div class="n">Option 1 · Spheres (3D radial gradient) <span class="selected-badge">Current</span></div>
+          <div class="d">Highlight top-left · dark altitude bottom-right · most premium feel</div>
+        </div>
+      </div>
+      <div class="prev-row">
+        <div class="prev light"><img src="cohasset-logo.svg?v=4" alt="Option 1"></div>
+        <div class="prev dark"><img src="cohasset-logo.svg?v=4" alt="Option 1 dark bg"></div>
+      </div>
+      <div class="actions">
+        <button onclick="open('cohasset-logo.svg','_blank')">Open SVG</button>
+        <button class="apply" onclick="apply('cohasset-logo.svg',1)">Apply to platform</button>
+      </div>
+    </div>
+
+    <div class="card" data-opt="2">
+      <div class="tag">
+        <div>
+          <div class="n">Option 2 · Flat + altitude right</div>
+          <div class="d">Flat blue circles with dark base peeking from the right — light from upper-left</div>
+        </div>
+      </div>
+      <div class="prev-row">
+        <div class="prev light"><img src="cohasset-logo-option-2.svg?v=4" alt="Option 2"></div>
+        <div class="prev dark"><img src="cohasset-logo-option-2.svg?v=4" alt="Option 2 dark bg"></div>
+      </div>
+      <div class="actions">
+        <button onclick="open('cohasset-logo-option-2.svg','_blank')">Open SVG</button>
+        <button class="apply" onclick="apply('cohasset-logo-option-2.svg',2)">Apply to platform</button>
+      </div>
+    </div>
+
+    <div class="card" data-opt="3">
+      <div class="tag">
+        <div>
+          <div class="n">Option 3 · Flat + altitude left (subtle)</div>
+          <div class="d">Flat blue circles with dark base on the left — light from upper-right</div>
+        </div>
+      </div>
+      <div class="prev-row">
+        <div class="prev light"><img src="cohasset-logo-option-3.svg?v=4" alt="Option 3"></div>
+        <div class="prev dark"><img src="cohasset-logo-option-3.svg?v=4" alt="Option 3 dark bg"></div>
+      </div>
+      <div class="actions">
+        <button onclick="open('cohasset-logo-option-3.svg','_blank')">Open SVG</button>
+        <button class="apply" onclick="apply('cohasset-logo-option-3.svg',3)">Apply to platform</button>
+      </div>
+    </div>
+
+    <div class="card" data-opt="4">
+      <div class="tag">
+        <div>
+          <div class="n">Option 4 · Flat + altitude far left (strong)</div>
+          <div class="d">Stronger shadow pushed further left — dramatic relief from a right-side light</div>
+        </div>
+      </div>
+      <div class="prev-row">
+        <div class="prev light"><img src="cohasset-logo-option-4.svg?v=4" alt="Option 4"></div>
+        <div class="prev dark"><img src="cohasset-logo-option-4.svg?v=4" alt="Option 4 dark bg"></div>
+      </div>
+      <div class="actions">
+        <button onclick="open('cohasset-logo-option-4.svg','_blank')">Open SVG</button>
+        <button class="apply" onclick="apply('cohasset-logo-option-4.svg',4)">Apply to platform</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="note">
+    <b>How to apply:</b> Click "Apply to platform" to copy the chosen logo over <code>cohasset-logo.svg</code> — the 4 headers (Cohasset home, TOEFL Free, TOEFL Premium, Placement Test) all read from that filename, so they'll update at once. This page only saves your pick locally; the actual file swap needs a small code change (tell the assistant which one you picked).
+  </div>
+
+<script>
+  // Mark previously-picked option (if any)
+  const picked = localStorage.getItem('cohasset_logo_pick');
+  if(picked){
+    const card = document.querySelector(`.card[data-opt="${picked}"]`);
+    if(card) card.classList.add('selected');
+  }
+  function apply(file, opt){
+    localStorage.setItem('cohasset_logo_pick', opt);
+    document.querySelectorAll('.card').forEach(c => c.classList.remove('selected'));
+    document.querySelector(`.card[data-opt="${opt}"]`).classList.add('selected');
+    alert(`Option ${opt} selected (${file}). Tell the assistant "aplica la opción ${opt}" to make it official across the 4 headers.`);
+  }
+</script>
+</body>
+</html>

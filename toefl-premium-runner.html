@@ -1,0 +1,1222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TOEFL Premium Practice Tests — Cohasset</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<!--
+  TOEFL Premium Runner
+  Visual shell matches the free runner (Cohasset red header, DM Sans, drill-down lobby).
+  Loads 55 TPO practice tests from toefl-premium-assets/.
+  Subscription gate: unlock code -> localStorage.
+-->
+<style>
+:root{
+  --ets-navy:#2563EB;           /* Primary accent (blue) */
+  --ets-navy-dark:#1E40AF;
+  --ets-navy-light:#3B82F6;
+  --ets-orange:#DC2626;         /* Danger/accent red */
+  --ets-orange-dark:#991B1B;
+  --ets-gray-bg:#F8FAFC;        /* App background */
+  --ets-gray-panel:#EFF6FF;
+  --ets-gray-border:#E2E8F0;
+  --ets-gray-text:#1E293B;
+  --ets-gray-muted:#475569;
+  --ets-green:#10B981;
+  --ets-red:#EF4444;
+  --font: "DM Sans", "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-serif: Georgia, "Times New Roman", serif;
+  --sh:0 4px 20px rgba(0,0,0,.08);
+}
+*,*::before,*::after{box-sizing:border-box}
+html,body{margin:0;padding:0;height:100%;font-family:var(--font);color:var(--ets-gray-text);background:var(--ets-gray-bg);font-size:15px;line-height:1.5}
+
+/* ---------- Mobile-preview toggle ---------- */
+.mobile-toggle{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);z-index:9998;background:var(--ets-navy);color:#fff;border:none;border-radius:50%;width:48px;height:48px;box-shadow:0 4px 14px rgba(0,0,0,.25);cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:all .18s}
+.mobile-toggle:hover{transform:translateX(-50%) scale(1.08);background:var(--ets-navy-dark)}
+.mobile-toggle.active{background:var(--ets-orange)}
+body.mobile-preview{background:#1a1a1a}
+body.mobile-preview > div:not(#gate):not(.mobile-toggle){max-width:390px;margin:20px auto;min-height:calc(100vh - 40px);border:10px solid #1a1a1a;border-radius:32px;box-shadow:0 0 0 2px #333, 0 20px 50px rgba(0,0,0,.5);overflow:hidden;background:var(--ets-gray-bg);position:relative}
+body.mobile-preview .exam-header{border-radius:22px 22px 0 0;padding:10px 14px}
+body.mobile-preview .exam-header .logo{font-size:.9rem}
+body.mobile-preview .exam-header button, body.mobile-preview .exam-header a.back{padding:5px 10px;font-size:.75rem}
+body.mobile-preview .exam-body{grid-template-columns:1fr}
+body.mobile-preview .exam-panel{max-height:none;padding:16px 18px}
+body.mobile-preview .exam-panel.right{border-left:none;border-top:1px solid var(--ets-gray-border)}
+body.mobile-preview .tpo-grid{grid-template-columns:1fr}
+body.mobile-preview .nav-bar{padding:8px 14px;font-size:.82rem}
+body.mobile-preview .passage-text{font-size:15px}
+body.mobile-preview .results{margin:20px 16px;padding:20px}
+
+/* ---------- Cohasset-style header (matches free runner) ---------- */
+.exam-header{background:#0F172A;color:#fff;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;box-shadow:var(--sh);position:sticky;top:0;z-index:100;gap:12px}
+.exam-header .logo{font-family:var(--font);font-weight:700;font-size:1rem;letter-spacing:.2px;display:flex;align-items:center;gap:12px}
+.exam-header .logo img{height:48px;width:auto;display:block;background:#fff;border-radius:8px;padding:3px 8px}
+.exam-header .logo .sub{font-size:.78rem;font-weight:500;color:#93C5FD;text-transform:uppercase;letter-spacing:1.2px;padding-left:12px;border-left:2px solid rgba(255,255,255,.15)}
+.exam-header .section-label{font-size:.82rem;opacity:.9;text-transform:uppercase;letter-spacing:1.2px}
+.exam-header .right{display:flex;align-items:center;gap:12px;font-size:.85rem}
+.exam-header button, .exam-header a.back{background:rgba(255,255,255,.18);border:none;color:#fff;padding:7px 14px;border-radius:8px;cursor:pointer;font-family:var(--font);font-size:.85rem;font-weight:600;transition:all .2s;text-decoration:none;display:inline-flex;align-items:center;gap:6px}
+.exam-header button:hover, .exam-header a.back:hover{background:rgba(255,255,255,.28)}
+.exam-header button.danger{background:rgba(0,0,0,.25)}
+.exam-header button.danger:hover{background:rgba(0,0,0,.4)}
+.timer-badge{background:rgba(0,0,0,.25);padding:6px 12px;border-radius:8px;font-family:"Consolas",monospace;font-size:.9rem;font-weight:700;letter-spacing:.5px}
+
+.exam-subheader{background:#fff;padding:8px 20px;border-bottom:1px solid var(--ets-gray-border);display:flex;align-items:center;justify-content:space-between;font-size:13px}
+.exam-subheader .crumbs{color:var(--ets-gray-muted)}
+.exam-subheader .crumbs b{color:var(--ets-navy)}
+
+/* ---------- Lobby (drill-down: TPO card → section menu) ---------- */
+.lobby{max-width:1100px;margin:0 auto;padding:24px 20px 60px}
+.lobby h2{font-size:1.5rem;color:var(--ets-gray-text);margin:0 0 6px;font-weight:700;letter-spacing:-.3px}
+.lobby h2 i{color:var(--ets-orange);margin-right:8px}
+.lobby .tagline{color:var(--ets-gray-muted);margin-bottom:20px;font-size:.95rem}
+.back-inline{background:#fff;color:var(--ets-gray-text);border:1px solid var(--ets-gray-border);padding:8px 14px;border-radius:8px;font-size:.85rem;font-weight:600;cursor:pointer;font-family:var(--font);display:inline-flex;align-items:center;gap:6px;margin-bottom:14px}
+.back-inline:hover{background:var(--ets-gray-panel);border-color:var(--ets-navy);color:var(--ets-navy)}
+.tpo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.tpo-card{background:#fff;border:1px solid var(--ets-gray-border);border-radius:14px;padding:20px;box-shadow:var(--sh);cursor:pointer;transition:transform .18s, box-shadow .18s;display:flex;flex-direction:column;gap:6px}
+.tpo-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.12)}
+.tpo-card h3{margin:0;color:var(--ets-orange);font-size:1.1rem;font-weight:700;display:flex;align-items:center;gap:8px}
+.tpo-card h3 i{font-size:.95rem}
+.tpo-card p{margin:0;color:var(--ets-gray-muted);font-size:.85rem}
+.tpo-card .done-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.tpo-card .done-pill{font-size:.7rem;background:#D1FAE5;color:#065F46;padding:2px 8px;border-radius:999px;font-weight:700}
+/* Section card (drill-down second level) uses same tpo-card base */
+.sec-card h3{color:var(--ets-navy)}
+.sec-card h3 i{color:var(--ets-navy)}
+
+/* ---------- Subscription gate ---------- */
+.gate-overlay{position:fixed;inset:0;background:rgba(30,41,59,.86);display:flex;align-items:center;justify-content:center;z-index:9999;backdrop-filter:blur(4px)}
+.gate-box{background:#fff;max-width:500px;width:92%;border-radius:14px;overflow:hidden;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+.gate-box .hdr{background:linear-gradient(135deg,#DC2626,#991B1B);color:#fff;padding:22px 26px}
+.gate-box .hdr h2{margin:0;font-size:1.4rem;font-weight:700;letter-spacing:-.3px}
+.gate-box .hdr p{margin:6px 0 0;font-size:.85rem;opacity:.95}
+.gate-box .body{padding:24px 26px 20px}
+.gate-box .price{font-size:1.6rem;color:var(--ets-gray-text);font-weight:700;margin:4px 0 14px}
+.gate-box .price .unit{font-size:.9rem;color:var(--ets-gray-muted);font-weight:500}
+.gate-box ul{margin:0 0 18px;padding:0 0 0 18px;font-size:.9rem;color:var(--ets-gray-text)}
+.gate-box ul li{margin-bottom:4px}
+.gate-box label{font-size:.78rem;color:var(--ets-gray-muted);text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:6px;font-weight:600}
+.gate-box input{width:100%;padding:10px 12px;border:1px solid var(--ets-gray-border);border-radius:8px;font-size:.95rem;font-family:var(--font);letter-spacing:1px;text-transform:uppercase}
+.gate-box input:focus{outline:none;border-color:var(--ets-navy);box-shadow:0 0 0 3px rgba(37,99,235,.15)}
+.gate-box .err{color:var(--ets-red);font-size:.82rem;margin-top:8px;min-height:18px}
+.gate-box .actions{display:flex;gap:10px;margin-top:18px;flex-wrap:wrap}
+.gate-box button{flex:1;padding:11px 14px;border-radius:8px;border:none;font-size:.9rem;font-weight:600;cursor:pointer;font-family:var(--font);text-transform:uppercase;letter-spacing:.5px;transition:all .15s;min-width:140px}
+.btn-primary{background:var(--ets-orange);color:#fff}
+.btn-primary:hover{background:var(--ets-orange-dark)}
+.btn-secondary{background:#fff;color:var(--ets-gray-text);border:1px solid var(--ets-gray-border)!important}
+.btn-secondary:hover{background:var(--ets-gray-panel);border-color:var(--ets-navy)!important;color:var(--ets-navy)}
+.btn-orange{background:var(--ets-orange);color:#fff}
+.btn-orange:hover{background:var(--ets-orange-dark)}
+.gate-box .foot{background:var(--ets-gray-panel);padding:14px 26px;border-top:1px solid var(--ets-gray-border);font-size:.75rem;color:var(--ets-gray-muted);text-align:center}
+
+/* ---------- Exam body ---------- */
+.exam-body{display:grid;grid-template-columns:1fr 1fr;gap:0;min-height:calc(100vh - 80px)}
+.exam-panel{background:#fff;padding:24px 30px;overflow-y:auto;max-height:calc(100vh - 80px)}
+.exam-panel.right{border-left:1px solid var(--ets-gray-border)}
+.passage-title{font-family:var(--font-serif);font-size:20px;color:var(--ets-navy);margin:0 0 10px;font-weight:700}
+.passage-text{font-family:var(--font-serif);font-size:16px;line-height:1.7;color:#222;white-space:pre-wrap}
+.passage-text p{margin:0 0 14px}
+.passage-text .para-num{font-weight:700;color:var(--ets-orange);margin-right:8px;display:inline-block;width:18px}
+.passage-text .highlight{background:#fff3a0;padding:1px 2px}
+.passage-text .target{background:#b7e4c7;padding:1px 3px;font-weight:600}
+.passage-text .insert-slot{display:inline-block;min-width:24px;height:24px;margin:0 4px;padding:0 6px;vertical-align:middle;background:var(--ets-navy);border-radius:4px;cursor:pointer;color:#fff;font-size:.8rem;text-align:center;line-height:24px;font-weight:700;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:all .15s}
+.passage-text .insert-slot:hover{background:var(--ets-navy-dark);transform:scale(1.1)}
+.passage-text .insert-slot.active{background:var(--ets-orange);box-shadow:0 0 0 3px rgba(220,38,38,.25)}
+.passage-text .insert-slot.correct{background:var(--ets-green);box-shadow:0 0 0 3px rgba(16,185,129,.25)}
+.passage-text .insert-slot.incorrect{background:var(--ets-red);box-shadow:0 0 0 3px rgba(239,68,68,.25)}
+.passage-text .para-arrow{font-weight:700;color:#000;margin-right:8px;display:inline-block;width:18px;font-size:.95em}
+.passage-text .target-word{font-weight:700;color:#000;background:#FEF3C7;padding:1px 3px;border-radius:3px}
+.passage-text .highlight-sentence{background:#FEF3C7;padding:2px 4px;border-left:3px solid var(--ets-orange);border-radius:2px}
+.question-text .target-word{font-weight:700;background:#FEF3C7;padding:1px 3px;border-radius:3px}
+.prompt-hint{font-size:.82rem;color:var(--ets-gray-muted);font-style:italic;margin-bottom:8px;padding:6px 10px;background:var(--ets-gray-panel);border-radius:6px}
+.insert-sentence{background:var(--ets-gray-panel);padding:12px 14px;border-radius:8px;margin:10px 0;font-family:var(--font-serif);font-size:.95rem;border-left:4px solid var(--ets-navy)}
+/* Table/schema listening questions */
+.schema-table{border-collapse:collapse;width:100%;margin:10px 0;font-size:.9rem}
+.schema-table th{background:var(--ets-navy);color:#fff;padding:8px 10px;text-align:center;font-weight:600;border:1px solid var(--ets-navy)}
+.schema-table td{border:1px solid var(--ets-gray-border);padding:8px 10px;vertical-align:middle}
+.schema-table .tbl-label{font-weight:500;background:var(--ets-gray-panel)}
+.schema-table .tbl-cell{text-align:center;cursor:pointer;transition:background .12s}
+.schema-table .tbl-cell:hover{background:#E3F2FD}
+.schema-table .tbl-cell.selected{background:#E3F2FD}
+.schema-table .tbl-cell.correct{background:#D1FAE5}
+.schema-table .tbl-cell.incorrect{background:#FEE2E2}
+/* Sequence (ordering) listening questions */
+.seq-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:10px 0}
+.seq-left, .seq-right{background:var(--ets-gray-panel);padding:12px;border-radius:8px;display:flex;flex-direction:column;gap:8px}
+.seq-left b, .seq-right b{font-size:.82rem;color:var(--ets-gray-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+.seq-option{background:#fff;border:1px solid var(--ets-gray-border);padding:8px 12px;border-radius:6px;cursor:pointer;font-size:.88rem}
+.seq-option:hover{border-color:var(--ets-navy);background:#E3F2FD}
+.seq-option.used{opacity:.4;pointer-events:none}
+.seq-slot{background:#fff;border:2px dashed var(--ets-gray-border);padding:10px 12px;border-radius:6px;font-size:.88rem;min-height:36px;cursor:pointer}
+.seq-slot:hover{border-style:solid;border-color:var(--ets-navy)}
+.seq-slot.correct{border-color:var(--ets-green);background:#D1FAE5;border-style:solid}
+.seq-slot.incorrect{border-color:var(--ets-red);background:#FEE2E2;border-style:solid}
+
+.question-box{background:#fff}
+.question-num{color:var(--ets-gray-muted);font-size:12px;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.question-text{font-size:15px;margin:0 0 16px;font-weight:500;line-height:1.55}
+.question-text b, .question-text strong{color:var(--ets-navy)}
+.options{display:flex;flex-direction:column;gap:8px}
+.option{padding:10px 14px;border:1px solid var(--ets-gray-border);border-radius:4px;cursor:pointer;display:flex;gap:12px;align-items:flex-start;background:#fff;transition:all .12s}
+.option:hover{background:var(--ets-gray-panel);border-color:var(--ets-navy-light)}
+.option.selected{background:#e3f2fd;border-color:var(--ets-navy);box-shadow:inset 3px 0 0 var(--ets-navy)}
+.option.correct{background:#e8f5e9;border-color:var(--ets-green)}
+.option.incorrect{background:#ffebee;border-color:var(--ets-red)}
+.option .letter{min-width:24px;height:24px;border-radius:50%;background:var(--ets-gray-panel);border:1px solid var(--ets-gray-border);display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;color:var(--ets-navy);flex-shrink:0}
+.option.selected .letter{background:var(--ets-navy);color:#fff;border-color:var(--ets-navy)}
+.option.correct .letter{background:var(--ets-green);color:#fff;border-color:var(--ets-green)}
+.option.incorrect .letter{background:var(--ets-red);color:#fff;border-color:var(--ets-red)}
+.option .body{flex:1;font-size:14px;line-height:1.5}
+
+/* ---------- Navigation bar ---------- */
+.nav-bar{background:var(--ets-navy);color:#fff;padding:10px 20px;display:flex;justify-content:space-between;align-items:center;position:sticky;bottom:0;box-shadow:0 -2px 6px rgba(0,0,0,.15)}
+.nav-bar .qinfo{font-size:13px;letter-spacing:.5px}
+.nav-bar .qinfo b{color:#fff}
+.nav-bar .btns{display:flex;gap:8px}
+.nav-bar button{background:#fff;color:var(--ets-navy);border:none;padding:8px 18px;border-radius:3px;font-weight:700;cursor:pointer;font-family:var(--font);font-size:13px;text-transform:uppercase;letter-spacing:.5px;transition:all .15s;min-width:90px}
+.nav-bar button:hover:not(:disabled){background:var(--ets-gray-panel)}
+.nav-bar button:disabled{opacity:.4;cursor:not-allowed}
+.nav-bar button.next{background:var(--ets-orange);color:#fff}
+.nav-bar button.next:hover{background:var(--ets-orange-dark)}
+
+/* ---------- Audio player (proctored style) ---------- */
+.audio-box{background:var(--ets-navy);color:#fff;padding:18px 22px;border-radius:6px;margin:20px 0;display:flex;align-items:center;gap:18px}
+.audio-box .play{width:60px;height:60px;border-radius:50%;background:var(--ets-orange);border:none;cursor:pointer;color:#fff;font-size:22px;flex-shrink:0;transition:all .15s}
+.audio-box .play:hover{background:var(--ets-orange-dark)}
+.audio-box .info{flex:1}
+.audio-box .info .t{font-size:12px;opacity:.7;text-transform:uppercase;letter-spacing:1px}
+.audio-box .info .n{font-size:16px;margin-top:2px}
+.audio-box .info .time{font-family:"Consolas",monospace;font-size:14px;opacity:.9;margin-top:4px}
+.audio-box audio{display:none}
+.audio-box .progress{flex:1;height:6px;background:rgba(255,255,255,.2);border-radius:3px;overflow:hidden;max-width:300px}
+.audio-box .progress .bar{height:100%;background:var(--ets-orange);width:0%;transition:width .1s}
+
+/* ---------- Results ---------- */
+.results{max-width:800px;margin:40px auto;background:#fff;border-radius:6px;padding:30px 36px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.results h2{color:var(--ets-navy);margin:0 0 8px;font-weight:400}
+.results .score{font-size:48px;color:var(--ets-navy);font-weight:700;margin:14px 0}
+.results .summary{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0}
+.results .summary > div{text-align:center;padding:14px;background:var(--ets-gray-panel);border-radius:4px}
+.results .summary .n{font-size:26px;font-weight:700;color:var(--ets-navy)}
+.results .summary .l{font-size:12px;color:var(--ets-gray-muted);text-transform:uppercase;letter-spacing:1px;margin-top:4px}
+.review-list{margin-top:20px;display:flex;flex-direction:column;gap:10px}
+.review-item{padding:12px;border-left:3px solid var(--ets-gray-border);background:var(--ets-gray-panel);border-radius:0 4px 4px 0;font-size:13px}
+.review-item.correct{border-color:var(--ets-green);background:#e8f5e9}
+.review-item.incorrect{border-color:var(--ets-red);background:#ffebee}
+.review-banner{padding:10px 14px;border-radius:8px;margin:0 0 14px;font-size:.88rem}
+.review-banner.ok{background:#D1FAE5;color:#065F46;border-left:4px solid var(--ets-green)}
+.review-banner.bad{background:#FEE2E2;color:#991B1B;border-left:4px solid var(--ets-red)}
+.review-item .q{font-weight:600;margin-bottom:4px}
+.review-item .a{color:var(--ets-gray-muted);font-size:12px}
+
+/* ---------- Misc ---------- */
+.hidden{display:none!important}
+.loading{padding:40px;text-align:center;color:var(--ets-gray-muted)}
+textarea.essay{width:100%;min-height:420px;padding:14px;border:1px solid var(--ets-gray-border);border-radius:4px;font-family:var(--font);font-size:15px;line-height:1.6;resize:vertical}
+.word-count{color:var(--ets-gray-muted);font-size:12px;margin-top:6px}
+
+/* Speaking recorder */
+.rec-box{text-align:center;padding:30px;background:var(--ets-gray-panel);border-radius:6px}
+.rec-box .rec-btn{width:90px;height:90px;border-radius:50%;border:none;background:var(--ets-red);color:#fff;cursor:pointer;font-size:20px;font-weight:700;transition:all .15s}
+.rec-box .rec-btn:hover{background:#b71c1c}
+.rec-box .rec-btn.recording{background:#d32f2f;animation:pulse 1.5s infinite}
+.rec-box .rec-btn:disabled{background:var(--ets-gray-muted);cursor:not-allowed}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(211,47,47,.7)}50%{box-shadow:0 0 0 18px rgba(211,47,47,0)}}
+
+/* Instructions screen */
+.instructions{max-width:800px;margin:40px auto;background:#fff;border-radius:6px;padding:30px 40px;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.instructions h2{color:var(--ets-navy);margin:0 0 14px;font-weight:400}
+.instructions p{font-size:15px;line-height:1.7;color:#333;margin:0 0 12px}
+.instructions .big-btn{background:var(--ets-navy);color:#fff;border:none;padding:12px 32px;font-size:14px;font-weight:700;border-radius:4px;cursor:pointer;text-transform:uppercase;letter-spacing:1px;margin-top:10px}
+.instructions .big-btn:hover{background:var(--ets-navy-dark)}
+</style>
+</head>
+<body>
+
+<!-- ========================================================================
+     Subscription gate (shown until localStorage.toefl_premium_unlocked=1)
+     ======================================================================== -->
+<div id="gate" class="gate-overlay hidden">
+  <div class="gate-box">
+    <div class="hdr">
+      <h2><i class="fas fa-crown"></i> TOEFL Premium</h2>
+      <p>Complete library — 55 TPO practice tests</p>
+    </div>
+    <div class="body">
+      <div class="price">$29<span class="unit"> · one-time</span></div>
+      <ul>
+        <li>55 full-length TOEFL practice tests (TPO 1–55)</li>
+        <li>2,286 Reading questions · 1,869 Listening questions</li>
+        <li>330 Speaking tasks · 110 Writing tasks</li>
+        <li>Original audio (~3,000 MP3s) &amp; images</li>
+        <li>Timer, transcripts, score report, review mode</li>
+      </ul>
+      <label for="unlockCode">Enter your unlock code</label>
+      <input id="unlockCode" type="text" placeholder="XXXX-XXXX-XXXX" autocomplete="off" spellcheck="false">
+      <div id="gateErr" class="err"></div>
+      <div class="actions">
+        <button class="btn-secondary" id="btnBack">Back to Cohasset</button>
+        <button class="btn-primary" id="btnUnlock">Unlock Premium</button>
+      </div>
+    </div>
+    <div class="foot">
+      Need a code? Contact <a href="mailto:renattobaca@gmail.com" style="color:var(--ets-orange);text-decoration:none">renattobaca@gmail.com</a>
+    </div>
+  </div>
+</div>
+
+<!-- ========================================================================
+     App root
+     ======================================================================== -->
+<div id="app"></div>
+
+<!-- Mobile-preview toggle button -->
+<button class="mobile-toggle" id="btnMobileToggle" title="Toggle mobile preview" aria-label="Toggle mobile preview">
+  <i class="fas fa-mobile-screen-button"></i>
+</button>
+<script>
+(function(){
+  const btn = document.getElementById('btnMobileToggle');
+  const KEY = 'toefl_mobile_preview';
+  function apply(on){
+    document.body.classList.toggle('mobile-preview', on);
+    btn.classList.toggle('active', on);
+    btn.innerHTML = on ? '<i class="fas fa-display"></i>' : '<i class="fas fa-mobile-screen-button"></i>';
+    btn.title = on ? 'Switch to desktop view' : 'Switch to mobile preview';
+  }
+  apply(localStorage.getItem(KEY) === '1');
+  btn.addEventListener('click', () => {
+    const on = !document.body.classList.contains('mobile-preview');
+    localStorage.setItem(KEY, on ? '1' : '0');
+    apply(on);
+  });
+})();
+</script>
+
+<script>
+/* =========================================================================
+   CONFIG
+   ========================================================================= */
+const ASSETS = 'toefl-premium-assets/';
+// Add/remove unlock codes here. They are checked case-insensitively.
+const UNLOCK_CODES = ['TOEFL-PREMIUM-2026', 'RENATTO-TOEFL-55', 'XYSTPO-UNLOCK'];
+const LS_KEY = 'toefl_premium_unlocked';
+const LS_PROGRESS = 'toefl_premium_progress';
+// Free runner (fallback "Back to Free" link)
+const FREE_RUNNER = 'toefl-runner.html';
+const HUB = 'COHASSET-platform-standalone.html';
+
+/* =========================================================================
+   STATE
+   ========================================================================= */
+let INDEX = null;          // index.json
+let CUR_TPO = null;        // number
+let CUR_SECTION = null;    // 'reading' | 'listening' | 'speaking' | 'writing'
+let SECTION_DATA = null;   // loaded json
+let FLAT_QS = [];          // flat question array across the section
+let FLAT_CTX = [];         // parallel array of {passage?, lecture?, taskIdx}
+let CUR_Q = 0;
+let ANSWERS = {};          // key: qid -> answer
+let TIMER_INT = null;
+let TIMER_SEC = 0;
+let PHASE = 'lobby';       // lobby | instructions | exam | finished
+
+/* =========================================================================
+   SUBSCRIPTION GATE
+   ========================================================================= */
+function isUnlocked(){ return localStorage.getItem(LS_KEY) === '1'; }
+function checkGate(){
+  if(isUnlocked()){
+    document.getElementById('gate').classList.add('hidden');
+    return true;
+  }
+  document.getElementById('gate').classList.remove('hidden');
+  return false;
+}
+function tryUnlock(){
+  const v = (document.getElementById('unlockCode').value||'').trim().toUpperCase();
+  const ok = UNLOCK_CODES.map(c=>c.toUpperCase()).includes(v);
+  if(ok){
+    localStorage.setItem(LS_KEY, '1');
+    localStorage.setItem(LS_KEY+'_at', new Date().toISOString());
+    document.getElementById('gateErr').textContent = '';
+    document.getElementById('gate').classList.add('hidden');
+    init();
+  } else {
+    document.getElementById('gateErr').textContent = 'Invalid code. Please check and try again.';
+  }
+}
+document.getElementById('btnUnlock').addEventListener('click', tryUnlock);
+document.getElementById('btnBack').addEventListener('click', ()=>{ location.href = HUB; });
+document.getElementById('unlockCode').addEventListener('keydown', e=>{ if(e.key==='Enter') tryUnlock(); });
+
+/* =========================================================================
+   PROGRESS (localStorage)
+   ========================================================================= */
+function loadProgress(){ try { return JSON.parse(localStorage.getItem(LS_PROGRESS)||'{}'); } catch { return {}; } }
+function saveProgress(tpo, section, data){
+  const p = loadProgress();
+  p[`${tpo}.${section}`] = data;
+  localStorage.setItem(LS_PROGRESS, JSON.stringify(p));
+}
+
+/* =========================================================================
+   HEADER + chrome
+   ========================================================================= */
+function chrome(sectionLabel, showTimer){
+  const inExam = !!sectionLabel;
+  return `
+    <div class="exam-header">
+      <div class="logo"><img src="cohasset-logo.svg" alt="Cohasset"><span class="sub">TOEFL Premium${sectionLabel?' · '+sectionLabel:''}</span></div>
+      <div class="right">
+        ${showTimer ? '<span class="timer-badge" id="timer">--:--</span>' : ''}
+        ${inExam
+          ? '<button onclick="goLobby()"><i class="fas fa-times"></i> Exit Section</button>'
+          : `<a class="back" href="${HUB}"><i class="fas fa-arrow-left"></i> Back to Cohasset</a>`}
+      </div>
+    </div>`;
+}
+
+/* =========================================================================
+   LOBBY
+   ========================================================================= */
+async function init(){
+  if(!checkGate()) return;
+  const app = document.getElementById('app');
+  app.innerHTML = chrome('', false) + '<div class="loading" style="padding:60px;text-align:center;color:var(--ets-gray-muted)"><i class="fas fa-spinner fa-spin" style="font-size:2rem;color:var(--ets-navy);display:block;margin-bottom:10px"></i>Loading practice tests…</div>';
+  try {
+    const r = await fetch(ASSETS + 'data/index.json', {cache:'no-store'});
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    INDEX = await r.json();
+  } catch(e){
+    app.innerHTML = chrome('', false) + `
+      <div class="instructions">
+        <h2>Premium data not installed</h2>
+        <p>The premium practice-test dataset isn't available yet.</p>
+        <p>Run <code>SETUP-TOEFL-PREMIUM.ps1</code> from the project folder to build the data files, then reload this page.</p>
+        <p>Expected location:<br><code>${ASSETS}data/index.json</code></p>
+        <p style="color:var(--ets-red)">Error: ${e.message}</p>
+        <button class="big-btn" onclick="location.href='${HUB}'">Back to Cohasset</button>
+      </div>`;
+    return;
+  }
+  renderLobby();
+}
+
+function renderLobby(){
+  const app = document.getElementById('app');
+  PHASE = 'lobby';
+  app.innerHTML = chrome('', false) + `
+    <div class="lobby">
+      <h2><i class="fas fa-crown"></i> Premium Library · ${INDEX.totalCount} Practice Tests</h2>
+      <p class="tagline">Click a test to see its four sections.</p>
+      <div class="tpo-grid">
+        ${INDEX.tpos.map(t => renderTpoCard(t)).join('')}
+      </div>
+    </div>`;
+}
+
+function renderTpoCard(t){
+  const progress = loadProgress();
+  const doneSecs = ['reading','listening','speaking','writing'].filter(s => progress[`${t.eid}.${s}`]);
+  const donePills = doneSecs.map(s => `<span class="done-pill">${s[0].toUpperCase()} ✓</span>`).join('');
+  return `
+    <div class="tpo-card" onclick="renderTestMenu(${t.eid})">
+      <h3><i class="fas fa-scroll"></i> TPO ${t.eid}</h3>
+      <p>4 sections · Full-length test</p>
+      ${donePills ? `<div class="done-row">${donePills}</div>` : ''}
+    </div>`;
+}
+
+function renderTestMenu(tpo){
+  const app = document.getElementById('app');
+  const t = INDEX.tpos.find(x => x.eid === tpo);
+  if(!t){ renderLobby(); return; }
+  PHASE = 'lobby';
+  const progress = loadProgress();
+  const icons = {reading:'fa-book-open',listening:'fa-headphones',speaking:'fa-microphone',writing:'fa-pen'};
+  const durations = {reading:54, listening:41, speaking:17, writing:50};
+  const labels = {reading:'Reading', listening:'Listening', speaking:'Speaking', writing:'Writing'};
+  const secCards = ['reading','listening','speaking','writing'].map(s => {
+    const done = progress[`${tpo}.${s}`] ? '<span class="done-pill" style="margin-left:8px">Done ✓</span>' : '';
+    return `
+      <div class="tpo-card sec-card" onclick="startSection(${tpo},'${s}')">
+        <h3><i class="fas ${icons[s]}"></i> ${labels[s]}${done}</h3>
+        <p>${labels[s]} section · ${durations[s]} min</p>
+      </div>`;
+  }).join('');
+  app.innerHTML = chrome('', false) + `
+    <div class="lobby">
+      <button class="back-inline" onclick="renderLobby()"><i class="fas fa-arrow-left"></i> All Tests</button>
+      <h2><i class="fas fa-scroll"></i> TPO ${t.eid}</h2>
+      <p class="tagline">Choose a section to begin.</p>
+      <div class="tpo-grid">${secCards}</div>
+    </div>`;
+}
+
+function goLobby(){
+  if(TIMER_INT){ clearInterval(TIMER_INT); TIMER_INT=null; }
+  if(CUR_TPO) renderTestMenu(CUR_TPO); else renderLobby();
+}
+
+/* =========================================================================
+   SECTION LOADING
+   ========================================================================= */
+async function startSection(tpo, section){
+  CUR_TPO = tpo; CUR_SECTION = section;
+  const app = document.getElementById('app');
+  app.innerHTML = chrome(sectionLabel(section), false) + '<div class="loading">Loading section…</div>';
+  try {
+    const r = await fetch(`${ASSETS}data/tpo${tpo}/${section}.json`, {cache:'no-store'});
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    SECTION_DATA = await r.json();
+  } catch(e){
+    app.innerHTML = chrome(sectionLabel(section), false) + `<div class="instructions"><h2>Error loading section</h2><p>${e.message}</p><button class="big-btn" onclick="goLobby()">Back</button></div>`;
+    return;
+  }
+  flattenSection();
+  CUR_Q = 0; ANSWERS = {};
+  renderInstructions();
+}
+
+function sectionLabel(s){
+  return {reading:'Reading Section',listening:'Listening Section',speaking:'Speaking Section',writing:'Writing Section'}[s] || '';
+}
+
+function flattenSection(){
+  FLAT_QS = []; FLAT_CTX = [];
+  if(CUR_SECTION === 'reading'){
+    SECTION_DATA.passages.forEach((p, pi) => {
+      p.questions.forEach(q => { FLAT_QS.push(q); FLAT_CTX.push({passageIdx:pi, passage:p}); });
+    });
+  } else if(CUR_SECTION === 'listening'){
+    SECTION_DATA.lectures.forEach((lec, li) => {
+      lec.questions.forEach(q => { FLAT_QS.push(q); FLAT_CTX.push({lectureIdx:li, lecture:lec}); });
+    });
+  } else if(CUR_SECTION === 'speaking'){
+    SECTION_DATA.tasks.forEach((t, ti) => { FLAT_QS.push(t); FLAT_CTX.push({taskIdx:ti, task:t}); });
+  } else if(CUR_SECTION === 'writing'){
+    SECTION_DATA.tasks.forEach((t, ti) => { FLAT_QS.push(t); FLAT_CTX.push({taskIdx:ti, task:t}); });
+  }
+}
+
+/* =========================================================================
+   INSTRUCTIONS
+   ========================================================================= */
+function renderInstructions(){
+  PHASE = 'instructions';
+  const app = document.getElementById('app');
+  const labels = {
+    reading: {title:'Reading Section Directions', time:'54 minutes (plus 18 min extended)',
+      body:`This section measures your ability to understand academic passages in English. You will read ${SECTION_DATA.passages?.length ?? 0} passages and answer questions about each.
+
+You may look back at a passage at any time while answering questions. Most questions are worth 1 point, but some "summary" or "table" questions may be worth up to 3 points.`},
+    listening:{title:'Listening Section Directions', time:'41 minutes (plus 10 min extended)',
+      body:`This section measures your ability to understand spoken English from lectures and conversations. You will hear each conversation or lecture one time. After each, you will answer questions based on what was stated or implied.
+
+You can take notes while listening. Your notes will not be graded.`},
+    speaking:{title:'Speaking Section Directions', time:'17 minutes',
+      body:`This section measures your ability to speak in English about a variety of topics. You will respond to ${SECTION_DATA.tasks?.length ?? 0} tasks. Some are independent (your own opinion), others integrate reading or listening material.
+
+For each task, you will have preparation time and response time. Speak clearly into your microphone when prompted.`},
+    writing: {title:'Writing Section Directions', time:'50 minutes',
+      body:`This section measures your ability to write in English to communicate in an academic environment. You will write responses to ${SECTION_DATA.tasks?.length ?? 0} tasks. The integrated task combines reading and listening material. The independent task is based on your own ideas and experience.`},
+  };
+  const d = labels[CUR_SECTION];
+  app.innerHTML = chrome(sectionLabel(CUR_SECTION), false) + `
+    <div class="instructions">
+      <h2>${d.title}</h2>
+      <p><b>Estimated time:</b> ${d.time}</p>
+      <p style="white-space:pre-line">${d.body}</p>
+      <p>TPO ${CUR_TPO} · ${FLAT_QS.length} items total</p>
+      <button class="big-btn" onclick="startExam()">Continue</button>
+      <button class="big-btn" style="background:var(--ets-gray-muted);margin-left:8px" onclick="goLobby()">Back</button>
+    </div>`;
+}
+
+/* =========================================================================
+   EXAM
+   ========================================================================= */
+function startExam(){
+  PHASE = 'exam';
+  // Section timers (standard TOEFL)
+  const t = {reading:54*60, listening:41*60, speaking:17*60, writing:50*60}[CUR_SECTION] || 30*60;
+  TIMER_SEC = t;
+  if(TIMER_INT) clearInterval(TIMER_INT);
+  TIMER_INT = setInterval(tickTimer, 1000);
+  renderCurrent();
+}
+
+function tickTimer(){
+  TIMER_SEC = Math.max(0, TIMER_SEC - 1);
+  const el = document.getElementById('timer');
+  if(el){
+    const m = Math.floor(TIMER_SEC/60), s = TIMER_SEC%60;
+    el.textContent = String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+    if(TIMER_SEC <= 60) el.style.background = 'rgba(198,40,40,.5)';
+  }
+  if(TIMER_SEC <= 0){ clearInterval(TIMER_INT); TIMER_INT=null; finishSection(); }
+}
+
+function renderCurrent(){
+  if(CUR_SECTION === 'reading')   return renderReading();
+  if(CUR_SECTION === 'listening') return renderListening();
+  if(CUR_SECTION === 'speaking')  return renderSpeaking();
+  if(CUR_SECTION === 'writing')   return renderWriting();
+}
+
+/* ------------------ READING ------------------ */
+function renderReading(){
+  const app = document.getElementById('app');
+  const q = FLAT_QS[CUR_Q];
+  const ctx = FLAT_CTX[CUR_Q];
+  const p = ctx.passage;
+  app.innerHTML = chrome('Reading Section', true) + `
+    <div class="exam-subheader">
+      <div class="crumbs">TPO ${CUR_TPO} · <b>Reading</b> · Passage ${ctx.passageIdx+1} of ${SECTION_DATA.passages.length}</div>
+      <div>Question <b>${CUR_Q+1}</b> of ${FLAT_QS.length}</div>
+    </div>
+    <div class="exam-body">
+      <div class="exam-panel">
+        <h2 class="passage-title">${escapeHtml(p.title)}</h2>
+        <div class="passage-text">${formatPassage(p.content, q)}</div>
+      </div>
+      <div class="exam-panel right">
+        <div class="question-box">
+          <div class="question-num">Question ${CUR_Q+1}</div>
+          ${q.prompt ? `<div class="prompt-hint">${escapeHtml(q.prompt)}</div>` : ''}
+          <div class="question-text">${formatQuestionText(q)}</div>
+          ${q.type === 1 && q.insertSentence ? `<div class="insert-sentence"><b>Sentence to insert:</b><br>${escapeHtml(q.insertSentence)}</div>` : ''}
+          ${renderOptions(q)}
+        </div>
+      </div>
+    </div>
+    ${renderNav()}`;
+  setupTimerDisplay();
+  bindOptionClicks(q);
+  if(q.type === 1) bindInsertSlotClicks(q);
+}
+
+function formatQuestionText(q){
+  // %1 placeholder → the target word/phrase in bold (word/phrase/reference questions)
+  let text = q.question || '';
+  const target = q.styleContent || q.highlight || '';
+  if(target && /%1/.test(text)){
+    text = text.replace(/%1/g, `</span><b class="target-word">${escapeHtml(target)}</b><span class="qtext-span">`);
+    text = `<span class="qtext-span">${text}</span>`;
+  } else {
+    text = escapeHtml(text);
+  }
+  return text;
+}
+
+function formatPassage(content, q){
+  if(!content) return '';
+  const paras = content.split(/\n+/).map(s => s.trim()).filter(Boolean);
+  const styleIdx = (q && Array.isArray(q.styleIndex)) ? q.styleIndex : [];
+  const styleContent = (q && q.styleContent) ? q.styleContent.trim() : '';
+  const isSentenceSimplify = styleContent && styleContent.length > 60; // full-sentence highlight
+  const isInsert = q && q.type === 1;
+  const insertTarget = isInsert ? (q.startIndex || 0) : 0;
+  const insertSen = isInsert ? (q.insertSentence || '') : '';
+  return paras.map((para, i) => {
+    const paraNum = i + 1;
+    const marked = styleIdx.includes(paraNum);
+    const marker = marked ? '<span class="para-arrow">▶</span>' : '';
+    let body = escapeHtml(para);
+    // Word/phrase target: bold its first occurrence in the target paragraph
+    if(styleContent && !isSentenceSimplify && (marked || styleIdx.length === 0)){
+      const safe = styleContent.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      body = body.replace(new RegExp(`\\b${safe}\\b`, 'i'), m => `<b class="target-word">${m}</b>`);
+    }
+    // Sentence simplification: highlight the full sentence in yellow
+    if(isSentenceSimplify){
+      const safe = styleContent.replace(/[.*+?^${}()|[\]\\]/g, '\\$&').replace(/\s+/g, '\\s+');
+      body = body.replace(new RegExp(safe, 'i'), m => `<span class="highlight-sentence">${m}</span>`);
+    }
+    // InsertText: show clickable slots between sentences in target paragraph
+    if(isInsert && paraNum === insertTarget){
+      body = renderInsertSlots(para, q);
+    }
+    return `<p>${marker}${body}</p>`;
+  }).join('');
+}
+
+function renderInsertSlots(paraText, q){
+  // Real TOEFL Insert-Text always shows exactly 4 positions (A/B/C/D).
+  // Split target paragraph into sentences; distribute 4 slots between them.
+  const sentences = (paraText.match(/[^.!?]+[.!?]+(?:["'\s]|$)/g) || [paraText]).map(s => s.trim()).filter(Boolean);
+  const chosen = ANSWERS[q.qid];
+  const letters = ['A','B','C','D'];
+  const inReview = (PHASE === 'review');
+  const correct = String(q.answer||'').charAt(0);
+
+  // Pick 4 positions among sentence boundaries. If paragraph has >=4 sentences,
+  // place slots at positions 0,1,2,3 (i.e., before sentence 1,2,3,4). Else spread.
+  const n = sentences.length;
+  let positions;
+  if(n >= 4)      positions = [0,1,2,3];
+  else if(n === 3) positions = [0,1,2,3]; // A before S1, B before S2, C before S3, D after S3 (end)
+  else if(n === 2) positions = [0,1,2,2]; // A before S1, B before S2, C after S2, D after S2
+  else             positions = [0,0,0,0];
+
+  let out = '';
+  const slotAt = {};
+  positions.forEach((pos, i) => { if(!slotAt[pos]) slotAt[pos] = []; slotAt[pos].push(letters[i]); });
+
+  const slotHtml = (letter) => {
+    let cls = 'insert-slot';
+    if(chosen === letter) cls += ' active';
+    if(inReview){
+      if(letter === correct) cls += ' correct';
+      else if(chosen === letter) cls += ' incorrect';
+    }
+    return `<span class="${cls}" data-insert="${letter}" data-qid="${q.qid}" title="Insert position ${letter}">${letter}</span>`;
+  };
+
+  for(let i = 0; i <= n; i++){
+    if(slotAt[i]) slotAt[i].forEach(L => { out += slotHtml(L); });
+    if(i < n) out += ' ' + escapeHtml(sentences[i]) + ' ';
+  }
+  return out;
+}
+
+function bindInsertSlotClicks(q){
+  if(PHASE === 'review') return;
+  document.querySelectorAll('.insert-slot').forEach(el => {
+    el.addEventListener('click', () => {
+      ANSWERS[q.qid] = el.dataset.insert;
+      renderCurrent();
+    });
+  });
+}
+
+/* ------------------ LISTENING ------------------ */
+function renderListening(){
+  const app = document.getElementById('app');
+  const q = FLAT_QS[CUR_Q];
+  const ctx = FLAT_CTX[CUR_Q];
+  const lec = ctx.lecture;
+  const audioSrc = lec.audio ? (ASSETS + lec.audio) : '';
+  const firstQofLec = FLAT_CTX[CUR_Q-1]?.lectureIdx !== ctx.lectureIdx;
+  app.innerHTML = chrome('Listening Section', true) + `
+    <div class="exam-subheader">
+      <div class="crumbs">TPO ${CUR_TPO} · <b>Listening</b> · ${lec.categoryLabel||'lecture'} ${ctx.lectureIdx+1} of ${SECTION_DATA.lectures.length}</div>
+      <div>Question <b>${CUR_Q+1}</b> of ${FLAT_QS.length}</div>
+    </div>
+    <div style="padding:24px 30px;background:#fff">
+      ${firstQofLec && audioSrc ? `
+        <div class="audio-box">
+          <button class="play" id="playBtn" onclick="togglePlay()">▶</button>
+          <div class="info">
+            <div class="t">${lec.categoryLabel||'Audio'} — ${lec.category ? 'Lecture' : 'Conversation'}</div>
+            <div class="n">Listen carefully. You may take notes.</div>
+            <div class="time" id="aTime">00:00 / 00:00</div>
+          </div>
+          <div class="progress"><div class="bar" id="aBar"></div></div>
+          <audio id="audio" src="${audioSrc}" preload="auto"></audio>
+        </div>
+      ` : ''}
+      <div class="question-box" style="margin-top:14px">
+        <div class="question-num">Question ${CUR_Q+1}</div>
+        <div class="question-text">${escapeHtml(q.question)}</div>
+        ${renderOptions(q)}
+      </div>
+      <details style="margin-top:20px;color:var(--ets-gray-muted);font-size:13px">
+        <summary style="cursor:pointer">Show transcript (after audio finishes)</summary>
+        <div style="margin-top:8px;padding:12px;background:var(--ets-gray-panel);white-space:pre-wrap;font-family:var(--font-serif);font-size:14px;line-height:1.6;max-height:260px;overflow-y:auto">${escapeHtml(lec.transcript||'')}</div>
+      </details>
+    </div>
+    ${renderNav()}`;
+  setupTimerDisplay();
+  bindOptionClicks(q);
+  setupAudio();
+}
+
+function setupAudio(){
+  const a = document.getElementById('audio');
+  if(!a) return;
+  const bar = document.getElementById('aBar');
+  const tt  = document.getElementById('aTime');
+  a.addEventListener('timeupdate', ()=>{
+    if(a.duration){ bar.style.width = (a.currentTime/a.duration*100)+'%';
+      tt.textContent = fmtTime(a.currentTime)+' / '+fmtTime(a.duration);
+    }
+  });
+  a.addEventListener('ended', ()=>{ document.getElementById('playBtn').textContent='▶'; });
+}
+function fmtTime(s){ s=Math.floor(s||0); return String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0'); }
+function togglePlay(){
+  const a=document.getElementById('audio'); const b=document.getElementById('playBtn');
+  if(!a) return;
+  if(a.paused){ a.play(); b.textContent='❚❚'; } else { a.pause(); b.textContent='▶'; }
+}
+
+/* ------------------ SPEAKING ------------------ */
+function renderSpeaking(){
+  const app = document.getElementById('app');
+  const t = FLAT_QS[CUR_Q];
+  const ctx = FLAT_CTX[CUR_Q];
+  const isIndep = (t.type === 0);
+  app.innerHTML = chrome('Speaking Section', true) + `
+    <div class="exam-subheader">
+      <div class="crumbs">TPO ${CUR_TPO} · <b>Speaking</b> · Task ${CUR_Q+1} of ${FLAT_QS.length}</div>
+      <div>${isIndep ? 'Independent' : 'Integrated'} task</div>
+    </div>
+    <div style="padding:24px 30px;background:#fff;max-width:900px;margin:0 auto">
+      <h3 style="color:var(--ets-navy)">Speaking — Task ${CUR_Q+1}</h3>
+      ${t.readMaterial ? `<div style="background:var(--ets-gray-panel);padding:16px 20px;border-radius:4px;margin:14px 0;font-family:var(--font-serif);font-size:15px;line-height:1.7">${escapeHtml(t.readMaterial)}</div>` : ''}
+      ${t.conversation && t.conversation.audio ? audioPlayerHtml('spkconv', ASSETS+t.conversation.audio, 'Conversation', 'Listen to the conversation.') + `
+        <details style="color:var(--ets-gray-muted);font-size:13px"><summary style="cursor:pointer">Transcript</summary>
+          <div style="margin-top:8px;padding:12px;background:var(--ets-gray-panel);white-space:pre-wrap;font-family:var(--font-serif);font-size:14px">${escapeHtml(t.conversation.transcript||'')}</div>
+        </details>` : ''}
+      ${t.promptAudio ? audioPlayerHtml('spkprompt', ASSETS+t.promptAudio, 'Question prompt', 'Listen, then respond.') : ''}
+      <div style="background:#fff;padding:16px;border:1px solid var(--ets-gray-border);border-radius:4px;margin-top:14px">
+        <div style="color:var(--ets-gray-muted);font-size:12px;text-transform:uppercase;letter-spacing:1px">Question</div>
+        <p style="font-size:16px;margin:8px 0 0;line-height:1.6">${escapeHtml(t.question)}</p>
+      </div>
+      <div class="rec-box" style="margin-top:20px">
+        <button class="rec-btn" id="recBtn" onclick="toggleRec()">● REC</button>
+        <div style="margin-top:10px;color:var(--ets-gray-muted);font-size:13px" id="recStatus">Click to start recording your response</div>
+        <audio id="recPlay" controls style="margin-top:14px;display:none;width:100%;max-width:400px"></audio>
+      </div>
+    </div>
+    ${renderNav()}`;
+  setupTimerDisplay();
+  setupNamedAudio('spkconv');
+  setupNamedAudio('spkprompt');
+}
+
+let MEDIA_REC = null, REC_CHUNKS = [];
+async function toggleRec(){
+  const btn = document.getElementById('recBtn');
+  const st = document.getElementById('recStatus');
+  const pl = document.getElementById('recPlay');
+  if(MEDIA_REC && MEDIA_REC.state === 'recording'){
+    MEDIA_REC.stop(); btn.textContent='● REC'; btn.classList.remove('recording');
+    st.textContent='Recording saved locally (not uploaded).'; return;
+  }
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({audio:true});
+    MEDIA_REC = new MediaRecorder(stream);
+    REC_CHUNKS = [];
+    MEDIA_REC.ondataavailable = e => REC_CHUNKS.push(e.data);
+    MEDIA_REC.onstop = () => {
+      const blob = new Blob(REC_CHUNKS, {type:'audio/webm'});
+      pl.src = URL.createObjectURL(blob); pl.style.display='block';
+      stream.getTracks().forEach(t => t.stop());
+    };
+    MEDIA_REC.start();
+    btn.textContent='■ STOP'; btn.classList.add('recording');
+    st.textContent='Recording… speak into your microphone.';
+  } catch(e){
+    st.textContent='Microphone access denied. You can still review the task.';
+  }
+}
+
+function togglePlayGeneric(tag){
+  const a = document.getElementById('audio'+tag);
+  if(!a) return;
+  if(a.paused) a.play(); else a.pause();
+}
+
+/* Generic audio player block with progress + time, used by listening/speaking/writing */
+function audioPlayerHtml(tag, src, title, subtitle){
+  if(!src) return '';
+  return `
+    <div class="audio-box" data-tag="${tag}">
+      <button class="play" id="play_${tag}" onclick="togglePlayNamed('${tag}')">▶</button>
+      <div class="info">
+        <div class="t">${escapeHtml(title||'Audio')}</div>
+        <div class="n">${escapeHtml(subtitle||'')}</div>
+        <div class="time" id="time_${tag}">00:00 / 00:00</div>
+      </div>
+      <div class="progress"><div class="bar" id="bar_${tag}"></div></div>
+      <audio id="audio_${tag}" src="${src}" preload="auto"></audio>
+    </div>`;
+}
+function setupNamedAudio(tag){
+  const a = document.getElementById('audio_'+tag);
+  if(!a) return;
+  const bar = document.getElementById('bar_'+tag);
+  const tt  = document.getElementById('time_'+tag);
+  const btn = document.getElementById('play_'+tag);
+  a.addEventListener('timeupdate', ()=>{
+    if(a.duration){
+      if(bar) bar.style.width = (a.currentTime/a.duration*100)+'%';
+      if(tt)  tt.textContent  = fmtTime(a.currentTime)+' / '+fmtTime(a.duration);
+    }
+  });
+  a.addEventListener('loadedmetadata', ()=>{
+    if(a.duration && tt) tt.textContent = '00:00 / '+fmtTime(a.duration);
+  });
+  a.addEventListener('ended', ()=>{ if(btn) btn.textContent = '▶'; });
+}
+function togglePlayNamed(tag){
+  const a = document.getElementById('audio_'+tag);
+  const b = document.getElementById('play_'+tag);
+  if(!a) return;
+  if(a.paused){ a.play(); if(b) b.textContent='❚❚'; }
+  else { a.pause(); if(b) b.textContent='▶'; }
+}
+
+/* ------------------ WRITING ------------------ */
+function renderWriting(){
+  const app = document.getElementById('app');
+  const t = FLAT_QS[CUR_Q];
+  const isIndep = (t.type === 1) || !t.lectureAudio;
+  app.innerHTML = chrome('Writing Section', true) + `
+    <div class="exam-subheader">
+      <div class="crumbs">TPO ${CUR_TPO} · <b>Writing</b> · Task ${CUR_Q+1} of ${FLAT_QS.length}</div>
+      <div>${isIndep ? 'Independent' : 'Integrated'} task</div>
+    </div>
+    <div style="padding:24px 30px;background:#fff;max-width:1100px;margin:0 auto">
+      <h3 style="color:var(--ets-navy)">Writing — Task ${CUR_Q+1}</h3>
+      ${t.readMaterial ? `<div style="background:var(--ets-gray-panel);padding:18px 22px;border-radius:4px;margin:14px 0;font-family:var(--font-serif);font-size:15px;line-height:1.75;white-space:pre-wrap">${escapeHtml(t.readMaterial)}</div>` : ''}
+      ${t.lectureImage ? `<div style="text-align:center;margin:10px 0"><img src="${ASSETS+t.lectureImage}" alt="Lecture image" style="max-width:100%;max-height:260px;border-radius:6px;box-shadow:0 2px 8px rgba(0,0,0,.1)"></div>` : ''}
+      ${t.lectureAudio ? audioPlayerHtml('writelec', ASSETS+t.lectureAudio, "Lecture", "Listen to the professor's response.") + `
+        <details style="color:var(--ets-gray-muted);font-size:13px;margin:10px 0"><summary style="cursor:pointer">Lecture transcript</summary>
+          <div style="margin-top:8px;padding:12px;background:var(--ets-gray-panel);white-space:pre-wrap;font-family:var(--font-serif);font-size:14px;line-height:1.6">${escapeHtml(t.lectureTranscript||'')}</div>
+        </details>` : ''}
+      <div style="background:#fff;padding:14px 18px;border:1px solid var(--ets-gray-border);border-radius:4px;margin:14px 0">
+        <div style="color:var(--ets-gray-muted);font-size:12px;text-transform:uppercase;letter-spacing:1px">Writing prompt</div>
+        <p style="font-size:16px;margin:8px 0 0;line-height:1.6;white-space:pre-wrap">${escapeHtml(t.question)}</p>
+      </div>
+      <textarea class="essay" id="essay" placeholder="Type your response here…" oninput="updateWC()"></textarea>
+      <div class="word-count" id="wc">0 words</div>
+    </div>
+    ${renderNav()}`;
+  setupTimerDisplay();
+  setupNamedAudio('writelec');
+  const saved = ANSWERS[`essay_${CUR_Q}`];
+  if(saved){ document.getElementById('essay').value = saved; updateWC(); }
+}
+function updateWC(){
+  const el = document.getElementById('essay');
+  const wc = (el.value.trim().match(/\S+/g)||[]).length;
+  document.getElementById('wc').textContent = wc+' words';
+  ANSWERS[`essay_${CUR_Q}`] = el.value;
+}
+
+/* ------------------ Common option rendering ------------------ */
+function renderOptions(q){
+  // Listening table/schema types: type=4 (2-col Yes/No with N rows), type=5 (single col Yes/No per row), type=6 (drag-desc)
+  if(CUR_SECTION === 'listening' && (q.type === 4 || q.type === 5 || q.type === 6) && q.tableRows && q.tableRows.length){
+    return renderTableQuestion(q);
+  }
+  // Listening ordering (type=2): order events into a sequence
+  if(CUR_SECTION === 'listening' && q.type === 2 && q.options && q.options.length){
+    return renderSequenceQuestion(q);
+  }
+  if(!q.options || !q.options.length) return '';
+  const letters = ['A','B','C','D','E','F','G','H'];
+  const selected = ANSWERS[q.qid];
+  // Multi-select detection: listening type=1 (AllThatApply), reading type=2 (ProseSummary) or type=3 (select TWO)
+  const ansLen = String(q.answer||'').length;
+  const isMulti = (CUR_SECTION === 'listening' && q.type === 1)
+               || (CUR_SECTION === 'reading' && (q.type === 2 || q.type === 3))
+               || ansLen > 1;
+  const inReview = (PHASE === 'review');
+  const correctLetters = inReview ? String(q.answer||'').split('').filter(Boolean) : [];
+  const givenLetters = inReview
+    ? (isMulti ? (Array.isArray(selected)?selected:[]) : (selected?[selected]:[]))
+    : [];
+  let reviewSummary = '';
+  if(inReview){
+    const ok = isMulti
+      ? (givenLetters.slice().sort().join(',') === correctLetters.slice().sort().join(','))
+      : (givenLetters[0] === correctLetters[0]);
+    const given = givenLetters.length ? givenLetters.join(', ') : '—';
+    const correct = correctLetters.length ? correctLetters.join(', ') : '—';
+    reviewSummary = `<div class="review-banner ${ok?'ok':'bad'}">
+      <b>${ok?'Correct':'Incorrect'}</b> · Your answer: <b>${given}</b> · Correct answer: <b>${correct}</b>
+    </div>`;
+  }
+  return `${reviewSummary}<div class="options" data-multi="${isMulti}">
+    ${q.options.map((opt,i)=>{
+      const L = letters[i];
+      const sel = isMulti ? (Array.isArray(selected) && selected.includes(L)) : (selected === L);
+      let cls = sel ? 'selected' : '';
+      if(inReview){
+        const isCorrect = correctLetters.includes(L);
+        const isGiven = givenLetters.includes(L);
+        if(isCorrect) cls = 'correct';
+        else if(isGiven) cls = 'incorrect';
+        else cls = '';
+      }
+      return `<div class="option ${cls}" data-letter="${L}" data-qid="${q.qid}">
+        <span class="letter">${L}</span>
+        <span class="body">${escapeHtml(opt)}</span>
+      </div>`;
+    }).join('')}
+  </div>`;
+}
+function renderTableQuestion(q){
+  // q.tableCols = ['Yes','No'] or ['Include','Exclude'], fallback to ['Yes','No']
+  // q.tableRows = ['Climate charts', ...]
+  // q.answer = "ABAA" (one letter per row; A = col1, B = col2, ...)
+  const cols = (q.tableCols && q.tableCols.length) ? q.tableCols : ['Yes','No'];
+  const letters = ['A','B','C','D','E','F'];
+  const rows = q.tableRows || [];
+  const given = ANSWERS[q.qid] || {};  // { rowIdx: letter }
+  const inReview = (PHASE === 'review');
+  const correctStr = String(q.answer||'');
+  const head = `<tr><th></th>${cols.map(c => `<th>${escapeHtml(c)}</th>`).join('')}</tr>`;
+  const body = rows.map((r,i) => {
+    const cells = cols.map((c, ci) => {
+      const L = letters[ci];
+      const sel = given[i] === L;
+      let cls = 'tbl-cell';
+      if(sel && !inReview) cls += ' selected';
+      if(inReview){
+        const correctL = correctStr.charAt(i);
+        if(L === correctL) cls += ' correct';
+        else if(sel) cls += ' incorrect';
+      }
+      return `<td class="${cls}" data-row="${i}" data-letter="${L}" data-qid="${q.qid}"><input type="radio" name="tr_${q.qid}_${i}" ${sel?'checked':''} ${inReview?'disabled':''}></td>`;
+    }).join('');
+    return `<tr><td class="tbl-label">${escapeHtml(r)}</td>${cells}</tr>`;
+  }).join('');
+  return `<table class="schema-table">${head}${body}</table>`;
+}
+
+function renderSequenceQuestion(q){
+  // Sequence: user orders letters (A/B/C/...) into positions 1..N
+  // ANSWERS[q.qid] = ['B','C','A']  (letters in chosen order)
+  const letters = ['A','B','C','D','E','F','G','H'];
+  const n = q.options.length;
+  const given = Array.isArray(ANSWERS[q.qid]) ? [...ANSWERS[q.qid]] : [];
+  const inReview = (PHASE === 'review');
+  const correctSeq = String(q.answer||'').split('');
+  let html = '<div class="seq-row">';
+  html += '<div class="seq-left"><b>Events</b>';
+  q.options.forEach((opt, i) => {
+    const L = letters[i];
+    const used = given.includes(L);
+    html += `<div class="seq-option ${used?'used':''}" data-letter="${L}" data-qid="${q.qid}"><b>${L}</b>. ${escapeHtml(opt)}</div>`;
+  });
+  html += '</div><div class="seq-right"><b>Order</b>';
+  for(let pos = 0; pos < n; pos++){
+    const L = given[pos] || '';
+    let cls = 'seq-slot';
+    if(inReview && L){
+      cls += (L === correctSeq[pos]) ? ' correct' : ' incorrect';
+    }
+    const text = L ? `${L}. ${escapeHtml(q.options[letters.indexOf(L)]||'')}` : `(${pos+1})`;
+    html += `<div class="${cls}" data-pos="${pos}" data-qid="${q.qid}">${text}</div>`;
+  }
+  html += '</div></div>';
+  return html;
+}
+
+function bindOptionClicks(q){
+  // Table question clicks
+  if(CUR_SECTION === 'listening' && (q.type === 4 || q.type === 5 || q.type === 6)){
+    if(PHASE === 'review') return;
+    document.querySelectorAll('.tbl-cell').forEach(el => {
+      el.addEventListener('click', () => {
+        const row = parseInt(el.dataset.row, 10);
+        const L = el.dataset.letter;
+        const cur = (typeof ANSWERS[q.qid] === 'object' && ANSWERS[q.qid]) ? {...ANSWERS[q.qid]} : {};
+        cur[row] = L;
+        ANSWERS[q.qid] = cur;
+        renderCurrent();
+      });
+    });
+    return;
+  }
+  // Sequence question clicks
+  if(CUR_SECTION === 'listening' && q.type === 2){
+    if(PHASE === 'review') return;
+    document.querySelectorAll('.seq-option').forEach(el => {
+      el.addEventListener('click', () => {
+        const L = el.dataset.letter;
+        const cur = Array.isArray(ANSWERS[q.qid]) ? [...ANSWERS[q.qid]] : [];
+        const idx = cur.indexOf(L);
+        if(idx >= 0) cur.splice(idx, 1);
+        else if(cur.length < q.options.length) cur.push(L);
+        ANSWERS[q.qid] = cur;
+        renderCurrent();
+      });
+    });
+    document.querySelectorAll('.seq-slot').forEach(el => {
+      el.addEventListener('click', () => {
+        const pos = parseInt(el.dataset.pos, 10);
+        const cur = Array.isArray(ANSWERS[q.qid]) ? [...ANSWERS[q.qid]] : [];
+        if(cur[pos]){ cur.splice(pos, 1); ANSWERS[q.qid] = cur; renderCurrent(); }
+      });
+    });
+    return;
+  }
+  if(PHASE === 'review') return;
+  const ansLen = String(q.answer||'').length;
+  const isMulti = (CUR_SECTION === 'listening' && q.type === 1)
+               || (CUR_SECTION === 'reading' && (q.type === 2 || q.type === 3))
+               || ansLen > 1;
+  document.querySelectorAll('.option').forEach(el => {
+    el.addEventListener('click', () => {
+      const L = el.dataset.letter;
+      if(isMulti){
+        const cur = Array.isArray(ANSWERS[q.qid]) ? [...ANSWERS[q.qid]] : [];
+        const idx = cur.indexOf(L);
+        if(idx >= 0) cur.splice(idx,1); else cur.push(L);
+        ANSWERS[q.qid] = cur;
+      } else {
+        ANSWERS[q.qid] = L;
+      }
+      renderCurrent();
+    });
+  });
+}
+
+/* ------------------ Navigation ------------------ */
+function renderNav(){
+  const inReview = (PHASE === 'review');
+  const lastBtn = inReview
+    ? `<button class="next" onclick="finishSection()" ${CUR_Q===FLAT_QS.length-1?'':'style="display:none"'}>Back to Score</button>`
+    : `<button class="next" onclick="nextQ()">${CUR_Q===FLAT_QS.length-1?'Finish':'Next'}</button>`;
+  const nextBtn = inReview && CUR_Q < FLAT_QS.length-1
+    ? `<button class="next" onclick="nextQ()">Next</button>`
+    : lastBtn;
+  const headLabel = inReview ? 'Review' : sectionLabel(CUR_SECTION);
+  const backToScore = inReview
+    ? `<button onclick="finishSection()" style="margin-right:8px">Back to Score</button>`
+    : '';
+  return `
+    <div class="nav-bar">
+      <div class="qinfo">TPO <b>${CUR_TPO}</b> · ${headLabel} · <b>${CUR_Q+1}</b> / ${FLAT_QS.length}</div>
+      <div class="btns">
+        ${backToScore}
+        <button onclick="prevQ()" ${CUR_Q===0?'disabled':''}>Back</button>
+        ${nextBtn}
+      </div>
+    </div>`;
+}
+function prevQ(){ if(CUR_Q>0){ CUR_Q--; renderCurrent(); } }
+function nextQ(){
+  if(CUR_Q >= FLAT_QS.length-1){
+    if(PHASE === 'review') finishSection();
+    else finishSection();
+  } else { CUR_Q++; renderCurrent(); }
+}
+
+function startReviewMode(){
+  PHASE = 'review';
+  CUR_Q = 0;
+  renderCurrent();
+}
+
+/* ------------------ Finish / score ------------------ */
+function finishSection(){
+  if(TIMER_INT){ clearInterval(TIMER_INT); TIMER_INT=null; }
+  PHASE = 'finished';
+  const app = document.getElementById('app');
+  if(CUR_SECTION === 'reading' || CUR_SECTION === 'listening'){
+    let correct = 0, total = 0;
+    const reviews = [];
+    FLAT_QS.forEach((q, i) => {
+      if(q.answer){
+        total++;
+        const given = ANSWERS[q.qid];
+        const ansStr = String(q.answer||'');
+        const isTable = CUR_SECTION === 'listening' && (q.type === 4 || q.type === 5 || q.type === 6) && q.tableRows && q.tableRows.length;
+        const isSeq   = CUR_SECTION === 'listening' && q.type === 2;
+        const isMulti = (CUR_SECTION === 'listening' && q.type === 1)
+                     || (CUR_SECTION === 'reading' && (q.type === 2 || q.type === 3))
+                     || (!isTable && !isSeq && ansStr.length > 1);
+        let ok = false;
+        if(isTable){
+          const obj = (given && typeof given === 'object' && !Array.isArray(given)) ? given : {};
+          ok = q.tableRows.every((_, ri) => obj[ri] === ansStr.charAt(ri));
+        } else if(isSeq){
+          ok = Array.isArray(given) && given.join('') === ansStr;
+        } else if(isMulti){
+          ok = Array.isArray(given) && given.slice().sort().join('') === ansStr.split('').sort().join('');
+        } else {
+          ok = given === ansStr;
+        }
+        if(ok) correct++;
+        reviews.push({i, q, given, ok});
+      }
+    });
+    const pct = total ? Math.round(correct/total*100) : 0;
+    saveProgress(CUR_TPO, CUR_SECTION, {correct, total, pct, ts:Date.now()});
+    app.innerHTML = chrome(sectionLabel(CUR_SECTION), false) + `
+      <div class="results">
+        <h2>Section Complete</h2>
+        <p>TPO ${CUR_TPO} · ${sectionLabel(CUR_SECTION)}</p>
+        <div class="score">${correct} / ${total}</div>
+        <div class="summary">
+          <div><div class="n">${pct}%</div><div class="l">Accuracy</div></div>
+          <div><div class="n">${correct}</div><div class="l">Correct</div></div>
+          <div><div class="n">${total-correct}</div><div class="l">Incorrect</div></div>
+        </div>
+        <div style="margin-top:24px;display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn-primary" style="padding:10px 20px;border-radius:8px;cursor:pointer" onclick="toggleAnswerSummary()" id="btnToggleSummary">Show Answer Summary</button>
+          <button class="btn-primary" style="padding:10px 20px;border-radius:8px;cursor:pointer;background:var(--ets-navy)" onclick="startReviewMode()">Walk Through Each Answer</button>
+          <button class="btn-secondary" style="padding:10px 20px;border-radius:8px;cursor:pointer" onclick="startSection(${CUR_TPO},'${CUR_SECTION}')">Retry Section</button>
+          <button class="btn-secondary" style="padding:10px 20px;border-radius:8px;cursor:pointer" onclick="goLobby()">Back to TPO List</button>
+        </div>
+        <div id="answerSummary" class="hidden" style="margin-top:24px">
+          <h3 style="color:var(--ets-gray-text);font-weight:700;margin:0 0 12px">Per-question answers</h3>
+          <div class="review-list">
+            ${reviews.map(r => `
+              <div class="review-item ${r.ok?'correct':'incorrect'}">
+                <div class="q">Q${r.i+1}: ${escapeHtml(r.q.question.substring(0,120))}${r.q.question.length>120?'…':''}</div>
+                <div class="a">Your answer: <b>${formatAns(r.given)}</b> · Correct: <b>${r.q.answer||'—'}</b></div>
+              </div>`).join('')}
+          </div>
+        </div>
+      </div>`;
+  } else {
+    // Speaking / Writing — no auto-grade
+    saveProgress(CUR_TPO, CUR_SECTION, {submitted:true, ts:Date.now()});
+    app.innerHTML = chrome(sectionLabel(CUR_SECTION), false) + `
+      <div class="results">
+        <h2>Section Complete</h2>
+        <p>TPO ${CUR_TPO} · ${sectionLabel(CUR_SECTION)}</p>
+        <p style="color:var(--ets-gray-muted);font-size:.9rem;margin-top:10px">Speaking and Writing responses are rated by humans on the real exam. This runner records your spoken response locally and keeps your essay so you can self-review.</p>
+        <div style="margin-top:24px;display:flex;gap:10px;flex-wrap:wrap">
+          <button class="btn-primary" style="padding:10px 20px;border-radius:8px;cursor:pointer;background:var(--ets-navy)" onclick="startReviewMode()">Review Your Responses</button>
+          <button class="btn-secondary" style="padding:10px 20px;border-radius:8px;cursor:pointer" onclick="startSection(${CUR_TPO},'${CUR_SECTION}')">Retry Section</button>
+          <button class="btn-secondary" style="padding:10px 20px;border-radius:8px;cursor:pointer" onclick="goLobby()">Back to TPO List</button>
+        </div>
+      </div>`;
+  }
+}
+
+function toggleAnswerSummary(){
+  const el = document.getElementById('answerSummary');
+  const btn = document.getElementById('btnToggleSummary');
+  if(!el) return;
+  const hidden = el.classList.toggle('hidden');
+  if(btn) btn.textContent = hidden ? 'Show Answer Summary' : 'Hide Answer Summary';
+}
+function formatAns(a){ if(a==null) return '—'; if(Array.isArray(a)) return a.sort().join(','); return a; }
+
+/* ------------------ Utilities ------------------ */
+function escapeHtml(s){ if(!s) return ''; return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[c]); }
+function setupTimerDisplay(){
+  if(!TIMER_INT) return;
+  const m = Math.floor(TIMER_SEC/60), s = TIMER_SEC%60;
+  const el = document.getElementById('timer');
+  if(el) el.textContent = String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+}
+
+/* ------------------ Bootstrap ------------------ */
+window.startSection = startSection;
+window.goLobby = goLobby;
+window.startExam = startExam;
+window.prevQ = prevQ;
+window.nextQ = nextQ;
+window.togglePlay = togglePlay;
+window.togglePlayGeneric = togglePlayGeneric;
+window.toggleRec = toggleRec;
+window.updateWC = updateWC;
+
+if(isUnlocked()) init(); else checkGate();
+</script>
+</body>
+</html>

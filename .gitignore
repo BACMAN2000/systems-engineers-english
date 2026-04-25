@@ -1,0 +1,29 @@
+﻿# Secretos - NUNCA subir
+.env
+.env.*
+*.key
+*.pem
+.claude/
+.cursor/
+.vscode/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.tmp
+
+# Build artifacts grandes
+PAOLO BACA MANRIQUE.rar
+*.apk
+cloudflared.exe
+
+# Logs
+*.log
+
+# Otros proyectos en la misma carpeta
+toefl-assets/
+toefl-premium-assets/
+be-audio/
+apk-build/
+tools/

@@ -1,0 +1,1556 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>COHASSET Exams Preparation Center - Learning Platform</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--p:#2563EB;--pd:#1E40AF;--pl:#93C5FD;--pvl:#EFF6FF;--a:#3B82F6;--d:#1E293B;--m:#475569;--l:#94A3B8;--w:#FFF;--bg:#F8FAFC;--ok:#10B981;--okl:#D1FAE5;--er:#EF4444;--erl:#FEE2E2;--wa:#F59E0B;--wal:#FEF3C7;--b:#E2E8F0;--sh:0 4px 20px rgba(0,0,0,.06);--t:all .3s ease}
+html{scroll-behavior:smooth}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--d);line-height:1.6}
+.hd{background:var(--w);border-bottom:1px solid var(--b);padding:10px 20px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,.04)}
+.logo{display:flex;align-items:center;gap:8px;text-decoration:none}
+.logo-i{width:36px;height:36px;background:var(--p);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:1rem}
+.logo-t{font-size:.95rem;font-weight:700;color:var(--d)}.logo-t span{color:var(--p)}
+.hdr-r{display:flex;align-items:center;gap:15px}
+.pmini{width:130px;height:6px;background:var(--b);border-radius:10px;overflow:hidden}
+.pfill{height:100%;background:var(--p);border-radius:10px;transition:width .5s}
+.ptxt{font-size:.75rem;color:var(--m);font-weight:500}
+.bk{color:var(--p);text-decoration:none;font-weight:500;font-size:.82rem;display:flex;align-items:center;gap:4px}
+.mbtn{display:none;background:none;border:none;font-size:1.2rem;color:var(--d);cursor:pointer}
+
+/* PROGRAM BAR */
+.pbar{background:var(--d);padding:0 20px;display:flex;overflow-x:auto;gap:0;scrollbar-width:none}
+.pbar::-webkit-scrollbar{display:none}
+.ptab{padding:12px 20px;color:var(--l);font-size:.82rem;font-weight:600;cursor:pointer;border-bottom:3px solid transparent;white-space:nowrap;transition:var(--t);display:flex;align-items:center;gap:6px}
+.ptab:hover{color:#fff;background:rgba(255,255,255,.05)}
+.ptab.act{color:#fff;border-bottom-color:var(--a);background:rgba(255,255,255,.08)}
+.ptab i{font-size:.9rem}
+
+/* LAYOUT */
+.lay{display:grid;grid-template-columns:260px 1fr;min-height:calc(100vh - 100px)}
+.sb{background:var(--w);border-right:1px solid var(--b);padding:15px 0;overflow-y:auto;max-height:calc(100vh - 100px);position:sticky;top:100px}
+.sb-t{padding:0 15px 10px;font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:1.5px;color:var(--l)}
+.sb-cur{padding:8px 15px;margin:0 10px 10px;background:var(--pvl);border-radius:10px;cursor:pointer;transition:var(--t);font-size:.82rem;font-weight:600;color:var(--p);display:flex;align-items:center;gap:6px}
+.sb-cur:hover{background:#DBEAFE}
+.lh{display:flex;align-items:center;gap:8px;padding:8px 15px;cursor:pointer;transition:var(--t);border-left:3px solid transparent;font-size:.85rem}
+.lh:hover{background:var(--pvl)}.lh.act{background:var(--pvl);border-left-color:var(--p)}
+.lb{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;font-size:.68rem;font-weight:700;color:#fff;flex-shrink:0}
+.li{flex:1}.ln{font-size:.82rem;font-weight:600;color:var(--d)}.ld{font-size:.7rem;color:var(--l)}
+.lp{font-size:.68rem;color:var(--ok);font-weight:600}
+.ll{display:none;padding:0 15px 6px 56px}.ll.op{display:block}
+.lk{display:block;padding:6px 8px;margin:1px 0;border-radius:6px;cursor:pointer;font-size:.78rem;color:var(--m);transition:var(--t);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lk:hover{background:var(--pvl);color:var(--p)}.lk.act{background:var(--p);color:#fff}.lk.dn{color:var(--ok)}
+
+/* MAIN */
+.mn{padding:24px 32px;max-width:860px}
+.lhd{margin-bottom:24px;padding-bottom:16px;border-bottom:1px solid var(--b)}
+.ltg{display:inline-block;padding:3px 12px;background:var(--pvl);color:var(--p);border-radius:20px;font-size:.72rem;font-weight:600;margin-bottom:6px}
+.ltt{font-size:1.6rem;font-weight:700;color:var(--d);margin-bottom:4px}
+.lts{font-size:.9rem;color:var(--m)}
+
+/* EXERCISE */
+.eb{background:var(--w);border:1px solid var(--b);border-radius:12px;padding:24px;margin-bottom:18px;box-shadow:var(--sh)}
+.et{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:16px;font-size:.7rem;font-weight:600;margin-bottom:10px}
+.et.rd{background:#DBEAFE;color:#1E40AF}.et.ls{background:#E0E7FF;color:#3730A3}.et.dd{background:#FEF3C7;color:#92400E}.et.mt{background:#D1FAE5;color:#065F46}.et.fl{background:#FCE7F3;color:#9D174D}.et.vc{background:#F3E8FF;color:#6B21A8}.et.wf{background:#ECFDF5;color:#064E3B}.et.kt{background:#F0FDF4;color:#166534}.et.wr{background:#FFF1F2;color:#9F1239}.et.cs{background:#FDF2F8;color:#831843}
+.cs-box{background:linear-gradient(135deg,#FFF7ED,#FED7AA);border-left:4px solid #EA580C;border-radius:12px;padding:18px;margin-bottom:14px}
+.cs-company{font-size:1.02rem;color:#7C2D12;margin-bottom:14px;padding-bottom:10px;border-bottom:2px solid #FDBA74}
+.cs-loc{color:#9A3412;font-size:.82rem}
+.cs-sec{margin-bottom:14px}
+.cs-sec h4{font-size:.95rem;color:#9A3412;margin-bottom:6px;font-weight:700}
+.cs-sec p{color:#431407;line-height:1.55;font-size:.9rem}
+.cs-data{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-top:8px}
+.cs-kpi{background:rgba(255,255,255,.85);padding:12px;border-radius:8px;text-align:center;border:1px solid #FDBA74}
+.cs-kpi-v{font-size:1.3rem;font-weight:800;color:#9A3412}
+.cs-kpi-l{font-size:.75rem;color:#78350F;margin-top:4px}
+.cs-opts{margin-left:18px;color:#431407;font-size:.88rem}.cs-opts li{margin-bottom:6px}
+.cs-q{background:rgba(255,255,255,.7);padding:10px 12px;border-radius:8px;margin-bottom:6px;color:#431407;font-size:.88rem;display:flex;gap:10px;align-items:flex-start}
+.cs-qn{background:#EA580C;color:#fff;width:24px;height:24px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-weight:700;font-size:.78rem;flex-shrink:0}
+.cs-vocab{display:flex;flex-wrap:wrap;gap:6px;margin-top:6px}
+.cs-chip{background:#EA580C;color:#fff;padding:4px 10px;border-radius:14px;font-size:.75rem;font-weight:600}
+.cs-task{background:#FEF3C7;border-left:3px solid #EA580C;padding:10px 14px;border-radius:8px;margin-bottom:10px;font-size:.88rem;color:#7C2D12}
+.et.gr{background:#FEF9C3;color:#713F12}.et.vp{background:#E0F2FE;color:#075985}
+.gr-box{background:linear-gradient(135deg,#FEFCE8,#FEF9C3);border-left:4px solid #EAB308;border-radius:10px;padding:16px;margin-bottom:14px;font-size:.88rem}
+.gr-box > div{margin-bottom:10px}.gr-rule{color:#422006}.gr-struct code{background:#1F2937;color:#FDE68A;padding:4px 10px;border-radius:6px;font-family:'Consolas',monospace;font-size:.85rem;display:inline-block;margin-top:4px}
+.gr-tbl{width:100%;border-collapse:collapse;margin-top:6px}.gr-tbl td{padding:8px;border-bottom:1px solid #FEF3C7;vertical-align:top;font-size:.85rem}.gr-en{color:#1E40AF;font-weight:500;width:52%}.gr-es{color:#065F46;font-style:italic}
+.gr-notes ul{margin:6px 0 0 20px;color:#422006}.gr-notes li{margin-bottom:4px;font-size:.85rem}
+.gr-mist .gr-mi{background:#FEE2E2;padding:8px;border-radius:6px;margin-top:6px;font-size:.85rem}.gr-mi .wr{color:#991B1B;text-decoration:line-through}.gr-mi .ri{color:#065F46;font-weight:600}.gr-why{color:#475569;font-size:.78rem;margin-top:3px}
+.gtip{background:#EFF6FF;border-left:3px solid var(--p);padding:8px 12px;border-radius:6px;margin-bottom:12px;font-size:.82rem;color:#1E40AF}
+.vp-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px;margin-bottom:12px}
+.vp-card{background:linear-gradient(135deg,#F0F9FF,#E0F2FE);border:1px solid #BAE6FD;border-radius:10px;padding:12px}
+.vp-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.vp-en{color:#075985;font-size:.95rem}.vp-ipa{color:#64748B;font-size:.78rem;font-style:italic;margin-left:6px}
+.vp-btn{background:#0EA5E9;color:#fff;border:none;width:28px;height:28px;border-radius:50%;cursor:pointer;font-size:.8rem}.vp-btn:hover{background:#0284C7}
+.vp-es{color:#065F46;font-weight:500;font-size:.85rem;margin-bottom:4px}
+.vp-def{color:#475569;font-size:.78rem;line-height:1.4;margin-bottom:4px}
+.vp-ex{color:#334155;font-size:.78rem;padding-top:5px;border-top:1px dashed #BAE6FD;line-height:1.4}
+.cb{display:inline-flex;align-items:center;gap:4px;background:#FEF3C7;color:#92400E;padding:2px 8px;border-radius:6px;font-size:.65rem;font-weight:600;margin-left:6px}
+.eti{font-size:1.05rem;font-weight:700;color:var(--d);margin-bottom:3px}
+.eins{color:var(--m);font-size:.85rem;margin-bottom:15px;line-height:1.5}
+
+/* Reading */
+.rp{background:var(--bg);border-left:4px solid var(--p);padding:20px;border-radius:0 10px 10px 0;margin-bottom:15px;line-height:1.8;font-size:.9rem}
+.rp p{margin-bottom:10px}.rs{font-size:.72rem;color:var(--l);margin-top:8px;font-style:italic;border-top:1px solid var(--b);padding-top:6px}
+
+/* Audio */
+.ab{background:linear-gradient(135deg,#1E293B,#334155);border-radius:12px;padding:18px;margin-bottom:15px;color:#fff}
+.ac{display:flex;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap}
+.abtn{padding:8px 16px;border-radius:8px;border:none;cursor:pointer;font-family:inherit;font-size:.82rem;font-weight:600;display:flex;align-items:center;gap:5px;transition:var(--t)}
+.abtn.pl{background:var(--p);color:#fff}.abtn.pl:hover{background:var(--pd)}
+.abtn.st{background:#EF4444;color:#fff}
+.abtn.sl{background:rgba(255,255,255,.1);color:#94A3B8}
+.albl{font-size:.75rem;color:#64748B}
+
+/* MC */
+.mo{display:flex;flex-direction:column;gap:6px}
+.mc{display:flex;align-items:center;gap:8px;padding:10px 14px;border:2px solid var(--b);border-radius:8px;cursor:pointer;transition:var(--t);font-size:.88rem}
+.mc:hover{border-color:var(--pl);background:var(--pvl)}
+.mc.se{border-color:var(--p);background:var(--pvl)}
+.mc.ok{border-color:var(--ok);background:var(--okl)}
+.mc.no{border-color:var(--er);background:var(--erl)}
+.ml{width:28px;height:28px;border-radius:6px;background:var(--bg);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.78rem;color:var(--m);flex-shrink:0}
+.mc.se .ml{background:var(--p);color:#fff}.mc.ok .ml{background:var(--ok);color:#fff}.mc.no .ml{background:var(--er);color:#fff}
+
+/* D&D */
+.dw{display:flex;flex-wrap:wrap;gap:6px;padding:14px;background:var(--bg);border-radius:10px;margin-bottom:14px;min-height:48px;border:2px dashed var(--b)}
+.dwd{padding:6px 14px;background:var(--p);color:#fff;border-radius:6px;cursor:grab;font-size:.82rem;font-weight:500;transition:var(--t);user-select:none}
+.dwd:active{cursor:grabbing;transform:scale(1.05)}.dwd.pl{opacity:.3;cursor:default}.dwd.ds{outline:3px solid var(--p);outline-offset:2px}
+.ds{padding:10px 0;border-bottom:1px solid var(--b);font-size:.88rem;line-height:2}.ds:last-child{border-bottom:none}
+.dz{display:inline-flex;min-width:100px;height:30px;border:2px dashed var(--pl);border-radius:6px;background:var(--pvl);align-items:center;justify-content:center;vertical-align:middle;margin:0 3px;transition:var(--t);font-size:.8rem;font-weight:500;color:var(--p);padding:0 6px;cursor:pointer}
+.dz.ov{border-color:var(--p);background:#DBEAFE;transform:scale(1.02)}
+.dz.fi{border-style:solid}.dz.co{border-color:var(--ok);background:var(--okl);color:#065F46}.dz.ic{border-color:var(--er);background:var(--erl);color:#991B1B}
+
+/* Matching */
+.mbox{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.mcl h4{font-size:.75rem;color:var(--l);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.mi{padding:10px 14px;border:2px solid var(--b);border-radius:8px;margin-bottom:6px;cursor:pointer;transition:var(--t);font-size:.82rem;position:relative}
+.mi:hover{border-color:var(--pl)}.mi.se{border-color:var(--p);background:var(--pvl);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+.mi.md{border-color:var(--ok);background:var(--okl);cursor:default}.mi.wr{border-color:var(--er);background:var(--erl);animation:shk .4s}
+.mn-n{position:absolute;top:-6px;right:-6px;width:20px;height:20px;background:var(--ok);color:#fff;border-radius:50%;font-size:.6rem;display:none;align-items:center;justify-content:center;font-weight:700}
+.mi.md .mn-n{display:flex}
+@keyframes shk{0%,100%{transform:translateX(0)}25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+
+/* Fill */
+.fi{border:none;border-bottom:2px solid var(--pl);background:transparent;padding:2px 5px;font-family:inherit;font-size:.88rem;color:var(--p);font-weight:600;width:130px;text-align:center;transition:var(--t);outline:none}
+.fi:focus{border-bottom-color:var(--p)}.fi.ok{border-bottom-color:var(--ok);color:var(--ok)}.fi.no{border-bottom-color:var(--er);color:var(--er)}
+
+/* Writing */
+.warea{width:100%;min-height:120px;padding:14px;border:2px solid var(--b);border-radius:10px;font-family:inherit;font-size:.9rem;resize:vertical;transition:var(--t);background:var(--bg)}
+.warea:focus{outline:none;border-color:var(--p);background:var(--w);box-shadow:0 0 0 3px rgba(37,99,235,.08)}
+.wtips{background:var(--wal);border-radius:8px;padding:12px 16px;margin-top:10px;font-size:.82rem;color:#92400E}
+.wcount{text-align:right;font-size:.75rem;color:var(--l);margin-top:4px}
+
+/* Word Formation */
+.wfr{display:grid;grid-template-columns:1fr 120px 130px;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--b)}
+.wfr:first-child{font-weight:600;color:var(--d);font-size:.75rem;text-transform:uppercase}
+.wfb{color:var(--p);font-weight:600;font-size:.85rem;text-transform:uppercase}
+
+/* Key Word Transform */
+.kwb{background:var(--bg);padding:14px;border-radius:8px;margin-bottom:10px;border-left:3px solid var(--p)}
+.kwo{font-size:.88rem;color:var(--d);margin-bottom:6px}
+.kwk{display:inline-block;background:var(--p);color:#fff;padding:1px 8px;border-radius:5px;font-weight:600;font-size:.8rem;margin:3px 0}
+.kwt{font-size:.88rem;color:var(--d);margin-top:6px}
+
+/* Buttons */
+.btn{padding:8px 20px;border-radius:8px;font-family:inherit;font-size:.82rem;font-weight:600;cursor:pointer;transition:var(--t);border:none;display:inline-flex;align-items:center;gap:6px}
+.bp{background:var(--p);color:#fff}.bp:hover{background:var(--pd);transform:translateY(-1px)}
+.bo{background:transparent;color:var(--p);border:2px solid var(--p)}.bo:hover{background:var(--p);color:#fff}
+.bs{background:var(--ok);color:#fff}
+.ea{display:flex;gap:8px;margin-top:14px;flex-wrap:wrap}
+
+/* Feedback */
+.fb{padding:10px 14px;border-radius:8px;margin-top:10px;font-size:.82rem;font-weight:500;display:none}
+.fb.sh{display:block}.fb.fok{background:var(--okl);color:#065F46}.fb.fno{background:var(--erl);color:#991B1B}
+.fb-top{display:flex;align-items:center;gap:6px;margin-bottom:8px}
+.fb-btns{display:flex;gap:8px;flex-wrap:wrap;margin-top:6px}
+.fb-btns .btn{font-size:.78rem;padding:6px 14px;border-radius:8px}
+.btn-retry{background:#F59E0B;color:#fff;border:none;cursor:pointer;font-weight:600;transition:all .2s}
+.btn-retry:hover{background:#D97706;transform:scale(1.03)}
+.btn-ans{background:#7C3AED;color:#fff;border:none;cursor:pointer;font-weight:600;transition:all .2s}
+.btn-ans:hover{background:#6D28D9;transform:scale(1.03)}
+.ans-reveal{background:#ECFDF5;border:2px solid var(--ok);border-radius:8px;padding:6px 10px;margin-top:4px;font-size:.82rem;color:#065F46;font-weight:500}
+.fi.ans-show{border-bottom-color:var(--ok)!important;color:var(--ok)!important;font-weight:600}
+
+/* Curriculum Modal */
+.cur-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);backdrop-filter:blur(3px);z-index:200;align-items:flex-start;justify-content:center;padding:40px 20px;overflow-y:auto}
+.cur-overlay.sh{display:flex}
+.cur-box{background:var(--w);border-radius:16px;max-width:1000px;width:100%;box-shadow:0 20px 60px rgba(0,0,0,.2);max-height:90vh;overflow-y:auto}
+.cur-hd{padding:24px 28px;background:linear-gradient(135deg,var(--p),var(--a));color:#fff;border-radius:16px 16px 0 0;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:1}
+.cur-hd h2{font-size:1.3rem}.cur-cls{background:rgba(255,255,255,.2);border:none;color:#fff;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center}
+.cur-bd{padding:24px 28px}
+.cur-grid{display:grid;gap:12px}
+.cur-lv{background:var(--bg);border-radius:10px;padding:16px;border-left:4px solid var(--p)}
+.cur-lv h3{font-size:.95rem;font-weight:700;color:var(--d);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.cur-lv h3 span{background:var(--p);color:#fff;padding:2px 10px;border-radius:6px;font-size:.72rem}
+.cur-topics{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:6px}
+.cur-topic{font-size:.78rem;color:var(--m);padding:4px 8px;background:var(--w);border-radius:6px;border:1px solid var(--b);display:flex;align-items:center;gap:4px}
+.cur-topic i{color:var(--p);font-size:.65rem}
+.cur-section{margin-bottom:20px}
+.cur-section h4{font-size:.82rem;font-weight:600;color:var(--p);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
+
+/* Lesson Nav */
+.lnv{display:flex;justify-content:space-between;align-items:center;margin-top:30px;padding-top:18px;border-top:1px solid var(--b)}
+
+/* Welcome */
+.wel{text-align:center;padding:40px 24px}
+.wel h1{font-size:1.8rem;margin-bottom:6px;color:var(--d)}.wel h1 span{color:var(--p)}
+.wel>p{color:var(--m);font-size:.95rem;max-width:600px;margin:0 auto 20px}
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:800px;margin:0 auto}
+.pcard{padding:18px 14px;border-radius:12px;cursor:pointer;border:2px solid var(--b);transition:var(--t);text-align:center}
+.pcard:hover{border-color:var(--p);transform:translateY(-4px);box-shadow:0 8px 20px rgba(37,99,235,.1)}
+.pcard i{font-size:1.8rem;color:var(--p);margin-bottom:8px}
+.pcard h3{font-size:1rem;margin-bottom:2px}.pcard p{font-size:.72rem;color:var(--m)}
+
+/* Translation toggle */
+.tr-btn{background:none;border:1px solid var(--pl);color:var(--p);padding:2px 8px;border-radius:6px;cursor:pointer;font-size:.72rem;font-weight:600;transition:var(--t);display:inline-flex;align-items:center;gap:3px}
+.tr-btn:hover{background:var(--p);color:#fff}
+.tr-btn.on{background:var(--p);color:#fff}
+.tr-es{display:none;color:#065F46;font-style:italic;font-size:.82rem;margin-top:3px;padding:4px 8px;background:#ECFDF5;border-radius:6px;border-left:3px solid #10B981}
+.tr-es.sh{display:block}
+.tr-w{display:none;color:#065F46;font-size:.78rem;font-style:italic;margin-top:2px}
+.tr-w.sh{display:inline}
+.tr-inline{display:none;color:#065F46;font-size:.82rem;font-style:italic;margin-left:6px;padding:2px 6px;background:#ECFDF5;border-radius:4px}
+.tr-inline.sh{display:inline}
+.tr-global{display:flex;align-items:center;gap:6px;padding:6px 12px;background:var(--pvl);border-radius:8px;margin-bottom:14px;font-size:.78rem;color:var(--p);border:1px solid var(--pl)}
+.tr-global label{cursor:pointer;font-weight:600;display:flex;align-items:center;gap:6px}
+.tr-toggle{position:relative;width:36px;height:20px;background:var(--b);border-radius:10px;cursor:pointer;transition:var(--t);display:inline-block}
+.tr-toggle::after{content:'';position:absolute;top:2px;left:2px;width:16px;height:16px;background:#fff;border-radius:50%;transition:var(--t)}
+.tr-toggle.on{background:var(--p)}.tr-toggle.on::after{left:18px}
+
+/* Illustrations */
+.cs-hero{height:120px;border-radius:12px 12px 0 0;margin:-18px -18px 14px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.cs-hero i{font-size:3rem;color:rgba(255,255,255,.6);position:relative;z-index:1}
+.cs-hero::after{content:'';position:absolute;inset:0;background:linear-gradient(transparent,rgba(0,0,0,.2))}
+.cs-hero.tech{background:linear-gradient(135deg,#0F172A,#1E40AF)}.cs-hero.finance{background:linear-gradient(135deg,#1E293B,#059669)}
+.cs-hero.aviation{background:linear-gradient(135deg,#1E3A5F,#0EA5E9)}.cs-hero.food{background:linear-gradient(135deg,#78350F,#EA580C)}
+.cs-hero.retail{background:linear-gradient(135deg,#4C1D95,#8B5CF6)}.cs-hero.general{background:linear-gradient(135deg,#1E293B,#64748B)}
+.cs-hero.corp{background:linear-gradient(135deg,#1C1917,#78716C)}
+.rd-illust{height:80px;border-radius:10px 10px 0 0;margin:-20px -20px 14px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--p),var(--a));position:relative;overflow:hidden}
+.rd-illust i{font-size:2rem;color:rgba(255,255,255,.5);position:relative;z-index:1}
+.rd-illust::after{content:'';position:absolute;top:-50%;right:-20%;width:60%;height:150%;background:rgba(255,255,255,.08);border-radius:50%;transform:rotate(-15deg)}
+.vp-illust{text-align:center;padding:10px;margin-bottom:8px;font-size:2rem}
+
+/* Exam Info */
+.exam-info{background:linear-gradient(135deg,#1E1B4B,#312E81);border-radius:16px;padding:28px;margin-bottom:24px;color:#fff;position:relative;overflow:hidden}
+.exam-info::after{content:'';position:absolute;top:-60%;right:-20%;width:60%;height:180%;background:rgba(255,255,255,.04);border-radius:50%;transform:rotate(-15deg)}
+.exam-info h2{font-size:1.4rem;margin-bottom:4px;position:relative;z-index:1}
+.exam-info .ei-level{display:inline-block;background:rgba(255,255,255,.15);padding:3px 14px;border-radius:20px;font-size:.78rem;font-weight:600;margin-bottom:12px}
+.exam-info .ei-overview{color:#C7D2FE;font-size:.9rem;line-height:1.6;margin-bottom:18px;position:relative;z-index:1}
+.ei-papers{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:18px;position:relative;z-index:1}
+.ei-paper{background:rgba(255,255,255,.1);border-radius:12px;padding:14px;border:1px solid rgba(255,255,255,.1)}
+.ei-paper h4{font-size:.9rem;margin-bottom:6px;color:#E0E7FF}.ei-paper p{font-size:.78rem;color:#A5B4FC}
+.ei-parts{margin-top:18px;position:relative;z-index:1}
+.ei-parts summary{cursor:pointer;font-weight:600;font-size:.95rem;color:#E0E7FF;margin-bottom:10px}
+.ei-part-group{margin-bottom:14px}
+.ei-part-group h4{font-size:.88rem;color:#C7D2FE;margin-bottom:8px;padding-bottom:4px;border-bottom:1px solid rgba(255,255,255,.1)}
+.ei-part{display:flex;gap:10px;padding:6px 0;font-size:.82rem;border-bottom:1px solid rgba(255,255,255,.05)}
+.ei-part-n{background:#4F46E5;color:#fff;width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:.72rem;flex-shrink:0}
+.ei-part-d{flex:1}.ei-part-d strong{color:#E0E7FF}.ei-part-d p{color:#A5B4FC;font-size:.78rem;margin-top:2px}
+.ei-tips{margin-top:16px;position:relative;z-index:1}
+.ei-tips h4{font-size:.9rem;margin-bottom:8px;color:#FDE68A}
+.ei-tip{display:flex;gap:8px;padding:5px 0;font-size:.82rem;color:#C7D2FE;align-items:flex-start}
+.ei-tip i{color:#FDE68A;margin-top:2px}
+.ei-scales{display:flex;gap:12px;flex-wrap:wrap;margin-top:14px;position:relative;z-index:1}
+.ei-scale{background:rgba(255,255,255,.1);padding:8px 16px;border-radius:8px;text-align:center}
+.ei-scale-v{font-size:1.1rem;font-weight:800;color:#FDE68A}.ei-scale-l{font-size:.7rem;color:#A5B4FC;margin-top:2px}
+.ei-toggle{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:#E0E7FF;padding:8px 18px;border-radius:8px;cursor:pointer;font-family:inherit;font-size:.82rem;font-weight:600;margin-top:14px;transition:var(--t);position:relative;z-index:1}
+.ei-toggle:hover{background:rgba(255,255,255,.2)}
+
+/* Cambridge passage block */
+.cam-passage{background:#F8FAFC;border-left:4px solid #7C3AED;padding:18px;border-radius:0 10px 10px 0;margin-bottom:15px;line-height:1.8;font-size:.9rem;color:#1E293B}
+.cam-audio-block{background:linear-gradient(135deg,#312E81,#4338CA);border-radius:12px;padding:16px;margin-bottom:14px;color:#fff}
+.cam-audio-block .ac{margin-top:8px}
+
+/* Responsive */
+@media(max-width:768px){
+.lay{grid-template-columns:1fr}.sb{display:none;position:fixed;left:0;top:100px;bottom:0;width:260px;z-index:99}.sb.op{display:block}
+.mn{padding:16px}.mbox{grid-template-columns:1fr}.pgrid{grid-template-columns:1fr 1fr}.mbtn{display:flex!important}
+.wfr{grid-template-columns:1fr}.pbar{padding:0 10px}
+}
+</style>
+</head>
+<body>
+<header class="hd">
+<div style="display:flex;align-items:center;gap:10px">
+<button class="mbtn" onclick="document.querySelector('.sb').classList.toggle('op')"><i class="fas fa-bars"></i></button>
+<a href="cohasset-language-center.html" class="bk"><i class="fas fa-arrow-left"></i> Volver</a>
+</div>
+<div class="logo"><div class="logo-i">C</div><div class="logo-t">COHASSET <span>Learning Platform</span></div></div>
+<div class="hdr-r"><div><div class="ptxt">Progreso: <b id="gP">0%</b></div><div class="pmini"><div class="pfill" id="gB" style="width:0%"></div></div></div></div>
+</header>
+
+<div class="pbar" id="pbar"></div>
+
+<div class="lay">
+<aside class="sb" id="sb"></aside>
+<main class="mn" id="mn"></main>
+</div>
+
+<div class="cur-overlay" id="curModal">
+<div class="cur-box">
+<div class="cur-hd"><h2 id="curTitle">Malla Curricular</h2><button class="cur-cls" onclick="closeCur()">&times;</button></div>
+<div class="cur-bd" id="curBody"></div>
+</div>
+</div>
+
+<script src="be-curriculum-data.js"></script>
+<script src="be-curriculum-supplement.js"></script>
+<script src="be-materials.js"></script>
+<script src="be-materials-ext.js"></script>
+<script src="cambridge-ket.js"></script>
+<script src="cambridge-pet.js"></script>
+<script src="cambridge-fce.js"></script>
+<script src="cambridge-cae.js"></script>
+<script src="cambridge-cpe.js"></script>
+<script>
+// ============ TTS ============
+const TTS={s:false,u:null,
+speak(t,r=.9){if(!('speechSynthesis' in window)){alert('TTS no soportado');return}this.stop();this.u=new SpeechSynthesisUtterance(t);this.u.lang='en-US';this.u.rate=r;this.u.pitch=1;const v=speechSynthesis.getVoices(),ev=v.find(x=>x.lang.startsWith('en')&&x.name.includes('Google'))||v.find(x=>x.lang.startsWith('en-US'))||v.find(x=>x.lang.startsWith('en'));if(ev)this.u.voice=ev;this.u.onstart=()=>{this.s=true};this.u.onend=()=>{this.s=false};speechSynthesis.speak(this.u)},
+stop(){speechSynthesis.cancel();this.s=false},
+toggle(t,r){this.s?this.stop():this.speak(t,r)}
+};
+speechSynthesis.onvoiceschanged=()=>speechSynthesis.getVoices();
+
+// ============ TRANSLATION SYSTEM ============
+let TR_ON = false;
+function trToggleAll(){
+    TR_ON = !TR_ON;
+    document.querySelectorAll('.tr-es,.tr-w,.tr-inline').forEach(el=>{
+        el.classList.toggle('sh', TR_ON);
+    });
+    document.querySelectorAll('.tr-toggle').forEach(t=>t.classList.toggle('on', TR_ON));
+    document.querySelectorAll('.tr-btn').forEach(b=>b.classList.toggle('on', TR_ON));
+}
+function trToggle(id){
+    const el = document.getElementById(id);
+    if(el) el.classList.toggle('sh');
+}
+function trToggleGroup(cls){
+    document.querySelectorAll('.'+cls).forEach(el=>el.classList.toggle('sh'));
+}
+// Translation bar HTML (inserted at top of each lesson)
+function trBar(){
+    return `<div class="tr-global"><label onclick="trToggleAll()"><span class="tr-toggle${TR_ON?' on':''}"></span><i class="fas fa-language"></i> Mostrar traducciones al español</label></div>`;
+}
+// Inline translation button
+function trBtnHtml(id, esText){
+    return ` <button class="tr-btn${TR_ON?' on':''}" onclick="trToggle('${id}')" title="Ver traducción"><i class="fas fa-language"></i> ES</button><span class="tr-es${TR_ON?' sh':''}" id="${id}"><i class="fas fa-globe-americas"></i> ${esText}</span>`;
+}
+// Simple inline word translation
+function trWord(esText){
+    return `<span class="tr-w${TR_ON?' sh':''}"> — ${esText}</span>`;
+}
+// Get hero class for case study
+function csHeroClass(industry){
+    const i = (industry||'').toLowerCase();
+    if(i.includes('tech')||i.includes('saas')||i.includes('ai')||i.includes('software')) return 'tech';
+    if(i.includes('financ')||i.includes('invest')||i.includes('bank')||i.includes('equity')) return 'finance';
+    if(i.includes('aviat')||i.includes('airline')||i.includes('transport')) return 'aviation';
+    if(i.includes('food')||i.includes('beverage')||i.includes('consumer')) return 'food';
+    if(i.includes('retail')||i.includes('sales')) return 'retail';
+    if(i.includes('conglomerate')||i.includes('holdings')||i.includes('diversif')) return 'corp';
+    return 'general';
+}
+function csHeroIcon(industry){
+    const i = (industry||'').toLowerCase();
+    if(i.includes('tech')||i.includes('saas')||i.includes('ai')||i.includes('software')) return 'fa-microchip';
+    if(i.includes('financ')||i.includes('invest')||i.includes('bank')||i.includes('equity')) return 'fa-chart-line';
+    if(i.includes('aviat')||i.includes('airline')) return 'fa-plane';
+    if(i.includes('food')||i.includes('beverage')) return 'fa-mug-hot';
+    if(i.includes('retail')||i.includes('sales')) return 'fa-store';
+    if(i.includes('conglomerate')||i.includes('holdings')) return 'fa-city';
+    if(i.includes('logist')||i.includes('supply')) return 'fa-truck';
+    if(i.includes('consult')||i.includes('strateg')) return 'fa-chess';
+    return 'fa-briefcase';
+}
+// Topic-based emoji for vocab
+const TOPIC_EMOJI = {
+    'office':'🖥️','job':'👔','department':'🏢','number':'💰','money':'💰','travel':'✈️','food':'🍽️','phone':'📞',
+    'career':'📈','sales':'🛒','innovation':'💡','stress':'🧘','marketing':'📣','email':'✉️','meeting':'🤝',
+    'brand':'🏷️','hr':'👥','human':'👥','finance':'💳','cross-cultural':'🌍','international':'🌐','ethic':'⚖️',
+    'leadership':'🎯','competition':'🏆','project':'📋','customer':'❤️','negotiat':'🤝','report':'📊',
+    'ai':'🤖','digital':'💻','crypto':'₿','blockchain':'🔗','risk':'⚠️','csr':'🌱','sustainability':'🌿',
+    'data':'📊','stakeholder':'🎯','contract':'📝','legal':'⚖️','merger':'🔄','acquisition':'🔄',
+    'crisis':'🚨','governance':'🏛️','regulatory':'📜','innovation':'🚀','talent':'⭐','global':'🌍',
+    'venture':'💼','scientific':'🔬','ipo':'📈','board':'🏛️','lobbying':'🏛️','trade':'🌐',
+    'behavioral':'🧠','coaching':'🎓','media':'📺','investor':'💹','geopolit':'🗺️','diplomat':'🕊️',
+    'technology':'💻','describing':'👤','direction':'🗺️','routine':'⏰','company':'🏢','country':'🌎'
+};
+function getTopicEmoji(topic){
+    const t = (topic||'').toLowerCase();
+    for(const[k,v] of Object.entries(TOPIC_EMOJI)){
+        if(t.includes(k)) return v;
+    }
+    return '📚';
+}
+
+// ============ ALL PROGRAMS DATA ============
+const PROGRAMS = {
+business: {
+    name:"Business English",icon:"fa-briefcase",color:"#1E40AF",
+    curriculum:{
+        a1:{title:"A1 - Starter",topics:["Office vocabulary","Introductions at work","Numbers, dates & money","Simple business emails","Departments & job titles","Daily office objects","Greetings & farewells","Business card exchange","Telling the time","Simple instructions","Office technology","Asking for help","Simple phone answers","Countries & nationalities","Basic business verbs"]},
+        a2:{title:"A2 - Elementary",topics:["Daily work routines","Basic phone calls","Simple meetings","Job descriptions","Business travel basics","Giving directions","Ordering at restaurants","Hotel reservations","Airport English","Simple presentations","Shopping vocabulary","Describing products","Making appointments","Writing short messages","Company departments"]},
+        b1:{title:"B1 - Intermediate",topics:["Professional emails","Telephone skills","Meeting participation","CV & cover letters","Company presentations","Scheduling & planning","Complaints handling","Marketing basics","Financial vocabulary","Report writing","Networking","Interview skills","Project updates","Customer service","Cross-cultural communication"]},
+        b2:{title:"B2 - Upper Intermediate",topics:["Executive presentations","Negotiations","Business reports","AI in Business","International teams","Market analysis","Brand management","Supply chain English","Risk assessment","Corporate social responsibility","Data-driven decisions","Stakeholder management","Contract language","Mergers & acquisitions","Cryptocurrency & Fintech"]},
+        c1:{title:"C1 - Advanced",topics:["Strategic communication","Crisis management","Sustainability & ESG","Leadership language","Market analysis reports","Change management","Corporate governance","Regulatory compliance","Innovation strategy","Talent management","Global expansion","Venture capital pitching","Scientific business topics","Digital transformation","Disruptive technologies"]},
+        c2:{title:"C2 - Mastery",topics:["Boardroom English","Corporate diplomacy","Financial English","M&A advanced language","Media training","Investor relations","Legal English for business","Geopolitical business impact","Behavioral economics","Executive coaching language","IPO communications","Board governance","Lobbying & public affairs","Trade policy language","Thought leadership"]}
+    },
+    levels:{
+        a1:{name:"A1 - Starter",desc:"Business Basics",lessons:[
+            {id:"be-a1-1",title:"Office Vocabulary",subtitle:"Essential words for your first day at work",exercises:[
+                {type:"vc",tl:"Vocabulary",title:"Essential Office Words",ins:"Learn these key business words. Click audio to hear pronunciation.",content:{words:[{w:"Desk",d:"A table where you work"},{w:"Meeting",d:"People come together to discuss work"},{w:"Email",d:"A digital message"},{w:"Manager",d:"A person who leads a team"},{w:"Report",d:"A document with information"},{w:"Schedule",d:"A plan showing times"},{w:"Colleague",d:"A person you work with"},{w:"Department",d:"A division of a company"}]}},
+                {type:"ls",tl:"Listening",cb:"BEC Preliminary",title:"Listen: Office Introduction",ins:"Listen and answer the questions.",content:{tts:"Hello everyone. My name is Sara Mitchell. I am the new Marketing Assistant. I work in the Marketing Department on the third floor. I started this job last Monday. My manager is Mr. Johnson. I am happy to meet everyone. Please send me an email if you need anything.",qs:[{q:"What is Sara's job?",o:["Manager","Marketing Assistant","Secretary","Director"],a:1},{q:"Which floor?",o:["First","Second","Third","Fourth"],a:2},{q:"Who is her manager?",o:["Mr. Smith","Mr. Johnson","Mrs. Williams","Ms. Chen"],a:1}]}},
+                {type:"mt",tl:"Matching",cb:"BEC Preliminary",title:"Match Office Words",ins:"Click a word, then click its meaning.",content:{l:["Desk","Meeting","Email","Manager","Schedule"],r:["A person who leads a team","A digital message","A table where you work","A plan showing times","People discussing work"],ans:{0:2,1:4,2:1,3:0,4:3}}},
+                {type:"dd",tl:"Drag & Drop",title:"Complete Office Sentences",ins:"Drag the correct word into each blank.",content:{ws:["desk","meeting","email","manager","report"],ss:[{t:"I sit at my ___ every day.",b:"desk"},{t:"We have a ___ at 10 AM.",b:"meeting"},{t:"Please send me an ___.",b:"email"},{t:"My ___ is very helpful.",b:"manager"},{t:"I need to write a ___.",b:"report"}]}}
+            ]},
+            {id:"be-a1-2",title:"Introductions at Work",subtitle:"How to introduce yourself professionally",exercises:[
+                {type:"rd",tl:"Reading",title:"Meeting New Colleagues",ins:"Read and answer the questions.",content:{p:"Hello, my name is Carlos Reyes. I am the new Sales Coordinator in the Sales Department. I started working here this Monday. My manager is Mrs. Thompson. Before this job, I worked at a small retail company for three years. I am very excited to join this team. My office is on the second floor, room 205. Please feel free to call me or send me an email anytime.",src:"COHASSET Original Material",qs:[{q:"What is Carlos's job title?",o:["Manager","Sales Coordinator","Director","Assistant"],a:1},{q:"Where is his office?",o:["First floor","Second floor, room 205","Third floor","Fourth floor"],a:1},{q:"How long did he work at his previous job?",o:["1 year","2 years","3 years","5 years"],a:2}]}},
+                {type:"dd",tl:"Drag & Drop",title:"Order the Introduction",ins:"Put these phrases in the correct order.",content:{ws:["Nice to meet you all.","My name is Carlos.","I work in Sales.","Good morning!","I am the new Sales Coordinator."],ss:[{t:"1. ___",b:"Good morning!"},{t:"2. ___",b:"My name is Carlos."},{t:"3. ___",b:"I am the new Sales Coordinator."},{t:"4. ___",b:"I work in Sales."},{t:"5. ___",b:"Nice to meet you all."}]}},
+                {type:"wr",tl:"Writing",title:"Write Your Introduction",ins:"Write a short introduction of yourself for your first day at a new job. Include: name, job title, department, and a greeting. (60-80 words)",content:{prompt:"Write your business introduction here...",tips:"Include: 1) Greeting 2) Your name 3) Your job title 4) Your department 5) A friendly closing sentence",minWords:40}}
+            ]},
+            {id:"be-a1-3",title:"Numbers, Dates & Money",subtitle:"Essential numbers for business contexts",exercises:[
+                {type:"ls",tl:"Listening",title:"Audio: Business Numbers",ins:"Listen and answer.",content:{tts:"In business, numbers are very important. The meeting is at 9:30 AM in conference room 4. The budget for this project is twenty-five thousand dollars. Our team has 12 members. The deadline is March 15th. The product costs forty-nine dollars and ninety-nine cents. We need to order 500 units by Friday.",qs:[{q:"What time is the meeting?",o:["9:00 AM","9:30 AM","10:00 AM","10:30 AM"],a:1},{q:"What is the project budget?",o:["$15,000","$20,000","$25,000","$50,000"],a:2},{q:"How many units need to be ordered?",o:["50","100","250","500"],a:3}]}},
+                {type:"mt",tl:"Matching",title:"Match Numbers to Words",ins:"Match the number to how we say it.",content:{l:["$49.99","25,000","9:30","March 15th","500"],r:["Five hundred","Forty-nine ninety-nine","Nine thirty","Twenty-five thousand","March fifteenth"],ans:{0:1,1:3,2:2,3:4,4:0}}}
+            ]},
+            {id:"be-a1-4",title:"Simple Business Emails",subtitle:"Write and understand basic work emails",exercises:[
+                {type:"rd",tl:"Reading",title:"Reading a Simple Email",ins:"Read this email and answer.",content:{p:"From: john.smith@company.com\nTo: team@company.com\nSubject: Team Meeting Tomorrow\n\nHi Team,\n\nJust a reminder that we have a team meeting tomorrow at 10:00 AM in Conference Room B. Please bring your weekly reports. The meeting will be about 30 minutes.\n\nIf you cannot attend, please let me know today.\n\nBest regards,\nJohn Smith\nProject Manager",src:"COHASSET Original Material",qs:[{q:"What time is the meeting?",o:["9:00 AM","10:00 AM","11:00 AM","2:00 PM"],a:1},{q:"What should people bring?",o:["Laptops","Weekly reports","Notebooks","Nothing"],a:1},{q:"How long is the meeting?",o:["15 minutes","30 minutes","1 hour","2 hours"],a:1}]}},
+                {type:"dd",tl:"Drag & Drop",title:"Build an Email",ins:"Drag phrases to complete the email structure.",content:{ws:["Best regards,","Dear Mr. Garcia,","The meeting is at 3 PM.","Please confirm your attendance.","Subject: Meeting Update"],ss:[{t:"___ (Subject line)",b:"Subject: Meeting Update"},{t:"___ (Greeting)",b:"Dear Mr. Garcia,"},{t:"___ (Main information)",b:"The meeting is at 3 PM."},{t:"___ (Request)",b:"Please confirm your attendance."},{t:"___ (Closing)",b:"Best regards,"}]}}
+            ]},
+            {id:"be-a1-5",title:"Departments & Job Titles",subtitle:"Know who does what in a company",exercises:[
+                {type:"mt",tl:"Matching",title:"Match Departments to Functions",ins:"Connect each department with what they do.",content:{l:["Human Resources","Marketing","Finance","IT","Sales"],r:["Manages money and budgets","Sells products to customers","Promotes the company's products","Manages computers and technology","Hires and manages employees"],ans:{0:4,1:2,2:0,3:3,4:1}}},
+                {type:"fl",tl:"Fill in Blanks",cb:"Cambridge A2 Key",title:"Complete Job Title Sentences",ins:"Type the correct word.",content:{ss:[{t:"The ___ manages the entire company.",a:"CEO"},{t:"The ___ department hires new employees.",a:"HR"},{t:"A ___ designs websites and apps.",a:"developer"},{t:"The ___ prepares financial reports.",a:"accountant"}]}}
+            ]}
+        ]},
+        b1:{name:"B1 - Intermediate",desc:"Business Foundations",lessons:[
+            {id:"be-b1-1",title:"Professional Email Writing",subtitle:"Master formal email structure and phrases",exercises:[
+                {type:"rd",tl:"Reading",cb:"BEC Vantage Part 4",title:"Email Communication in 2024",ins:"Read and answer. (Cambridge BEC style)",content:{p:"<p>The average professional receives 121 emails per day according to a 2024 workplace study. With remote work becoming standard, email mastery is critical for career advancement.</p><p>The most effective approach is BLUF (Bottom Line Up Front): state your purpose in the first sentence, then provide context. Emails with clear subject lines are 47% more likely to receive timely responses.</p><p>Common mistakes include vague subjects like 'Hello' or 'FYI,' and excessive 'reply all' usage, which wastes approximately 62 hours per employee annually.</p><p>For international correspondence, cultural awareness is essential. American business favors directness, while many Asian and European cultures expect formal greetings before the main point.</p>",src:"Inspired by HBR - 'How to Write Better Emails at Work' (2024) & McKinsey Productivity Reports",qs:[{q:"How many emails per day does the average professional receive?",o:["50","87","121","200"],a:2},{q:"What is the BLUF method?",o:["Write long intros","State purpose first","Use bullet points","Write informally"],a:1},{q:"How many hours per year does 'reply all' waste?",o:["20","40","62","100"],a:2}]}},
+                {type:"dd",tl:"Drag & Drop",cb:"BEC Vantage",title:"Build a Professional Email",ins:"Drag the correct phrase to each part.",content:{ws:["Best regards,","Dear Mr. Thompson,","I am writing to inquire about","Thank you for your time.","Could you please send me"],ss:[{t:"Greeting: ___",b:"Dear Mr. Thompson,"},{t:"Opening: ___ the Q3 budget.",b:"I am writing to inquire about"},{t:"Request: ___ the latest report?",b:"Could you please send me"},{t:"Closing: ___",b:"Thank you for your time."},{t:"Sign-off: ___",b:"Best regards,"}]}},
+                {type:"mt",tl:"Matching",cb:"BEC Vantage Part 1",title:"Formal vs Informal Email Phrases",ins:"Match informal phrases with formal equivalents.",content:{l:["Hey!","Thanks a lot","I want to know about","Can you send me","See you"],r:["Could you please forward me","I would like to inquire about","Dear Mr./Ms.","Kind regards","Thank you very much"],ans:{0:2,1:4,2:1,3:0,4:3}}},
+                {type:"wr",tl:"Writing",cb:"BEC Vantage Part 1",title:"Write a Formal Email",ins:"Write a formal email to a client requesting a meeting to discuss a new project proposal. Include: greeting, purpose, suggested date/time, and closing. (100-150 words)",content:{prompt:"Write your formal email here...",tips:"Structure: 1) Dear Mr/Ms [Name], 2) State purpose clearly 3) Suggest specific date and time 4) Polite closing 5) Best regards + your name",minWords:80}}
+            ]},
+            {id:"be-b1-2",title:"Telephone Skills",subtitle:"Handle business calls with confidence",exercises:[
+                {type:"ls",tl:"Listening",cb:"BEC Vantage Part 3",title:"Audio: Business Phone Call",ins:"Listen and answer.",content:{tts:"Good morning, Cohasset International, this is Rebecca speaking. How may I help you? ... Yes, I'd like to speak to Mr. Garcia in Sales, please. ... Certainly. May I ask who is calling? ... My name is James Wilson from Apex Technologies. ... Thank you Mr. Wilson. I'm afraid Mr. Garcia is in a meeting right now. Would you like to leave a message, or shall I ask him to call you back? ... Could you ask him to call me back please? My number is 555-0198. ... Of course, I'll make sure he gets the message. Is there anything else I can help you with? ... No, that's all. Thank you. ... You're welcome, have a good day.",qs:[{q:"Who does James want to speak to?",o:["Rebecca","Mr. Garcia","The manager","Mr. Thompson"],a:1},{q:"Why can't Mr. Garcia take the call?",o:["On vacation","In a meeting","Left early","On another call"],a:1},{q:"What does James ask Rebecca to do?",o:["Take a message","Transfer him","Ask Mr. Garcia to call back","Send email"],a:2}]}},
+                {type:"dd",tl:"Drag & Drop",title:"Order the Phone Call",ins:"Put phrases in correct order.",content:{ws:["Thank you for calling. Goodbye.","Good morning, how may I help you?","One moment, I'll put you through.","Could I speak to the Sales Manager?","May I ask who is calling?"],ss:[{t:"1. ___",b:"Good morning, how may I help you?"},{t:"2. ___",b:"Could I speak to the Sales Manager?"},{t:"3. ___",b:"May I ask who is calling?"},{t:"4. ___",b:"One moment, I'll put you through."},{t:"5. ___",b:"Thank you for calling. Goodbye."}]}}
+            ]},
+            {id:"be-b1-3",title:"CV Writing & Job Interviews",subtitle:"Prepare your professional profile in English",exercises:[
+                {type:"rd",tl:"Reading",title:"The Modern CV: What Recruiters Want in 2025",ins:"Read and answer the questions.",content:{p:"<p>Recruitment has changed dramatically with AI-powered applicant tracking systems (ATS). A 2025 LinkedIn study found that 75% of resumes are rejected by ATS before a human ever sees them. The key to passing these systems is using relevant keywords from the job description.</p><p>Modern CVs should follow a clean, one-page format for early-career professionals and two pages maximum for senior roles. Include a professional summary of 2-3 sentences at the top, quantified achievements (not just responsibilities), and relevant skills aligned with the job posting.</p><p>Common mistakes include using generic phrases like 'team player' and 'hard worker' without evidence. Instead, use the STAR method: Situation, Task, Action, Result. For example, instead of 'Managed a team,' write 'Led a team of 8 to increase quarterly sales by 23%.'</p>",src:"Inspired by Forbes - 'Resume Trends 2025' & LinkedIn Talent Solutions Reports",qs:[{q:"What percentage of CVs are rejected by ATS?",o:["25%","50%","75%","90%"],a:2},{q:"What does STAR stand for?",o:["Skills, Training, Ability, Results","Situation, Task, Action, Result","Summary, Targets, Actions, Review","Strategy, Tactics, Analysis, Report"],a:1},{q:"What should replace generic phrases?",o:["More adjectives","Quantified achievements","Longer descriptions","Personal stories"],a:1}]}},
+                {type:"fl",tl:"Open Cloze",cb:"Cambridge B1",title:"Complete CV Phrases",ins:"Type the correct word.",content:{ss:[{t:"I ___ a team of 10 sales representatives.",a:"managed"},{t:"I am ___ for handling customer complaints.",a:"responsible"},{t:"I have 5 years of ___ in marketing.",a:"experience"},{t:"I ___ my MBA from Harvard Business School.",a:"completed"},{t:"I am ___ in English, Spanish and Portuguese.",a:"fluent"}]}}
+            ]},
+            {id:"be-b1-4",title:"Meeting Participation",subtitle:"Contribute effectively in business meetings",exercises:[
+                {type:"ls",tl:"Listening",cb:"BEC Vantage",title:"Audio: A Team Meeting",ins:"Listen to the meeting and answer.",content:{tts:"OK everyone, let's get started. The purpose of today's meeting is to review our Q3 results and plan for Q4. First, let me go over the sales figures. We exceeded our target by 12 percent, which is excellent news. However, customer satisfaction scores dropped slightly. Sarah, could you elaborate on that? ... Yes, we identified that response times increased due to staff shortages. We're planning to hire three new support agents by next month. ... Thank you Sarah. Moving on to the Q4 planning. I'd like each team lead to present their priorities for the next quarter. James, would you like to start? ...",qs:[{q:"What is the meeting about?",o:["Hiring new staff","Reviewing Q3 and planning Q4","Product launch","Budget cuts"],a:1},{q:"By how much did sales exceed target?",o:["5%","8%","12%","15%"],a:2},{q:"Why did satisfaction scores drop?",o:["Bad products","Staff shortages increased response times","Price increases","Technical problems"],a:1}]}},
+                {type:"mt",tl:"Matching",title:"Meeting Phrases",ins:"Match phrases to their function.",content:{l:["Let's get started","Could you elaborate?","Moving on to...","I'd like to add that...","To summarize..."],r:["Requesting more detail","Changing the topic","Wrapping up the discussion","Contributing a point","Opening the meeting"],ans:{0:4,1:0,2:1,3:3,4:2}}}
+            ]},
+            {id:"be-b1-5",title:"Company Presentations",subtitle:"Present your company to visitors and partners",exercises:[
+                {type:"rd",tl:"Reading",title:"How to Present Your Company",ins:"Read and answer.",content:{p:"<p>When presenting your company to potential partners or clients, structure is everything. Start with a brief history and mission statement. Then cover your key products or services, highlighting what makes you different from competitors.</p><p>Include relevant statistics: revenue, market share, number of employees, and geographic presence. Use visuals like charts and graphs rather than text-heavy slides. End with your value proposition: why should the audience care?</p><p>Practice the 'elevator pitch' version too: a 30-second summary that captures your company's essence. This is invaluable at networking events and conferences.</p>",src:"Adapted from Forbes Business Communication Insights 2024",qs:[{q:"What should you start with?",o:["Financial data","Brief history and mission","Product prices","Competitor analysis"],a:1},{q:"What is an 'elevator pitch'?",o:["A sales technique","A 30-second company summary","A presentation slide","A marketing strategy"],a:1}]}},
+                {type:"wr",tl:"Writing",title:"Write Your Company Elevator Pitch",ins:"Write a 30-second elevator pitch for a company (real or imaginary). Include: company name, what you do, your competitive advantage, and why it matters. (50-80 words)",content:{prompt:"Write your elevator pitch here...",tips:"Keep it under 30 seconds when read aloud. Focus on: WHAT you do, WHO you serve, WHY you're different.",minWords:40}}
+            ]}
+        ]},
+        b2:{name:"B2 - Upper Intermediate",desc:"Professional English",lessons:[
+            {id:"be-b2-1",title:"Executive Presentations",subtitle:"Deliver high-impact business presentations",exercises:[
+                {type:"rd",tl:"Reading",cb:"BEC Higher Part 4",title:"Why Great Innovations Fail to Scale",ins:"Read this article and answer. (Cambridge BEC Higher style)",content:{p:"<p>Innovation is no longer optional for competitive advantage. Yet a study analyzing 3,000+ corporate innovation projects found that 70% of innovations succeeding in pilot phase fail to achieve full-scale implementation.</p><p>The barriers are organizational, not technological. Three critical failure patterns: the 'innovation silo' effect (ideas trapped in R&D), the 'scaling cliff' (underestimating resources by 300%), and cultural resistance from middle management.</p><p>Companies that successfully scale share traits: dedicated 'scaling champions' with cross-departmental authority, separate scaling budgets, and metrics tracking adoption rates rather than just technical performance.</p>",src:"Inspired by HBR - 'Why Great Innovations Fail to Scale' (2024)",qs:[{q:"What % of pilot innovations fail to scale?",o:["30%","50%","70%","90%"],a:2},{q:"What is the 'innovation silo' effect?",o:["Too much funding","Ideas trapped in R&D","Lack of technology","Too many employees"],a:1},{q:"By how much are scaling resources underestimated?",o:["100%","200%","300%","500%"],a:2}]}},
+                {type:"ls",tl:"Listening",cb:"BEC Higher Part 2",title:"Audio: The 10-20-30 Rule",ins:"Listen and answer.",content:{tts:"The ten twenty thirty rule is the presentation framework used by top executives. Use no more than ten slides, each communicating one key idea. Keep your presentation under twenty minutes because audience attention drops sixty percent after twenty minutes. Use minimum thirty-point font to force conciseness. Body language accounts for fifty-five percent of communication impact. Maintain eye contact, use purposeful gestures. Never read from slides. End with a clear call to action.",qs:[{q:"Maximum slides recommended?",o:["5","10","15","20"],a:1},{q:"Attention drops by what % after 20 minutes?",o:["30%","40%","50%","60%"],a:3},{q:"Body language accounts for what % of impact?",o:["25%","35%","45%","55%"],a:3}]}},
+                {type:"fl",tl:"Open Cloze",cb:"CPE Part 2",title:"Complete Presentation Phrases",ins:"Fill in the missing words.",content:{ss:[{t:"Thank you ___ joining us today.",a:"for"},{t:"I'd like to ___ your attention to this chart.",a:"draw"},{t:"Let me move ___ to our next finding.",a:"on"},{t:"In ___, our recommendations are...",a:"conclusion"},{t:"Are there ___ questions?",a:"any"}]}}
+            ]},
+            {id:"be-b2-2",title:"AI in Business",subtitle:"Understand and discuss artificial intelligence trends",exercises:[
+                {type:"rd",tl:"Reading",cb:"BEC Higher",title:"AI Moving from Experimentation to Implementation",ins:"Read and answer.",content:{p:"<p>2024 marked the year AI moved from experimentation to full-scale workplace implementation. According to a McKinsey survey, 72% of organizations now use AI in at least one business function, up from 55% in 2023.</p><p>The most impactful applications include customer service chatbots (reducing response times by 60%), predictive analytics for supply chain management (cutting inventory costs by 15-25%), and AI-powered recruitment tools that can screen 1,000 resumes in the time it takes a human to review 10.</p><p>However, challenges remain significant. Data privacy concerns, algorithmic bias, and the need for 'AI literacy' across all management levels are creating new training imperatives. Companies investing in AI training for non-technical staff report 40% higher adoption rates.</p>",src:"Inspired by Forbes - 'AI Implementation Trends 2024-2025' & McKinsey Global AI Survey",qs:[{q:"What % of organizations use AI in 2024?",o:["45%","55%","65%","72%"],a:3},{q:"By how much do chatbots reduce response times?",o:["20%","40%","60%","80%"],a:2},{q:"What boosts AI adoption by 40%?",o:["More budget","AI training for non-technical staff","Better software","Hiring data scientists"],a:1}]}},
+                {type:"mt",tl:"Matching",title:"AI Business Terms",ins:"Match each AI concept to its definition.",content:{l:["Machine Learning","Chatbot","Predictive Analytics","Algorithmic Bias","Natural Language Processing"],r:["Using data patterns to forecast future outcomes","AI that understands and generates human language","Unfair discrimination in AI decision-making","AI program that simulates human conversation","Systems that improve from experience without explicit programming"],ans:{0:4,1:3,2:0,3:2,4:1}}}
+            ]},
+            {id:"be-b2-3",title:"Negotiation Strategies",subtitle:"Master international negotiation language",exercises:[
+                {type:"rd",tl:"Reading",cb:"BEC Higher Part 5",title:"AI and Supply Chain Negotiations",ins:"Read and answer.",content:{p:"<p>AI is reshaping supply chain negotiations. Organizations using AI analytics achieve 12-18% cost reductions compared to traditional methods.</p><p>Machine learning can analyze thousands of supplier contracts simultaneously, identifying patterns and optimization opportunities. Predictive models forecast commodity prices with 85% accuracy up to six months ahead.</p><p>However, the human element remains irreplaceable. While AI excels at data analysis, negotiations still require emotional intelligence and cultural sensitivity. The 'human plus machine' approach uses AI for preparation and humans for execution, yielding 30% higher satisfaction from both parties.</p>",src:"Inspired by HBR - 'Machine Learning in Supply Chain' (2024) & Bloomberg",qs:[{q:"AI procurement achieves what cost reduction?",o:["5-8%","12-18%","20-25%","30%"],a:1},{q:"AI price prediction accuracy?",o:["60%","75%","85%","95%"],a:2},{q:"The hybrid approach improves satisfaction by?",o:["10%","20%","30%","50%"],a:2}]}},
+                {type:"dd",tl:"Drag & Drop",title:"Negotiation Phrases",ins:"Drag the phrase into each scenario.",content:{ws:["I'd like to propose a compromise.","Could you elaborate on that?","We're prepared to offer 15% off.","That's not something we can agree to.","Let's find common ground."],ss:[{t:"Making an offer: ___",b:"We're prepared to offer 15% off."},{t:"Requesting clarification: ___",b:"Could you elaborate on that?"},{t:"Suggesting middle path: ___",b:"I'd like to propose a compromise."},{t:"Declining politely: ___",b:"That's not something we can agree to."},{t:"Seeking agreement: ___",b:"Let's find common ground."}]}}
+            ]}
+        ]},
+        c1:{name:"C1 - Advanced",desc:"Corporate Leadership",lessons:[
+            {id:"be-c1-1",title:"Strategic Communication",subtitle:"Executive-level communication skills",exercises:[
+                {type:"rd",tl:"Reading",cb:"CPE Part 5",title:"Marketing Sustainable Products Without Greenwashing",ins:"Read and answer. (C1 Advanced style)",content:{p:"<p>A study of 500 global brands found that 68% of sustainability claims cannot be fully substantiated. The EU Green Claims Directive (enforced 2026) will require scientific evidence for environmental marketing claims.</p><p>Successful companies use 'radical transparency': openly acknowledging challenges while documenting progress. This 'progress, not perfection' narrative resonates with millennials and Gen Z, who are 73% more likely to trust brands that admit limitations while showing improvement.</p><p>Sustainability must be embedded in core operations, not treated as a communications exercise. When genuinely integrated, marketing claims become natural extensions of business reality.</p>",src:"Inspired by HBR - 'How to Market Sustainable Products' (2024) & EU Directive Analysis",qs:[{q:"What % of sustainability claims are unsubstantiated?",o:["45%","55%","68%","80%"],a:2},{q:"What approach works best?",o:["Aggressive marketing","Avoiding the topic","Radical transparency","Hiring influencers"],a:2},{q:"Young consumers trust transparent brands how much more?",o:["45%","58%","73%","90%"],a:2}]}},
+                {type:"wf",tl:"Word Formation",cb:"CPE Part 3",title:"Word Formation: Business Leadership",ins:"Form the correct word from the base.",content:{ss:[{t:"Effective leaders show exceptional ___ skills.",b:"COMMUNICATE",a:"communication"},{t:"The company's ___ strategy needs revision.",b:"SUSTAIN",a:"sustainability"},{t:"We must increase employee ___.",b:"ENGAGE",a:"engagement"},{t:"The CEO's ___ was questioned.",b:"CREDIBLE",a:"credibility"},{t:"Market ___ requires innovation.",b:"COMPETE",a:"competitiveness"}]}}
+            ]}
+        ]},
+        c2:{name:"C2 - Mastery",desc:"Executive Excellence",lessons:[
+            {id:"be-c2-1",title:"Boardroom English & Diplomacy",subtitle:"C-suite communication mastery",exercises:[
+                {type:"rd",tl:"Reading",cb:"CPE Part 5-6",title:"Don't Let Gen AI Limit Creativity",ins:"Read this executive-level article.",content:{p:"<p>Teams using AI for over 60% of ideation produce solutions 35% less novel. Researchers term this 'algorithmic anchoring': AI suggestions create cognitive shortcuts that constrain creative thinking.</p><p>Forward-thinking companies implement 'AI guardrails': AI-free ideation sessions, using AI only for validation, and 'creativity metrics' rewarding originality alongside efficiency.</p><p>Organizations that thrive will leverage AI as a complement to human creativity, maintaining 'cognitive sovereignty' over innovation processes.</p>",src:"Inspired by HBR - 'Don't Let Gen AI Limit Creativity' (2024) & MIT Sloan Review",qs:[{q:"AI-heavy teams produce solutions that are how much less novel?",o:["15%","25%","35%","50%"],a:2},{q:"What is 'algorithmic anchoring'?",o:["Using algorithms for analysis","AI suggestions constraining creativity","Programming AI specifically","Data anchoring"],a:1},{q:"What is 'cognitive sovereignty'?",o:["AI controlling decisions","Humans maintaining creative control","Government AI regulation","Corporate governance"],a:1}]}},
+                {type:"ls",tl:"Listening",cb:"CPE Part 3",title:"Audio: The Language of the Boardroom",ins:"Listen and answer.",content:{tts:"Boardroom communication operates under distinct linguistic conventions. Language serves as an instrument of power, persuasion, and governance. Diplomatic ambiguity is a critical skill: conveying nuanced positions without premature commitment. Phrases like 'We are exploring strategic avenues' signal direction without foreclosing options. Financial literacy demands precision. Distinguishing revenue from profit, EBITDA from net income carries significant implications. Misusing terms erodes credibility. Understanding cultural subtext is essential: 'We'll take that under advisement' often means polite rejection, while 'We're committed to moving forward' indicates genuine intent.",qs:[{q:"What is 'diplomatic ambiguity'?",o:["Being unclear","Nuanced positions without commitment","Avoiding topics","Using jargon"],a:1},{q:"'We'll take that under advisement' often means?",o:["Agreement","Need data","Polite rejection","Immediate action"],a:2},{q:"Why is financial term precision important?",o:["Sounds professional","Misuse erodes credibility","Required by law","Impresses colleagues"],a:1}]}},
+                {type:"kt",tl:"Key Word Transformation",cb:"CPE Part 4",title:"Corporate Language Transformations",ins:"Complete the second sentence using the word given. (3-8 words including the key word)",content:{ss:[{orig:"The board approved the merger unanimously.",key:"GIVEN",target:"The merger was ___ by the board.",a:"given unanimous approval"},{orig:"We cannot agree to these terms.",key:"QUESTION",target:"Agreeing to these terms is ___ .",a:"out of the question"},{orig:"The CEO's decision surprised everyone.",key:"TOOK",target:"Everyone was ___ the CEO's decision.",a:"taken aback by"}]}},
+                {type:"mt",tl:"Matching",cb:"CPE Part 7",title:"Financial Terms Precision",ins:"Match each term to its definition.",content:{l:["Revenue","EBITDA","Run rate","Net income","Burn rate"],r:["Earnings before interest, taxes, depreciation & amortization","Total income from sales before deductions","Profit after all expenses and taxes","Speed of spending cash reserves","Annualized projection from current performance"],ans:{0:1,1:0,2:4,3:2,4:3}}}
+            ]}
+        ]}
+    }
+},
+general: {
+    name:"General English",icon:"fa-book",color:"#059669",
+    curriculum:{
+        a1:{title:"A1 - Beginner",topics:["Alphabet & pronunciation","Greetings & introductions","Numbers 1-100","Colors & adjectives","Family members","Daily routines","Present simple (be/have)","This/that/these/those","Telling the time","Food & drink","Places in town","Present simple (regular verbs)","Can/can't for ability","Prepositions of place","There is/there are"]},
+        a2:{title:"A2 - Elementary",topics:["Past simple (regular)","Past simple (irregular)","Comparative adjectives","Superlative adjectives","Going to (future plans)","Present continuous","Countable/uncountable nouns","Some/any/much/many","Adverbs of frequency","Prepositions of time","Giving directions","Making suggestions","Present perfect (experience)","Phrasal verbs (basic)","Connectors (and/but/because)"]},
+        b1:{title:"B1 - Intermediate",topics:["Present perfect vs past simple","Used to","First conditional","Second conditional","Passive voice (present/past)","Reported speech (statements)","Relative clauses (who/which/that)","Modal verbs (must/should/might)","Gerunds vs infinitives","Phrasal verbs (intermediate)","Linking words","Narrative tenses","Articles (a/an/the/zero)","Quantifiers","Have something done"]},
+        b2:{title:"B2 - Upper Intermediate",topics:["Third conditional","Mixed conditionals","Wish/If only","Passive (all tenses)","Reported speech (advanced)","Inversion","Cleft sentences","Future perfect & continuous","Advanced modal verbs","Collocations","Formal/informal register","Discourse markers","Participle clauses","Emphasis structures","Advanced phrasal verbs"]},
+        c1:{title:"C1 - Advanced",topics:["Advanced inversion","Subjunctive","Mixed conditionals (advanced)","Nominalisation","Hedging language","Ellipsis & substitution","Advanced passive structures","Fronting","Complex noun phrases","Pragmatic markers","Academic writing style","Idiomatic expressions","Register awareness","Text coherence & cohesion","Advanced relative clauses"]},
+        c2:{title:"C2 - Proficiency",topics:["Stylistic inversion","Literary devices","Pragmatic competence","Sociolinguistic awareness","Advanced hedging","Complex subordination","Rhetorical structures","Metaphor & metonymy","Cross-cultural pragmatics","Genre-specific conventions","Archaic & formal registers","Irony & understatement","Discourse analysis","Advanced error correction","Native-like fluency patterns"]}
+    },
+    levels:{
+        a1:{name:"A1 - Beginner",desc:"First Steps",lessons:[
+            {id:"ge-a1-1",title:"Greetings & Introductions",subtitle:"Say hello and introduce yourself",exercises:[
+                {type:"ls",tl:"Listening",title:"Audio: Meeting People",ins:"Listen and answer.",content:{tts:"Hi! My name is Tom. I am from the United States. I am 25 years old. I live in New York City. I am a student. I study computer science at university. Nice to meet you! What is your name?",qs:[{q:"Where is Tom from?",o:["England","United States","Canada","Australia"],a:1},{q:"How old is Tom?",o:["20","22","25","30"],a:2},{q:"What does Tom study?",o:["Business","Medicine","Computer science","Law"],a:2}]}},
+                {type:"dd",tl:"Drag & Drop",title:"Greetings in Order",ins:"Order these greetings from most formal to most informal.",content:{ws:["Hey!","Good morning, how do you do?","Hi, how are you?","Hello, nice to meet you.","What's up?"],ss:[{t:"1 (Most formal): ___",b:"Good morning, how do you do?"},{t:"2: ___",b:"Hello, nice to meet you."},{t:"3: ___",b:"Hi, how are you?"},{t:"4: ___",b:"Hey!"},{t:"5 (Most informal): ___",b:"What's up?"}]}}
+            ]}
+        ]}
+    }
+},
+yle: {
+    name:"YLE Cambridge",icon:"fa-child",color:"#EC4899",
+    curriculum:{
+        starters:{title:"Starters (Pre-A1)",topics:["Animals","Body & face","Clothes","Colors","Family & friends","Food & drink","The home","Numbers 1-20","Places & directions","School","Sports & leisure","Toys","Transport","My world","Feelings"]},
+        movers:{title:"Movers (A1)",topics:["The body & health","Clothes & accessories","Animals & nature","Daily life","Family & friends","Food & cooking","House & home","Materials","Numbers & quantities","Places & directions","School subjects","Sports & hobbies","Time & seasons","Transport & travel","Weather"]},
+        flyers:{title:"Flyers (A2)",topics:["Animals & environment","Body & health","Clothes & shopping","Communication","Education & learning","Entertainment","Family & relationships","Food & restaurants","House & furnishings","Leisure activities","Personal feelings","Places & buildings","Services","Transport & travel","Work & jobs"]}
+    },
+    levels:{
+        starters:{name:"Starters",desc:"Pre-A1 Level",lessons:[
+            {id:"yle-st-1",title:"Animals",subtitle:"Learn animal names and descriptions",exercises:[
+                {type:"vc",tl:"Vocabulary",title:"Animal Words",ins:"Learn these animal words.",content:{words:[{w:"Cat",d:"A small pet that says meow"},{w:"Dog",d:"A pet that barks"},{w:"Fish",d:"An animal that lives in water"},{w:"Bird",d:"An animal that can fly"},{w:"Horse",d:"A big animal you can ride"},{w:"Elephant",d:"A very big gray animal"}]}},
+                {type:"mt",tl:"Matching",cb:"YLE Starters",title:"Match Animals",ins:"Match the animal to what it does.",content:{l:["Cat","Dog","Fish","Bird","Horse"],r:["It can fly","It lives in water","It says meow","You can ride it","It barks"],ans:{0:2,1:4,2:1,3:0,4:3}}}
+            ]}
+        ]}
+    }
+},
+cambridge: {
+    name:"Cambridge Main Suite",icon:"fa-award",color:"#7C3AED",
+    curriculum:{
+        ket:{title:"KET - A2 Key",topics:["Personal information","Daily life & routines","Free time activities","Travel & transport","Shopping & prices","Health & body","Weather & environment","Education & study","Food & drink","Feelings & opinions","Places & buildings","Work & jobs","Relationships","Descriptions (people/places)","Making plans"]},
+        pet:{title:"PET - B1 Preliminary",topics:["Lifestyle & habits","Education & career","Entertainment & media","Health & fitness","Travel & tourism","Science & technology","Environment & nature","Relationships & social issues","Shopping & services","Food & cooking","Hobbies & interests","Feelings & emotions","Culture & traditions","Communication","Future plans & ambitions"]},
+        b2first:{title:"B2 First (FCE)",topics:["Multiple choice cloze","Open cloze","Word formation","Key word transformations","Reading Part 5: Multiple choice","Reading Part 6: Gapped text","Reading Part 7: Multiple matching","Writing Part 1: Essay","Writing Part 2: Article/Report","Listening Part 1: Multiple choice","Listening Part 2: Sentence completion","Listening Part 3: Multiple matching","Listening Part 4: Multiple choice","Speaking Part 1: Interview","Speaking Part 2: Long turn"]},
+        c1adv:{title:"C1 Advanced (CAE)",topics:["Multiple choice cloze (advanced)","Open cloze (advanced)","Word formation (advanced)","Key word transformations (advanced)","Cross-text multiple matching","Gapped text","Long text multiple choice","Compulsory essay","Situational writing task","Multiple choice extracts","Sentence completion","Multiple choice long","Multiple matching","Interview & long turn","Collaborative task & discussion"]}
+    },
+    levels:{
+        ket:{name:"A2 Key (KET)",desc:"Elementary Exam Prep",lessons:[
+            {id:"cb-ket-1",title:"Personal Information",subtitle:"KET Reading & Writing Part 1",exercises:[
+                {type:"rd",tl:"Reading",cb:"KET Part 1",title:"Understanding Short Texts",ins:"Read and choose the correct answer.",content:{p:"<p><strong>NOTICE:</strong> The library closes at 5 PM on Fridays. All books must be returned by Thursday.</p><p><strong>SIGN:</strong> Swimming pool open Monday to Saturday, 7 AM - 9 PM. Children under 12 must be with an adult.</p><p><strong>MESSAGE:</strong> Hi Tom, I can't come to the cinema tonight. I have a dentist appointment at 6. Can we go tomorrow instead? - Sarah</p>",src:"Cambridge KET Practice Material",qs:[{q:"When must library books be returned?",o:["Friday","Thursday","Wednesday","Monday"],a:1},{q:"Can a 10-year-old swim alone?",o:["Yes, anytime","Yes, before 9 PM","No, needs an adult","Only on weekends"],a:2},{q:"Why can't Sarah go to the cinema?",o:["She's working","Dentist appointment","She's tired","Bad weather"],a:1}]}}
+            ]}
+        ]},
+        b2first:{name:"B2 First (FCE)",desc:"Upper-Intermediate Exam",lessons:[
+            {id:"cb-fce-1",title:"Use of English Part 1",subtitle:"Multiple Choice Cloze",exercises:[
+                {type:"rd",tl:"Reading",cb:"FCE Part 1",title:"Multiple Choice Cloze: Remote Work",ins:"Read and choose the best option for each gap.",content:{p:"<p>Remote work has (1)___ transformed how companies operate globally. A recent study found that 58% of workers now have the (2)___ to work from home at least part of the week. While many employees (3)___ the flexibility, managers sometimes struggle to maintain team (4)___ and productivity across distributed teams.</p><p>1. A) deeply B) fundamentally C) totally D) heavily<br>2. A) chance B) opportunity C) possibility D) occasion<br>3. A) value B) price C) worth D) cost<br>4. A) spirit B) mood C) cohesion D) feeling</p>",src:"Cambridge B2 First Practice - COHASSET",qs:[{q:"Gap 1: Which word fits best?",o:["deeply","fundamentally","totally","heavily"],a:1},{q:"Gap 2: Which word fits best?",o:["chance","opportunity","possibility","occasion"],a:1},{q:"Gap 3: Which word fits best?",o:["value","price","worth","cost"],a:0},{q:"Gap 4: Which word fits best?",o:["spirit","mood","cohesion","feeling"],a:2}]}}
+            ]}
+        ]}
+    }
+},
+toefl: {
+    name:"TOEFL Prep",icon:"fa-flag-usa",color:"#DC2626",
+    curriculum:{
+        reading:{title:"Reading Section",topics:["Academic vocabulary in context","Inference questions","Factual information","Rhetorical purpose","Sentence insertion","Prose summary","Table completion","Reference questions","Vocabulary questions","Negative factual information","Reading to learn","Long passage strategies","Time management","Note-taking strategies","Practice test strategies"]},
+        listening:{title:"Listening Section",topics:["Lecture comprehension","Conversation understanding","Detail questions","Main idea questions","Attitude questions","Organization questions","Connecting content","Making inferences","Academic vocabulary","Note-taking for lectures","Understanding function","Predicting content","Pragmatic understanding","Synthesizing information","Multi-part questions"]},
+        speaking:{title:"Speaking Section",topics:["Independent speaking Task 1","Integrated reading/listening Task 2","Integrated listening Task 3","Integrated listening Task 4","Response organization","Fluency development","Pronunciation practice","Grammar accuracy","Vocabulary range","Time management","Template strategies","Practice recordings","Self-assessment","Common topics","Scoring criteria"]},
+        writing:{title:"Writing Section",topics:["Integrated writing task","Independent writing task","Academic essay structure","Paraphrasing skills","Summarizing lectures","Thesis statements","Supporting arguments","Counterarguments","Transitions & cohesion","Academic vocabulary","Time management","Proofreading strategies","Word count optimization","Practice essays","Scoring rubric understanding"]}
+    },
+    levels:{
+        reading:{name:"Reading",desc:"Academic Reading Skills",lessons:[
+            {id:"tf-r-1",title:"Academic Vocabulary in Context",subtitle:"Understanding words in academic passages",exercises:[
+                {type:"rd",tl:"Reading",cb:"TOEFL Reading",title:"The Impact of Urbanization on Biodiversity",ins:"Read the passage and answer the questions.",content:{p:"<p>Urbanization is one of the most significant drivers of biodiversity loss worldwide. As cities expand, natural habitats are fragmented or destroyed entirely, displacing native species and disrupting ecological processes. A 2024 study published in Nature found that urban areas, which cover just 3% of Earth's surface, have caused the local extinction of approximately 15% of plant species and 25% of animal species in affected regions.</p><p>However, some researchers argue that cities can also serve as unexpected refuges for certain species. Urban parks, green corridors, and even building facades can provide microhabitats that support diverse communities of insects, birds, and small mammals. The concept of 'reconciliation ecology' suggests that thoughtful urban design can mitigate biodiversity loss while meeting human development needs.</p>",src:"Adapted from academic research on urbanization & biodiversity (Nature, 2024)",qs:[{q:"What percentage of Earth's surface do urban areas cover?",o:["1%","3%","5%","10%"],a:1},{q:"The word 'fragmented' in paragraph 1 is closest in meaning to:",o:["Strengthened","Broken into pieces","Protected","Analyzed"],a:1},{q:"What is 'reconciliation ecology'?",o:["Removing all cities","Urban design that mitigates biodiversity loss","Studying extinct species","Building more parks only"],a:1}]}}
+            ]}
+        ]}
+    }
+},
+ielts: {
+    name:"IELTS Prep",icon:"fa-globe",color:"#0891B2",
+    curriculum:{
+        reading:{title:"Academic Reading",topics:["Matching headings","True/False/Not Given","Multiple choice","Summary completion","Sentence completion","Short answer questions","Diagram labeling","Table completion","Flow chart completion","Matching features","Matching sentence endings","Classification","Skimming & scanning","Time management","Vocabulary in context"]},
+        listening:{title:"Listening",topics:["Form completion","Multiple choice","Matching","Map/plan labeling","Note completion","Table completion","Flow chart completion","Sentence completion","Summary completion","Short answer questions","Section 1: Social conversations","Section 2: Monologue (social)","Section 3: Academic discussion","Section 4: Academic lecture","Prediction & note-taking"]},
+        writing:{title:"Writing",topics:["Task 1: Line graphs","Task 1: Bar charts","Task 1: Pie charts","Task 1: Tables","Task 1: Processes","Task 1: Maps","Task 1: Multiple charts","Task 2: Opinion essays","Task 2: Discussion essays","Task 2: Problem/solution","Task 2: Advantages/disadvantages","Task 2: Two-part questions","Coherence & cohesion","Lexical resource","Grammar range & accuracy"]},
+        speaking:{title:"Speaking",topics:["Part 1: Introduction & interview","Part 1: Common topics","Part 2: Long turn (cue card)","Part 2: Time management","Part 2: Note-making","Part 3: Discussion","Part 3: Abstract topics","Fluency & coherence","Lexical resource","Grammar range","Pronunciation","Fillers & hesitation devices","Opinion language","Comparing & contrasting","Speculating"]}
+    },
+    levels:{
+        reading:{name:"Academic Reading",desc:"Reading Skills for IELTS",lessons:[
+            {id:"ie-r-1",title:"True/False/Not Given",subtitle:"Master the most common IELTS reading question type",exercises:[
+                {type:"rd",tl:"Reading",cb:"IELTS Academic",title:"The Rise of Remote Work",ins:"Read and determine: TRUE, FALSE, or NOT GIVEN.",content:{p:"<p>The shift to remote work, accelerated by the pandemic, has become permanent for many organizations. A 2024 Stanford study found that hybrid work arrangements (2-3 days remote per week) increase employee productivity by 13% compared to full-time office work. Companies offering flexible arrangements also report 25% lower employee turnover.</p><p>However, the transition has not been without challenges. Junior employees particularly struggle with remote work, as they miss the informal mentoring and networking opportunities that office environments naturally provide. Some companies have responded by creating structured virtual mentoring programs, though early data suggests these are only partially effective.</p>",src:"Adapted from Stanford Remote Work Research (2024) & McKinsey Reports",qs:[{q:"Hybrid work increases productivity by 13%. (TRUE/FALSE/NOT GIVEN)",o:["TRUE","FALSE","NOT GIVEN"],a:0},{q:"All employees prefer remote work. (TRUE/FALSE/NOT GIVEN)",o:["TRUE","FALSE","NOT GIVEN"],a:2},{q:"Junior employees benefit most from remote work. (TRUE/FALSE/NOT GIVEN)",o:["TRUE","FALSE","NOT GIVEN"],a:1}]}}
+            ]}
+        ]}
+    }
+}
+};
+
+// ============ STATE ============
+let CP='business'; // current program
+let S={lvl:null,ls:null,done:JSON.parse(localStorage.getItem('ch2_d')||'{}')};
+const MS={};
+const ATT={}; // attempt tracker per exercise
+function save(){localStorage.setItem('ch2_d',JSON.stringify(S.done));updG();}
+function updG(){
+    let t=0,c=0;
+    const prog=PROGRAMS[CP];
+    if(prog.levels){Object.values(prog.levels).forEach(lv=>{if(lv.lessons)lv.lessons.forEach(ls=>{t+=ls.exercises.length;ls.exercises.forEach((_,i)=>{if(S.done[ls.id+'-'+i])c++})})});}
+    const p=t>0?Math.round(c/t*100):0;
+    document.getElementById('gP').textContent=p+'%';
+    document.getElementById('gB').style.width=p+'%';
+}
+
+// ============ PROGRAM BAR ============
+function renderPBar(){
+    const pb=document.getElementById('pbar');
+    let h='';
+    Object.entries(PROGRAMS).forEach(([k,p])=>{
+        h+=`<div class="ptab ${CP===k?'act':''}" onclick="switchProg('${k}')"><i class="fas ${p.icon}"></i>${p.name}</div>`;
+    });
+    pb.innerHTML=h;
+}
+function switchProg(k){CP=k;S.lvl=null;S.ls=null;renderPBar();renderSB();renderWel();updG();}
+
+// ============ SIDEBAR ============
+function renderSB(){
+    const sb=document.getElementById('sb'),prog=PROGRAMS[CP];
+    let h=`<div class="sb-t">${prog.name}</div>`;
+    h+=`<div class="sb-cur" onclick="showCur()"><i class="fas fa-th-list"></i> Ver Malla Curricular</div>`;
+    if(prog.levels){
+        Object.entries(prog.levels).forEach(([k,lv])=>{
+            const act=S.lvl===k;
+            let lc=lv.lessons?lv.lessons.length:0,dc=0;
+            if(lv.lessons)lv.lessons.forEach(l=>{if(l.exercises.every((_,i)=>S.done[l.id+'-'+i]))dc++});
+            h+=`<div><div class="lh ${act?'act':''}" onclick="togLv('${k}')">
+                <div class="lb" style="background:${prog.color}">${k.toUpperCase().replace('B2FIRST','B2').replace('C1ADV','C1').substring(0,3)}</div>
+                <div class="li"><div class="ln">${lv.name}</div><div class="ld">${lv.desc}</div>
+                ${dc>0?`<div class="lp">${dc}/${lc} done</div>`:''}</div>
+            </div><div class="ll ${act?'op':''}" id="ll-${k}">`;
+            if(lv.lessons)lv.lessons.forEach((ls,li)=>{
+                const al=S.ls===ls.id,ad=ls.exercises.every((_,i)=>S.done[ls.id+'-'+i]);
+                h+=`<div class="lk ${al?'act':''} ${ad?'dn':''}" onclick="loadLs('${k}',${li})">${li+1}. ${ls.title}</div>`;
+            });
+            h+='</div></div>';
+        });
+    }
+    sb.innerHTML=h;
+}
+function togLv(k){S.lvl=S.lvl===k?null:k;renderSB();}
+
+// ============ CURRICULUM MODAL ============
+function showCur(){
+    const prog=PROGRAMS[CP],cur=prog.curriculum;
+    document.getElementById('curTitle').textContent=`Malla Curricular: ${prog.name}`;
+    let h='';
+    if(cur){
+        Object.entries(cur).forEach(([k,lv])=>{
+            h+=`<div class="cur-lv"><h3><span style="background:${prog.color}">${k.toUpperCase()}</span> ${lv.title}</h3><div class="cur-topics">`;
+            lv.topics.forEach((t,i)=>{h+=`<div class="cur-topic"><i class="fas fa-check-circle"></i> ${i+1}. ${t}</div>`;});
+            h+='</div></div>';
+        });
+    }
+    document.getElementById('curBody').innerHTML=h;
+    document.getElementById('curModal').classList.add('sh');
+}
+function closeCur(){document.getElementById('curModal').classList.remove('sh');}
+document.getElementById('curModal').addEventListener('click',function(e){if(e.target===this)closeCur()});
+
+// ============ WELCOME ============
+function renderWel(){
+    const prog=PROGRAMS[CP];
+    let lvCount=0;if(prog.levels)lvCount=Object.keys(prog.levels).length;
+    const m=document.getElementById('mn');
+    let h=`<div class="wel"><h1><span>${prog.name}</span></h1>
+        <p>Selecciona un nivel en el menu lateral para comenzar, o consulta la malla curricular para ver el contenido completo del programa.</p>
+        <div style="margin-bottom:20px"><button class="btn bp" onclick="showCur()" style="font-size:.9rem;padding:12px 28px"><i class="fas fa-th-list"></i> Ver Malla Curricular Completa</button></div>`;
+    if(prog.levels){
+        h+='<div class="pgrid">';
+        Object.entries(prog.levels).forEach(([k,lv])=>{
+            const lc=lv.lessons?lv.lessons.length:0;
+            h+=`<div class="pcard" onclick="togLv('${k}');${lc>0?`loadLs('${k}',0)`:''}" style="border-top:3px solid ${prog.color}">
+                <i class="fas ${prog.icon}" style="color:${prog.color}"></i>
+                <h3>${lv.name}</h3><p>${lv.desc}</p>
+                <p style="color:${prog.color};font-weight:600;margin-top:6px;font-size:.78rem">${lc} ${lc===1?'lesson':'lessons'}</p>
+            </div>`;
+        });
+        h+='</div>';
+    }
+    h+='</div>';
+    // Show all programs grid
+    h+=`<div style="text-align:center;margin-top:30px;padding:0 20px"><h3 style="font-size:1.1rem;color:var(--d);margin-bottom:15px">Todos los Programas</h3><div class="pgrid">`;
+    Object.entries(PROGRAMS).forEach(([k,p])=>{
+        const tc=p.curriculum?Object.values(p.curriculum).reduce((a,v)=>a+v.topics.length,0):0;
+        h+=`<div class="pcard" onclick="switchProg('${k}')" style="border-top:3px solid ${p.color}">
+            <i class="fas ${p.icon}" style="color:${p.color};font-size:1.5rem"></i>
+            <h3 style="font-size:.9rem">${p.name}</h3>
+            <p>${tc} topics</p>
+        </div>`;
+    });
+    h+='</div></div>';
+    m.innerHTML=h;
+}
+
+// ============ LOAD LESSON ============
+function loadLs(lk,li){
+    S.lvl=lk;
+    const prog=PROGRAMS[CP],lv=prog.levels[lk];
+    if(!lv||!lv.lessons||!lv.lessons[li])return;
+    const ls=lv.lessons[li];S.ls=ls.id;
+    renderSB();document.querySelector('.sb').classList.remove('op');
+    const m=document.getElementById('mn');
+    let h=`<div class="lhd"><span class="ltg"><i class="fas ${prog.icon}"></i> ${lv.name}</span>
+        <h1 class="ltt">${ls.title}</h1><p class="lts">${ls.subtitle}</p></div>`;
+    h+=trBar();
+    ls.exercises.forEach((ex,ei)=>{h+=rEx(ex,ei,ls.id)});
+    // Nav
+    const lvls=Object.keys(prog.levels);
+    const all=[];lvls.forEach(k=>{if(prog.levels[k].lessons)prog.levels[k].lessons.forEach((l,i)=>all.push({lk:k,i,id:l.id}))});
+    const pos=all.findIndex(x=>x.id===ls.id);
+    h+='<div class="lnv">';
+    if(pos>0){const p=all[pos-1];h+=`<button class="btn bo" onclick="loadLs('${p.lk}',${p.i})"><i class="fas fa-arrow-left"></i> Anterior</button>`}else h+='<div></div>';
+    if(pos<all.length-1){const n=all[pos+1];h+=`<button class="btn bp" onclick="loadLs('${n.lk}',${n.i})">Siguiente <i class="fas fa-arrow-right"></i></button>`}
+    else h+='<button class="btn bs"><i class="fas fa-trophy"></i> Completado!</button>';
+    h+='</div>';
+    m.innerHTML=h;window.scrollTo({top:0,behavior:'smooth'});setTimeout(initDD,100);
+}
+
+// ============ RENDER EXERCISE ============
+function rEx(ex,ei,lid){
+    const eid=lid+'-'+ei,dn=S.done[eid];
+    const cb=ex.cb?`<span class="cb"><i class="fas fa-award"></i> ${ex.cb}</span>`:'';
+    const icons={gr:'<i class="fas fa-graduation-cap"></i>',vp:'<i class="fas fa-language"></i>',rd:'<i class="fas fa-book-open"></i>',ls:'<i class="fas fa-headphones"></i>',dd:'<i class="fas fa-hand-pointer"></i>',mt:'<i class="fas fa-link"></i>',fl:'<i class="fas fa-pen"></i>',vc:'<i class="fas fa-spell-check"></i>',wf:'<i class="fas fa-font"></i>',kt:'<i class="fas fa-exchange-alt"></i>',wr:'<i class="fas fa-pencil-alt"></i>',cs:'<i class="fas fa-briefcase"></i>'};
+    const cls={gr:'gr',vp:'vp',rd:'rd',ls:'ls',dd:'dd',mt:'mt',fl:'fl',vc:'vc',wf:'wf',kt:'kt',wr:'wr',cs:'cs'};
+    let h=`<div class="eb" id="ex-${eid}" ${dn?'style="border-color:var(--ok);border-width:2px"':''}>
+        <span class="et ${cls[ex.type]||''}">${icons[ex.type]||''} ${ex.tl}</span>${cb}
+        ${dn?'<span style="float:right;color:var(--ok);font-weight:600;font-size:.78rem"><i class="fas fa-check-circle"></i> Done</span>':''}
+        <h2 class="eti">${ex.title}</h2><p class="eins">${ex.ins||''}</p>`;
+    // Show optional inline grammar tip
+    if(ex.tip){ h+=`<div class="gtip"><i class="fas fa-lightbulb"></i> <strong>${ex.tip.title||'Grammar tip'}:</strong> ${ex.tip.text}</div>`; }
+    switch(ex.type){
+        case'gr':h+=xGr(ex.content,eid);break;
+        case'vp':h+=xVp(ex.content,eid);break;
+        case'vc':h+=xVc(ex.content,eid);break;
+        case'rd':h+=xRd(ex.content,eid);break;
+        case'ls':h+=xLs(ex.content,eid);break;
+        case'mt':h+=xMt(ex.content,eid);break;
+        case'dd':h+=xDd(ex.content,eid);break;
+        case'fl':h+=xFl(ex.content,eid);break;
+        case'wf':h+=xWf(ex.content,eid);break;
+        case'kt':h+=xKt(ex.content,eid);break;
+        case'wr':h+=xWr(ex.content,eid);break;
+        case'cs':h+=xCs(ex.content,eid);break;
+    }
+    h+=`<div class="fb" id="fb-${eid}"></div></div>`;return h;
+}
+
+// ===== GRAMMAR EXPLANATION =====
+function xGr(c,eid){
+    let h=`<div class="gr-box">`;
+    if(c.rule) h+=`<div class="gr-rule"><strong><i class="fas fa-key"></i> Rule:</strong> ${c.rule}</div>`;
+    if(c.structure) h+=`<div class="gr-struct"><strong><i class="fas fa-sitemap"></i> Structure:</strong> <code>${c.structure}</code></div>`;
+    if(c.examples && c.examples.length){
+        h+=`<div class="gr-ex"><strong><i class="fas fa-list-ul"></i> Examples:</strong><table class="gr-tbl">`;
+        c.examples.forEach(e=>{ h+=`<tr><td class="gr-en"><i class="fas fa-flag-usa"></i> ${e.en}</td><td class="gr-es"><i class="fas fa-globe"></i> ${e.es}</td></tr>`; });
+        h+=`</table></div>`;
+    }
+    if(c.notes && c.notes.length){
+        h+=`<div class="gr-notes"><strong><i class="fas fa-info-circle"></i> Notes:</strong><ul>`;
+        c.notes.forEach(n=>h+=`<li>${n}</li>`);
+        h+=`</ul></div>`;
+    }
+    if(c.mistakes && c.mistakes.length){
+        h+=`<div class="gr-mist"><strong><i class="fas fa-exclamation-triangle"></i> Common mistakes:</strong>`;
+        c.mistakes.forEach(m=>h+=`<div class="gr-mi"><span class="wr">✗ ${m.wrong}</span> → <span class="ri">✓ ${m.right}</span>${m.why?`<div class="gr-why">${m.why}</div>`:''}</div>`);
+        h+=`</div>`;
+    }
+    h+=`</div><div class="ea"><button class="btn bp" onclick="markD('${eid}')"><i class="fas fa-check"></i> Got it!</button>`;
+    if(c.examples && c.examples.length){
+        const all = c.examples.map(e=>e.en).join('. ').replace(/[`"]/g,"'");
+        h+=` <button class="btn bo" onclick="TTS.speak(\`${all}\`)"><i class="fas fa-headphones"></i> Listen examples</button>`;
+    }
+    h+=`</div>`;
+    return h;
+}
+
+// ===== VOCABULARY PRESENTATION =====
+function xVp(c,eid){
+    const emoji = getTopicEmoji(c.topic);
+    let h=`<div class="vp-illust">${emoji}</div><div class="vp-grid">`;
+    c.words.forEach((w,wi)=>{
+        const trId = `tr-vp-${eid}-${wi}`;
+        h+=`<div class="vp-card">
+            <div class="vp-top">
+                <div><strong class="vp-en">${w.en}</strong> ${w.ipa?`<span class="vp-ipa">${w.ipa}</span>`:''}</div>
+                <div style="display:flex;gap:4px">
+                    <button class="vp-btn" onclick="TTS.speak('${w.en.replace(/'/g,"\\'")}')"><i class="fas fa-volume-up"></i></button>
+                    <button class="vp-btn" style="background:#10B981" onclick="trToggle('${trId}')" title="Traducción"><i class="fas fa-language"></i></button>
+                </div>
+            </div>
+            <div class="tr-es${TR_ON?' sh':''}" id="${trId}" style="margin-bottom:4px"><i class="fas fa-globe-americas"></i> ${w.es}</div>
+            ${w.def?`<div class="vp-def">${w.def}</div>`:''}
+            ${w.ex?`<div class="vp-ex"><i class="fas fa-quote-right"></i> <em>${w.ex}</em></div>`:''}
+        </div>`;
+    });
+    h+=`</div><div class="ea"><button class="btn bp" onclick="markD('${eid}')"><i class="fas fa-check"></i> Memorized</button>
+    <button class="btn bo" onclick="TTS.speak(\`${c.words.map(w=>w.en.replace(/[`"]/g,"'")).join('. ')}\`)"><i class="fas fa-headphones"></i> Listen all</button></div>`;
+    return h;
+}
+
+// ===== VOCAB =====
+function xVc(c,eid){
+    let h='<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:12px">';
+    c.words.forEach((w,wi)=>{
+        const trId = `tr-vc-${eid}-${wi}`;
+        h+=`<div style="background:var(--bg);padding:14px;border-radius:8px;border-left:3px solid var(--p)">
+        <div style="display:flex;justify-content:space-between;align-items:center"><strong style="color:var(--p);font-size:.95rem">${w.w}</strong>
+        <div style="display:flex;gap:4px">
+        <button onclick="TTS.speak('${w.w}')" style="background:none;border:none;color:var(--p);cursor:pointer;font-size:.9rem"><i class="fas fa-volume-up"></i></button>
+        <button onclick="trToggle('${trId}')" style="background:none;border:none;color:#10B981;cursor:pointer;font-size:.78rem" title="Traducción"><i class="fas fa-language"></i></button>
+        </div></div>
+        <p style="color:var(--m);font-size:.8rem;margin-top:2px">${w.d}</p>
+        ${w.es?`<span class="tr-es${TR_ON?' sh':''}" id="${trId}" style="font-size:.78rem"><i class="fas fa-globe-americas"></i> ${w.es}</span>`:''}</div>`});
+    h+='</div>';
+    h+=`<div class="ea"><button class="btn bp" onclick="markD('${eid}')"><i class="fas fa-check"></i> Learned!</button>
+    <button class="btn bo" onclick="TTS.speak('${c.words.map(w=>w.w+'. '+w.d).join('. ')}')"><i class="fas fa-headphones"></i> Listen All</button></div>`;
+    return h;
+}
+
+// ===== READING =====
+function xRd(c,eid){
+    const txt=c.p.replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim().replace(/[`"]/g,"'");
+    let h=`<div class="rp"><div class="rd-illust"><i class="fas fa-book-open"></i></div>${c.p}`;
+    if(c.es){h+=trBtnHtml('tr-rd-'+eid, c.es);}
+    h+=`<div class="rs"><i class="fas fa-bookmark"></i> ${c.src}</div></div>`;
+    h+=`<div class="ea" style="margin-bottom:12px"><button class="btn bo" onclick="TTS.speak(\`${txt}\`)"><i class="fas fa-headphones"></i> Listen</button>
+    <button class="btn bo" onclick="TTS.speak(\`${txt}\`,0.7)"><i class="fas fa-play"></i> Slow</button>
+    <button class="btn bo" onclick="TTS.stop()"><i class="fas fa-stop"></i> Stop</button></div>`;
+    c.qs.forEach((q,qi)=>{
+        h+=`<div style="margin-bottom:14px"><p style="font-weight:600;margin-bottom:6px;font-size:.9rem">${qi+1}. ${q.q}</p><div class="mo">`;
+        q.o.forEach((o,oi)=>{h+=`<div class="mc" id="mc-${eid}-${qi}-${oi}" onclick="selM('${eid}',${qi},${oi})"><span class="ml">${String.fromCharCode(65+oi)}</span><span>${o}</span></div>`});
+        h+='</div></div>'});
+    h+=`<div class="ea"><button class="btn bp" onclick="chkR('${eid}')"><i class="fas fa-check"></i> Verificar</button></div>`;
+    return h;
+}
+
+// ===== LISTENING =====
+function xLs(c,eid){
+    const txt=c.tts.replace(/[`"]/g,"'");
+    let h=`<div class="ab"><h4 style="font-size:.95rem;margin-bottom:8px"><i class="fas fa-headphones"></i> Listening Exercise</h4>
+    <div class="ac"><button class="abtn pl" onclick="TTS.speak(\`${txt}\`,0.9)"><i class="fas fa-play"></i> Play</button>
+    <button class="abtn pl" style="background:#1D4ED8" onclick="TTS.speak(\`${txt}\`,0.7)"><i class="fas fa-play"></i> Slow</button>
+    <button class="abtn st" onclick="TTS.stop()"><i class="fas fa-stop"></i> Stop</button>
+    <button class="abtn sl" onclick="trToggle('tr-ls-${eid}')" style="background:rgba(255,255,255,.15);color:#93C5FD;border:1px solid #93C5FD"><i class="fas fa-language"></i> Transcript ES</button>
+    <span class="albl"><i class="fas fa-info-circle"></i> Audio TTS</span></div>`;
+    if(c.es){h+=`<div class="tr-es${TR_ON?' sh':''}" id="tr-ls-${eid}" style="margin-top:10px;background:rgba(16,185,129,.15);border-left-color:#34D399;color:#D1FAE5"><i class="fas fa-globe-americas"></i> ${c.es}</div>`;}
+    h+=`</div>`;
+    c.qs.forEach((q,qi)=>{
+        h+=`<div style="margin-bottom:14px"><p style="font-weight:600;margin-bottom:6px;font-size:.9rem">${qi+1}. ${q.q}</p><div class="mo">`;
+        q.o.forEach((o,oi)=>{h+=`<div class="mc" id="mc-${eid}-${qi}-${oi}" onclick="selM('${eid}',${qi},${oi})"><span class="ml">${String.fromCharCode(65+oi)}</span><span>${o}</span></div>`});
+        h+='</div></div>'});
+    h+=`<div class="ea"><button class="btn bp" onclick="chkR('${eid}')"><i class="fas fa-check"></i> Verificar</button></div>`;
+    return h;
+}
+
+function selM(eid,qi,oi){document.querySelectorAll(`[id^="mc-${eid}-${qi}-"]`).forEach(e=>e.classList.remove('se'));document.getElementById(`mc-${eid}-${qi}-${oi}`).classList.add('se')}
+function chkR(eid){
+    const p=eid.split('-'),lid=p.slice(0,-1).join('-'),ei=+p[p.length-1];
+    // Find exercise in current program
+    let ex=null;
+    const prog=PROGRAMS[CP];
+    if(prog.levels)Object.values(prog.levels).forEach(lv=>{if(lv.lessons)lv.lessons.forEach(ls=>{if(ls.id===lid&&ls.exercises[ei])ex=ls.exercises[ei]})});
+    if(!ex)return;
+    let ok=0;
+    ex.content.qs.forEach((q,qi)=>{
+        const sel=document.querySelector(`[id^="mc-${eid}-${qi}-"].se`);
+        if(sel){const oi=+sel.id.split('-').pop();if(oi===q.a){sel.classList.add('ok');ok++}else{sel.classList.add('no');document.getElementById(`mc-${eid}-${qi}-${q.a}`).classList.add('ok')}}
+    });
+    showFB(eid,ok,ex.content.qs.length);if(ok===ex.content.qs.length)markD(eid);
+}
+
+// ===== MATCHING =====
+function xMt(c,eid){
+    let h=`<div class="mbox" id="mt-${eid}"><div class="mcl"><h4>Terms</h4>`;
+    c.l.forEach((it,i)=>{h+=`<div class="mi" id="ml-${eid}-${i}" onclick="selMt('${eid}','l',${i})">${it}<span class="mn-n" id="mn-l-${eid}-${i}"></span></div>`});
+    h+='</div><div class="mcl"><h4>Definitions</h4>';
+    c.r.forEach((it,i)=>{h+=`<div class="mi" id="mr-${eid}-${i}" onclick="selMt('${eid}','r',${i})">${it}<span class="mn-n" id="mn-r-${eid}-${i}"></span></div>`});
+    h+='</div></div>';return h;
+}
+function selMt(eid,side,idx){
+    if(!MS[eid])MS[eid]={sel:null,cnt:0};const ms=MS[eid];
+    const el=document.getElementById(`m${side}-${eid}-${idx}`);
+    if(el.classList.contains('md'))return;
+    if(ms.sel&&ms.sel.s===side){document.getElementById(`m${ms.sel.s}-${eid}-${ms.sel.i}`).classList.remove('se');ms.sel={s:side,i:idx};el.classList.add('se');return}
+    if(!ms.sel){ms.sel={s:side,i:idx};el.classList.add('se');return}
+    const li=side==='l'?idx:ms.sel.i,ri=side==='r'?idx:ms.sel.i;
+    const p=eid.split('-'),lid=p.slice(0,-1).join('-'),ei=+p[p.length-1];
+    let ex=null;const prog=PROGRAMS[CP];
+    if(prog.levels)Object.values(prog.levels).forEach(lv=>{if(lv.lessons)lv.lessons.forEach(ls=>{if(ls.id===lid&&ls.exercises[ei])ex=ls.exercises[ei]})});
+    if(!ex)return;const ans=ex.content.ans;
+    const lE=document.getElementById(`ml-${eid}-${li}`),rE=document.getElementById(`mr-${eid}-${ri}`),pE=document.getElementById(`m${ms.sel.s}-${eid}-${ms.sel.i}`);
+    if(ans[li]===ri){ms.cnt++;lE.classList.remove('se');rE.classList.remove('se');pE.classList.remove('se');lE.classList.add('md');rE.classList.add('md');
+        document.getElementById(`mn-l-${eid}-${li}`).textContent=ms.cnt;document.getElementById(`mn-r-${eid}-${ri}`).textContent=ms.cnt;
+        if(ms.cnt===Object.keys(ans).length){showFB(eid,ms.cnt,ms.cnt);markD(eid)}}
+    else{lE.classList.add('wr');rE.classList.add('wr');pE.classList.remove('se');setTimeout(()=>{lE.classList.remove('wr','se');rE.classList.remove('wr','se')},500)}
+    ms.sel=null;
+}
+
+// ===== DRAG & DROP =====
+function xDd(c,eid){
+    const sh=[...c.ws].sort(()=>Math.random()-.5);
+    let h=`<div id="dd-${eid}"><div class="dw" id="dw-${eid}">`;
+    sh.forEach((w,i)=>{h+=`<div class="dwd" draggable="true" data-word="${w}" id="dw-${eid}-${i}">${w}</div>`});
+    h+='</div>';
+    c.ss.forEach((s,i)=>{const pts=s.t.split('___');
+        h+=`<div class="ds">${pts[0]}<span class="dz" id="dz-${eid}-${i}" data-answer="${s.b}" onclick="clrZ(this)"></span>${pts[1]||''}</div>`});
+    h+=`</div><div class="ea"><button class="btn bp" onclick="chkDd('${eid}')"><i class="fas fa-check"></i> Verificar</button>
+    <button class="btn bo" onclick="rstDd('${eid}')"><i class="fas fa-redo"></i> Reset</button></div>`;return h;
+}
+function initDD(){
+    document.querySelectorAll('.dwd').forEach(w=>{
+        w.addEventListener('dragstart',e=>{e.dataTransfer.setData('text',e.target.dataset.word);e.dataTransfer.setData('id',e.target.id);e.target.style.opacity='.5'});
+        w.addEventListener('dragend',e=>{e.target.style.opacity=''});
+        w.addEventListener('click',function(){if(this.classList.contains('pl'))return;document.querySelectorAll('.dwd.ds').forEach(x=>{x.classList.remove('ds');x.style.outline=''});this.classList.add('ds');this.style.outline='3px solid var(--p)'});
+    });
+    document.querySelectorAll('.dz').forEach(z=>{
+        z.addEventListener('dragover',e=>{e.preventDefault();z.classList.add('ov')});
+        z.addEventListener('dragleave',()=>z.classList.remove('ov'));
+        z.addEventListener('drop',e=>{e.preventDefault();z.classList.remove('ov');plW(z,e.dataTransfer.getData('text'),e.dataTransfer.getData('id'))});
+        z.addEventListener('click',function(){const sel=document.querySelector('.dwd.ds');if(sel&&!sel.classList.contains('pl')){plW(this,sel.dataset.word,sel.id);sel.classList.remove('ds');sel.style.outline=''}});
+    });
+}
+function plW(z,w,wid){if(z.dataset.cwid){const p=document.getElementById(z.dataset.cwid);if(p){p.classList.remove('pl');p.style.opacity='1'}}z.textContent=w;z.classList.add('fi');z.dataset.cw=w;z.dataset.cwid=wid;const we=document.getElementById(wid);if(we){we.classList.add('pl');we.style.opacity='.3'}}
+function clrZ(z){if(z.dataset.cwid){const w=document.getElementById(z.dataset.cwid);if(w){w.classList.remove('pl');w.style.opacity='1'}}z.textContent='';z.classList.remove('fi','co','ic');z.dataset.cw='';z.dataset.cwid=''}
+function chkDd(eid){const zs=document.querySelectorAll(`[id^="dz-${eid}-"]`);let ok=0;zs.forEach(z=>{const a=z.dataset.answer,c=z.dataset.cw||'';if(c.toLowerCase().trim()===a.toLowerCase().trim()){z.classList.add('co');z.classList.remove('ic');ok++}else{z.classList.add('ic');z.classList.remove('co')}});showFB(eid,ok,zs.length);if(ok===zs.length)markD(eid)}
+function rstDd(eid){document.querySelectorAll(`[id^="dz-${eid}-"]`).forEach(z=>clrZ(z));document.querySelectorAll(`[id^="dw-${eid}-"]`).forEach(w=>{w.classList.remove('pl');w.style.opacity='1'});hideFB(eid)}
+
+// ===== FILL =====
+function xFl(c,eid){
+    let h='<div style="margin-bottom:12px">';
+    c.ss.forEach((s,i)=>{const pts=s.t.split('___');h+=`<div style="padding:8px 0;border-bottom:1px solid var(--b);font-size:.9rem;line-height:2">${pts[0]}<input type="text" class="fi" id="fi-${eid}-${i}" data-answer="${s.a}" placeholder="..." autocomplete="off">${pts[1]||''}</div>`});
+    h+='</div>';h+=`<div class="ea"><button class="btn bp" onclick="chkFl('${eid}',${c.ss.length})"><i class="fas fa-check"></i> Verificar</button></div>`;return h;
+}
+function chkFl(eid,n){let ok=0;for(let i=0;i<n;i++){const inp=document.getElementById(`fi-${eid}-${i}`);if(inp.value.toLowerCase().trim()===inp.dataset.answer.toLowerCase().trim()){inp.classList.add('ok');inp.classList.remove('no');ok++}else{inp.classList.add('no');inp.classList.remove('ok')}}showFB(eid,ok,n);if(ok===n)markD(eid)}
+
+// ===== WORD FORMATION =====
+function xWf(c,eid){
+    let h='<div style="margin-bottom:12px"><div class="wfr"><span>Sentence</span><span>Base</span><span>Answer</span></div>';
+    c.ss.forEach((s,i)=>{const pts=s.t.split('___');h+=`<div class="wfr"><span>${pts[0]}______${pts[1]||''}</span><span class="wfb">${s.b}</span><span><input type="text" class="fi" id="wf-${eid}-${i}" data-answer="${s.a}" placeholder="..." autocomplete="off" style="width:120px;text-align:left"></span></div>`});
+    h+='</div>';h+=`<div class="ea"><button class="btn bp" onclick="chkFl2('wf','${eid}',${c.ss.length})"><i class="fas fa-check"></i> Verificar</button></div>`;return h;
+}
+
+// ===== KEY WORD TRANSFORM =====
+function xKt(c,eid){
+    let h='<div style="margin-bottom:12px">';
+    c.ss.forEach((s,i)=>{h+=`<div class="kwb"><div class="kwo"><b>Original:</b> ${s.orig}</div><div><b>Key:</b> <span class="kwk">${s.key}</span></div><div class="kwt">${s.target.split('___')[0]}<input type="text" class="fi" id="kt-${eid}-${i}" data-answer="${s.a}" placeholder="..." autocomplete="off" style="width:180px">${s.target.split('___')[1]||''}</div></div>`});
+    h+='</div>';h+=`<div class="ea"><button class="btn bp" onclick="chkFl2('kt','${eid}',${c.ss.length})"><i class="fas fa-check"></i> Verificar</button></div>`;return h;
+}
+
+function chkFl2(pre,eid,n){let ok=0;for(let i=0;i<n;i++){const inp=document.getElementById(`${pre}-${eid}-${i}`);if(inp.value.toLowerCase().trim()===inp.dataset.answer.toLowerCase().trim()){inp.classList.add('ok');inp.classList.remove('no');ok++}else{inp.classList.add('no');inp.classList.remove('ok')}}showFB(eid,ok,n);if(ok===n)markD(eid)}
+
+// ===== WRITING =====
+function xWr(c,eid){
+    let h=`<textarea class="warea" id="wr-${eid}" placeholder="${c.prompt}" oninput="updWc('${eid}')">${''}</textarea>
+    <div class="wcount" id="wc-${eid}">0 words</div>`;
+    if(c.tips)h+=`<div class="wtips"><i class="fas fa-lightbulb"></i> <b>Tips:</b> ${c.tips}</div>`;
+    h+=`<div class="ea"><button class="btn bp" onclick="saveWr('${eid}',${c.minWords||30})"><i class="fas fa-save"></i> Save & Complete</button></div>`;
+    return h;
+}
+function updWc(eid){const ta=document.getElementById(`wr-${eid}`);const wc=ta.value.trim().split(/\s+/).filter(w=>w).length;document.getElementById(`wc-${eid}`).textContent=wc+' words'}
+function saveWr(eid,min){const ta=document.getElementById(`wr-${eid}`);const wc=ta.value.trim().split(/\s+/).filter(w=>w).length;if(wc>=min){showFB(eid,1,1);markD(eid)}else{showFBtxt(eid,`Necesitas al menos ${min} palabras. Tienes ${wc}.`)}}
+function showFBtxt(eid,txt){const fb=document.getElementById(`fb-${eid}`);fb.className='fb sh fno';fb.innerHTML=`<i class="fas fa-info-circle"></i> ${txt}`}
+
+// ===== CASE STUDY =====
+function xCs(c,eid){
+    let h=`<div class="cs-box">`;
+    // Hero illustration
+    const heroClass = csHeroClass(c.industry);
+    const heroIcon = csHeroIcon(c.industry);
+    h+=`<div class="cs-hero ${heroClass}"><i class="fas ${heroIcon}"></i></div>`;
+    if(c.company){h+=`<div class="cs-company"><i class="fas fa-building"></i> <strong>${c.company}</strong>${c.industry?` &middot; <em>${c.industry}</em>`:''}${c.location?` &middot; <span class="cs-loc"><i class="fas fa-map-marker-alt"></i> ${c.location}</span>`:''}</div>`;}
+    if(c.background){h+=`<div class="cs-sec"><h4><i class="fas fa-info-circle"></i> Background <button class="tr-btn${TR_ON?' on':''}" onclick="trToggle('tr-cs-bg-${eid}')" title="Traducción"><i class="fas fa-language"></i> ES</button></h4><p>${c.background}</p>`;
+    if(c.bgEs){h+=`<div class="tr-es${TR_ON?' sh':''}" id="tr-cs-bg-${eid}"><i class="fas fa-globe-americas"></i> ${c.bgEs}</div>`;}
+    h+=`</div>`;}
+    if(c.situation){h+=`<div class="cs-sec"><h4><i class="fas fa-exclamation-triangle"></i> The Situation <button class="tr-btn${TR_ON?' on':''}" onclick="trToggle('tr-cs-sit-${eid}')" title="Traducción"><i class="fas fa-language"></i> ES</button></h4><p>${c.situation}</p>`;
+    if(c.sitEs){h+=`<div class="tr-es${TR_ON?' sh':''}" id="tr-cs-sit-${eid}"><i class="fas fa-globe-americas"></i> ${c.sitEs}</div>`;}
+    h+=`</div>`;}
+    if(c.data && c.data.length){
+        h+=`<div class="cs-sec"><h4><i class="fas fa-chart-bar"></i> Key Data</h4><div class="cs-data">`;
+        c.data.forEach(d=>h+=`<div class="cs-kpi"><div class="cs-kpi-v">${d.v}</div><div class="cs-kpi-l">${d.l}</div></div>`);
+        h+=`</div></div>`;
+    }
+    if(c.options && c.options.length){
+        h+=`<div class="cs-sec"><h4><i class="fas fa-list-ol"></i> Options to Consider</h4><ol class="cs-opts">`;
+        c.options.forEach(o=>h+=`<li><strong>${o.t}</strong> — ${o.d}</li>`);
+        h+=`</ol></div>`;
+    }
+    if(c.questions && c.questions.length){
+        h+=`<div class="cs-sec"><h4><i class="fas fa-question-circle"></i> Discussion Questions</h4>`;
+        c.questions.forEach((q,i)=>h+=`<div class="cs-q"><span class="cs-qn">${i+1}</span> ${q}</div>`);
+        h+=`</div>`;
+    }
+    if(c.vocabFocus && c.vocabFocus.length){
+        h+=`<div class="cs-sec"><h4><i class="fas fa-bookmark"></i> Vocabulary to Use</h4><div class="cs-vocab">`;
+        c.vocabFocus.forEach(v=>h+=`<span class="cs-chip">${v}</span>`);
+        h+=`</div></div>`;
+    }
+    h+=`</div><div class="cs-task"><i class="fas fa-pen"></i> <strong>Your Task:</strong> ${c.task||'Write a 100-word recommendation discussing the best course of action. Use the vocabulary and grammar from this unit.'}</div>`;
+    h+=`<textarea class="warea" id="cs-${eid}" placeholder="Write your analysis and recommendation here..." oninput="updWcCs('${eid}')"></textarea>
+    <div class="wcount" id="wc-${eid}">0 words</div>
+    <div class="ea"><button class="btn bp" onclick="saveCs('${eid}',${c.minWords||80})"><i class="fas fa-save"></i> Submit Analysis</button>
+    <button class="btn bo" onclick="TTS.speak(\`${(c.background||'').replace(/[`"]/g,"'")+' '+(c.situation||'').replace(/[`"]/g,"'")}\`)"><i class="fas fa-headphones"></i> Listen</button></div>`;
+    return h;
+}
+function updWcCs(eid){const ta=document.getElementById(`cs-${eid}`);const wc=ta.value.trim().split(/\s+/).filter(w=>w).length;document.getElementById(`wc-${eid}`).textContent=wc+' words'}
+function saveCs(eid,min){const ta=document.getElementById(`cs-${eid}`);const wc=ta.value.trim().split(/\s+/).filter(w=>w).length;if(wc>=min){showFB(eid,1,1);markD(eid)}else{showFBtxt(eid,`Case analysis needs at least ${min} words. Current: ${wc}.`)}}
+
+// ===== FEEDBACK =====
+function _findEx(eid){
+    const p=eid.split('-'),lid=p.slice(0,-1).join('-'),ei=+p[p.length-1];
+    let ex=null;const prog=PROGRAMS[CP];
+    if(prog.levels)Object.values(prog.levels).forEach(lv=>{if(lv.lessons)lv.lessons.forEach(ls=>{if(ls.id===lid&&ls.exercises[ei])ex=ls.exercises[ei]})});
+    return ex;
+}
+function showFB(eid,ok,tot){
+    if(!ATT[eid])ATT[eid]=0;
+    ATT[eid]++;
+    const fb=document.getElementById(`fb-${eid}`);
+    const tries=ATT[eid];
+    if(ok===tot){
+        fb.className='fb sh fok';
+        fb.innerHTML=`<div class="fb-top"><i class="fas fa-check-circle"></i> <b>${ok}/${tot}</b> correct! 🎉 Well done!</div>`;
+    }else{
+        fb.className='fb sh fno';
+        let h=`<div class="fb-top"><i class="fas fa-times-circle"></i> <b>${ok}/${tot}</b> correct.</div>`;
+        h+=`<div class="fb-btns">`;
+        h+=`<button class="btn btn-retry" onclick="tryAgain('${eid}')"><i class="fas fa-redo"></i> Try Again</button>`;
+        if(tries>=2){
+            h+=`<button class="btn btn-ans" onclick="showAns('${eid}')"><i class="fas fa-eye"></i> See Answers</button>`;
+        }else{
+            h+=`<span style="font-size:.75rem;color:#6B7280;align-self:center">Attempt ${tries}/2 — try once more to unlock answers</span>`;
+        }
+        h+=`</div>`;
+        fb.innerHTML=h;
+    }
+}
+function hideFB(eid){document.getElementById(`fb-${eid}`).className='fb'}
+function markD(eid){S.done[eid]=true;save();const bl=document.getElementById(`ex-${eid}`);if(bl){bl.style.borderColor='var(--ok)';bl.style.borderWidth='2px'}renderSB()}
+
+// ===== TRY AGAIN =====
+function tryAgain(eid){
+    const ex=_findEx(eid);if(!ex)return;
+    hideFB(eid);
+    const t=ex.type;
+    if(t==='mc'||t==='rd'||t==='ls'){
+        // Reset MC selections
+        document.querySelectorAll(`[id^="mc-${eid}-"]`).forEach(e=>e.classList.remove('se','ok','no'));
+    }
+    if(t==='fl'){
+        // Reset fill inputs
+        document.querySelectorAll(`[id^="fi-${eid}-"]`).forEach(inp=>{inp.value='';inp.classList.remove('ok','no','ans-show');inp.readOnly=false});
+    }
+    if(t==='wf'){
+        document.querySelectorAll(`[id^="wf-${eid}-"]`).forEach(inp=>{inp.value='';inp.classList.remove('ok','no','ans-show');inp.readOnly=false});
+    }
+    if(t==='kt'){
+        document.querySelectorAll(`[id^="kt-${eid}-"]`).forEach(inp=>{inp.value='';inp.classList.remove('ok','no','ans-show');inp.readOnly=false});
+    }
+    if(t==='dd'){
+        rstDd(eid);
+    }
+    // Remove any answer reveal divs
+    document.querySelectorAll(`#ex-${eid} .ans-reveal`).forEach(el=>el.remove());
+}
+
+// ===== SHOW ANSWERS =====
+function showAns(eid){
+    const ex=_findEx(eid);if(!ex)return;
+    const t=ex.type;
+    if(t==='mc'||t==='rd'||t==='ls'){
+        // Highlight correct MC answers
+        document.querySelectorAll(`[id^="mc-${eid}-"]`).forEach(e=>e.classList.remove('se','ok','no'));
+        ex.content.qs.forEach((q,qi)=>{
+            const correct=document.getElementById(`mc-${eid}-${qi}-${q.a}`);
+            if(correct)correct.classList.add('ok');
+        });
+        const fb=document.getElementById(`fb-${eid}`);
+        fb.className='fb sh fok';
+        fb.innerHTML=`<div class="fb-top"><i class="fas fa-eye"></i> Correct answers revealed above.</div>`;
+    }
+    if(t==='fl'){
+        ex.content.ss.forEach((s,i)=>{
+            const inp=document.getElementById(`fi-${eid}-${i}`);
+            if(inp){inp.value=s.a;inp.classList.remove('no');inp.classList.add('ans-show');inp.readOnly=true}
+        });
+        const fb=document.getElementById(`fb-${eid}`);
+        fb.className='fb sh fok';
+        fb.innerHTML=`<div class="fb-top"><i class="fas fa-eye"></i> Correct answers filled in above.</div>`;
+    }
+    if(t==='wf'){
+        ex.content.ss.forEach((s,i)=>{
+            const inp=document.getElementById(`wf-${eid}-${i}`);
+            if(inp){inp.value=s.a;inp.classList.remove('no');inp.classList.add('ans-show');inp.readOnly=true}
+        });
+        const fb=document.getElementById(`fb-${eid}`);
+        fb.className='fb sh fok';
+        fb.innerHTML=`<div class="fb-top"><i class="fas fa-eye"></i> Correct answers filled in above.</div>`;
+    }
+    if(t==='kt'){
+        ex.content.ss.forEach((s,i)=>{
+            const inp=document.getElementById(`kt-${eid}-${i}`);
+            if(inp){inp.value=s.a;inp.classList.remove('no');inp.classList.add('ans-show');inp.readOnly=true}
+        });
+        const fb=document.getElementById(`fb-${eid}`);
+        fb.className='fb sh fok';
+        fb.innerHTML=`<div class="fb-top"><i class="fas fa-eye"></i> Correct answers filled in above.</div>`;
+    }
+    if(t==='dd'){
+        const zs=document.querySelectorAll(`[id^="dz-${eid}-"]`);
+        zs.forEach(z=>{z.textContent=z.dataset.answer;z.classList.add('fi','co');z.classList.remove('ic')});
+        const fb=document.getElementById(`fb-${eid}`);
+        fb.className='fb sh fok';
+        fb.innerHTML=`<div class="fb-top"><i class="fas fa-eye"></i> Correct answers placed above.</div>`;
+    }
+}
+
+// ===== NORMALIZE EXERCISE FORMATS =====
+function normalizeBEExercises(){
+    if(typeof BE_CURRICULUM === 'undefined') return;
+    const hasMaterials = (typeof BE_getGrammar === 'function' && typeof BE_getVocab === 'function');
+    Object.entries(BE_CURRICULUM).forEach(([lvKey,lv])=>{
+        if(!lv.lessons) return;
+        lv.lessons.forEach((ls,li)=>{
+            if(!ls.exercises) return;
+            // Inject grammar + vocabulary blocks at the start of each lesson
+            if(hasMaterials && !ls._materialInjected){
+                const gTopic = (lv.grammar && lv.grammar[li]) || null;
+                const vTopic = (lv.vocabulary && lv.vocabulary[li]) || null;
+                const inject = [];
+                if(gTopic){
+                    const g = BE_getGrammar(gTopic);
+                    inject.push({
+                        type:"gr",
+                        tl:"Grammar",
+                        title:`Grammar Focus: ${gTopic}`,
+                        ins:"Study the grammar rule, structure, and examples. Compare English and Spanish to internalize the pattern.",
+                        content:g
+                    });
+                }
+                if(vTopic){
+                    const words = BE_getVocab(vTopic);
+                    inject.push({
+                        type:"vp",
+                        tl:"Vocabulary",
+                        title:`Vocabulary: ${vTopic}`,
+                        ins:"Learn these key words. Click the speaker to hear pronunciation. Note pronunciation (IPA), Spanish translation, definition, and an example in context.",
+                        content:{topic:vTopic, words:words}
+                    });
+                }
+                if(inject.length){
+                    ls.exercises = inject.concat(ls.exercises);
+                }
+                // Append a case study at the end of each lesson
+                if(typeof BE_getCase === 'function'){
+                    const cs = BE_getCase(lvKey, li, ls);
+                    if(cs){
+                        ls.exercises.push({
+                            type:"cs",
+                            tl:"Case Study",
+                            cb:"Business English Certificate",
+                            title:`Case Study: ${cs.company}`,
+                            ins:"Apply the grammar and vocabulary from this unit to analyse a real-world business situation. Read the background, consider the options, answer the discussion questions, then write your recommendation.",
+                            content:cs
+                        });
+                    }
+                }
+                // Attach inline grammar tip to practice exercises (fl/kt/wf) that lack one
+                if(gTopic){
+                    const g = BE_getGrammar(gTopic);
+                    const tipText = (g.structure || g.rule || '').substring(0,180);
+                    ls.exercises.forEach(ex=>{
+                        if(['fl','kt','wf'].includes(ex.type) && !ex.tip && tipText){
+                            ex.tip = {title:`Grammar tip — ${gTopic}`, text:tipText};
+                        }
+                    });
+                }
+                ls._materialInjected = true;
+            }
+            ls.exercises.forEach(ex=>{
+                const c = ex.content; if(!c) return;
+                // Listening: script -> tts
+                if(ex.type==='ls' && c.script && !c.tts){ c.tts = c.script; }
+                // Open Cloze: {t, ans:[]} -> {ss:[{t,a}]}
+                if(ex.type==='fl' && c.t && c.ans && !c.ss){
+                    const parts = c.t.split(/___\d+___|_{3,}/);
+                    c.ss = c.ans.map((a,i)=>({
+                        t: (parts[i]||'').trim() + ' ___ ' + (parts[i+1]||'').trim(),
+                        a: a
+                    }));
+                }
+                // Key Word Transformation: {items:[{s,k,t,a}]} -> {ss:[{orig,key,target,a}]}
+                if(ex.type==='kt' && c.items && !c.ss){
+                    c.ss = c.items.map(it=>({
+                        orig: it.s, key: it.k, target: it.t, a: it.a
+                    }));
+                }
+                // Word Formation: {items:[{r,s,a}]} -> {ss:[{t,b,a}]}
+                if(ex.type==='wf' && c.items && !c.ss){
+                    c.ss = c.items.map(it=>({
+                        t: it.s, b: it.r, a: it.a
+                    }));
+                }
+                // Drag & Drop: {items:[], targets:[]} -> {ws:[], ss:[{t,b}]}
+                if(ex.type==='dd' && c.items && c.targets && !c.ws){
+                    c.ws = c.items.slice();
+                    c.ss = c.targets.map((tgt,i)=>({
+                        t: tgt + ' → ___',
+                        b: c.items[i]
+                    }));
+                }
+            });
+        });
+    });
+}
+
+// ===== MERGE EXTERNAL CURRICULUM DATA =====
+function mergeBECurriculum(){
+    if(typeof BE_CURRICULUM === 'undefined') return;
+    normalizeBEExercises();
+    const biz = PROGRAMS.business;
+    // Merge curriculum from external data (grammar, vocabulary, skills, topics)
+    const newCur = {};
+    Object.entries(BE_CURRICULUM).forEach(([k,lv])=>{
+        newCur[k] = {
+            title: lv.name,
+            topics: lv.vocabulary || [],
+            grammar: lv.grammar || [],
+            skills: lv.skills || []
+        };
+    });
+    biz.curriculum = newCur;
+    // Merge levels/lessons from external data
+    const newLvls = {};
+    Object.entries(BE_CURRICULUM).forEach(([k,lv])=>{
+        newLvls[k] = {
+            name: lv.name,
+            desc: lv.desc,
+            lessons: lv.lessons || []
+        };
+    });
+    biz.levels = newLvls;
+}
+
+// ===== ENHANCED CURRICULUM DISPLAY =====
+const origShowCur = showCur;
+showCur = function(){
+    const prog=PROGRAMS[CP],cur=prog.curriculum;
+    document.getElementById('curTitle').textContent=`Malla Curricular: ${prog.name}`;
+    let h='';
+    if(cur){
+        Object.entries(cur).forEach(([k,lv])=>{
+            h+=`<div class="cur-lv"><h3><span style="background:${prog.color}">${k.toUpperCase()}</span> ${lv.title}</h3>`;
+            // Show topics/vocabulary
+            if(lv.topics && lv.topics.length > 0){
+                h+=`<div class="cur-section"><h4><i class="fas fa-book"></i> Vocabulary & Topics</h4><div class="cur-topics">`;
+                lv.topics.forEach((t,i)=>{h+=`<div class="cur-topic"><i class="fas fa-check-circle"></i> ${i+1}. ${t}</div>`;});
+                h+='</div></div>';
+            }
+            // Show grammar
+            if(lv.grammar && lv.grammar.length > 0){
+                h+=`<div class="cur-section"><h4><i class="fas fa-pencil-alt"></i> Grammar</h4><div class="cur-topics">`;
+                lv.grammar.forEach((t,i)=>{h+=`<div class="cur-topic" style="border-left:3px solid ${prog.color}"><i class="fas fa-pen-nib"></i> ${t}</div>`;});
+                h+='</div></div>';
+            }
+            // Show skills
+            if(lv.skills && lv.skills.length > 0){
+                h+=`<div class="cur-section"><h4><i class="fas fa-comments"></i> Skills</h4><div class="cur-topics">`;
+                lv.skills.forEach((t,i)=>{h+=`<div class="cur-topic" style="border-left:3px solid var(--ok)"><i class="fas fa-bullseye"></i> ${t}</div>`;});
+                h+='</div></div>';
+            }
+            h+='</div>';
+        });
+    }
+    document.getElementById('curBody').innerHTML=h;
+    document.getElementById('curModal').classList.add('sh');
+};
+
+// ===== CAMBRIDGE EXAM INTEGRATION =====
+function normalizeCambridgeExercises(camData){
+    if(!camData || !camData.lessons) return;
+    camData.lessons.forEach((ls,li)=>{
+        if(!ls.exercises) return;
+        ls.exercises.forEach(ex=>{
+            if(ex._camNorm) return;
+            // MC with items[] → content.qs/content.p format
+            if(ex.type==='mc' && ex.items && !ex.content){
+                const qs = ex.items.map(it=>{
+                    const q = {q: it.q, o: it.opts, a: it.ans};
+                    if(it.audio) q.audio = it.audio;
+                    return q;
+                });
+                ex.content = {qs: qs};
+                if(ex.passage) ex.content.p = ex.passage;
+                if(ex.audio) ex.content.tts = ex.audio;
+                // If items have audio fields, convert to listening format
+                if(ex.items.some(it=>it.audio) || ex.audio){
+                    ex.content.tts = ex.audio || ex.items.filter(it=>it.audio).map(it=>it.audio).join('\n\n');
+                    ex.content.qs = qs;
+                    // Keep as mc type but mark as listening-style
+                    ex._hasAudio = true;
+                }
+                ex.content.src = 'Cambridge ' + (camData.name||'') + ' Practice';
+                delete ex.items; delete ex.passage;
+            }
+            // FL (open cloze) with items[{pre,gap,post}] → content.ss[{t,a}]
+            if(ex.type==='fl' && ex.items && !ex.content){
+                const ss = ex.items.map(it=>({
+                    t: (it.pre||'') + ' ___ ' + (it.post||''),
+                    a: it.gap
+                }));
+                ex.content = {ss: ss};
+                if(ex.passage) ex.content.passage = ex.passage;
+                if(ex.audio) ex.content.tts = ex.audio;
+                delete ex.items;
+            }
+            // WF (word formation) with items[{pre,root,gap,post}] → content.ss[{t,b,a}]
+            if(ex.type==='wf' && ex.items && !ex.content){
+                const ss = ex.items.map(it=>({
+                    t: (it.pre||'') + ' ___ ' + (it.post||''),
+                    b: it.root,
+                    a: it.gap
+                }));
+                ex.content = {ss: ss};
+                if(ex.passage) ex.content.passage = ex.passage;
+                delete ex.items;
+            }
+            // KT (key word transformation) with items[{src,kw,ans,hint}] → content.ss[{orig,key,target,a}]
+            if(ex.type==='kt' && ex.items && !ex.content){
+                const ss = ex.items.map(it=>({
+                    orig: it.src,
+                    key: it.kw,
+                    target: '___',
+                    a: it.ans,
+                    hint: it.hint||''
+                }));
+                ex.content = {ss: ss};
+                delete ex.items;
+            }
+            // WR (writing) with prompt/minWords → content
+            if(ex.type==='wr' && ex.prompt && !ex.content){
+                ex.content = {prompt: ex.prompt, minWords: ex.minWords||50};
+                if(ex.tips) ex.content.tips = ex.tips;
+                delete ex.prompt; delete ex.minWords;
+            }
+            ex._camNorm = true;
+        });
+    });
+}
+
+function mergeCambridgeCurriculum(){
+    const camSources = [
+        {key:'ket', data: typeof CAM_KET!=='undefined'?CAM_KET:null},
+        {key:'pet', data: typeof CAM_PET!=='undefined'?CAM_PET:null},
+        {key:'b2first', data: typeof CAM_FCE!=='undefined'?CAM_FCE:null},
+        {key:'c1adv', data: typeof CAM_CAE!=='undefined'?CAM_CAE:null},
+        {key:'c2prof', data: typeof CAM_CPE!=='undefined'?CAM_CPE:null}
+    ];
+    const cam = PROGRAMS.cambridge;
+    camSources.forEach(({key, data})=>{
+        if(!data) return;
+        normalizeCambridgeExercises(data);
+        // Add exam info to level
+        if(!cam.levels[key]) cam.levels[key] = {name:data.name, desc:data.level+' Exam Prep', lessons:[]};
+        const lv = cam.levels[key];
+        lv.name = data.name;
+        lv.examInfo = data.examInfo;
+        // Add lessons with proper IDs
+        if(data.lessons && data.lessons.length){
+            lv.lessons = data.lessons.map((ls,i)=>({
+                id: 'cb-'+data.id+'-'+(i+1),
+                title: ls.t || ls.name || ('Practice Test '+(i+1)),
+                subtitle: data.name + ' Practice',
+                exercises: ls.exercises||[]
+            }));
+        }
+        // Update curriculum topics
+        if(cam.curriculum[key]){
+            cam.curriculum[key].topics = data.lessons.map(ls=>ls.t || ls.name);
+        }
+    });
+    // Add C2 Proficiency to curriculum if not there
+    if(!cam.curriculum.c2prof && typeof CAM_CPE!=='undefined'){
+        cam.curriculum.c2prof = {
+            title:"C2 Proficiency (CPE)",
+            topics: CAM_CPE.lessons ? CAM_CPE.lessons.map(ls=>ls.t || ls.name) : []
+        };
+    }
+}
+
+// Exam info renderer
+function renderExamInfo(examInfo){
+    if(!examInfo) return '';
+    let h = `<div class="exam-info">
+        <h2><i class="fas fa-award"></i> ${examInfo.title}</h2>
+        <span class="ei-level">${examInfo.level} Level</span>
+        <p class="ei-overview">${examInfo.overview}</p>`;
+    // Papers grid
+    if(examInfo.papers){
+        h += '<div class="ei-papers">';
+        examInfo.papers.forEach(p=>{
+            h += `<div class="ei-paper"><h4><i class="fas fa-file-alt"></i> ${p.name}</h4>
+                <p><i class="fas fa-clock"></i> ${p.duration}</p>
+                ${p.parts?`<p><i class="fas fa-list"></i> ${p.parts} parts`:''}
+                ${p.questions?` &middot; ${p.questions} questions`:''}</p></div>`;
+        });
+        h += '</div>';
+    }
+    // Detailed parts
+    if(examInfo.paperDetails){
+        h += '<details class="ei-parts"><summary><i class="fas fa-info-circle"></i> Detailed Exam Structure</summary>';
+        examInfo.paperDetails.forEach(pd=>{
+            h += `<div class="ei-part-group"><h4>${pd.paper}</h4>`;
+            pd.parts.forEach(pt=>{
+                h += `<div class="ei-part"><span class="ei-part-n">${pt.part}</span>
+                    <div class="ei-part-d"><strong>${pt.name}</strong>${pt.questions?' ('+pt.questions+' questions)':''}
+                    <p>${pt.description}</p></div></div>`;
+            });
+            h += '</div>';
+        });
+        h += '</details>';
+    }
+    // Tips
+    if(examInfo.tips){
+        h += '<div class="ei-tips"><h4><i class="fas fa-lightbulb"></i> Exam Tips</h4>';
+        examInfo.tips.forEach(t=>{ h += `<div class="ei-tip"><i class="fas fa-star"></i> ${t}</div>`; });
+        h += '</div>';
+    }
+    // Scoring scales
+    if(examInfo.scales){
+        h += '<div class="ei-scales">';
+        Object.entries(examInfo.scales).forEach(([k,v])=>{
+            const label = k.replace(/_/g,' ').replace(/\b\w/g,c=>c.toUpperCase());
+            h += `<div class="ei-scale"><div class="ei-scale-v">${v}</div><div class="ei-scale-l">${label}</div></div>`;
+        });
+        h += '</div>';
+    }
+    h += '</div>';
+    return h;
+}
+
+// Override loadLs to show exam info for Cambridge levels
+const _origLoadLs = loadLs;
+loadLs = function(lk,li){
+    _origLoadLs(lk,li);
+    // If this is a Cambridge level with examInfo and it's the first lesson, prepend exam info
+    if(CP==='cambridge'){
+        const lv = PROGRAMS.cambridge.levels[lk];
+        if(lv && lv.examInfo && li===0){
+            const mn = document.getElementById('mn');
+            const existing = mn.innerHTML;
+            // Insert exam info after the lesson header
+            const headerEnd = existing.indexOf('</div>',existing.indexOf('class="lhd"'));
+            if(headerEnd>0){
+                const insertPos = headerEnd + 6;
+                mn.innerHTML = existing.substring(0,insertPos) + renderExamInfo(lv.examInfo) + existing.substring(insertPos);
+            }
+        }
+    }
+};
+
+// Enhanced exercise renderer for Cambridge audio-based MC exercises
+const _origREx = rEx;
+rEx = function(ex,ei,lid){
+    // For Cambridge listening exercises that have audio in individual items
+    if(ex.type==='mc' && ex._hasAudio && ex.content && ex.content.tts){
+        // Render as a hybrid listening+MC exercise
+        const eid = lid+'-'+ei, dn = S.done[eid];
+        const cb = ex.cb?`<span class="cb"><i class="fas fa-award"></i> ${ex.cb}</span>`:'';
+        const txt = ex.content.tts.replace(/[`"]/g,"'");
+        let h = `<div class="eb" id="ex-${eid}" ${dn?'style="border-color:var(--ok);border-width:2px"':''}>
+            <span class="et ls"><i class="fas fa-headphones"></i> ${ex.tl}</span>${cb}
+            ${dn?'<span style="float:right;color:var(--ok);font-weight:600;font-size:.78rem"><i class="fas fa-check-circle"></i> Done</span>':''}
+            <h2 class="eti">${ex.title}</h2><p class="eins">${ex.ins||''}</p>`;
+        if(ex.tip) h += `<div class="gtip"><i class="fas fa-lightbulb"></i> <strong>${ex.tip.title||'Tip'}:</strong> ${ex.tip.text}</div>`;
+        // Audio player
+        h += `<div class="cam-audio-block"><h4 style="font-size:.9rem;margin-bottom:6px"><i class="fas fa-headphones"></i> Audio</h4>
+            <div class="ac"><button class="abtn pl" onclick="TTS.speak(\`${txt}\`,0.9)"><i class="fas fa-play"></i> Play</button>
+            <button class="abtn pl" style="background:#4338CA" onclick="TTS.speak(\`${txt}\`,0.7)"><i class="fas fa-play"></i> Slow</button>
+            <button class="abtn st" onclick="TTS.stop()"><i class="fas fa-stop"></i> Stop</button></div></div>`;
+        // If there's a passage too
+        if(ex.content.p) h += `<div class="cam-passage">${ex.content.p}</div>`;
+        // Questions
+        ex.content.qs.forEach((q,qi)=>{
+            // Per-item audio button
+            if(q.audio){
+                const aTxt = q.audio.replace(/[`"]/g,"'");
+                h += `<div style="margin-bottom:4px"><button class="btn bo" style="font-size:.75rem;padding:4px 10px" onclick="TTS.speak(\`${aTxt}\`,0.9)"><i class="fas fa-play"></i> Play ${qi+1}</button></div>`;
+            }
+            h += `<div style="margin-bottom:14px"><p style="font-weight:600;margin-bottom:6px;font-size:.9rem">${qi+1}. ${q.q}</p><div class="mo">`;
+            q.o.forEach((o,oi)=>{h+=`<div class="mc" id="mc-${eid}-${qi}-${oi}" onclick="selM('${eid}',${qi},${oi})"><span class="ml">${String.fromCharCode(65+oi)}</span><span>${o}</span></div>`});
+            h += '</div></div>';
+        });
+        h += `<div class="ea"><button class="btn bp" onclick="chkR('${eid}')"><i class="fas fa-check"></i> Verificar</button></div>`;
+        h += `<div class="fb" id="fb-${eid}"></div></div>`;
+        return h;
+    }
+    // For MC with passage (Cambridge reading comprehension)
+    if(ex.type==='mc' && ex.content && ex.content.p && ex.content.qs && !ex.content.tts){
+        const eid = lid+'-'+ei, dn = S.done[eid];
+        const cb = ex.cb?`<span class="cb"><i class="fas fa-award"></i> ${ex.cb}</span>`:'';
+        const pTxt = ex.content.p.replace(/<[^>]+>/g,' ').replace(/\s+/g,' ').trim().replace(/[`"]/g,"'");
+        let h = `<div class="eb" id="ex-${eid}" ${dn?'style="border-color:var(--ok);border-width:2px"':''}>
+            <span class="et rd"><i class="fas fa-book-open"></i> ${ex.tl}</span>${cb}
+            ${dn?'<span style="float:right;color:var(--ok);font-weight:600;font-size:.78rem"><i class="fas fa-check-circle"></i> Done</span>':''}
+            <h2 class="eti">${ex.title}</h2><p class="eins">${ex.ins||''}</p>`;
+        if(ex.tip) h += `<div class="gtip"><i class="fas fa-lightbulb"></i> <strong>${ex.tip.title||'Tip'}:</strong> ${ex.tip.text}</div>`;
+        h += `<div class="cam-passage">${ex.content.p}
+            <div class="rs"><i class="fas fa-bookmark"></i> ${ex.content.src||'Cambridge Practice'}</div></div>`;
+        h += `<div class="ea" style="margin-bottom:12px"><button class="btn bo" onclick="TTS.speak(\`${pTxt}\`)"><i class="fas fa-headphones"></i> Listen</button>
+            <button class="btn bo" onclick="TTS.speak(\`${pTxt}\`,0.7)"><i class="fas fa-play"></i> Slow</button>
+            <button class="btn bo" onclick="TTS.stop()"><i class="fas fa-stop"></i> Stop</button></div>`;
+        ex.content.qs.forEach((q,qi)=>{
+            h += `<div style="margin-bottom:14px"><p style="font-weight:600;margin-bottom:6px;font-size:.9rem">${qi+1}. ${q.q}</p><div class="mo">`;
+            q.o.forEach((o,oi)=>{h+=`<div class="mc" id="mc-${eid}-${qi}-${oi}" onclick="selM('${eid}',${qi},${oi})"><span class="ml">${String.fromCharCode(65+oi)}</span><span>${o}</span></div>`});
+            h += '</div></div>';
+        });
+        h += `<div class="ea"><button class="btn bp" onclick="chkR('${eid}')"><i class="fas fa-check"></i> Verificar</button></div>`;
+        h += `<div class="fb" id="fb-${eid}"></div></div>`;
+        return h;
+    }
+    // For FL with passage context (Cambridge open cloze with context passage)
+    if(ex.type==='fl' && ex.content && ex.content.passage && ex.content.ss){
+        const eid = lid+'-'+ei, dn = S.done[eid];
+        const cb = ex.cb?`<span class="cb"><i class="fas fa-award"></i> ${ex.cb}</span>`:'';
+        let h = `<div class="eb" id="ex-${eid}" ${dn?'style="border-color:var(--ok);border-width:2px"':''}>
+            <span class="et fl"><i class="fas fa-pen"></i> ${ex.tl}</span>${cb}
+            ${dn?'<span style="float:right;color:var(--ok);font-weight:600;font-size:.78rem"><i class="fas fa-check-circle"></i> Done</span>':''}
+            <h2 class="eti">${ex.title}</h2><p class="eins">${ex.ins||''}</p>`;
+        if(ex.tip) h += `<div class="gtip"><i class="fas fa-lightbulb"></i> <strong>${ex.tip.title||'Tip'}:</strong> ${ex.tip.text}</div>`;
+        if(ex.content.tts){
+            const aTxt = ex.content.tts.replace(/[`"]/g,"'");
+            h += `<div class="cam-audio-block"><div class="ac"><button class="abtn pl" onclick="TTS.speak(\`${aTxt}\`,0.9)"><i class="fas fa-play"></i> Play</button>
+                <button class="abtn pl" style="background:#4338CA" onclick="TTS.speak(\`${aTxt}\`,0.7)"><i class="fas fa-play"></i> Slow</button>
+                <button class="abtn st" onclick="TTS.stop()"><i class="fas fa-stop"></i> Stop</button></div></div>`;
+        }
+        h += `<div class="cam-passage" style="margin-bottom:14px">${ex.content.passage}</div>`;
+        h += '<div style="margin-bottom:12px">';
+        ex.content.ss.forEach((s,i)=>{
+            const pts = s.t.split('___');
+            h += `<div style="padding:8px 0;border-bottom:1px solid var(--b);font-size:.9rem;line-height:2">${pts[0]}<input type="text" class="fi" id="fi-${eid}-${i}" data-answer="${s.a}" placeholder="..." autocomplete="off">${pts[1]||''}</div>`;
+        });
+        h += '</div>';
+        h += `<div class="ea"><button class="btn bp" onclick="chkFl('${eid}',${ex.content.ss.length})"><i class="fas fa-check"></i> Verificar</button></div>`;
+        h += `<div class="fb" id="fb-${eid}"></div></div>`;
+        return h;
+    }
+    // Plain MC without passage or audio (e.g. Cambridge signs/notices, cloze)
+    if(ex.type==='mc' && ex.content && ex.content.qs){
+        const eid = lid+'-'+ei, dn = S.done[eid];
+        const cb = ex.cb?`<span class="cb"><i class="fas fa-award"></i> ${ex.cb}</span>`:'';
+        let h = `<div class="eb" id="ex-${eid}" ${dn?'style="border-color:var(--ok);border-width:2px"':''}>
+            <span class="et rd"><i class="fas fa-book-open"></i> ${ex.tl}</span>${cb}
+            ${dn?'<span style="float:right;color:var(--ok);font-weight:600;font-size:.78rem"><i class="fas fa-check-circle"></i> Done</span>':''}
+            <h2 class="eti">${ex.title}</h2><p class="eins">${ex.ins||''}</p>`;
+        if(ex.tip) h += `<div class="gtip"><i class="fas fa-lightbulb"></i> <strong>${ex.tip.title||'Tip'}:</strong> ${ex.tip.text}</div>`;
+        ex.content.qs.forEach((q,qi)=>{
+            h += `<div style="margin-bottom:14px"><p style="font-weight:600;margin-bottom:6px;font-size:.9rem">${qi+1}. ${q.q}</p><div class="mo">`;
+            q.o.forEach((o,oi)=>{h+=`<div class="mc" id="mc-${eid}-${qi}-${oi}" onclick="selM('${eid}',${qi},${oi})"><span class="ml">${String.fromCharCode(65+oi)}</span><span>${o}</span></div>`});
+            h += '</div></div>';
+        });
+        h += `<div class="ea"><button class="btn bp" onclick="chkR('${eid}')"><i class="fas fa-check"></i> Verificar</button></div>`;
+        h += `<div class="fb" id="fb-${eid}"></div></div>`;
+        return h;
+    }
+    return _origREx(ex,ei,lid);
+};
+
+// ===== INIT =====
+mergeBECurriculum();
+mergeCambridgeCurriculum();
+renderPBar();renderSB();renderWel();updG();
+</script>
+</body>
+</html>

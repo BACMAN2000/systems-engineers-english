@@ -1,0 +1,2077 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+<meta name="theme-color" content="#0b1d3a" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+<meta name="apple-mobile-web-app-title" content="Blox English" />
+<meta name="mobile-web-app-capable" content="yes" />
+<link rel="apple-touch-icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%231d5ab8'/><text x='50' y='66' font-size='60' text-anchor='middle'>🍇</text></svg>" />
+<title>Blox English — Grammar Adventure</title>
+<style>
+  :root{
+    --bg1:#0b1d3a; --bg2:#11366b; --bg3:#1d5ab8;
+    --gold:#ffd23f; --coral:#ff6b6b; --aqua:#4ee0d0;
+    --ok:#34d399; --bad:#f87171; --ink:#0a1430;
+    --card:#ffffffee; --soft:#e6f0ff; --purple:#7c3aed;
+    --safe-top:env(safe-area-inset-top); --safe-bot:env(safe-area-inset-bottom);
+    --safe-l:env(safe-area-inset-left); --safe-r:env(safe-area-inset-right);
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+  html,body{margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',system-ui,sans-serif;color:#0a1430;overscroll-behavior:contain}
+  body{
+    min-height:100vh;min-height:100dvh;
+    background:
+      radial-gradient(circle at 20% 10%, #2a7fff55 0, transparent 40%),
+      radial-gradient(circle at 80% 80%, #ff6b6b44 0, transparent 45%),
+      linear-gradient(180deg,var(--bg1),var(--bg2) 40%,var(--bg3));
+    background-attachment:fixed;
+  }
+  .shell{display:flex;flex-direction:column;min-height:100vh;min-height:100dvh}
+  header.top{position:sticky;top:0;z-index:20;padding:calc(var(--safe-top) + 8px) calc(var(--safe-r) + 12px) 8px calc(var(--safe-l) + 12px);
+    background:linear-gradient(180deg,#0b1d3aee,#0b1d3acc 80%,transparent);backdrop-filter:blur(10px);color:#fff}
+  .top-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .logo{font-size:18px;font-weight:900;letter-spacing:.3px;background:linear-gradient(90deg,var(--gold),#fff7b3,var(--coral));
+    -webkit-background-clip:text;background-clip:text;color:transparent;flex:1;min-width:0}
+  .pill{background:#ffffff22;border:1px solid #ffffff44;color:#fff;padding:5px 10px;border-radius:999px;font-weight:700;font-size:11px}
+  .stats-row{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+  .stat{flex:1;min-width:0;background:#ffffff18;border:1px solid #ffffff33;color:#fff;padding:6px 8px;border-radius:10px;font-weight:800;font-size:13px;text-align:center;display:flex;align-items:center;justify-content:center;gap:4px}
+  main{flex:1;padding:14px calc(var(--safe-r) + 12px) calc(var(--safe-bot) + 90px) calc(var(--safe-l) + 12px)}
+  .card{background:var(--card);border-radius:18px;padding:16px;box-shadow:0 10px 30px #00000033, inset 0 1px 0 #fff;border:1px solid #ffffff;margin-bottom:12px}
+  h2.title{margin:0 0 4px;font-size:19px;line-height:1.2}
+  .sub{color:#3d4d7a;margin-bottom:12px;font-size:13px;line-height:1.4}
+  nav.bottom{position:fixed;left:0;right:0;bottom:0;z-index:30;padding:6px calc(var(--safe-r) + 6px) calc(var(--safe-bot) + 6px) calc(var(--safe-l) + 6px);background:#0b1d3aee;backdrop-filter:blur(10px);border-top:1px solid #ffffff22;display:flex;justify-content:space-around}
+  nav.bottom button{flex:1;background:none;border:none;color:#cfe1ff;font-size:11px;font-weight:700;padding:8px 4px;border-radius:12px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:2px;min-height:48px}
+  nav.bottom button .em{font-size:22px}
+  nav.bottom button.active{color:#ffd23f;background:#ffffff14}
+  .btn{cursor:pointer;border:none;border-radius:14px;padding:14px 16px;font-weight:800;font-size:16px;background:linear-gradient(180deg,#3a8bff,#1f5fdf);color:#fff;box-shadow:0 5px 0 #103e9a;width:100%;min-height:52px;transition:.05s transform}
+  .btn:active{transform:translateY(2px);box-shadow:0 3px 0 #103e9a}
+  .btn:disabled{opacity:.45;filter:grayscale(.4)}
+  .btn.ghost{background:#fff;color:#1f5fdf;box-shadow:0 5px 0 #c9d6ee}
+  .btn.gold{background:linear-gradient(180deg,#ffd23f,#e6a700);color:#3a2a00;box-shadow:0 5px 0 #a07300}
+  .btn.coral{background:linear-gradient(180deg,#ff8a8a,#e23a3a);box-shadow:0 5px 0 #8a1a1a}
+  .btn.green{background:linear-gradient(180deg,#5be09a,#1ea567);box-shadow:0 5px 0 #0e6a3f}
+  .btn.purple{background:linear-gradient(180deg,#a78bfa,#7c3aed);box-shadow:0 5px 0 #4c1d95}
+  .btn.sm{padding:10px 12px;font-size:14px;min-height:44px}
+  .row-btns{display:flex;gap:8px;flex-wrap:wrap}
+  .row-btns .btn{flex:1;min-width:140px}
+  .lvbar{display:flex;gap:6px;overflow-x:auto;padding:4px 0 8px;margin:0 -4px 8px;scrollbar-width:none}
+  .lvbar::-webkit-scrollbar{display:none}
+  .lvchip{flex:0 0 auto;padding:8px 12px;border-radius:12px;background:#fff;border:2px solid #cdd9f2;font-weight:800;color:#1c2a55;font-size:13px;cursor:pointer;min-width:84px;text-align:center}
+  .lvchip.active{background:linear-gradient(180deg,#ffd23f,#e6a700);border-color:#a07300;color:#3a2a00}
+  .lvchip.locked{opacity:.5}
+  .lvchip.cleared{background:#dcfce7;border-color:#16a34a;color:#14532d}
+  .menu{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .tile{cursor:pointer;border-radius:16px;padding:14px;background:linear-gradient(160deg,#fff,#eaf2ff);border:2px solid #cdd9f2;text-align:left;position:relative;overflow:hidden;min-height:110px;display:flex;flex-direction:column}
+  .tile:active{transform:scale(.97)}
+  .tile .em{font-size:28px;line-height:1}
+  .tile h3{margin:6px 0 2px;font-size:14px;line-height:1.2}
+  .tile p{margin:0;font-size:11px;color:#465a8a;line-height:1.3}
+  .tile .stars{position:absolute;top:6px;right:8px;font-size:13px;color:#f1c40f;font-weight:800;letter-spacing:1px}
+  .tile.locked{opacity:.5;filter:grayscale(.7);cursor:not-allowed}
+  .tile.locked::after{content:'🔒';position:absolute;font-size:34px;top:50%;left:50%;transform:translate(-50%,-50%);text-shadow:0 0 14px #fff}
+  .tile.done{border-color:#16a34a;background:linear-gradient(160deg,#f0fdf4,#dcfce7)}
+  .tile.lesson-tile{grid-column:span 2;background:linear-gradient(160deg,#fffef2,#fff7d6);border-color:#f1c40f;min-height:auto}
+  .tile.lesson-tile.done{background:linear-gradient(160deg,#f0fdf4,#dcfce7);border-color:#16a34a}
+  .qcard{background:linear-gradient(180deg,#fff,#f4f8ff);border:2px solid #e3ecfb;border-radius:14px;padding:14px;margin:10px 0}
+  .opt{display:block;width:100%;text-align:left;background:#fff;border:2px solid #cdd9f2;border-radius:14px;padding:14px 16px;margin:8px 0;cursor:pointer;font-size:16px;font-weight:600;color:#1c2a55;min-height:52px}
+  .opt:active{transform:scale(.98);background:#eef4ff}
+  .opt.correct{background:#dcfce7;border-color:#16a34a;color:#14532d}
+  .opt.wrong{background:#fee2e2;border-color:#dc2626;color:#7f1d1d}
+  .opt[disabled]{opacity:.95}
+  .feedback{margin-top:8px;font-weight:700;font-size:14px}
+  .feedback.ok{color:#15803d}
+  .feedback.bad{color:#b91c1c}
+  .input{width:100%;padding:14px;border-radius:14px;border:2px solid #cdd9f2;font-size:16px;font-weight:600;background:#fff;color:#1c2a55;min-height:52px}
+  .chip{display:inline-block;padding:10px 14px;border-radius:999px;background:#eaf2ff;border:2px solid #cdd9f2;margin:4px;cursor:pointer;font-weight:700;color:#1c2a55;user-select:none;font-size:15px;min-height:42px}
+  .chip:active{transform:scale(.95)}
+  .chip.used{opacity:.35;text-decoration:line-through;cursor:not-allowed}
+  .chip.picked{outline:3px solid #1f5fdf;background:#dbeafe}
+  .slot{display:inline-block;min-width:64px;padding:8px 12px;border-bottom:3px dashed #1f5fdf;margin:0 3px;font-weight:800;color:#1f5fdf;text-align:center;cursor:pointer;border-radius:6px}
+  .slot.filled{border-style:solid;background:#dcfce7;color:#14532d}
+  .progress{height:8px;background:#dbe6ff;border-radius:99px;overflow:hidden;margin:8px 0 12px}
+  .progress > div{height:100%;background:linear-gradient(90deg,var(--ok),var(--gold));transition:.4s width}
+  .badge-tile{background:#fff;border:2px solid #cdd9f2;border-radius:14px;padding:10px 6px;text-align:center;font-weight:700;font-size:11px;color:#1c2a55;line-height:1.2}
+  .badge-tile.earned{background:linear-gradient(160deg,#fff7d6,#ffe4a3);border-color:#f1c40f}
+  .badge-tile.locked{opacity:.4;filter:grayscale(.7)}
+  .badge-tile .em{font-size:28px;display:block;margin-bottom:4px}
+  .badges-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .audio-btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:linear-gradient(180deg,#a78bfa,#7c3aed);color:#fff;border:none;padding:14px;border-radius:14px;font-weight:800;cursor:pointer;box-shadow:0 5px 0 #4c1d95;font-size:15px;min-height:52px;width:100%;margin-bottom:8px}
+  .audio-btn.slow{background:linear-gradient(180deg,#fbbf24,#d97706);box-shadow:0 5px 0 #92400e}
+  .audio-btn:active{transform:translateY(2px);box-shadow:0 3px 0 #4c1d95}
+  .audio-btn.slow:active{box-shadow:0 3px 0 #92400e}
+  .reading{background:#fffef2;border:2px dashed #f1c40f;border-radius:14px;padding:14px;line-height:1.55;color:#3a2a00;font-size:16px}
+  .nameInput{font-size:16px;padding:14px;border-radius:14px;border:2px solid #cdd9f2;width:100%;font-weight:700;min-height:52px}
+  .toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(var(--safe-bot) + 80px);background:#0a1430ee;color:#fff;padding:12px 18px;border-radius:14px;font-weight:800;box-shadow:0 10px 30px #000a;z-index:90;opacity:0;pointer-events:none;transition:.25s;max-width:90%;text-align:center;font-size:14px}
+  .toast.show{opacity:1;transform:translate(-50%,-6px)}
+  .modal-back{position:fixed;inset:0;z-index:100;background:#000a;backdrop-filter:blur(4px);display:none;align-items:flex-end;justify-content:center}
+  .modal-back.show{display:flex;animation:fade .2s}
+  @keyframes fade{from{opacity:0}to{opacity:1}}
+  .modal-card{background:#fff;border-radius:22px 22px 0 0;padding:22px 18px calc(var(--safe-bot) + 22px);width:100%;max-width:520px;text-align:center;animation:slideUp .25s cubic-bezier(.2,.9,.3,1);max-height:88vh;overflow-y:auto}
+  @keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+  .modal-card .big{font-size:54px;margin:6px}
+  .stars-row{font-size:30px;color:#f1c40f;margin:8px;letter-spacing:4px}
+  .confetti{position:fixed;inset:0;pointer-events:none;z-index:50}
+  .level-ribbon{display:inline-block;background:#ff6b6b;color:#fff;padding:2px 8px;border-radius:6px;font-size:11px;font-weight:800;letter-spacing:.5px;margin-left:4px}
+  .grammar-ribbon{display:inline-block;background:#7c3aed;color:#fff;padding:2px 8px;border-radius:6px;font-size:10px;font-weight:800;margin-left:4px}
+  .hint{font-size:12px;color:#465a8a;margin-top:6px;font-style:italic}
+  .key{background:#fff;border:2px solid #cdd9f2;color:#1c2a55;border-radius:8px;padding:6px 10px;font-weight:800;cursor:pointer;display:inline-block;margin:3px;font-size:15px}
+  /* LESSON STYLES */
+  .lesson-section{margin:14px 0}
+  .lesson-section h3{margin:0 0 8px;color:#7c3aed;font-size:15px;display:flex;align-items:center;gap:6px}
+  .lesson-story{background:linear-gradient(160deg,#fffef2,#fff7d6);border:2px dashed #f1c40f;border-radius:12px;padding:14px;line-height:1.55;font-size:14px;color:#3a2a00;margin:8px 0;white-space:pre-wrap}
+  .lesson-story b{background:#ffd23f;color:#3a2a00;padding:1px 4px;border-radius:3px}
+  .formula{background:linear-gradient(160deg,#0a1430,#1d5ab8);color:#fff;padding:14px;border-radius:12px;text-align:center;font-family:'Segoe UI',sans-serif;font-size:14px;font-weight:800;margin:8px 0;line-height:1.8}
+  .formula .slot{background:#ffd23f;color:#3a2a00;padding:4px 10px;border-radius:6px;display:inline-block;margin:2px;font-size:13px;border:none}
+  .formula .op{color:#4ee0d0;font-weight:900;margin:0 4px}
+  .rule{background:#fff;border-left:4px solid #7c3aed;padding:10px 12px;border-radius:8px;margin:6px 0;font-size:13px;line-height:1.5;box-shadow:0 1px 3px #0001}
+  .rule b{color:#7c3aed}
+  .example{background:#f0fdf4;border-left:4px solid #16a34a;padding:10px 12px;border-radius:8px;margin:6px 0;font-size:13px}
+  .example .en{font-weight:700;color:#0a1430;font-size:14px}
+  .example .es{color:#465a8a;font-size:12px;margin-top:3px}
+  .irreg-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:12px;margin:8px 0}
+  .irreg-grid .ir{background:#fff;border:2px solid #cdd9f2;padding:8px;border-radius:8px;text-align:center}
+  .irreg-grid .ir b{color:#7c3aed;display:block;font-size:13px}
+  .irreg-grid .ir i{color:#16a34a;font-style:normal;font-weight:700;display:block}
+  .irreg-grid .ir small{color:#465a8a;display:block;font-size:11px}
+  .tip{background:linear-gradient(160deg,#fff7d6,#ffe4a3);border:2px solid #f1c40f;color:#7a5a00;padding:12px;border-radius:12px;font-size:13px;margin:10px 0;line-height:1.5}
+  .tip b{color:#3a2a00}
+  .check-quiz{background:#fff;border:2px solid #7c3aed;border-radius:12px;padding:12px;margin:10px 0}
+  .check-quiz .q{font-weight:800;color:#0a1430;margin-bottom:6px;font-size:14px}
+  .install-bar{background:#fff;border-radius:14px;padding:12px;margin:8px 0;display:none;align-items:center;gap:10px;border:2px solid #ffd23f}
+  .install-bar.show{display:flex}
+  .install-bar p{margin:0;font-size:13px;flex:1;color:#3a2a00;font-weight:700}
+  @media(min-width:600px){
+    main{max-width:640px;margin:0 auto}
+    .menu{grid-template-columns:repeat(3,1fr)}
+    .badges-grid{grid-template-columns:repeat(5,1fr)}
+    .irreg-grid{grid-template-columns:repeat(3,1fr)}
+    .tile.lesson-tile{grid-column:span 3}
+  }
+</style>
+</head>
+<body>
+
+<div class="shell">
+  <header class="top">
+    <div class="top-row">
+      <div class="logo">🍇 Blox English</div>
+      <span class="pill" id="lvlPill">Lv 1</span>
+    </div>
+    <div class="stats-row">
+      <span class="stat">⭐ <span id="score">0</span></span>
+      <span class="stat">🍎 <span id="fruits">0</span></span>
+      <span class="stat">🔥 <span id="streak">0</span></span>
+      <span class="stat">🏅 <span id="badgeCount">0</span></span>
+    </div>
+  </header>
+
+  <main id="main"></main>
+</div>
+
+<nav class="bottom">
+  <button id="navHome" class="active"><span class="em">🏠</span>Home</button>
+  <button id="navLevels"><span class="em">🗺️</span>Levels</button>
+  <button id="navBadges"><span class="em">🏅</span>Badges</button>
+  <button id="navSettings"><span class="em">⚙️</span>Settings</button>
+</nav>
+
+<div id="toast" class="toast"></div>
+<div class="modal-back" id="modal"><div class="modal-card" id="modalBody"></div></div>
+
+<script>
+/* =====================================================================
+   BLOX ENGLISH GRAMMAR ADVENTURE
+   7 niveles CEFR (Pre-A1 → B1+) cada uno con LECCIÓN gramatical previa
+   ===================================================================== */
+
+const LEVELS = {
+
+/* ============================== LEVEL 1 ============================== */
+1:{ name:'Cabin Boy', emoji:'🧒', cefr:'Pre-A1 Starters',
+    grammar:'TO BE / TO HAVE',
+    desc:'Verbo TO BE (am/is/are) y TO HAVE (have/has). Empezamos!',
+  lesson:{
+    title:'The verb TO BE — "I am / You are / He is"',
+    story:`Hi! I <b>am</b> Sam and I <b>am</b> a little pirate. My friend Diego <b>is</b> brave. We <b>are</b> good friends.
+I <b>have</b> a brown hat. My friend <b>has</b> a wooden sword. Our cat <b>is</b> black and white. Her name <b>is</b> Mimi.
+🎓 The yellow words are the verbs TO BE and TO HAVE.`,
+    formula:`<span class="slot">I</span><span class="op">+</span><span class="slot">am</span>  ·  <span class="slot">He/She/It</span><span class="op">+</span><span class="slot">is</span>  ·  <span class="slot">You/We/They</span><span class="op">+</span><span class="slot">are</span><br><br><span class="slot">I/You/We/They</span><span class="op">+</span><span class="slot">have</span>  ·  <span class="slot">He/She/It</span><span class="op">+</span><span class="slot">has</span>`,
+    rules:[
+      '<b>I</b> am · <b>You</b> are · <b>He/She/It</b> is · <b>We/They</b> are',
+      '<b>Negative:</b> I am NOT, He is NOT (isn\'t), They are NOT (aren\'t)',
+      '<b>Question:</b> Am I? · Is he? · Are you?',
+      '<b>HAVE</b> with I/You/We/They. <b>HAS</b> with He/She/It.',
+      'Use <b>a</b> before a consonant (a hat) and <b>an</b> before a vowel (an apple).',
+    ],
+    examples:[
+      {en:'I am a pirate.', es:'Subject "I" → "am".'},
+      {en:'She is brave.', es:'Subject "she" → "is".'},
+      {en:'We are friends.', es:'Subject "we" → "are".'},
+      {en:'He has a sword.', es:'Subject "he" → "has".'},
+      {en:'They are not scared.', es:'Negative form of "to be".'},
+    ],
+    tip:'💡 Remember: TO BE works for both "ser" and "estar" in Spanish.',
+  },
+  vocab:[
+    {w:'Sea',e:'🌊',d:'Big blue water.'},{w:'Boat',e:'⛵',d:'You go on the sea in this.'},
+    {w:'Fish',e:'🐟',d:'An animal in the water.'},{w:'Sun',e:'☀️',d:'Yellow and hot in the sky.'},
+    {w:'Tree',e:'🌳',d:'A big plant.'},{w:'Hat',e:'🎩',d:'You put it on your head.'},
+    {w:'Bag',e:'🎒',d:'You put your books in it.'},{w:'Cat',e:'🐱',d:'A small animal that says meow.'},
+    {w:'Apple',e:'🍎',d:'A red or green fruit.'},{w:'Star',e:'⭐',d:'A small light in the sky at night.'},
+  ],
+  reading:{text:`This is Sam. Sam is a little pirate. He is six years old. He has a small boat and a brown hat.
+Today the sun is hot. Sam is happy. His cat is on the boat. Her name is Mimi. Mimi is black and white.
+Sam and Mimi see a big fish. The fish is blue. Sam says hello to the fish.`,
+    qs:[
+      {q:'How old is Sam?',a:'Six.',opts:['Five.','Six.','Seven.','Eight.']},
+      {q:"What colour is Sam's hat?",a:'Brown.',opts:['Black.','Brown.','Red.','Blue.']},
+      {q:"What is the cat's name?",a:'Mimi.',opts:['Lulu.','Mimi.','Nina.','Sam.']},
+      {q:'What colour is the fish?',a:'Blue.',opts:['Red.','Yellow.','Blue.','Green.']},
+    ]},
+  gap:[{text:'My name ___1___ Sam. I ___2___ a pirate. I ___3___ a hat and a ___4___. The sun ___5___ hot.',
+    bank:['is','am','have','boat','is'],
+    hints:['(name ___ Sam)','(I ___)','(I ___ a hat)','(small ship)','(sun ___ hot)']}],
+  listen:[
+    {text:"My name is Tom. I am seven years old.",q:'How old is Tom?',a:'Seven.',opts:['Six.','Seven.','Eight.','Nine.']},
+    {text:"The cat is under the table.",q:'Where is the cat?',a:'Under the table.',opts:['On the table.','Under the table.','Next to the table.','Behind the table.']},
+    {text:"I have two red apples and one green apple.",q:'How many apples?',a:'Three.',opts:['Two.','Three.','Four.','One.']},
+    {text:"My favourite colour is yellow.",q:'What colour does she like?',a:'Yellow.',opts:['Red.','Blue.','Yellow.','Green.']},
+  ],
+  sentences:["I have a red hat.","The sun is hot today.","My cat is on the boat.","I am six years old."],
+  spell:['cat','sun','boat','fish','hat','red'],
+  boss:[
+    {q:'"I ___ Alejandro."',a:'am',opts:['am','is','are','be']},
+    {q:'"She ___ a cat."',a:'has',opts:['have','has','had','is']},
+    {q:'"There ___ two boats."',a:'are',opts:['is','are','am','be']},
+    {q:'"This ___ my hat."',a:'is',opts:['is','are','am','be']},
+    {q:'"I have ___ apple."',a:'an',opts:['a','an','the','—']},
+    {q:'"They ___ pirates."',a:'are',opts:['is','am','are','be']},
+  ]},
+
+/* ============================== LEVEL 2 ============================== */
+2:{ name:'Sailor', emoji:'⚓', cefr:'A1 Movers',
+    grammar:'Present Simple + CAN',
+    desc:'Acciones de todos los días + qué puedes hacer.',
+  lesson:{
+    title:'Present Simple + CAN — "I do / I can"',
+    story:`Every day I <b>sail</b> my boat on the sea. My friend Diego <b>swims</b> very well. He <b>can</b> swim 100 metres without stopping.
+We <b>don't</b> go to school on weekends. My cat Mimi <b>doesn't</b> like water.
+<b>Can</b> you find treasure? Yes, I always <b>find</b> gold!
+🎓 Yellow verbs: PRESENT SIMPLE (routines) and CAN (abilities).`,
+    formula:`<span class="slot">I/You/We/They</span><span class="op">+</span><span class="slot">verb</span><br><span class="slot">He/She/It</span><span class="op">+</span><span class="slot">verb-S</span><br><br><span class="slot">subject</span><span class="op">+</span><span class="slot">CAN</span><span class="op">+</span><span class="slot">base verb</span>`,
+    rules:[
+      '<b>Present Simple:</b> routines and general truths. Always, usually, every day, on Mondays.',
+      '<b>3rd person singular</b> (he/she/it) takes -s: he plays, she runs, it works.',
+      '<b>Negative:</b> don\'t (I/you/we/they) or doesn\'t (he/she/it) + base verb.',
+      '<b>Question:</b> Do you...? Does he...? + base verb.',
+      '<b>CAN</b> = ability or possibility. Always + base verb. "I can swim." (NEVER "I can to swim").',
+      '<b>CAN\'T</b> (cannot) = no ability. "She can\'t fly."',
+    ],
+    examples:[
+      {en:'I play Blox Fruits every day.', es:'Routine action.'},
+      {en:'He plays with his friends.', es:'Note the verb-S for "he".'},
+      {en:'They don\'t like vegetables.', es:'Negative with don\'t.'},
+      {en:'Does she speak English?', es:'Question with does + base verb.'},
+      {en:'I can swim, but I can\'t fly.', es:'CAN/CAN\'T + base verb.'},
+    ],
+    tip:'💡 Common trap: "He play" ❌ → "He plays" ✅. The -s for he/she/it is COMPULSORY.',
+  },
+  vocab:[
+    {w:'Pirate',e:'🏴‍☠️',d:'A person who sails and looks for treasure.'},{w:'Treasure',e:'💰',d:'Gold and money.'},
+    {w:'Island',e:'🏝️',d:'Land in the sea.'},{w:'Map',e:'🗺️',d:'A drawing of places.'},
+    {w:'Sword',e:'⚔️',d:'A long sharp weapon.'},{w:'Hero',e:'🦸',d:'A brave person who helps people.'},
+    {w:'Beast',e:'🐉',d:'A big and scary animal.'},{w:'Jungle',e:'🌴',d:'A place with many trees.'},
+    {w:'Cave',e:'🕳️',d:'A big hole in a mountain.'},{w:'Friend',e:'👬',d:'A person you like to play with.'},
+  ],
+  reading:{text:`Lucas is a young pirate. Every morning he wakes up at seven o'clock and eats breakfast on his boat.
+He can sail very well, but he can't read maps. His friend Diego helps him. Diego speaks three languages and knows every island.
+On Saturdays they play in the sand and swim in the sea. They don't go to school on weekends. Their dog, Rex, loves to swim too.`,
+    qs:[
+      {q:'What time does Lucas wake up?',a:'At seven.',opts:['At six.','At seven.','At eight.','At nine.']},
+      {q:'What can Lucas do well?',a:'Sail.',opts:['Read maps.','Sail.','Speak languages.','Cook.']},
+      {q:'How many languages does Diego speak?',a:'Three.',opts:['One.','Two.','Three.','Four.']},
+      {q:'Do they go to school on Saturdays?',a:'No, they don\'t.',opts:['Yes, they do.','No, they don\'t.','Sometimes.','Only morning.']},
+      {q:'Who is Rex?',a:'Their dog.',opts:['Their friend.','Their dog.','Their captain.','Their teacher.']},
+    ]},
+  gap:[{text:'I ___1___ to the beach every Saturday with my dog. He ___2___ in the sea but he ___3___ swim very far. We always ___4___ a small map and ___5___ for treasure.',
+    bank:['go','swims','can\'t','take','look'],
+    hints:['(I + base verb)','(he + verb-S)','(no puede)','(verb base)','(buscar)']}],
+  listen:[
+    {text:"My sister can play the piano, but she can't sing.",q:'What can she NOT do?',a:'Sing.',opts:['Play piano.','Sing.','Dance.','Cook.']},
+    {text:"Tom doesn't eat fish. He prefers chicken and rice.",q:'What does Tom like?',a:'Chicken and rice.',opts:['Fish.','Pizza.','Chicken and rice.','Pasta.']},
+    {text:"Every morning Lucy walks her dog in the park.",q:'When does Lucy walk her dog?',a:'Every morning.',opts:['At night.','Every morning.','On weekends.','After school.']},
+    {text:"Can you help me with my homework, please?",q:'What does she want?',a:'Help with homework.',opts:['A pencil.','A book.','Help with homework.','A snack.']},
+  ],
+  sentences:["I play Blox Fruits every day.","She can swim very well.","We don't have a map.","Diego speaks three languages."],
+  spell:['island','treasure','jungle','friend','sword','beast'],
+  boss:[
+    {q:'"He ___ to school every day."',a:'goes',opts:['go','goes','going','went']},
+    {q:'"They ___ play football."',a:"don't",opts:['doesn\'t','don\'t','isn\'t','aren\'t']},
+    {q:'"She ___ swim?"',a:'Can',opts:['Cans','Can','Does','Is']},
+    {q:'"I ___ TV at night."',a:'watch',opts:['watch','watches','watching','watched']},
+    {q:'"Does he ___ a sister?"',a:'have',opts:['has','have','having','had']},
+    {q:'"My dog ___ fly."',a:"can't",opts:["can not","can't","don't can","doesn't can"]},
+  ]},
+
+/* ============================== LEVEL 3 ============================== */
+3:{ name:'Pirate', emoji:'🏴‍☠️', cefr:'A2 Flyers',
+    grammar:'Past Simple',
+    desc:'Hablar de aventuras de ayer y batallas pasadas.',
+  lesson:{
+    title:'Past Simple — Yesterday\'s battles',
+    story:`Last week, Alejandro and his friends <b>sailed</b> to Dragon Island. They <b>looked</b> for the Ice Fruit. On the beach they <b>found</b> an old pirate.
+
+"Take this map!" he <b>said</b>. "I <b>found</b> this island when I was young, but I never <b>defeated</b> the boss."
+
+The friends <b>followed</b> the map. They <b>fought</b> against many enemies. Finally they <b>saw</b> the boss: a giant dragon! Alejandro <b>jumped</b>, <b>attacked</b> three times, and <b>won</b>!
+
+🎓 All yellow verbs are in PAST SIMPLE — actions already finished.`,
+    formula:`<span class="slot">subject</span><span class="op">+</span><span class="slot">verb-ED</span> (regular)<br><span class="slot">subject</span><span class="op">+</span><span class="slot">irregular past</span><br><br>Negative: <span class="slot">subject</span><span class="op">+</span><span class="slot">DIDN'T</span><span class="op">+</span><span class="slot">base verb</span>`,
+    rules:[
+      '<b>Regular verbs:</b> add <b>-ed</b>: walk → walked, jump → jumped, attack → attacked.',
+      '<b>Irregular verbs:</b> have a special form: go → went, find → found, eat → ate. You must memorise them!',
+      '<b>Negative:</b> didn\'t + BASE verb (not -ed). "I didn\'t see the boss."',
+      '<b>Question:</b> Did + subject + BASE verb? "Did you find the fruit?"',
+      '<b>Time markers:</b> yesterday, last week, two days ago, in 2023, when I was young.',
+      'In negatives and questions NEVER repeat the past form. ❌ "I didn\'t found" → ✅ "I didn\'t find".',
+    ],
+    examples:[
+      {en:'I sailed to the island yesterday.', es:'Regular verb: sail → sailed.'},
+      {en:'She found a Devil Fruit last week.', es:'Irregular: find → found.'},
+      {en:'We didn\'t see the sea beast.', es:'Negative: didn\'t + base verb.'},
+      {en:'Did Luffy beat the boss?', es:'Question: Did + base verb.'},
+      {en:'They fought for two hours.', es:'Irregular: fight → fought.'},
+    ],
+    irregulars:[
+      ['go','went','to go'],['find','found','to find'],['eat','ate','to eat'],
+      ['see','saw','to see'],['get','got','to obtain'],['have','had','to have'],
+      ['take','took','to take'],['fight','fought','to fight'],['win','won','to win'],
+      ['lose','lost','to lose'],['run','ran','to run'],['come','came','to come'],
+      ['say','said','to say'],['do','did','to do'],['make','made','to make'],
+    ],
+    tip:'💡 -ED tip: if the verb already ends in -e, just add -d (live → lived). If it ends in consonant+y, change to -ied (cry → cried).',
+  },
+  vocab:[
+    {w:'Devil Fruit',e:'🍇',d:'A magic fruit that gives you a power.'},{w:'Captain',e:'🧑‍✈️',d:'The leader of a crew.'},
+    {w:'Adventure',e:'🗺️',d:'An exciting trip.'},{w:'Brave',e:'🦁',d:'Not scared of difficult things.'},
+    {w:'Strong',e:'💪',d:'Has a lot of power.'},{w:'Dangerous',e:'⚠️',d:'Something that can hurt you.'},
+    {w:'Fight',e:'🥊',d:'To use weapons against someone.'},{w:'Win',e:'🏆',d:'To be number one in a game.'},
+    {w:'Lose',e:'💔',d:'The opposite of win.'},{w:'Crew',e:'👥',d:'A group of people who work together.'},
+  ],
+  reading:{text:`Last Saturday, Alejandro and his friend Diego went to a small island.
+They wanted to find a special Devil Fruit. The sun was hot and the sea was blue.
+On the beach they met an old man with a brown hat. "Be careful!" he said.
+"There is a big sea beast in the water." The boys were a little scared, but they were brave.
+They climbed a tall tree and saw a red fruit at the top. Alejandro took the fruit and they ran back to their boat.
+They didn't see the sea beast, but they heard it sing a strange song. At night, they ate fish and looked at the stars.`,
+    qs:[
+      {q:'Where did the boys go?',a:'To a small island.',opts:['To a big city.','To a small island.','To school.','To a forest.']},
+      {q:'What was the weather like?',a:'It was hot and sunny.',opts:['Cold and rainy.','Hot and sunny.','Windy.','Snowing.']},
+      {q:'Who did they meet?',a:'An old man with a brown hat.',opts:['A young pirate.','A girl with a red dress.','An old man with a brown hat.','A marine soldier.']},
+      {q:'What colour was the fruit?',a:'Red.',opts:['Blue.','Green.','Yellow.','Red.']},
+      {q:'Did the boys see the sea beast?',a:'No, they only heard it.',opts:['Yes, they fought it.','No, they only heard it.','Yes, they took a photo.','No, the old man took it away.']},
+    ]},
+  gap:[{text:'Yesterday I ___1___ a strong boss. He ___2___ stronger than me but I ___3___ a special sword. After the fight, I ___4___ a new fruit and I ___5___ very happy.',
+    bank:['fought','was','had','got','was'],
+    hints:['(past of fight, irregular)','(past of be, sing.)','(past of have)','(past of get)','(past of be, sing.)']}],
+  listen:[
+    {text:"My friend's name is Diego. He has black hair and brown eyes. He is eleven years old.",q:"How old is Diego?",a:"Eleven.",opts:["Ten.","Eleven.","Twelve.","Nine."]},
+    {text:"On Sunday, Alejandro went to the beach with his family. They saw three turtles in the water.",q:"What did they see?",a:"Three turtles.",opts:["Three sharks.","Two turtles.","Three turtles.","A big fish."]},
+    {text:"Yesterday I ate pizza and drank orange juice for dinner.",q:"What did he drink?",a:"Orange juice.",opts:["Water.","Milk.","Orange juice.","Coke."]},
+    {text:"The pirates fought for three hours and finally won the battle.",q:"How long did they fight?",a:"Three hours.",opts:["One hour.","Two hours.","Three hours.","All day."]},
+  ],
+  sentences:["I want to be the strongest pirate.","Yesterday my friend found a Devil Fruit.","The sea beast is bigger than our boat.","We did not see the boss yesterday."],
+  spell:['adventure','dangerous','captain','because','tomorrow','strong'],
+  boss:[
+    {q:'Past of "go"?',a:'went',opts:['goed','wented','went','goes']},
+    {q:'"He ___ to the island yesterday."',a:'went',opts:['go','goes','went','going']},
+    {q:'Past of "find"?',a:'found',opts:['finded','found','find','founded']},
+    {q:'"They ___ play football yesterday." (negative)',a:"didn't",opts:["don't","didn't","doesn't","weren't"]},
+    {q:'"What ___ you do last weekend?"',a:'did',opts:['do','does','did','doing']},
+    {q:'"I didn\'t ___ the boss." (correct form)',a:'see',opts:['see','saw','seen','seeing']},
+  ]},
+
+/* ============================== LEVEL 4 ============================== */
+4:{ name:'Captain', emoji:'🧑‍✈️', cefr:'A2+ KET',
+    grammar:'Present Perfect (have/has + past participle)',
+    desc:'Conectar el pasado con el presente. ever, never, just, already, yet.',
+  lesson:{
+    title:'Present Perfect — Experience and results',
+    story:`Mateo <b>has played</b> Blox Fruits for two years. He <b>has already defeated</b> ten bosses, but he <b>hasn't found</b> the legendary Mythical Fruit yet.
+
+Yesterday he told me: "I <b>have just bought</b> a new Ice Fruit! <b>Have</b> you <b>ever seen</b> something so cool?" I said: "No, I <b>have never had</b> a Mythical."
+
+His crew <b>has been</b> together since 2024. They <b>have visited</b> 30 islands and <b>have won</b> many tournaments.
+
+🎓 Yellow verbs: PRESENT PERFECT — past actions connected with NOW.`,
+    formula:`<span class="slot">I/You/We/They</span><span class="op">+</span><span class="slot">HAVE</span><span class="op">+</span><span class="slot">past participle</span><br><span class="slot">He/She/It</span><span class="op">+</span><span class="slot">HAS</span><span class="op">+</span><span class="slot">past participle</span>`,
+    rules:[
+      '<b>Structure:</b> have/has + past participle (3rd column). played, gone, seen, found.',
+      '<b>EVER / NEVER:</b> life experiences. "Have you ever seen a Mythical Fruit?" "I have never seen one."',
+      '<b>JUST:</b> a very short time ago. "I have just bought a sword."',
+      '<b>ALREADY:</b> earlier than expected (positive). "I have already finished the mission."',
+      '<b>YET:</b> not yet (negatives and questions). "I haven\'t found it yet." "Have you arrived yet?"',
+      '<b>FOR / SINCE:</b> duration. FOR + period (for 2 years). SINCE + point in time (since 2024).',
+      'Difference with Past Simple: if the moment is specific (yesterday, last week), use PAST SIMPLE.',
+    ],
+    examples:[
+      {en:'I have played this game for two years.', es:'Action started in the past, still happening now.'},
+      {en:'She has just won the battle!', es:'Recent past with JUST.'},
+      {en:'They have already visited five islands.', es:'ALREADY for things done sooner than expected.'},
+      {en:'I haven\'t found the legendary fruit yet.', es:'YET in the negative.'},
+      {en:'Have you ever fought a sea beast?', es:'EVER for life experiences in questions.'},
+    ],
+    irregulars:[
+      ['be','was/were','been'],['go','went','gone'],['see','saw','seen'],
+      ['eat','ate','eaten'],['do','did','done'],['take','took','taken'],
+      ['win','won','won'],['find','found','found'],['buy','bought','bought'],
+      ['have','had','had'],['get','got','gotten'],['make','made','made'],
+    ],
+    tip:'💡 The 3rd column is the "past participle". For regular verbs it equals the past (-ed). For irregular verbs you must memorise (e.g. eat → ate → eaten).',
+  },
+  vocab:[
+    {w:'Power',e:'⚡',d:'The ability to do something special.'},{w:'Mission',e:'🎯',d:'A task you have to do.'},
+    {w:'Victory',e:'🥇',d:'When you win.'},{w:'Defeat',e:'❌',d:'When you lose.'},
+    {w:'Journey',e:'🛤️',d:'A long trip.'},{w:'Weapon',e:'🗡️',d:'A thing used in a fight.'},
+    {w:'Mystery',e:'❓',d:'Something we do not understand.'},{w:'Decision',e:'🤔',d:'When you choose between things.'},
+    {w:'Skill',e:'🎮',d:'Something you can do well after practice.'},{w:'Enemy',e:'😈',d:'A person who is against you.'},
+  ],
+  reading:{text:`My name is Mateo and I have played Blox Fruits for two years. Last summer my cousin showed me the game and I loved it from the first day.
+At the start, I only had a small wooden sword and I was very weak. I have lost many fights, but I haven't given up. My cousin always told me: "Practice every day."
+I have already bought three Devil Fruits this year. Last week I got an Ice Fruit and it changed everything. Have you ever felt the cold of an Ice Fruit?
+Yesterday, my crew and I defeated a sea boss together for the first time. I think the best part of this game is not winning — it is making friends.`,
+    qs:[
+      {q:'How long has Mateo played?',a:'For two years.',opts:['For one year.','For two years.','For six months.','Since last summer only.']},
+      {q:'Who showed him the game?',a:'His cousin.',opts:['His brother.','His friend.','His cousin.','His teacher.']},
+      {q:'How many Devil Fruits has he bought this year?',a:'Three.',opts:['One.','Two.','Three.','Four.']},
+      {q:'When did he get the Ice Fruit?',a:'Last week.',opts:['Last month.','Last week.','Yesterday.','Today.']},
+      {q:'What is the best part of the game?',a:'Making friends.',opts:['Winning fights.','Buying new fruits.','Making friends.','Beating bosses.']},
+    ]},
+  gap:[{text:'I ___1___ never ___2___ such a difficult boss. We ___3___ already ___4___ five times this week, but we ___5___ won yet.',
+    bank:['have','seen','have','tried','haven\'t'],
+    hints:['(have/has)','(past participle of see)','(have/has, plural)','(past participle of try)','(negative)']}],
+  listen:[
+    {text:"I have lived in this city since I was five years old. Before that, I lived in the mountains.",q:'Where did she live before?',a:'In the mountains.',opts:['In a small city.','By the sea.','In the mountains.','In another country.']},
+    {text:"Have you ever visited Japan? It's an amazing country.",q:'What is the question about?',a:'Visiting Japan.',opts:['Living in Japan.','Visiting Japan.','Studying Japanese.','Eating Japanese food.']},
+    {text:"My brother has just finished his homework, so now we can play.",q:'What did the brother just do?',a:'Finish his homework.',opts:['Eat dinner.','Finish his homework.','Take a shower.','Wake up.']},
+    {text:"They haven't arrived yet. Maybe the bus is late.",q:'Have they arrived?',a:'No, not yet.',opts:['Yes, on time.','Yes, early.','No, not yet.','We don\'t know.']},
+  ],
+  sentences:["I have never seen such a strong boss.","She has just bought a new sword.","We have been friends since last year.","They haven't finished the mission yet."],
+  spell:['journey','decision','already','victory','weapon','enemy'],
+  boss:[
+    {q:'"I ___ this game since 2024."',a:'have played',opts:['played','have played','am playing','play']},
+    {q:'"They ___ never visited that island."',a:'have',opts:['has','have','are','were']},
+    {q:'Past participle of "win"?',a:'won',opts:['win','wan','won','winned']},
+    {q:'"She ___ already finished."',a:'has',opts:['have','has','is','was']},
+    {q:'"I haven\'t seen him ___."',a:'yet',opts:['just','already','yet','ever']},
+    {q:'"I have lived here ___ 2020."',a:'since',opts:['for','since','from','in']},
+  ]},
+
+/* ============================== LEVEL 5 ============================== */
+5:{ name:'Navigator', emoji:'🧭', cefr:'B1 PET',
+    grammar:'Conditionals (1st & 2nd) + Future',
+    desc:'Hablar del futuro real y de situaciones imaginarias.',
+  lesson:{
+    title:'Conditionals — "If... then..."',
+    story:`If I <b>train</b> every day, I <b>will become</b> the strongest pirate. If you <b>find</b> the secret map, I <b>will give</b> you 100 gold coins. (This can really happen!)
+
+But if I <b>had</b> a Mythical Devil Fruit, I <b>would be</b> unstoppable. If I <b>were</b> the king of the sea, I <b>would protect</b> all the islands. (This is only imaginary.)
+
+Tomorrow I <b>am going to fight</b> the Captain Boss. I <b>will use</b> my new Ice Fruit. I think I <b>am going to win</b>!
+
+🎓 The yellow words show FUTURE and CONDITIONAL forms.`,
+    formula:`<b>1st Conditional (real):</b><br>If + <span class="slot">present simple</span>, <span class="slot">WILL</span> + <span class="slot">verb</span><br><br><b>2nd Conditional (imaginary):</b><br>If + <span class="slot">past simple</span>, <span class="slot">WOULD</span> + <span class="slot">verb</span>`,
+    rules:[
+      '<b>1st Conditional:</b> REAL or possible situation in the future. "If it rains, I will stay home."',
+      '<b>2nd Conditional:</b> IMAGINARY or improbable situation. "If I were rich, I would buy a yacht."',
+      'In the 2nd conditional, with BE we use <b>WERE</b> for everyone: "If I were you..." (not "was").',
+      '<b>WILL</b> = spontaneous decision, prediction, promise. "I will help you!"',
+      '<b>BE GOING TO</b> = plan already decided, visible evidence. "I am going to study tonight."',
+      'After IF, never use WILL/WOULD. ❌ "If I will see him..." ✅ "If I see him, I will..."',
+      'The order can be inverted: "I would buy a sword if I had money." (no comma needed)',
+    ],
+    examples:[
+      {en:'If you train hard, you will become stronger.', es:'Real possibility (1st conditional).'},
+      {en:'If I were a pirate, I would sail the world.', es:'Imaginary (2nd conditional). Note "were", not "was".'},
+      {en:'I am going to play Blox Fruits after school.', es:'A planned future action.'},
+      {en:'It will rain tomorrow.', es:'A simple prediction.'},
+      {en:'If she had a sword, she would fight the boss.', es:'Imaginary situation now.'},
+    ],
+    tip:'💡 Tip: if the situation is realistic, use the 1st (will). If it is a dream or impossible, use the 2nd (would).',
+  },
+  vocab:[
+    {w:'Strategy',e:'♟️',d:'A clever plan to win.'},{w:'Opponent',e:'🆚',d:'The person you play against.'},
+    {w:'Achievement',e:'🏅',d:'Something difficult you finished.'},{w:'Opportunity',e:'🚪',d:'A good moment to do something.'},
+    {w:'Challenge',e:'🧗',d:'A difficult task.'},{w:'Equipment',e:'🛡️',d:'The tools or items you use.'},
+    {w:'Improve',e:'📈',d:'To become better.'},{w:'Reward',e:'🎁',d:'A prize you get.'},
+    {w:'Confident',e:'😎',d:'Sure of yourself.'},{w:'Struggle',e:'😣',d:'To have a hard time doing something.'},
+  ],
+  reading:{text:`Online games like Blox Fruits have become extremely popular among children and teenagers. Some parents worry their kids spend too many hours in front of a screen, but research shows that gaming can also bring real benefits — if it is balanced.
+If a child plays for one or two hours a day, gaming can develop important skills such as patience, teamwork and problem-solving. When a mission is hard, the player has to think and try different strategies. If the first plan doesn't work, they invent a new one.
+However, if children played for more than four hours every day, their school performance would probably decrease. Experts say that, ideally, kids would sleep at least nine hours and would also exercise. If parents talked with their children about the games they play, they would understand them better.
+Used wisely, video games are not just entertainment — they can become a powerful tool for learning English and making international friends.`,
+    qs:[
+      {q:'What is the main idea?',a:'Gaming has benefits if it is balanced.',opts:['All video games are dangerous.','Gaming has benefits if it is balanced.','Children should not play games.','Parents should never worry.']},
+      {q:'What skills are mentioned?',a:'Patience and teamwork.',opts:['Drawing and music.','Patience and teamwork.','Math and science.','Singing and dancing.']},
+      {q:'What would happen if kids played 4+ hours daily?',a:'Their school performance would decrease.',opts:['They would learn faster.','Their school performance would decrease.','They would become professional gamers.','Nothing would change.']},
+      {q:'How many hours of sleep do experts recommend?',a:'At least nine.',opts:['At least seven.','At least eight.','At least nine.','At least ten.']},
+      {q:'What is the writer\'s opinion?',a:'Games can help kids learn if used wisely.',opts:['Games are a waste of time.','Games can help kids learn if used wisely.','Parents should choose the games.','Only educational games are good.']},
+    ]},
+  gap:[{text:'If I ___1___ more time, I ___2___ play every day. Tomorrow I ___3___ to train for two hours. If I ___4___ the tournament, my parents ___5___ very proud.',
+    bank:['had','would','am going','win','will be'],
+    hints:['(2nd conditional, past simple)','(2nd cond. modal)','(plan: be ___ to)','(1st cond. present)','(1st cond. result)']}],
+  listen:[
+    {text:"If it rains tomorrow, we will stay at home and play video games.",q:'What will they do if it rains?',a:'Play video games at home.',opts:['Go to the cinema.','Play football.','Play video games at home.','Visit grandma.']},
+    {text:"If I had more money, I would buy the legendary sword. Unfortunately, it is too expensive.",q:'Will he buy the sword now?',a:'No, it is too expensive.',opts:['Yes, today.','No, it is too expensive.','Yes, tomorrow.','He already bought it.']},
+    {text:"I am going to visit my grandma next weekend. She is going to cook my favourite meal.",q:'Who is cooking?',a:'His grandma.',opts:['He is.','His mum.','His grandma.','His dad.']},
+    {text:"If you don't sleep well, you will feel tired all day at school.",q:'What is the warning about?',a:'Not sleeping well.',opts:['Eating sweets.','Not sleeping well.','Watching TV.','Doing homework.']},
+  ],
+  sentences:["If you train every day, you will improve.","If I had a sword, I would fight the boss.","She is going to buy a new fruit tomorrow.","I will help you with your mission."],
+  spell:['strategy','achievement','opportunity','confident','equipment','tournament'],
+  boss:[
+    {q:'"If it ___ tomorrow, we will stay home."',a:'rains',opts:['rain','rains','rained','will rain']},
+    {q:'"If I ___ a fruit, I would be strong."',a:'had',opts:['have','had','having','will have']},
+    {q:'"If she ___ rich, she would buy a boat."',a:'were',opts:['is','was','were','be']},
+    {q:'"I ___ play tennis tomorrow." (plan)',a:'am going to',opts:['will','am going to','would','am']},
+    {q:'"If you study, you ___ pass."',a:'will',opts:['would','will','are going to','have']},
+    {q:'"If I ___ you, I would say sorry."',a:'were',opts:['am','was','were','will be']},
+  ]},
+
+/* ============================== LEVEL 6 ============================== */
+6:{ name:'Admiral', emoji:'🎖️', cefr:'B1+ PET',
+    grammar:'Passive Voice + Reported Speech',
+    desc:'La voz pasiva y cómo contar lo que otros dijeron.',
+  lesson:{
+    title:'Passive + Reported Speech — "It was done / He said that..."',
+    story:`The legendary treasure <b>was hidden</b> by ancient pirates 200 years ago. The map <b>was found</b> by Luffy in 1850, but the island <b>has been protected</b> by a giant sea beast.
+
+Yesterday, the captain <b>said that</b> the journey <b>was</b> too dangerous. He <b>told</b> us he <b>had seen</b> the beast before. He <b>asked</b> if we <b>were</b> ready.
+
+The new sword <b>is being made</b> by the best blacksmith in the East Blue. It <b>will be delivered</b> next week.
+
+🎓 In yellow: PASSIVE (what IS DONE) and REPORTED SPEECH (what someone SAID).`,
+    formula:`<b>Passive:</b><br><span class="slot">subject</span><span class="op">+</span><span class="slot">BE</span><span class="op">+</span><span class="slot">past participle</span><span class="op">(+by)</span><br><br><b>Reported:</b><br>"I am tired" → He said (that) he <span class="slot">WAS</span> tired<br>(present → past, will → would, can → could)`,
+    rules:[
+      '<b>Passive Voice:</b> the OBJECT becomes the subject. "Pirates hide treasure" (active) → "Treasure is hidden by pirates" (passive).',
+      'Passive in different tenses: <b>is/are made</b> (present), <b>was/were made</b> (past), <b>has been made</b> (perfect), <b>will be made</b> (future).',
+      'Use the passive when WHO is unknown or not important: "My phone was stolen."',
+      '<b>Reported speech:</b> when reporting, verbs shift one tense "back":',
+      'Present → Past · Past → Past Perfect · Will → Would · Can → Could · Must → Had to',
+      '<b>SAY</b> vs <b>TELL</b>: SAY (no person) "He said that..." · TELL (+ person) "He told ME that..."',
+      'Reported questions: "Are you OK?" → He asked if/whether I <b>was</b> OK. (no question mark)',
+    ],
+    examples:[
+      {en:'The map was drawn by an old pirate.', es:'Passive — past simple.'},
+      {en:'A new game is being made by Roblox.', es:'Passive — present continuous.'},
+      {en:'The treasure has been hidden for years.', es:'Passive — present perfect.'},
+      {en:'She said (that) she was happy.', es:'Reported: am → was.'},
+      {en:'He told me he would come the next day.', es:'Reported: will → would, tomorrow → the next day.'},
+      {en:'They asked if I had seen the boss.', es:'Reported question: have → had.'},
+    ],
+    tip:'💡 In reported speech these also change: today→that day, tomorrow→the next day, here→there, this→that, now→then.',
+  },
+  vocab:[
+    {w:'Ancient',e:'📜',d:'Very, very old.'},{w:'Hidden',e:'🙈',d:'Not seen, in a secret place.'},
+    {w:'Discovered',e:'🔎',d:'Found for the first time.'},{w:'Legend',e:'🏛️',d:'An old famous story.'},
+    {w:'Ruler',e:'👑',d:'A king or queen who controls a place.'},{w:'Conquer',e:'⚔️',d:'To win a country in a war.'},
+    {w:'Fleet',e:'🚢',d:'A group of ships.'},{w:'Battle',e:'💥',d:'A big fight in a war.'},
+    {w:'Reveal',e:'💡',d:'To show a secret.'},{w:'Protected',e:'🛡️',d:'Kept safe from danger.'},
+  ],
+  reading:{text:`A new mystery has been discovered in the world of Blox Fruits. Last month, a young player called Maya found an island that was not on any map. The island, known as "Lost Sky Island", has been hidden for over 100 years.
+According to the legend, the island was created by an ancient sea god. It was protected by a powerful sea beast that ate every pirate who came too close. The treasure on the island has never been seen by anyone.
+Maya told a popular YouTuber that she had spent two months looking for the island. She said that her grandfather had given her an old map before he died. "He told me to never give up," she explained.
+The island will be visited by hundreds of players this weekend. The developers said that a special event would be organised, with new missions and rewards. Maya said she was very proud, but she warned that the island was still dangerous.`,
+    qs:[
+      {q:'Who discovered the island?',a:'A young player called Maya.',opts:['An old captain.','A young player called Maya.','A YouTuber.','The developers.']},
+      {q:'How long was the island hidden?',a:'Over 100 years.',opts:['10 years.','50 years.','Over 100 years.','Over 1000 years.']},
+      {q:'Who gave Maya the old map?',a:'Her grandfather.',opts:['Her father.','Her teacher.','A pirate.','Her grandfather.']},
+      {q:'What did her grandfather tell her?',a:'To never give up.',opts:['To find treasure.','To never give up.','To trust pirates.','To stay home.']},
+      {q:'What will be organised this weekend?',a:'A special event.',opts:['A tournament.','A school trip.','A special event.','A movie.']},
+    ]},
+  gap:[{text:'The treasure ___1___ found by the pirates last week. Maya said that she ___2___ very excited. The new map ___3___ being created by the developers. The captain told us we ___4___ have to be careful. The boss ___5___ never been defeated.',
+    bank:['was','was','is','would','has'],
+    hints:['(passive past sing.)','(reported: am→___)','(passive present continuous)','(reported: will→___)','(present perfect aux)']}],
+  listen:[
+    {text:"The new sword was made by a famous blacksmith in Tokyo.",q:'Where was the sword made?',a:'In Tokyo.',opts:['In London.','In Tokyo.','In New York.','In Paris.']},
+    {text:"He said that he had already finished all his missions.",q:'What had he done?',a:'Finished his missions.',opts:['Started his missions.','Finished his missions.','Bought a sword.','Found treasure.']},
+    {text:"The legendary fruit has been hidden in a secret cave for 500 years.",q:'How long has the fruit been hidden?',a:'500 years.',opts:['50 years.','100 years.','500 years.','1000 years.']},
+    {text:"She told me that she would call me later.",q:'What will she do?',a:'Call him later.',opts:['Visit him.','Call him later.','Send a message.','Come tomorrow.']},
+  ],
+  sentences:["The treasure was hidden by ancient pirates.","She said that she was very tired.","The new island has been discovered.","He told me he would come tomorrow."],
+  spell:['ancient','discovered','treasure','reported','protected','revealed'],
+  boss:[
+    {q:'"The map ___ found by Luffy."',a:'was',opts:['is','was','were','has']},
+    {q:'"The treasure ___ been hidden for years."',a:'has',opts:['have','has','is','was']},
+    {q:'Reported: She said, "I am tired." →',a:'She said she was tired.',opts:['She said she is tired.','She said she was tired.','She said I was tired.','She said being tired.']},
+    {q:'"He told ___ he was happy."',a:'me',opts:['that','me','to','—']},
+    {q:'Passive of "They make swords here":',a:'Swords are made here.',opts:['Swords made here.','Swords are made here.','Swords were made here.','Swords are making here.']},
+    {q:'Reported: "I will help you." → He said he ___ help me.',a:'would',opts:['will','would','can','could']},
+  ]},
+
+/* ============================== LEVEL 7 ============================== */
+7:{ name:'Pirate King', emoji:'👑', cefr:'B1+ PET advanced',
+    grammar:'Wishes + 3rd Conditional + Past Perfect',
+    desc:'Arrepentimientos, hipótesis del pasado y la "máquina del tiempo" gramatical.',
+  lesson:{
+    title:'Wishes + 3rd Conditional — "I wish I had..."',
+    story:`I <b>wish</b> I <b>had trained</b> harder when I was younger. If I <b>had practised</b> more, I <b>would have beaten</b> the final boss last year.
+
+By the time I arrived at the island, the battle <b>had already ended</b>. The other crew <b>had taken</b> all the treasure. I <b>wish</b> I <b>had</b> a faster boat now!
+
+If Luffy <b>hadn't found</b> the Gum-Gum Fruit, he <b>wouldn't have become</b> the Pirate King. Sometimes one decision changes everything.
+
+🎓 These are the most advanced grammar points: WISHES and 3rd CONDITIONAL.`,
+    formula:`<b>Past Perfect:</b><br><span class="slot">HAD</span><span class="op">+</span><span class="slot">past participle</span><br><br><b>3rd Conditional:</b><br>If + <span class="slot">PAST PERFECT</span>, <span class="slot">WOULD HAVE</span> + <span class="slot">past participle</span><br><br><b>Wishes:</b><br>I wish + <span class="slot">past simple</span> (present)<br>I wish + <span class="slot">past perfect</span> (past)`,
+    rules:[
+      '<b>Past Perfect:</b> action already finished BEFORE another past action. "When I arrived, they had already left."',
+      '<b>I WISH + past simple:</b> impossible PRESENT wish. "I wish I had a million dollars." (I don\'t have them now)',
+      '<b>I WISH + past perfect:</b> PAST regret. "I wish I had studied more." (I didn\'t study, I regret it)',
+      '<b>3rd Conditional:</b> IMAGINARY past situation. "If I had seen him, I would have helped."',
+      '3rd conditional structure: If + had + V3 ... would have + V3.',
+      'Variation: instead of WOULD HAVE you can use <b>could have</b> (would have been able to) or <b>might have</b> (perhaps would have).',
+      '"I wish I would..." is NOT used with the same person. For your own change use "I wish I could..."',
+    ],
+    examples:[
+      {en:'I wish I had a Mythical Fruit.', es:'Present wish (you don\'t have it now).'},
+      {en:'I wish I had bought it yesterday.', es:'Past regret (you didn\'t buy it).'},
+      {en:'If I had trained, I would have won.', es:'3rd conditional — imaginary past.'},
+      {en:'When I arrived, they had already started.', es:'Past perfect — earlier past action.'},
+      {en:'She would have helped if she had known.', es:'3rd conditional with order inverted.'},
+      {en:'If we hadn\'t hurried, we would have missed the boat.', es:'Negative 3rd conditional.'},
+    ],
+    tip:'💡 The 3rd conditional always talks about something that CAN\'T be changed any more. It is used to reflect: "What would have happened if...?"',
+  },
+  vocab:[
+    {w:'Regret',e:'😔',d:'To feel sad about something you did or didn\'t do.'},{w:'Wish',e:'🌠',d:'To want something that probably won\'t happen.'},
+    {w:'Mistake',e:'❗',d:'Something you do wrong.'},{w:'Lesson',e:'📚',d:'Something you learn from experience.'},
+    {w:'Experience',e:'🧠',d:'Knowledge from doing things many times.'},{w:'Achievement',e:'🏆',d:'Something great that you did.'},
+    {w:'Missed',e:'🚫',d:'Did not catch or take.'},{w:'Legendary',e:'🌟',d:'Famous in stories from long ago.'},
+    {w:'Survive',e:'🛟',d:'To stay alive in a dangerous situation.'},{w:'Choice',e:'🔀',d:'A decision between options.'},
+  ],
+  reading:{text:`Looking back, I think the day I first played Blox Fruits was one of the best of my life. I was nine, and my older brother had just bought a new computer. If he hadn't shown me the game, I would never have started this incredible adventure.
+I wish I had saved more gold at the beginning. In my first month, I spent all my money on a useless sword. If I had been more patient, I would have bought a much better Devil Fruit. That was a real lesson.
+By the time I joined my first crew, I had already lost over 50 fights. The other players laughed at me, but I didn't give up. If I had given up then, I wouldn't have met my best friend Diego, who is now my second-in-command.
+Last month, we finally defeated the Sea King — the most legendary boss in the game. I wish my brother could have seen it. He moved to another country last year, and we don't play together anymore. Sometimes I wish things were different, but every adventure is also a memory.`,
+    qs:[
+      {q:'How old was the writer when he started?',a:'Nine years old.',opts:['Seven.','Nine.','Eleven.','Thirteen.']},
+      {q:'What does he regret about his first month?',a:'Spending money on a useless sword.',opts:['Not finding friends.','Spending money on a useless sword.','Losing too many fights.','Not joining a crew.']},
+      {q:'How many fights had he lost before joining the crew?',a:'Over 50.',opts:['Over 10.','Over 20.','Over 50.','Over 100.']},
+      {q:'Who is Diego?',a:'His best friend and second-in-command.',opts:['His brother.','His teacher.','His best friend and second-in-command.','A boss in the game.']},
+      {q:'Why doesn\'t he play with his brother now?',a:'His brother moved abroad.',opts:['They had a fight.','His brother moved abroad.','His brother stopped playing.','He doesn\'t want to.']},
+    ]},
+  gap:[{text:'I ___1___ I had practised more last year. If I ___2___ trained harder, I ___3___ have beaten the boss. By the time I arrived, the battle ___4___ already ended. I really wish I ___5___ a Mythical Fruit now.',
+    bank:['wish','had','would','had','had'],
+    hints:['(deseo)','(3rd cond. if + ___ + V3)','(3rd cond. result)','(past perfect aux)','(wish + past simple)']}],
+  listen:[
+    {text:"I wish I had a faster boat. Mine is too slow for the deep sea.",q:'What does he wish?',a:'He had a faster boat.',opts:['He had more money.','He had a faster boat.','He had a sword.','He had more friends.']},
+    {text:"If I had known about the storm, I wouldn't have left the port.",q:'Did he know about the storm?',a:'No, he didn\'t.',opts:['Yes, he knew.','No, he didn\'t.','He wasn\'t sure.','We don\'t know.']},
+    {text:"By the time the rescue team arrived, the pirates had already escaped.",q:'Did the team catch the pirates?',a:'No, they had escaped.',opts:['Yes, on time.','No, they had escaped.','Yes, after a fight.','We don\'t know.']},
+    {text:"She wishes she could speak Japanese fluently to play with her Japanese friends.",q:'What does she want to do?',a:'Speak Japanese fluently.',opts:['Travel to Japan.','Speak Japanese fluently.','Make Japanese friends.','Eat Japanese food.']},
+  ],
+  sentences:["If I had trained more, I would have won.","I wish I had a Mythical Fruit.","By the time I arrived, the battle had ended.","She wishes she had studied harder."],
+  spell:['legendary','experience','achievement','survived','decision','opportunity'],
+  boss:[
+    {q:'"I wish I ___ a million coins."',a:'had',opts:['have','had','would have','having']},
+    {q:'"If I ___ studied, I would have passed."',a:'had',opts:['have','had','would','will']},
+    {q:'"If she had known, she ___ helped."',a:'would have',opts:['will','would','would have','will have']},
+    {q:'"By the time we got there, they ___ left."',a:'had',opts:['have','had','were','would']},
+    {q:'"I wish I ___ played the game when I was younger."',a:'had',opts:['have','had','would','was']},
+    {q:'Past participle of "be"?',a:'been',opts:['was','were','being','been']},
+  ]},
+};
+
+/* ---------- FOOTBALL COACHES ---------- */
+const COACHES = {
+  1:{ name:'Lionel Messi', flag:'🇦🇷', team:'Inter Miami · Argentina', emoji:'⚽',
+    intro:"Hi! I am Messi. I am from Argentina. We are the world champions!",
+    tips:[
+      {en:'I AM a football player.', es:'Use AM with the subject "I".', hl:'AM'},
+      {en:'He IS Cristiano Ronaldo.', es:'Use IS with he / she / it.', hl:'IS'},
+      {en:'We ARE the world champions.', es:'Use ARE with we / you / they.', hl:'ARE'},
+    ],
+    quiz:[
+      {q:'"Messi ___ from Argentina."',a:'is',opts:['am','is','are','be']},
+      {q:'"Ronaldo and Mbappé ___ famous players."',a:'are',opts:['is','are','am','be']},
+      {q:'"I ___ a fan of football."',a:'am',opts:['am','is','are','be']},
+    ]},
+  2:{ name:'Cristiano Ronaldo', flag:'🇵🇹', team:'Al-Nassr · Portugal', emoji:'⚽',
+    intro:"Hello, I'm CR7! I play football every day. I can score goals with my head and both feet.",
+    tips:[
+      {en:'I PLAY football every day.', es:'Subject "I" → base verb "play".', hl:'PLAY'},
+      {en:'He SCORES many goals.', es:'3rd person: add -S to the verb.', hl:'SCORES'},
+      {en:'I CAN run very fast.', es:'CAN + base verb (no "to").', hl:'CAN'},
+    ],
+    quiz:[
+      {q:'"Ronaldo ___ goals every match."',a:'scores',opts:['score','scores','scoring','scored']},
+      {q:'"He ___ run 100m in 11 seconds."',a:'can',opts:['can','cans','is','do']},
+      {q:'"My team ___ play on Saturdays."',a:"doesn't",opts:["don't","doesn't","didn't","isn't"]},
+    ]},
+  3:{ name:'Paolo Guerrero', flag:'🇵🇪', team:'César Vallejo · Perú', emoji:'⚽',
+    intro:"Hi! I am Paolo Guerrero, captain of Peru. Yesterday I played a great match. We won 2-1 against Brazil!",
+    tips:[
+      {en:'I PLAYED for Peru last year.', es:'Regular verb: play + -ed = played.', hl:'PLAYED'},
+      {en:'We WON 2-1!', es:'Irregular verb: win → won.', hl:'WON'},
+      {en:"I DIDN'T MISS the penalty.", es:'Negative past: didn\'t + base verb.', hl:"DIDN'T MISS"},
+    ],
+    quiz:[
+      {q:'"Yesterday Peru ___ Brazil 1-0."',a:'beat',opts:['beated','beat','beats','beating']},
+      {q:'"He ___ a goal in the 90th minute."',a:'scored',opts:['score','scored','scoring','scores']},
+      {q:'"We ___ play well last week."',a:"didn't",opts:["don't","doesn't","didn't","weren't"]},
+    ]},
+  4:{ name:'Kylian Mbappé', flag:'🇫🇷', team:'Real Madrid · France', emoji:'⚽',
+    intro:"Hi, I'm Mbappé. I have played for France since 2017. I have already won many trophies. Have you ever scored a hat-trick?",
+    tips:[
+      {en:'I HAVE PLAYED for Real Madrid since 2024.', es:'Present perfect: have + past participle.', hl:'HAVE PLAYED'},
+      {en:'I have JUST scored a hat-trick!', es:'JUST = a very short time ago.', hl:'JUST'},
+      {en:"I haven't won the World Cup YET.", es:'YET = not until now (negatives & questions).', hl:'YET'},
+    ],
+    quiz:[
+      {q:'"Mbappé ___ scored 5 goals this month."',a:'has',opts:['have','has','is','was']},
+      {q:'"I have ___ finished training."',a:'just',opts:['just','yet','for','since']},
+      {q:'"He has played here ___ 2024."',a:'since',opts:['for','since','from','at']},
+    ]},
+  5:{ name:'Erling Haaland', flag:'🇳🇴', team:'Manchester City · Norway', emoji:'⚽',
+    intro:"Hello! I'm Haaland. If I shoot, I will probably score. If I had wings, I would fly to every match!",
+    tips:[
+      {en:'If I SHOOT, I WILL SCORE.', es:'1st conditional: real future situation.', hl:'WILL SCORE'},
+      {en:'If I HAD wings, I WOULD FLY.', es:'2nd conditional: imaginary situation.', hl:'WOULD FLY'},
+      {en:'I AM GOING TO TRAIN tomorrow.', es:'BE GOING TO + base verb = a plan.', hl:'AM GOING TO TRAIN'},
+    ],
+    quiz:[
+      {q:'"If Haaland shoots, he ___ score."',a:'will',opts:['will','would','is','was']},
+      {q:'"If I ___ taller, I would play basketball."',a:'were',opts:['am','was','were','be']},
+      {q:'"He ___ play in the final next week."',a:'will',opts:['will','would','is','was']},
+    ]},
+  6:{ name:'Vinícius Júnior', flag:'🇧🇷', team:'Real Madrid · Brazil', emoji:'⚽',
+    intro:"Hi! I'm Vinícius. The Champions League was won by my team. The coach said we played amazing football.",
+    tips:[
+      {en:'The trophy WAS WON by Real Madrid.', es:'Passive past simple: was/were + past participle.', hl:'WAS WON'},
+      {en:'The coach SAID THAT we played well.', es:'Reported speech with SAY (no person needed).', hl:'SAID THAT'},
+      {en:'My new boots ARE BEING MADE in Brazil.', es:'Passive present continuous: am/is/are + being + V3.', hl:'ARE BEING MADE'},
+    ],
+    quiz:[
+      {q:'"The goal ___ scored by Vinícius."',a:'was',opts:['is','was','were','has']},
+      {q:'Reported: He said, "I am tired." → He said he ___ tired.',a:'was',opts:['is','was','were','has']},
+      {q:'"The match ___ been played." (passive perfect)',a:'has',opts:['have','has','is','was']},
+    ]},
+  7:{ name:'Lamine Yamal', flag:'🇪🇸', team:'FC Barcelona · Spain', emoji:'⚽',
+    intro:"Hi! I'm Lamine Yamal. I'm only 17, but I wish I had played in the 2010 World Cup. If I had been older, I would have helped Spain win again.",
+    tips:[
+      {en:'I WISH I HAD played in 2010.', es:'I wish + past perfect = past regret.', hl:'HAD played'},
+      {en:'If I HAD BEEN older, I WOULD HAVE HELPED Spain.', es:'3rd conditional: imaginary past.', hl:'WOULD HAVE HELPED'},
+      {en:'By the time I joined Barça, my heroes HAD ALREADY RETIRED.', es:'Past perfect: action finished before another past action.', hl:'HAD ALREADY RETIRED'},
+    ],
+    quiz:[
+      {q:'"I wish I ___ a Ballon d\'Or."',a:'had',opts:['have','had','having','would have']},
+      {q:'"If I had trained more, I ___ scored."',a:'would have',opts:['will','would','will have','would have']},
+      {q:'"By the time I arrived, the match ___ ended."',a:'had',opts:['has','had','have','was']},
+    ]},
+};
+
+/* ---------- ROBLOX AVATARS (Selector de personaje) ---------- */
+const AVATARS = [
+  {id:'classic',  em:'🧑',     name:'Classic Noob',  desc:'El clásico de Roblox',     cost:0},
+  {id:'pirate',   em:'🏴‍☠️',  name:'Pirate Noob',   desc:'Listo para el mar',        cost:0},
+  {id:'fruit',    em:'🍇',     name:'Fruit User',    desc:'Devil Fruit master',       cost:5},
+  {id:'soccer',   em:'⚽',     name:'Soccer Star',   desc:'Estrella del fútbol',      cost:5},
+  {id:'sonic',    em:'💨',     name:'Speedster',     desc:'Más rápido que Sonic',     cost:10},
+  {id:'muscle',   em:'💪',     name:'Strongman',     desc:'Súper fuerte',             cost:10},
+  {id:'ninja',    em:'🥷',     name:'Ninja',         desc:'Sigiloso y mortal',        cost:15},
+  {id:'wizard',   em:'🧙',     name:'Wizard',        desc:'Magia y sabiduría',        cost:15},
+  {id:'astro',    em:'🧑‍🚀',  name:'Astronaut',     desc:'Explorador del espacio',   cost:20},
+  {id:'detective',em:'🕵️',    name:'Detective',     desc:'Murder Mystery 2',         cost:20},
+  {id:'king',     em:'👑',     name:'Pirate King',   desc:'Solo para legends',        cost:50},
+  {id:'phoenix',  em:'🔥',     name:'Phoenix',       desc:'El renacido',              cost:50},
+];
+
+/* ---------- STRONGMAN POWER-UPS (Tienda) ---------- */
+const POWERUPS = [
+  {id:'x2',     em:'💪', name:'XP Boost x2',    desc:'Doble XP en la próxima misión',     cost:10},
+  {id:'shield', em:'🛡️', name:'Streak Shield',  desc:'Protege tu racha 1 vez',            cost:5},
+  {id:'time',   em:'⏰', name:'Time Freeze',    desc:'+10 segundos en Sonic Speed Round', cost:8},
+  {id:'hint',   em:'💡', name:'Hint Reveal',    desc:'Revela 1 respuesta en cualquier misión', cost:6},
+];
+
+/* ---------- ADOPT ME PETS (Compañeros que se desbloquean) ---------- */
+const PETS = [
+  {id:'cat',     em:'🐱', name:'Mimi',     unlock:s=>s.score>=50,                        msg:"Meow! Keep going, you're amazing!"},
+  {id:'dog',     em:'🐶', name:'Rex',      unlock:s=>s.bossesBeaten>=1,                   msg:"Woof! That boss was too easy!"},
+  {id:'parrot',  em:'🦜', name:'Polly',    unlock:s=>s.totalMissions>=10,                 msg:"Polly wants a Devil Fruit!"},
+  {id:'dragon',  em:'🐉', name:'Drago',    unlock:s=>s.bossesBeaten>=3,                   msg:"Roar! Powerful adventure!"},
+  {id:'unicorn', em:'🦄', name:'Stella',   unlock:s=>s.coachesBeaten>=3,                  msg:"Magical goal scored!"},
+  {id:'bee',     em:'🐝', name:'Buzzy',    unlock:s=>s.totalMissions>=20,                 msg:"Bzzz! Sweet honey for you!"},
+  {id:'shark',   em:'🦈', name:'Sharky',   unlock:s=>s.unlocked.includes(4),              msg:"The sea is mine!"},
+  {id:'phoenix', em:'🔥', name:'Phoenix',  unlock:s=>s.unlocked.includes(7),              msg:"You rise like a phoenix!"},
+];
+
+/* ---------- BADGES ---------- */
+const BADGES = [
+  {id:'first',em:'🌊',name:'First Mission',cond:s=>s.totalMissions>=1},
+  {id:'star3',em:'⭐',name:'Triple Star',cond:s=>s.tripleStars>=1},
+  {id:'fruits5',em:'🍎',name:'Fruit Collector',cond:s=>s.fruits>=5},
+  {id:'streak10',em:'🔥',name:'Hot Streak',cond:s=>s.maxStreak>=10},
+  {id:'boss1',em:'⚔️',name:'Boss Slayer',cond:s=>s.bossesBeaten>=1},
+  {id:'lesson1',em:'📜',name:'First Lesson',cond:s=>s.lessonsRead>=1},
+  {id:'lessonAll',em:'🎓',name:'Grammar Master',cond:s=>s.lessonsRead>=7},
+  {id:'word',em:'🧠',name:'Word Master',cond:s=>s.perfectVocab>=1},
+  {id:'ear',em:'🎧',name:'Sharp Ear',cond:s=>s.perfectListen>=1},
+  {id:'spell',em:'✍️',name:'Spelling Bee',cond:s=>s.perfectSpell>=1},
+  {id:'lv2',em:'⚓',name:'Sailor',cond:s=>s.unlocked.includes(2)},
+  {id:'lv3',em:'🏴‍☠️',name:'Pirate',cond:s=>s.unlocked.includes(3)},
+  {id:'lv4',em:'🧑‍✈️',name:'Captain',cond:s=>s.unlocked.includes(4)},
+  {id:'lv5',em:'🧭',name:'Navigator',cond:s=>s.unlocked.includes(5)},
+  {id:'lv6',em:'🎖️',name:'Admiral',cond:s=>s.unlocked.includes(6)},
+  {id:'lv7',em:'👑',name:'Pirate King',cond:s=>s.unlocked.includes(7)},
+  {id:'xp100',em:'💯',name:'Centurion',cond:s=>s.score>=100},
+  {id:'xp500',em:'🏆',name:'Champion',cond:s=>s.score>=500},
+  {id:'xp1000',em:'🌟',name:'Legend',cond:s=>s.score>=1000},
+  {id:'allDone',em:'🎖️',name:'Master Pirate',cond:s=>s.unlocked.includes(7)&&s.bossesBeaten>=7},
+  {id:'goal1',em:'⚽',name:'First Goal',cond:s=>s.coachesBeaten>=1},
+  {id:'hattrick',em:'🥅',name:'Hat-Trick Hero',cond:s=>s.coachesBeaten>=3},
+  {id:'football',em:'🏆',name:'Football Legend',cond:s=>s.coachesBeaten>=7},
+  {id:'sonic',em:'💨',name:'Speedster',cond:s=>(s.speedHighScore||0)>=10},
+  {id:'sonicPro',em:'⚡',name:'Sonic Pro',cond:s=>(s.speedHighScore||0)>=20},
+  {id:'pet1',em:'🐶',name:'Pet Owner',cond:s=>(s.pets||[]).length>=1},
+  {id:'pet5',em:'🦄',name:'Pet Collector',cond:s=>(s.pets||[]).length>=5},
+  {id:'shopper',em:'🛒',name:'Shopper',cond:s=>Object.values(s.powerups||{}).some(v=>v>0)||s.totalSpent>0},
+  {id:'detective',em:'🔍',name:'Detective',cond:s=>(s.errorsFound||0)>=10},
+];
+
+/* ---------- SAVE ---------- */
+const SAVE_KEY = 'alejandro-blox-save-v4';
+const DEFAULT_SAVE = {
+  name:'Alejandro', currentLevel:1, score:0, fruits:0, streak:0, maxStreak:0,
+  unlocked:[1], missions:{1:{},2:{},3:{},4:{},5:{},6:{},7:{}}, badges:[],
+  totalMissions:0, tripleStars:0, bossesBeaten:0, lessonsRead:0, coachesBeaten:0,
+  perfectVocab:0, perfectListen:0, perfectSpell:0,
+  // ROBLOX EXTRAS
+  avatar:'pirate', avatarsOwned:['classic','pirate'],
+  powerups:{}, totalSpent:0,
+  pets:[], activePet:null,
+  speedHighScore:0, errorsFound:0,
+  lastDailyReward:null, dailyStreak:0,
+  // active power-up flags (consumed on use)
+  flags:{xp2:false, shield:false, hint:false, time:0},
+};
+let state;
+try{
+  // migrate from earlier versions
+  const v4 = localStorage.getItem(SAVE_KEY);
+  const v3 = !v4 ? localStorage.getItem('alejandro-blox-save-v3') : null;
+  const v2 = (!v4 && !v3) ? localStorage.getItem('alejandro-blox-save-v2') : null;
+  state = Object.assign(structuredClone(DEFAULT_SAVE), JSON.parse(v4 || v3 || v2 || '{}'));
+  for(let i=1;i<=7;i++) if(!state.missions[i]) state.missions[i]={};
+  if(!state.flags) state.flags={xp2:false, shield:false, hint:false, time:0};
+  if(!state.avatarsOwned) state.avatarsOwned=['classic','pirate'];
+  if(!state.pets) state.pets=[];
+  if(!state.powerups) state.powerups={};
+}catch{ state = structuredClone(DEFAULT_SAVE); }
+function save(){ try{ localStorage.setItem(SAVE_KEY, JSON.stringify(state)); }catch{} }
+
+/* ---------- helpers ---------- */
+const $ = s=>document.querySelector(s);
+const main = $('#main');
+
+function vibrate(p){ if(navigator.vibrate) navigator.vibrate(p); }
+function getAvatar(){ return AVATARS.find(a=>a.id===state.avatar) || AVATARS[0]; }
+function updateStats(){
+  const L = LEVELS[state.currentLevel];
+  const av = getAvatar();
+  $('#lvlPill').innerHTML = `${av.em} Lv ${state.currentLevel} ${L.emoji} <span class="level-ribbon">${L.cefr}</span>`;
+  $('#score').textContent = state.score;
+  $('#fruits').textContent = state.fruits;
+  $('#streak').textContent = state.streak;
+  $('#badgeCount').textContent = state.badges.length;
+  // pet companion floating button
+  checkPetUnlocks();
+  renderPetButton();
+}
+function renderPetButton(){
+  let btn = document.getElementById('petBtn');
+  const ap = state.activePet ? PETS.find(p=>p.id===state.activePet) : null;
+  if(!ap){ if(btn) btn.remove(); return; }
+  if(!btn){
+    btn = document.createElement('div'); btn.id='petBtn';
+    btn.style.cssText = 'position:fixed;right:12px;bottom:calc(var(--safe-bot) + 80px);width:54px;height:54px;border-radius:50%;background:#fff;border:3px solid #ffd23f;display:flex;align-items:center;justify-content:center;font-size:32px;z-index:25;box-shadow:0 4px 12px #0006;cursor:pointer;animation:bounce 2s infinite';
+    document.body.appendChild(btn);
+    if(!document.getElementById('bouncefx')){
+      const st=document.createElement('style');st.id='bouncefx';
+      st.textContent='@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}';
+      document.head.appendChild(st);
+    }
+  }
+  btn.textContent = ap.em;
+  btn.onclick = ()=>{
+    speak(ap.msg, 0.95);
+    toast(`${ap.em} ${ap.name}: ${ap.msg}`);
+  };
+}
+function checkPetUnlocks(){
+  const newPets = [];
+  for(const p of PETS){
+    if(!state.pets.includes(p.id) && p.unlock(state)){
+      state.pets.push(p.id); newPets.push(p);
+      if(!state.activePet) state.activePet = p.id;
+    }
+  }
+  if(newPets.length){
+    save();
+    const p = newPets[0];
+    setTimeout(()=>showModal({icon:p.em,title:`¡Mascota nueva: ${p.name}!`,body:`Has desbloqueado <b>${p.em} ${p.name}</b> de Adopt Me!<br><i>"${p.msg}"</i>`,
+      actions:[{label:'¡Genial!',cls:'btn green',cb:closeModal}]}),500);
+  }
+}
+function toast(msg){
+  const t=$('#toast'); t.textContent=msg; t.classList.add('show');
+  clearTimeout(t._h); t._h=setTimeout(()=>t.classList.remove('show'),1700);
+}
+function award(ok, xp=10){
+  if(ok){
+    if(state.flags && state.flags.xp2){ xp *= 2; }
+    state.score += xp; state.streak += 1;
+    if(state.streak>state.maxStreak) state.maxStreak=state.streak;
+    if(state.streak%3===0){ state.fruits += 1; toast('🍎 +1 Devil Fruit!'); }
+    else toast(state.flags && state.flags.xp2 ? '💪 +'+xp+' XP (x2!)' : '✅ +'+xp+' XP');
+    vibrate(40);
+  } else {
+    if(state.flags && state.flags.shield){
+      state.flags.shield = false; toast('🛡️ Streak Shield protected your streak!');
+    } else {
+      state.streak = 0; toast('❌ Try again');
+    }
+    vibrate([60,40,60]);
+  }
+  checkBadges(); updateStats(); save();
+}
+function speak(text, rate=0.95){
+  if(!('speechSynthesis' in window)){ toast('Audio not supported'); return; }
+  window.speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang='en-US'; u.rate=rate; u.pitch=1;
+  const voices = window.speechSynthesis.getVoices();
+  const en = voices.find(v=>/en[-_]/i.test(v.lang));
+  if(en) u.voice = en;
+  window.speechSynthesis.speak(u);
+}
+function shuffle(a){return a.map(x=>[Math.random(),x]).sort((p,q)=>p[0]-q[0]).map(x=>x[1])}
+function confetti(){
+  const c=document.createElement('div'); c.className='confetti';
+  for(let i=0;i<60;i++){
+    const s=document.createElement('div');
+    const left=Math.random()*100, dur=2+Math.random()*2, delay=Math.random()*.6;
+    const colors=['#ffd23f','#ff6b6b','#4ee0d0','#a78bfa','#5be09a'];
+    s.style.cssText=`position:absolute;top:-20px;left:${left}%;width:10px;height:14px;background:${colors[i%5]};
+      transform:rotate(${Math.random()*360}deg);animation:fall ${dur}s ${delay}s ease-in forwards;border-radius:2px`;
+    c.appendChild(s);
+  }
+  if(!document.getElementById('cfx')){
+    const st=document.createElement('style'); st.id='cfx';
+    st.textContent='@keyframes fall{to{transform:translateY(110vh) rotate(720deg);opacity:0}}';
+    document.head.appendChild(st);
+  }
+  document.body.appendChild(c);
+  setTimeout(()=>c.remove(),3500);
+}
+
+/* ---------- modal ---------- */
+function showModal({icon,title,body,actions=[]}){
+  const m=$('#modal'), b=$('#modalBody');
+  b.innerHTML = `<div class="big">${icon}</div><h2 style="margin:6px 0;font-size:20px">${title}</h2><div style="color:#465a8a;margin-bottom:14px;font-size:14px">${body}</div><div id="ma" style="display:flex;flex-direction:column;gap:8px"></div>`;
+  const ma=b.querySelector('#ma');
+  actions.forEach(a=>{
+    const btn=document.createElement('button'); btn.className=a.cls||'btn'; btn.textContent=a.label;
+    btn.onclick=()=>{ a.cb?.(); };
+    ma.appendChild(btn);
+  });
+  m.classList.add('show');
+  vibrate(20);
+}
+function closeModal(){ $('#modal').classList.remove('show'); }
+$('#modal').addEventListener('click',e=>{ if(e.target.id==='modal') closeModal(); });
+
+/* ---------- mission completion ---------- */
+function completeMission(missionKey, stars, perfectFlags={}){
+  const lv = state.currentLevel;
+  const prev = state.missions[lv][missionKey] || 0;
+  if(stars > prev) state.missions[lv][missionKey] = stars;
+  state.totalMissions += 1;
+  if(stars===3) state.tripleStars += 1;
+  if(perfectFlags.vocab) state.perfectVocab += 1;
+  if(perfectFlags.listen) state.perfectListen += 1;
+  if(perfectFlags.spell) state.perfectSpell += 1;
+  save(); checkBadges(); updateStats();
+  const baseMissions = ['vocab','reading','gap','listen','order','spell'];
+  const allDone = baseMissions.every(k => (state.missions[lv][k]||0) >= 1);
+  if(allDone && missionKey!=='boss' && !(state.missions[lv].bossUnlockedNotified)){
+    state.missions[lv].bossUnlockedNotified = true; save();
+    setTimeout(()=>showModal({
+      icon:'⚔️', title:'Boss Battle Unlocked!',
+      body:`Defeat the ${LEVELS[lv].name} boss to unlock the next level.`,
+      actions:[{label:'Fight Boss',cls:'btn coral',cb:()=>{closeModal();games.boss();}},{label:'Later',cls:'btn ghost',cb:closeModal}]
+    }),600);
+  }
+}
+function beatBoss(score, total){
+  const lv = state.currentLevel;
+  const win = score >= Math.ceil(total*0.66);
+  if(win){
+    state.bossesBeaten += 1;
+    state.missions[lv].boss = Math.max(state.missions[lv].boss||0, score===total?3:(score>=total*0.83?2:1));
+    state.score += 50; state.fruits += 2;
+    const next = lv+1;
+    let unlockedNew = false;
+    if(LEVELS[next] && !state.unlocked.includes(next)){ state.unlocked.push(next); unlockedNew=true; }
+    save(); checkBadges(); updateStats(); confetti();
+    showModal({
+      icon:'🏆', title:'Boss Defeated!',
+      body:`+50 XP and 2 Devil Fruits!${unlockedNew?` <br><br>🎉 <b>Level ${next} unlocked: ${LEVELS[next].name}!</b><br><i>Grammar: ${LEVELS[next].grammar}</i>`:''}`,
+      actions: unlockedNew
+        ? [{label:`Go to Level ${next}`,cls:'btn green',cb:()=>{state.currentLevel=next;save();updateStats();closeModal();home();}},
+           {label:'Stay here',cls:'btn ghost',cb:closeModal}]
+        : [{label:'Continue',cls:'btn green',cb:closeModal}]
+    });
+  } else {
+    save(); updateStats();
+    showModal({icon:'💀',title:'The Boss won!',body:`You got ${score}/${total}. Train more!`,
+      actions:[{label:'Rematch',cls:'btn coral',cb:()=>{closeModal();games.boss();}},{label:'Menu',cls:'btn ghost',cb:()=>{closeModal();home();}}]});
+  }
+}
+function checkBadges(){
+  let newOnes = [];
+  for(const b of BADGES){
+    if(!state.badges.includes(b.id) && b.cond(state)){ state.badges.push(b.id); newOnes.push(b); }
+  }
+  save();
+  if(newOnes.length){
+    const b = newOnes[0];
+    setTimeout(()=>showModal({icon:b.em,title:`New Badge: ${b.name}!`,body:`You earned the <b>${b.name}</b> badge.`,
+      actions:[{label:'Awesome!',cls:'btn gold',cb:closeModal}]}),400);
+  }
+}
+function calcStars(score,total){
+  const pct=score/total;
+  if(pct>=1) return 3;
+  if(pct>=0.8) return 2;
+  if(pct>=0.5) return 1;
+  return 0;
+}
+
+/* ---------- nav ---------- */
+function setActive(id){ document.querySelectorAll('nav.bottom button').forEach(b=>b.classList.remove('active')); document.getElementById(id).classList.add('active'); }
+$('#navHome').onclick=()=>{setActive('navHome');home();};
+$('#navLevels').onclick=()=>{setActive('navLevels');levels();};
+$('#navBadges').onclick=()=>{setActive('navBadges');showBadges();};
+$('#navSettings').onclick=()=>{setActive('navSettings');settings();};
+
+/* ---------- HOME ---------- */
+function home(){
+  const lv = state.currentLevel; const L = LEVELS[lv];
+  const m = state.missions[lv]||{};
+  const starHTML = s => s ? '★'.repeat(s)+'☆'.repeat(3-s) : '';
+  const baseMissions = ['vocab','reading','gap','listen','order','spell'];
+  const allBase = baseMissions.every(k=>(m[k]||0)>=1);
+  const lessonDone = m.lesson >= 1;
+
+  main.innerHTML = `
+    <div class="card">
+      <div class="lvbar" id="lvbar"></div>
+      <h2 class="title">${L.emoji} ${L.name} <span class="grammar-ribbon">${L.grammar}</span></h2>
+      <div class="sub">${L.desc}</div>
+      <div class="menu">
+        <div class="tile lesson-tile ${lessonDone?'done':''}" data-go="lesson">
+          <span class="em">${lessonDone?'✅':'📜'}</span>
+          <h3>📖 Grammar Lesson — ${L.grammar}</h3>
+          <p>${lessonDone?'Lección leída. ¡Repasa cuando quieras!':'¡EMPIEZA AQUÍ! Aprende la gramática del nivel.'}</p>
+        </div>
+        <div class="tile lesson-tile ${m.coach?'done':''}" data-go="coach" style="background:linear-gradient(160deg,#dcfce7,#bbf7d0);border-color:#16a34a">
+          <span class="em">⚽</span>
+          <h3>⚽ Football Coach — ${COACHES[lv]?.name||'Coach'} ${COACHES[lv]?.flag||''}</h3>
+          <p>${m.coach?'¡Hat-trick conseguido! Tap para jugar otra vez.':'Conoce a la estrella del fútbol y juega un Penalty Quiz (3 disparos).'}</p>
+        </div>
+        ${menuTile('vocab','🍇','Vocabulary','Match words',m.vocab)}
+        ${menuTile('reading','📖','Reading','Story + Qs',m.reading)}
+        ${menuTile('gap','📝','Gap Fill','Fill the blanks',m.gap)}
+        ${menuTile('listen','🎧','Listening','Hear & answer',m.listen)}
+        ${menuTile('order','🧩','Sentences','Order the words',m.order)}
+        ${menuTile('spell','🔤','Spelling','Listen & type',m.spell)}
+        ${menuTile('speed','💨','Sonic Speed','60 sec round',m.speed)}
+        ${menuTile('findError','🔍','Find Error','Murder Mystery',m.findError)}
+      </div>
+    </div>
+    <div class="card">
+      <button class="btn coral" id="bossBtn" ${allBase?'':'disabled'}>
+        ⚔️ Boss Battle ${m.boss?starHTML(m.boss):''}
+      </button>
+      <div class="hint" style="text-align:center;margin-top:8px">${allBase?'Defeat the boss to unlock the next level!':'Complete all 6 missions first.'}</div>
+    </div>
+    <div id="installBar" class="install-bar">
+      <span style="font-size:24px">📲</span>
+      <p>Install on home screen?</p>
+      <button class="btn sm gold" style="width:auto;flex:0" id="installBtn">Install</button>
+    </div>`;
+  function menuTile(key,em,h,p,star){
+    return `<div class="tile ${star?'done':''}" data-go="${key}">
+      <span class="em">${em}</span><h3>${h}</h3><p>${p}</p>
+      <div class="stars">${starHTML(star||0)}</div>
+    </div>`;
+  }
+  const bar = $('#lvbar');
+  for(let i=1;i<=7;i++){
+    const c=document.createElement('span');
+    const unlocked = state.unlocked.includes(i);
+    const cleared = (state.missions[i]?.boss||0) >= 1;
+    c.className='lvchip'+(i===lv?' active':'')+(unlocked?'':' locked')+(cleared?' cleared':'');
+    c.innerHTML = `${LEVELS[i].emoji}<br>Lv ${i}`;
+    if(unlocked) c.onclick=()=>{ state.currentLevel=i; save(); updateStats(); home(); };
+    bar.appendChild(c);
+  }
+  document.querySelectorAll('.tile').forEach(t=>{ t.onclick=()=>{ if(t.classList.contains('locked')) return; games[t.dataset.go](); }; });
+  $('#bossBtn').onclick=()=>{ if(allBase) games.boss(); };
+
+  if(window._deferredPrompt){
+    $('#installBar').classList.add('show');
+    $('#installBtn').onclick=async()=>{
+      window._deferredPrompt.prompt();
+      const r = await window._deferredPrompt.userChoice;
+      if(r.outcome==='accepted') toast('🎉 Installed!');
+      window._deferredPrompt = null;
+      $('#installBar').classList.remove('show');
+    };
+  }
+}
+
+/* ---------- LEVELS ---------- */
+function levels(){
+  main.innerHTML = `<div class="card">
+    <h2 class="title">🗺️ All Levels</h2>
+    <div class="sub">7 niveles del CEFR. Vence al boss para desbloquear el siguiente.</div>
+    <div style="display:flex;flex-direction:column;gap:10px">
+      ${[1,2,3,4,5,6,7].map(i=>{
+        const L=LEVELS[i]; const unlocked=state.unlocked.includes(i);
+        const cleared = (state.missions[i]?.boss||0) >= 1;
+        const m=state.missions[i]||{};
+        const baseMissions=['vocab','reading','gap','listen','order','spell'];
+        const done=baseMissions.filter(k=>(m[k]||0)>=1).length;
+        const lessonDone = (m.lesson||0)>=1;
+        return `<div class="tile ${unlocked?'':'locked'} ${cleared?'done':''}" data-lv="${i}" style="min-height:auto;flex-direction:row;align-items:center;gap:14px">
+          <span class="em" style="font-size:38px">${L.emoji}</span>
+          <div style="flex:1">
+            <h3 style="font-size:16px;margin:0">Lv ${i} — ${L.name}</h3>
+            <p>${L.cefr} · ${lessonDone?'📜✅':'📜❌'} · ${done}/6 misiones${cleared?' · ⭐ boss done':''}</p>
+            <p style="font-size:11px;color:#7c3aed;margin-top:2px"><b>Grammar:</b> ${L.grammar}</p>
+          </div>
+        </div>`;
+      }).join('')}
+    </div>
+  </div>`;
+  document.querySelectorAll('.tile[data-lv]').forEach(t=>{
+    t.onclick=()=>{ if(t.classList.contains('locked')) return; state.currentLevel=+t.dataset.lv; save(); updateStats(); setActive('navHome'); home(); };
+  });
+}
+
+/* ---------- BADGES ---------- */
+function showBadges(){
+  main.innerHTML=`<div class="card">
+    <h2 class="title">🏅 My Badges</h2>
+    <div class="sub">${state.badges.length}/${BADGES.length} earned</div>
+    <div class="badges-grid">
+      ${BADGES.map(b=>{
+        const got = state.badges.includes(b.id);
+        return `<div class="badge-tile ${got?'earned':'locked'}">
+          <span class="em">${b.em}</span>${b.name}
+        </div>`;
+      }).join('')}
+    </div>
+  </div>`;
+}
+
+/* ---------- SETTINGS ---------- */
+function settings(){
+  const av = getAvatar();
+  main.innerHTML=`<div class="card">
+    <h2 class="title">⚙️ Settings</h2>
+    <p style="margin:10px 0 6px;font-weight:700">Captain's name:</p>
+    <input class="nameInput" id="nm" value="${state.name}">
+    <div style="display:flex;flex-direction:column;gap:8px;margin-top:14px">
+      <button class="btn green" id="sv">💾 Save name</button>
+    </div>
+  </div>
+  <div class="card">
+    <h3 style="margin:0 0 8px">🎮 Roblox Features</h3>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <button class="btn purple" onclick="avatarScreen()">${av.em} Avatar</button>
+      <button class="btn gold" onclick="shop()">💪 Shop</button>
+      <button class="btn coral" onclick="petsScreen()">🐶 Pets (${state.pets.length}/${PETS.length})</button>
+      <button class="btn green" onclick="(function(){const today=new Date().toDateString();if(state.lastDailyReward===today){toast('Ya reclamaste hoy. Vuelve mañana!');}else{checkDailyReward();}})()">🐝 Daily</button>
+    </div>
+  </div>
+  <div class="card">
+    <button class="btn coral" id="reset">🗑️ Reset all progress</button>
+    <div class="sub" style="margin-top:14px;text-align:center">
+      Progreso guardado en este celular.<br>
+      7 niveles · 7 lecciones · 7 coaches · 12 avatares · 8 mascotas · 4 power-ups
+    </div>
+  </div>`;
+  $('#sv').onclick=()=>{ state.name = ($('#nm').value||'Pirate').trim().slice(0,20); save(); updateStats(); toast('💾 Saved'); };
+  $('#reset').onclick=()=>{
+    showModal({icon:'⚠️',title:'Reset everything?',body:'Esto borra XP, badges y niveles desbloqueados.',
+      actions:[
+        {label:'Yes, reset',cls:'btn coral',cb:()=>{ state = structuredClone(DEFAULT_SAVE); save(); updateStats(); closeModal(); setActive('navHome'); home(); }},
+        {label:'Cancel',cls:'btn ghost',cb:closeModal},
+      ]});
+  };
+}
+
+/* =====================================================================
+   GAMES
+   ===================================================================== */
+const games = {};
+
+/* ============== LESSON (NEW) ============== */
+games.lesson = function(){
+  const L = LEVELS[state.currentLevel];
+  const Ls = L.lesson;
+  const irregHTML = Ls.irregulars ? `
+    <div class="lesson-section">
+      <h3>📚 Key verbs of this level</h3>
+      <div class="irreg-grid">
+        ${Ls.irregulars.map(([base,past,extra])=>`
+          <div class="ir">
+            <b>${base}</b>
+            <i>${past}</i>
+            <small>${extra||''}</small>
+          </div>`).join('')}
+      </div>
+    </div>` : '';
+  main.innerHTML = `
+    <div class="card">
+      <h2 class="title">📜 ${Ls.title}</h2>
+      <div class="sub">Nivel ${state.currentLevel} — ${L.cefr} · <b>${L.grammar}</b></div>
+
+      <div class="lesson-section">
+        <h3>📖 The Story</h3>
+        <div class="lesson-story">${Ls.story}</div>
+        <button class="audio-btn" id="storyAudio">🔊 Listen to the story</button>
+      </div>
+
+      <div class="lesson-section">
+        <h3>🧮 Formula</h3>
+        <div class="formula">${Ls.formula}</div>
+      </div>
+
+      <div class="lesson-section">
+        <h3>📋 Rules</h3>
+        ${Ls.rules.map(r=>`<div class="rule">${r}</div>`).join('')}
+      </div>
+
+      <div class="lesson-section">
+        <h3>💡 Examples</h3>
+        ${Ls.examples.map((ex,i)=>`
+          <div class="example">
+            <div class="en" data-ex="${i}">🔊 ${ex.en}</div>
+            <div class="es">${ex.es}</div>
+          </div>`).join('')}
+      </div>
+
+      ${irregHTML}
+
+      ${Ls.tip?`<div class="tip">${Ls.tip}</div>`:''}
+    </div>
+
+    <div class="card">
+      <button class="btn green" id="doneLesson">✅ Got it! Start the missions</button>
+      <button class="btn ghost sm" style="margin-top:8px" onclick="home()">⬅ Back to menu</button>
+    </div>`;
+
+  // strip HTML for TTS
+  const cleanStory = Ls.story.replace(/<[^>]+>/g,'');
+  $('#storyAudio').onclick=()=>speak(cleanStory, 0.88);
+  document.querySelectorAll('.example .en').forEach(el=>{
+    el.style.cursor='pointer';
+    el.onclick=()=>speak(el.textContent.replace('🔊 ',''),0.92);
+  });
+  $('#doneLesson').onclick=()=>{
+    const wasNew = !(state.missions[state.currentLevel].lesson >= 1);
+    if(wasNew){
+      state.missions[state.currentLevel].lesson = 1;
+      state.lessonsRead = (state.lessonsRead||0) + 1;
+      state.score += 15;
+      toast('🎓 +15 XP por completar la lección');
+    }
+    save(); checkBadges(); updateStats();
+    setTimeout(()=>home(), 400);
+  };
+};
+
+/* ============== VOCABULARY ============== */
+games.vocab = function(){
+  const L = LEVELS[state.currentLevel];
+  const items = shuffle(L.vocab).slice(0,6);
+  let matches=0, mistakes=0;
+  let sel=null;
+  const left = items.map(o=>({key:o.w,label:o.w}));
+  const right = shuffle(items.map(o=>({key:o.w,label:o.e+'  '+o.d})));
+  main.innerHTML = `<div class="card">
+    <h2 class="title">🍇 Vocabulary Match</h2>
+    <div class="sub">Tap a word, then its meaning.</div>
+    <div style="display:grid;grid-template-columns:1fr 1.6fr;gap:6px" id="board"></div>
+  </div>`;
+  const board = $('#board');
+  const Lcol=document.createElement('div');Lcol.style.cssText='display:flex;flex-direction:column;gap:6px';
+  const Rcol=document.createElement('div');Rcol.style.cssText='display:flex;flex-direction:column;gap:6px';
+  left.forEach(o=>{
+    const d=document.createElement('div');d.className='chip';d.style.cssText='margin:0;text-align:center;padding:14px 8px';d.textContent=o.label;d.dataset.k=o.key;d.dataset.side='L';
+    d.onclick=()=>pick(d); Lcol.appendChild(d);
+  });
+  right.forEach(o=>{
+    const d=document.createElement('div');d.className='chip';d.style.cssText='margin:0;text-align:left;padding:12px 10px;font-size:13px';d.textContent=o.label;d.dataset.k=o.key;d.dataset.side='R';
+    d.onclick=()=>pick(d); Rcol.appendChild(d);
+  });
+  board.appendChild(Lcol); board.appendChild(Rcol);
+  function pick(el){
+    if(el.classList.contains('used')) return;
+    if(!sel){ sel=el; el.classList.add('picked'); return; }
+    if(sel===el){ el.classList.remove('picked'); sel=null; return; }
+    if(sel.dataset.side===el.dataset.side){ sel.classList.remove('picked'); sel=el; el.classList.add('picked'); return; }
+    if(sel.dataset.k===el.dataset.k){
+      sel.classList.remove('picked'); sel.classList.add('used'); el.classList.add('used');
+      sel.style.cssText+=';background:#dcfce7;border-color:#16a34a;color:#14532d;text-decoration:none;opacity:1';
+      el.style.cssText+=';background:#dcfce7;border-color:#16a34a;color:#14532d;text-decoration:none;opacity:1';
+      sel=null; matches++; award(true,8);
+      if(matches===items.length){
+        confetti();
+        const stars = mistakes===0?3 : mistakes<=2?2 : 1;
+        completeMission('vocab', stars, {vocab: mistakes===0});
+        setTimeout(()=>showModal({icon:'🏆',title:'Mission Complete!',body:`Mistakes: ${mistakes}<div class="stars-row">${'★'.repeat(stars)}${'☆'.repeat(3-stars)}</div>`,
+          actions:[{label:'Home',cls:'btn green',cb:()=>{closeModal();home();}}]}),700);
+      }
+    } else {
+      const a=sel,b=el; a.classList.remove('picked');
+      a.style.borderColor='#dc2626'; b.style.borderColor='#dc2626';
+      setTimeout(()=>{a.style.borderColor='';b.style.borderColor=''},500);
+      sel=null; mistakes++; award(false);
+    }
+  }
+};
+
+/* ============== READING ============== */
+games.reading = function(){
+  const L = LEVELS[state.currentLevel];
+  const text = L.reading.text; const qs = L.reading.qs;
+  let i=0, correct=0;
+  function render(){
+    if(i>=qs.length){
+      const stars = calcStars(correct, qs.length);
+      completeMission('reading', stars);
+      main.innerHTML = `<div class="card"><h2 class="title">📖 Done!</h2>
+        <p>Score: <b>${correct}/${qs.length}</b></p>
+        <div class="stars-row">${'★'.repeat(stars)}${'☆'.repeat(3-stars)}</div>
+        <div class="row-btns" style="margin-top:10px">
+          <button class="btn green" onclick="games.reading()">Again</button>
+          <button class="btn ghost" onclick="home()">Home</button>
+        </div></div>`;
+      if(stars===3) confetti();
+      return;
+    }
+    const Q = qs[i];
+    main.innerHTML = `<div class="card">
+      <h2 class="title">📖 Reading (${i+1}/${qs.length})</h2>
+      <div class="progress"><div style="width:${(i/qs.length)*100}%"></div></div>
+      <div class="reading">${text.replace(/\n/g,'<br>')}</div>
+      <button class="audio-btn" id="play">🔊 Listen</button>
+      <div class="qcard">
+        <b>${Q.q}</b>
+        <div id="opts"></div>
+        <div id="fb" class="feedback"></div>
+      </div>
+    </div>`;
+    $('#play').onclick=()=>speak(text.replace(/\n/g,' '),0.92);
+    shuffle(Q.opts).forEach(o=>{
+      const b=document.createElement('button'); b.className='opt'; b.textContent=o;
+      b.onclick=()=>{
+        document.querySelectorAll('#opts .opt').forEach(x=>x.disabled=true);
+        if(o===Q.a){ b.classList.add('correct'); $('#fb').textContent='✅ Correct!'; $('#fb').className='feedback ok'; correct++; award(true,10); }
+        else{ b.classList.add('wrong'); document.querySelectorAll('#opts .opt').forEach(x=>{if(x.textContent===Q.a)x.classList.add('correct')});
+              $('#fb').textContent='❌ Correct: '+Q.a; $('#fb').className='feedback bad'; award(false); }
+        setTimeout(()=>{i++;render()},1300);
+      };
+      $('#opts').appendChild(b);
+    });
+  }
+  render();
+};
+
+/* ============== GAP FILL ============== */
+games.gap = function(){
+  const L = LEVELS[state.currentLevel];
+  const S = L.gap[Math.floor(Math.random()*L.gap.length)];
+  let answers = Array(S.bank.length).fill(null);
+  let selectedWord=null;
+  function render(){
+    let html = S.text;
+    for(let i=0;i<S.bank.length;i++){
+      const v = answers[i] ? `<span class="slot filled" data-slot="${i}">${answers[i]}</span>` :
+                             `<span class="slot" data-slot="${i}">__${i+1}__</span>`;
+      html = html.replace('___'+(i+1)+'___', v);
+    }
+    main.innerHTML=`<div class="card">
+      <h2 class="title">📝 Gap Fill</h2>
+      <div class="sub">Tap a word, then a blank. Tap a filled blank to clear it.</div>
+      <div class="reading" id="story" style="font-size:16px">${html}</div>
+      <div style="margin-top:10px" id="bank"></div>
+      <div class="hint" id="hint">Tap a slot to see the hint.</div>
+      <div class="row-btns" style="margin-top:10px">
+        <button class="btn coral sm" id="clr">↺ Clear</button>
+        <button class="btn green" id="chk">✔ Check</button>
+      </div>
+    </div>`;
+    const bank=$('#bank');
+    const usedCount = {};
+    answers.forEach(a=>{ if(a) usedCount[a]=(usedCount[a]||0)+1; });
+    const bankCount = {};
+    S.bank.forEach(w=>{ bankCount[w]=(bankCount[w]||0)+1; });
+    const drawn = {};
+    shuffle(S.bank).forEach(w=>{
+      const c=document.createElement('span'); c.className='chip'; c.textContent=w;
+      drawn[w]=(drawn[w]||0)+1;
+      const remaining = bankCount[w] - (usedCount[w]||0);
+      if(drawn[w] > remaining) c.classList.add('used');
+      c.onclick=()=>{ if(c.classList.contains('used'))return;
+        document.querySelectorAll('.chip').forEach(x=>x.classList.remove('picked'));
+        c.classList.add('picked'); selectedWord=w; toast('"'+w+'"');
+      };
+      bank.appendChild(c);
+    });
+    document.querySelectorAll('.slot[data-slot]').forEach(s=>{
+      s.onclick=()=>{
+        const i=+s.dataset.slot;
+        $('#hint').textContent='Hint: '+S.hints[i];
+        if(answers[i]){ answers[i]=null; render(); return; }
+        if(!selectedWord){ toast('Pick a word first'); return; }
+        answers[i]=selectedWord; selectedWord=null; render();
+      };
+    });
+    $('#clr').onclick=()=>{ answers=Array(S.bank.length).fill(null); render(); };
+    $('#chk').onclick=()=>{
+      let ok=0;
+      for(let i=0;i<S.bank.length;i++) if(answers[i]===S.bank[i]) ok++;
+      const stars = calcStars(ok, S.bank.length);
+      completeMission('gap', stars);
+      if(ok===S.bank.length){ confetti(); state.score+=20; updateStats(); save();
+        showModal({icon:'🏆',title:'Perfect!',body:`+20 bonus XP!<div class="stars-row">★★★</div>`,actions:[{label:'Home',cls:'btn green',cb:()=>{closeModal();home();}}]});
+      } else {
+        showModal({icon:ok>=Math.ceil(S.bank.length*0.5)?'🌟':'📚',title:'Mission complete',body:`<b>${ok}/${S.bank.length}</b><div class="stars-row">${'★'.repeat(stars)}${'☆'.repeat(3-stars)}</div>`,
+          actions:[{label:'Try again',cls:'btn ghost',cb:()=>{closeModal();games.gap();}},{label:'Home',cls:'btn green',cb:()=>{closeModal();home();}}]});
+        award(false);
+      }
+    };
+  }
+  render();
+};
+
+/* ============== LISTENING ============== */
+games.listen = function(){
+  const L = LEVELS[state.currentLevel];
+  const items = L.listen;
+  let i=0, correct=0;
+  function render(){
+    if(i>=items.length){
+      const stars = calcStars(correct, items.length);
+      completeMission('listen', stars, {listen: correct===items.length});
+      main.innerHTML = `<div class="card"><h2 class="title">🎧 Done!</h2>
+        <p>Score: <b>${correct}/${items.length}</b></p>
+        <div class="stars-row">${'★'.repeat(stars)}${'☆'.repeat(3-stars)}</div>
+        <div class="row-btns" style="margin-top:10px">
+          <button class="btn green" onclick="games.listen()">Again</button>
+          <button class="btn ghost" onclick="home()">Home</button>
+        </div></div>`;
+      if(stars===3) confetti();
+      return;
+    }
+    const it=items[i];
+    main.innerHTML=`<div class="card">
+      <h2 class="title">🎧 Listening (${i+1}/${items.length})</h2>
+      <div class="progress"><div style="width:${(i/items.length)*100}%"></div></div>
+      <div class="qcard">
+        <p style="margin:4px 0 10px">Press play and listen carefully.</p>
+        <button class="audio-btn" id="play1">🔊 Listen</button>
+        <button class="audio-btn slow" id="play2">🐢 Slow</button>
+        <div style="margin-top:14px"><b>${it.q}</b></div>
+        <div id="opts"></div>
+        <div id="fb" class="feedback"></div>
+      </div>
+    </div>`;
+    $('#play1').onclick=()=>speak(it.text,0.95);
+    $('#play2').onclick=()=>speak(it.text,0.7);
+    shuffle(it.opts).forEach(o=>{
+      const b=document.createElement('button'); b.className='opt'; b.textContent=o;
+      b.onclick=()=>{
+        document.querySelectorAll('#opts .opt').forEach(x=>x.disabled=true);
+        if(o===it.a){ b.classList.add('correct'); $('#fb').textContent='✅ Correct!'; $('#fb').className='feedback ok'; correct++; award(true,10); }
+        else{ b.classList.add('wrong'); document.querySelectorAll('#opts .opt').forEach(x=>{if(x.textContent===it.a)x.classList.add('correct')});
+              $('#fb').textContent='❌ Correct: '+it.a; $('#fb').className='feedback bad'; award(false);}
+        setTimeout(()=>{i++;render()},1400);
+      };
+      $('#opts').appendChild(b);
+    });
+    setTimeout(()=>speak(it.text,0.95),350);
+  }
+  render();
+};
+
+/* ============== SENTENCE ORDER ============== */
+games.order = function(){
+  const L = LEVELS[state.currentLevel];
+  const sents = L.sentences;
+  let i=0, correct=0;
+  let chosen=[], pool=[];
+  function render(){
+    if(i>=sents.length){
+      const stars = calcStars(correct, sents.length);
+      completeMission('order', stars);
+      main.innerHTML=`<div class="card"><h2 class="title">🧩 Done!</h2>
+        <p>Score: <b>${correct}/${sents.length}</b></p>
+        <div class="stars-row">${'★'.repeat(stars)}${'☆'.repeat(3-stars)}</div>
+        <div class="row-btns" style="margin-top:10px">
+          <button class="btn green" onclick="games.order()">Again</button>
+          <button class="btn ghost" onclick="home()">Home</button>
+        </div></div>`;
+      if(stars===3) confetti();
+      return;
+    }
+    const target = sents[i];
+    if(chosen.length===0 && pool.length===0){
+      pool = shuffle(target.replace(/\.$/,'').split(' '));
+    }
+    main.innerHTML=`<div class="card">
+      <h2 class="title">🧩 Sentence (${i+1}/${sents.length})</h2>
+      <div class="progress"><div style="width:${(i/sents.length)*100}%"></div></div>
+      <div class="qcard">
+        <p style="margin:4px 0 10px">Tap words in the correct order.</p>
+        <div class="reading" id="line" style="min-height:54px;font-size:15px">${chosen.map(w=>`<span class="key" data-c="${w}">${w}</span>`).join(' ')||'<i style="color:#999">— start tapping words —</i>'}</div>
+        <div style="margin-top:10px" id="pool">
+          ${pool.map(w=>`<span class="chip" data-w="${w}">${w}</span>`).join('')}
+        </div>
+        <div id="fb" class="feedback"></div>
+      </div>
+      <div class="row-btns" style="margin-top:10px">
+        <button class="btn coral sm" id="undo">↺ Clear</button>
+        <button class="btn green" id="chk">✔ Check</button>
+      </div>
+    </div>`;
+    document.querySelectorAll('#pool .chip').forEach(c=>{
+      c.onclick=()=>{ chosen.push(c.dataset.w); pool.splice(pool.indexOf(c.dataset.w),1); render(); };
+    });
+    document.querySelectorAll('#line .key').forEach(c=>{
+      c.onclick=()=>{ const w=c.dataset.c; pool.push(w); chosen.splice(chosen.indexOf(w),1); render(); };
+    });
+    $('#undo').onclick=()=>{ pool=pool.concat(chosen); chosen=[]; render(); };
+    $('#chk').onclick=()=>{
+      const made = chosen.join(' ');
+      const ok = made.toLowerCase() === target.replace(/\.$/,'').toLowerCase();
+      if(ok){ $('#fb').textContent='✅ "'+target+'"'; $('#fb').className='feedback ok'; correct++; award(true,12); }
+      else{ $('#fb').textContent='❌ "'+target+'"'; $('#fb').className='feedback bad'; award(false); }
+      setTimeout(()=>{i++;chosen=[];pool=[];render();},1700);
+    };
+  }
+  render();
+};
+
+/* ============== SPELLING ============== */
+games.spell = function(){
+  const L = LEVELS[state.currentLevel];
+  const list = shuffle(L.spell).slice(0,6);
+  let i=0, correct=0;
+  function render(){
+    if(i>=list.length){
+      const stars = calcStars(correct, list.length);
+      completeMission('spell', stars, {spell: correct===list.length});
+      main.innerHTML=`<div class="card"><h2 class="title">🔤 Done!</h2>
+        <p>Score: <b>${correct}/${list.length}</b></p>
+        <div class="stars-row">${'★'.repeat(stars)}${'☆'.repeat(3-stars)}</div>
+        <div class="row-btns" style="margin-top:10px">
+          <button class="btn green" onclick="games.spell()">Again</button>
+          <button class="btn ghost" onclick="home()">Home</button>
+        </div></div>`;
+      if(stars===3) confetti();
+      return;
+    }
+    const w=list[i];
+    main.innerHTML=`<div class="card">
+      <h2 class="title">🔤 Spelling (${i+1}/${list.length})</h2>
+      <div class="progress"><div style="width:${(i/list.length)*100}%"></div></div>
+      <div class="qcard">
+        <p style="margin:4px 0 10px">Listen, then write the word.</p>
+        <button class="audio-btn" id="say">🔊 Say the word</button>
+        <button class="audio-btn slow" id="slow">🐢 Slow</button>
+        <input class="input" id="ans" placeholder="Type here..." autocomplete="off" autocapitalize="none" spellcheck="false" inputmode="text">
+        <div id="fb" class="feedback"></div>
+      </div>
+      <button class="btn green" id="chk">✔ Check</button>
+    </div>`;
+    $('#say').onclick=()=>speak(w,1);
+    $('#slow').onclick=()=>speak(w,0.55);
+    $('#ans').addEventListener('keydown',e=>{ if(e.key==='Enter') $('#chk').click(); });
+    $('#chk').onclick=()=>{
+      const v=($('#ans').value||'').trim().toLowerCase();
+      if(v===w){ $('#fb').textContent='✅ '+w; $('#fb').className='feedback ok'; correct++; award(true,12); }
+      else{ $('#fb').textContent='❌ '+w; $('#fb').className='feedback bad'; award(false); }
+      setTimeout(()=>{i++;render();},1500);
+    };
+    setTimeout(()=>speak(w,1),300);
+  }
+  render();
+};
+
+/* ============== BOSS ============== */
+games.boss = function(){
+  const L = LEVELS[state.currentLevel];
+  const items = shuffle(L.boss).slice(0, Math.min(6, L.boss.length));
+  let i=0, correct=0;
+  function render(){
+    if(i>=items.length){ beatBoss(correct, items.length); home(); return; }
+    const Q=items[i];
+    main.innerHTML=`<div class="card">
+      <h2 class="title">⚔️ Boss — ${L.name} (${i+1}/${items.length})</h2>
+      <div class="progress"><div style="width:${(i/items.length)*100}%"></div></div>
+      <div class="qcard"><b>${Q.q}</b><div id="opts"></div><div id="fb" class="feedback"></div></div>
+    </div>`;
+    shuffle(Q.opts).forEach(o=>{
+      const b=document.createElement('button'); b.className='opt'; b.textContent=o;
+      b.onclick=()=>{
+        document.querySelectorAll('#opts .opt').forEach(x=>x.disabled=true);
+        if(o===Q.a){ b.classList.add('correct'); $('#fb').textContent='✅ Correct!'; $('#fb').className='feedback ok'; correct++; award(true,15); }
+        else{ b.classList.add('wrong'); document.querySelectorAll('#opts .opt').forEach(x=>{if(x.textContent===Q.a)x.classList.add('correct')});
+              $('#fb').textContent='❌ '+Q.a; $('#fb').className='feedback bad'; award(false);}
+        setTimeout(()=>{i++;render()},1300);
+      };
+      $('#opts').appendChild(b);
+    });
+  }
+  render();
+};
+
+/* ============== FOOTBALL COACH (NEW INTERACTIVE) ============== */
+games.coach = function(){
+  const lv = state.currentLevel;
+  const C = COACHES[lv];
+  if(!C){ home(); return; }
+
+  function showIntro(){
+    main.innerHTML = `
+      <div class="card" style="background:linear-gradient(160deg,#dcfce7,#bbf7d0);border:2px solid #16a34a">
+        <div style="text-align:center">
+          <div style="font-size:80px;margin:6px;line-height:1">⚽</div>
+          <h2 style="margin:6px 0;font-size:22px">${C.flag} ${C.name}</h2>
+          <p style="color:#15803d;font-weight:800;margin:0;font-size:13px">${C.team}</p>
+        </div>
+        <div class="lesson-story" style="margin-top:14px;background:#fff;border-color:#16a34a">
+          <span style="font-size:22px">💬</span> ${C.intro}
+        </div>
+        <button class="audio-btn" id="introAudio" style="background:linear-gradient(180deg,#5be09a,#1ea567);box-shadow:0 5px 0 #0e6a3f">🔊 Listen to Coach ${C.name.split(' ').pop()}</button>
+      </div>
+
+      <div class="card">
+        <h3 style="margin:0 0 10px;color:#16a34a;font-size:16px">⚽ Football Grammar Tips — Practica con tu coach</h3>
+        ${C.tips.map((t,i)=>`
+          <div class="example" data-tip="${i}" style="cursor:pointer;border-left-color:#16a34a;background:#f0fdf4">
+            <div class="en">🔊 ${t.en.replace(t.hl, '<b style="background:#ffd23f;color:#3a2a00;padding:1px 5px;border-radius:4px">'+t.hl+'</b>')}</div>
+            <div class="es">${t.es}</div>
+          </div>`).join('')}
+        <div class="hint" style="text-align:center;margin-top:8px">👆 Toca cada tip para escucharlo</div>
+      </div>
+
+      <div class="card">
+        <button class="btn coral" id="startQuiz">⚽ ¡Empezar Penalty Quiz! (3 disparos)</button>
+        <button class="btn ghost sm" style="margin-top:8px" onclick="home()">⬅ Menu</button>
+      </div>`;
+    $('#introAudio').onclick=()=>speak(C.intro,0.92);
+    document.querySelectorAll('[data-tip]').forEach(el=>{
+      el.onclick=()=>speak(C.tips[+el.dataset.tip].en,0.92);
+    });
+    $('#startQuiz').onclick=()=>startQuiz();
+  }
+
+  function startQuiz(){
+    let i=0, goals=0;
+    function next(){
+      if(i>=C.quiz.length){
+        const stars = goals===3?3 : goals>=2?2 : goals>=1?1 : 0;
+        completeMission('coach', stars);
+        if(goals===3){
+          state.coachesBeaten = (state.coachesBeaten||0) + 1;
+          state.score += 25;
+          save(); checkBadges(); updateStats(); confetti();
+        }
+        showModal({
+          icon: goals===3?'🏆':goals>=2?'⚽':'🧤',
+          title: goals===3?'¡HAT-TRICK!':goals>=2?'¡Bien jugado!':'Sigue practicando',
+          body:`You scored <b>${goals}/${C.quiz.length}</b> goals!<div class="stars-row">${'★'.repeat(stars)}${'☆'.repeat(3-stars)}</div>${goals===3?'⚽ +25 XP por hat-trick perfecto!':''}`,
+          actions:[
+            {label:'⚽ Re-match',cls:'btn coral',cb:()=>{closeModal();games.coach();}},
+            {label:'Home',cls:'btn ghost',cb:()=>{closeModal();home();}}
+          ]
+        });
+        return;
+      }
+      const Q = C.quiz[i];
+      main.innerHTML = `
+        <div class="card">
+          <h2 class="title">⚽ Penalty Kick ${i+1}/${C.quiz.length}</h2>
+          <div class="sub">Coach <b>${C.name.split(' ').pop()}</b> ${C.flag} te lanza la pregunta</div>
+          <div style="text-align:center;font-size:50px;margin:8px;line-height:1">⚽ ➡️ 🥅</div>
+          <div style="text-align:center;font-size:24px;font-weight:900;color:#16a34a;margin-bottom:10px">⚽ Goals: ${goals}/${C.quiz.length}</div>
+          <div class="qcard"><b>${Q.q}</b><div id="opts"></div><div id="fb" class="feedback"></div></div>
+        </div>`;
+      shuffle(Q.opts).forEach(o=>{
+        const b=document.createElement('button'); b.className='opt'; b.textContent=o;
+        b.onclick=()=>{
+          document.querySelectorAll('#opts .opt').forEach(x=>x.disabled=true);
+          if(o===Q.a){ b.classList.add('correct'); $('#fb').innerHTML='⚽ <b style="font-size:22px">¡GOOOOOL!</b>'; $('#fb').className='feedback ok'; goals++; award(true,15); }
+          else{ b.classList.add('wrong'); document.querySelectorAll('#opts .opt').forEach(x=>{if(x.textContent===Q.a)x.classList.add('correct')});
+                $('#fb').innerHTML='🧤 Atajado por el portero. Correcto: <b>'+Q.a+'</b>'; $('#fb').className='feedback bad'; award(false);}
+          setTimeout(()=>{i++;next();},1700);
+        };
+        $('#opts').appendChild(b);
+      });
+    }
+    next();
+  }
+
+  showIntro();
+};
+
+/* ============== SONIC SPEED ROUND (60 sec timed) ============== */
+games.speed = function(){
+  const L = LEVELS[state.currentLevel];
+  // build pool: boss + coach quiz questions
+  const pool = [...L.boss, ...(COACHES[state.currentLevel]?.quiz||[])];
+  let timeLeft = 60 + (state.flags.time||0);
+  state.flags.time = 0;
+  let goals = 0, idx = 0, used = shuffle(pool);
+  let timer;
+  function endRound(){
+    clearInterval(timer);
+    const newHi = goals > (state.speedHighScore||0);
+    if(newHi){ state.speedHighScore = goals; }
+    completeMission('speed', goals>=15?3 : goals>=10?2 : goals>=5?1 : 0);
+    save(); checkBadges(); updateStats();
+    if(goals>=10) confetti();
+    showModal({icon:newHi?'🏆':'💨',title:newHi?`¡NUEVO RÉCORD! ${goals} rings`:`Speed Round: ${goals} rings`,
+      body:`💨 Como Sonic — respondiste <b>${goals}</b> preguntas correctas en 60 segundos.<br>${newHi?'¡Récord personal superado!':'Récord: '+(state.speedHighScore||0)}`,
+      actions:[
+        {label:'💨 Otra vuelta',cls:'btn purple',cb:()=>{closeModal();games.speed();}},
+        {label:'Home',cls:'btn ghost',cb:()=>{closeModal();home();}}
+      ]});
+  }
+  function next(){
+    if(timeLeft<=0){ endRound(); return; }
+    if(idx>=used.length) used = shuffle(pool).concat(used);
+    const Q = used[idx++];
+    main.innerHTML = `
+      <div class="card" style="background:linear-gradient(160deg,#dbeafe,#a5b4fc);border:2px solid #4338ca">
+        <h2 class="title">💨 Sonic Speed Round</h2>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin:8px 0">
+          <div style="font-size:18px;font-weight:900;color:#4338ca">⏱️ ${timeLeft}s</div>
+          <div style="font-size:18px;font-weight:900;color:#16a34a">⭕ ${goals} rings</div>
+        </div>
+        <div class="progress"><div style="width:${(timeLeft/(60+(state.flags.time||0)))*100}%;background:linear-gradient(90deg,#ef4444,#f59e0b,#10b981)"></div></div>
+        <div class="qcard"><b>${Q.q}</b><div id="opts"></div></div>
+        <button class="btn ghost sm" onclick="clearInterval(window._sptmr); home()">Stop ⏹</button>
+      </div>`;
+    shuffle(Q.opts).forEach(o=>{
+      const b=document.createElement('button'); b.className='opt'; b.textContent=o;
+      b.onclick=()=>{
+        if(o===Q.a){ b.classList.add('correct'); goals++; timeLeft += 1; state.score += 5; toast('💨 Ring +1!'); vibrate(30); }
+        else{ b.classList.add('wrong'); timeLeft -= 2; toast('💥 -2 sec!'); vibrate([60,30,60]); }
+        save(); updateStats();
+        setTimeout(next, 350);
+      };
+      $('#opts').appendChild(b);
+    });
+  }
+  // start timer
+  timer = setInterval(()=>{
+    timeLeft--; if(timeLeft<=0){ endRound(); }
+    const el = document.querySelector('.card .title'); if(el){ const t = document.querySelector('div[style*="⏱️"]'); }
+  }, 1000);
+  window._sptmr = timer;
+  next();
+};
+
+/* ============== FIND THE ERROR (Murder Mystery 🔍) ============== */
+const ERROR_QUESTIONS = {
+  1:[
+    {sent:'I are a pirate.', fix:'I am a pirate.', wrong:'are', right:'am'},
+    {sent:'She have a cat.', fix:'She has a cat.', wrong:'have', right:'has'},
+    {sent:'They is friends.', fix:'They are friends.', wrong:'is', right:'are'},
+    {sent:'I have a apple.', fix:'I have an apple.', wrong:'a', right:'an'},
+    {sent:'He am tall.', fix:'He is tall.', wrong:'am', right:'is'},
+  ],
+  2:[
+    {sent:'He play football.', fix:'He plays football.', wrong:'play', right:'plays'},
+    {sent:'I doesn\'t like fish.', fix:"I don't like fish.", wrong:"doesn't", right:"don't"},
+    {sent:'She can flies.', fix:'She can fly.', wrong:'flies', right:'fly'},
+    {sent:'They goes to school.', fix:'They go to school.', wrong:'goes', right:'go'},
+    {sent:'Do he play tennis?', fix:'Does he play tennis?', wrong:'Do', right:'Does'},
+  ],
+  3:[
+    {sent:'I goed to the island.', fix:'I went to the island.', wrong:'goed', right:'went'},
+    {sent:'She didn\'t found the fruit.', fix:"She didn't find the fruit.", wrong:'found', right:'find'},
+    {sent:'They eated all the food.', fix:'They ate all the food.', wrong:'eated', right:'ate'},
+    {sent:'Did you saw the boss?', fix:'Did you see the boss?', wrong:'saw', right:'see'},
+    {sent:'He runned very fast.', fix:'He ran very fast.', wrong:'runned', right:'ran'},
+  ],
+  4:[
+    {sent:'I have went to the island.', fix:'I have gone to the island.', wrong:'went', right:'gone'},
+    {sent:'She has saw a Devil Fruit.', fix:'She has seen a Devil Fruit.', wrong:'saw', right:'seen'},
+    {sent:'They has finished the mission.', fix:'They have finished the mission.', wrong:'has', right:'have'},
+    {sent:'I haven\'t see him yet.', fix:"I haven't seen him yet.", wrong:'see', right:'seen'},
+    {sent:'He has play since 2024.', fix:'He has played since 2024.', wrong:'play', right:'played'},
+  ],
+  5:[
+    {sent:'If I will see him, I will tell him.', fix:'If I see him, I will tell him.', wrong:'will see', right:'see'},
+    {sent:'If I was you, I would say sorry.', fix:'If I were you, I would say sorry.', wrong:'was', right:'were'},
+    {sent:'I will to help you.', fix:'I will help you.', wrong:'to help', right:'help'},
+    {sent:'If she had wings, she will fly.', fix:'If she had wings, she would fly.', wrong:'will', right:'would'},
+    {sent:'I am go to play tomorrow.', fix:'I am going to play tomorrow.', wrong:'go', right:'going'},
+  ],
+  6:[
+    {sent:'The map was find by Luffy.', fix:'The map was found by Luffy.', wrong:'find', right:'found'},
+    {sent:'She told that she was tired.', fix:'She said that she was tired.', wrong:'told', right:'said'},
+    {sent:'The treasure has been hide for years.', fix:'The treasure has been hidden for years.', wrong:'hide', right:'hidden'},
+    {sent:'He said that he is happy.', fix:'He said that he was happy.', wrong:'is', right:'was'},
+    {sent:'Swords are make in Japan.', fix:'Swords are made in Japan.', wrong:'make', right:'made'},
+  ],
+  7:[
+    {sent:'I wish I have a Mythical Fruit.', fix:'I wish I had a Mythical Fruit.', wrong:'have', right:'had'},
+    {sent:'If I had trained, I would won.', fix:'If I had trained, I would have won.', wrong:'would won', right:'would have won'},
+    {sent:'By the time I arrived, they have left.', fix:'By the time I arrived, they had left.', wrong:'have', right:'had'},
+    {sent:'I wish I would be taller.', fix:'I wish I were taller.', wrong:'would be', right:'were'},
+    {sent:'If she had known, she helped.', fix:'If she had known, she would have helped.', wrong:'helped', right:'would have helped'},
+  ],
+};
+games.findError = function(){
+  const lv = state.currentLevel;
+  const items = shuffle(ERROR_QUESTIONS[lv]||[]).slice(0,5);
+  if(!items.length){ toast('No errors for this level yet'); home(); return; }
+  let i=0, correct=0;
+  function next(){
+    if(i>=items.length){
+      const stars = calcStars(correct, items.length);
+      completeMission('findError', stars);
+      state.errorsFound = (state.errorsFound||0) + correct;
+      save(); checkBadges(); updateStats();
+      main.innerHTML = `<div class="card"><h2 class="title">🔍 Caso Cerrado</h2>
+        <p>Solucionaste <b>${correct}/${items.length}</b> casos.</p>
+        <div class="stars-row">${'★'.repeat(stars)}${'☆'.repeat(3-stars)}</div>
+        <div class="row-btns" style="margin-top:10px">
+          <button class="btn green" onclick="games.findError()">Otro caso</button>
+          <button class="btn ghost" onclick="home()">Home</button>
+        </div></div>`;
+      if(stars===3) confetti();
+      return;
+    }
+    const Q = items[i];
+    const words = Q.sent.split(' ');
+    main.innerHTML = `<div class="card" style="background:linear-gradient(160deg,#fee2e2,#fecaca);border:2px solid #b91c1c">
+      <h2 class="title">🔍 Find the Error (${i+1}/${items.length})</h2>
+      <div class="sub">Murder Mystery: encuentra la palabra equivocada en la oración. ¡Toca el sospechoso!</div>
+      <div class="qcard">
+        <p style="margin:6px 0;font-weight:700">Tap the wrong word:</p>
+        <div id="sentEl" style="font-size:18px;line-height:2.4;text-align:center"></div>
+        <div id="fb" class="feedback"></div>
+      </div>
+    </div>`;
+    const sentEl = $('#sentEl');
+    words.forEach((w,wi)=>{
+      const cleaned = w.replace(/[.,!?]/g,'');
+      const punct = w.match(/[.,!?]+$/)?.[0] || '';
+      const span = document.createElement('span');
+      span.textContent = cleaned;
+      span.style.cssText = 'background:#fff;border:2px solid #cdd9f2;border-radius:6px;padding:4px 8px;margin:3px;display:inline-block;cursor:pointer;font-weight:700;color:#1c2a55';
+      span.onclick = ()=>{
+        document.querySelectorAll('#sentEl span').forEach(s=>s.style.pointerEvents='none');
+        // Match against the full wrong phrase (could be multi-word)
+        const wrongWords = Q.wrong.split(' ');
+        const isWrong = wrongWords.some(ww => ww.toLowerCase().replace(/[.,!?]/g,'') === cleaned.toLowerCase());
+        if(isWrong){
+          span.style.background='#dcfce7'; span.style.borderColor='#16a34a'; span.style.color='#14532d';
+          $('#fb').innerHTML = `🔍 ¡Detectado! Correcto: <b>${Q.fix}</b>`;
+          $('#fb').className = 'feedback ok'; correct++; award(true,12);
+        } else {
+          span.style.background='#fee2e2'; span.style.borderColor='#dc2626'; span.style.color='#7f1d1d';
+          // highlight the actual wrong word
+          document.querySelectorAll('#sentEl span').forEach(s=>{
+            const sw = s.textContent.toLowerCase();
+            if(Q.wrong.split(' ').some(ww => ww.toLowerCase().replace(/[.,!?]/g,'') === sw)){
+              s.style.background='#fef08a'; s.style.borderColor='#eab308';
+            }
+          });
+          $('#fb').innerHTML = `❌ El error era "<b>${Q.wrong}</b>" → "<b>${Q.right}</b>"<br>Correcto: ${Q.fix}`;
+          $('#fb').className = 'feedback bad'; award(false);
+        }
+        setTimeout(()=>{i++;next();},2200);
+      };
+      sentEl.appendChild(span);
+      if(punct){ const p=document.createElement('span'); p.textContent=punct; p.style.fontWeight='800'; sentEl.appendChild(p); }
+    });
+  }
+  next();
+};
+
+/* ============== STRONGMAN SHOP (Power-Ups) ============== */
+function shop(){
+  main.innerHTML = `<div class="card" style="background:linear-gradient(160deg,#fff7d6,#fde68a);border:2px solid #f59e0b">
+    <h2 class="title">💪 Strongman Shop</h2>
+    <div class="sub">Gasta tus 🍎 Devil Fruits en power-ups. Has gastado: <b>${state.totalSpent||0}</b> 🍎</div>
+    <div style="font-size:22px;text-align:center;margin:8px 0;font-weight:900;color:#16a34a">🍎 ${state.fruits} Devil Fruits</div>
+    <div id="powerupList"></div>
+  </div>
+  <div class="card">
+    <h3 style="margin:0 0 8px">⚡ Power-Ups Activos</h3>
+    <div style="font-size:13px;color:#465a8a">
+      ${state.flags.xp2 ? '✅ XP Boost x2 activo<br>' : ''}
+      ${state.flags.shield ? '✅ Streak Shield activo<br>' : ''}
+      ${state.flags.hint ? '✅ Hint disponible<br>' : ''}
+      ${(state.flags.time||0)>0 ? '✅ +'+state.flags.time+' seg en próximo Speed Round<br>' : ''}
+      ${(!state.flags.xp2 && !state.flags.shield && !state.flags.hint && !state.flags.time) ? '<i>Sin power-ups activos</i>' : ''}
+    </div>
+    <button class="btn ghost sm" style="margin-top:10px" onclick="home()">⬅ Home</button>
+  </div>`;
+  const list = $('#powerupList');
+  POWERUPS.forEach(p=>{
+    const can = state.fruits >= p.cost;
+    const owned = (state.powerups[p.id]||0);
+    const div = document.createElement('div');
+    div.style.cssText = 'background:#fff;border:2px solid #cdd9f2;border-radius:12px;padding:12px;margin:8px 0;display:flex;align-items:center;gap:10px';
+    div.innerHTML = `
+      <span style="font-size:36px">${p.em}</span>
+      <div style="flex:1">
+        <div style="font-weight:800;font-size:14px">${p.name} ${owned?`<span style="color:#16a34a">x${owned}</span>`:''}</div>
+        <div style="font-size:12px;color:#465a8a">${p.desc}</div>
+        <div style="font-size:13px;color:#16a34a;font-weight:700;margin-top:2px">🍎 ${p.cost}</div>
+      </div>`;
+    const buyBtn = document.createElement('button');
+    buyBtn.className = 'btn sm '+(can?'green':'ghost');
+    buyBtn.textContent = can ? 'Comprar' : '🔒';
+    buyBtn.disabled = !can;
+    buyBtn.style.cssText = 'width:auto;flex:0 0 auto;min-width:80px';
+    buyBtn.onclick = ()=>{
+      if(state.fruits < p.cost) return;
+      state.fruits -= p.cost; state.totalSpent = (state.totalSpent||0) + p.cost;
+      state.powerups[p.id] = (state.powerups[p.id]||0) + 1;
+      // activate immediately
+      if(p.id==='x2') state.flags.xp2 = true;
+      if(p.id==='shield') state.flags.shield = true;
+      if(p.id==='hint') state.flags.hint = true;
+      if(p.id==='time') state.flags.time = (state.flags.time||0) + 10;
+      save(); checkBadges(); updateStats(); toast(`💪 ${p.name} activado!`);
+      shop();
+    };
+    div.appendChild(buyBtn);
+    list.appendChild(div);
+  });
+}
+
+/* ============== ADOPT ME PETS Screen ============== */
+function petsScreen(){
+  main.innerHTML = `<div class="card" style="background:linear-gradient(160deg,#fce7f3,#fbcfe8);border:2px solid #ec4899">
+    <h2 class="title">🐶 Adopt Me Pets</h2>
+    <div class="sub">Has desbloqueado <b>${state.pets.length}/${PETS.length}</b> mascotas. Toca una para hacerla tu compañera activa.</div>
+    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:10px" id="petList"></div>
+  </div>
+  <div class="card">
+    <button class="btn ghost sm" onclick="home()">⬅ Home</button>
+  </div>`;
+  const list = $('#petList');
+  PETS.forEach(p=>{
+    const owned = state.pets.includes(p.id);
+    const active = state.activePet === p.id;
+    const div = document.createElement('div');
+    div.style.cssText = `background:${active?'linear-gradient(160deg,#fef3c7,#fde68a)':'#fff'};border:2px solid ${active?'#f59e0b':'#cdd9f2'};border-radius:14px;padding:12px;text-align:center;cursor:${owned?'pointer':'default'};${owned?'':'opacity:.45;filter:grayscale(.7)'}`;
+    div.innerHTML = `<div style="font-size:42px">${owned?p.em:'🔒'}</div>
+      <div style="font-weight:800;font-size:13px;margin-top:4px">${p.name}</div>
+      <div style="font-size:11px;color:#465a8a">${active?'⭐ ACTIVA':owned?'Disponible':'🔒 Bloqueada'}</div>`;
+    if(owned){
+      div.onclick = ()=>{ state.activePet = p.id; save(); updateStats(); toast(`${p.em} ${p.name} es tu compañera!`); petsScreen(); };
+    }
+    list.appendChild(div);
+  });
+}
+
+/* ============== AVATAR SELECTOR ============== */
+function avatarScreen(){
+  main.innerHTML = `<div class="card">
+    <h2 class="title">👤 Avatar — Personaliza tu pirata</h2>
+    <div class="sub">Avatar actual: <b>${getAvatar().em} ${getAvatar().name}</b><br>🍎 ${state.fruits} Devil Fruits para comprar nuevos</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px" id="avList"></div>
+  </div>
+  <div class="card">
+    <button class="btn ghost sm" onclick="settings()">⬅ Volver a Settings</button>
+  </div>`;
+  const list = $('#avList');
+  AVATARS.forEach(a=>{
+    const owned = state.avatarsOwned.includes(a.id);
+    const active = state.avatar === a.id;
+    const can = state.fruits >= a.cost;
+    const div = document.createElement('div');
+    div.style.cssText = `background:${active?'linear-gradient(160deg,#fef3c7,#fde68a)':owned?'#fff':'#f4f8ff'};border:3px solid ${active?'#f59e0b':owned?'#16a34a':'#cdd9f2'};border-radius:14px;padding:10px 6px;text-align:center;cursor:pointer;${!owned&&!can?'opacity:.55':''}`;
+    div.innerHTML = `<div style="font-size:36px">${a.em}</div>
+      <div style="font-weight:800;font-size:11px;margin-top:2px">${a.name}</div>
+      <div style="font-size:10px;color:#465a8a;line-height:1.2">${active?'⭐ ACTIVO':owned?'✅ Tuyo':a.cost===0?'Gratis':'🍎 '+a.cost}</div>`;
+    div.onclick = ()=>{
+      if(active) return;
+      if(owned){ state.avatar=a.id; save(); updateStats(); toast(`${a.em} ${a.name} equipado!`); avatarScreen(); return; }
+      if(state.fruits >= a.cost){
+        state.fruits -= a.cost; state.totalSpent = (state.totalSpent||0) + a.cost;
+        state.avatarsOwned.push(a.id); state.avatar = a.id;
+        save(); checkBadges(); updateStats(); toast(`🛒 Compraste ${a.em} ${a.name}!`);
+        avatarScreen();
+      } else {
+        toast(`Te faltan ${a.cost - state.fruits} 🍎`);
+      }
+    };
+    list.appendChild(div);
+  });
+}
+
+/* ============== DAILY REWARD (Bee Swarm) ============== */
+function checkDailyReward(){
+  const today = new Date().toDateString();
+  if(state.lastDailyReward === today) return;
+  const yesterday = new Date(Date.now()-86400000).toDateString();
+  const continued = state.lastDailyReward === yesterday;
+  state.dailyStreak = continued ? (state.dailyStreak||0)+1 : 1;
+  const bonus = Math.min(state.dailyStreak, 7);
+  state.fruits += bonus; state.score += bonus*5;
+  state.lastDailyReward = today;
+  save(); updateStats();
+  setTimeout(()=>showModal({icon:'🐝',title:`Daily Reward — Día ${state.dailyStreak}`,
+    body:`🐝 Bee Swarm te trae miel diaria!<br><br>+<b>${bonus}</b> 🍎 Devil Fruits<br>+<b>${bonus*5}</b> ⭐ XP<br><br>${continued?'🔥 ¡Racha de '+state.dailyStreak+' días!':'Vuelve mañana para más!'}`,
+    actions:[{label:'¡Genial!',cls:'btn gold',cb:closeModal}]}), 800);
+}
+
+/* ---------- PWA ---------- */
+window.addEventListener('beforeinstallprompt',e=>{
+  e.preventDefault(); window._deferredPrompt = e;
+});
+
+/* ---------- boot ---------- */
+window.addEventListener('load',()=>{
+  if('speechSynthesis' in window){ window.speechSynthesis.getVoices(); }
+  updateStats(); home();
+  if(state.score>0) setTimeout(()=>toast(`Welcome back, Captain ${state.name}! 🏴‍☠️`),300);
+  const m = state.missions[state.currentLevel]||{};
+  if(!m.lesson && state.totalMissions===0){
+    setTimeout(()=>toast('📜 ¡Empieza por la Grammar Lesson!'), 1200);
+  }
+  // Bee Swarm daily reward
+  setTimeout(()=>checkDailyReward(), 1500);
+});
+</script>
+</body>
+</html>
