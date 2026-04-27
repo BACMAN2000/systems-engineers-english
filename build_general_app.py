@@ -588,6 +588,20 @@ code,.mono{font-family:'JetBrains Mono',Consolas,monospace}
  .ex-opt:hover{background:initial}
  button,.btn,.tab,.ptab,.v-chip,.ex-opt,.lsn-item{min-height:40px;-webkit-tap-highlight-color:rgba(37,99,235,.15)}
 }
+/* ===== Pronunciation modal: keep X visible on mobile when content grows ===== */
+.pron-overlay{overflow-y:auto;-webkit-overflow-scrolling:touch}
+.pron-modal{max-height:calc(100vh - 32px);display:flex;flex-direction:column}
+.pron-head{position:static;flex-shrink:0;max-height:65vh;overflow-y:auto}
+.pron-body{flex:1 1 auto;min-height:0;max-height:none}
+.pron-close{z-index:20}
+@media(max-width:600px){
+ .pron-overlay{align-items:flex-start;padding:12px 8px}
+ .pron-modal{max-height:calc(100vh - 24px);margin:0 4px}
+ .pron-head{padding-right:54px;max-height:55vh;padding-top:18px}
+ .pron-close{top:10px;right:10px;width:38px;height:38px;font-size:1rem}
+ .pron-translation{margin-top:10px !important}
+}
+
 /* Cross-browser hardening */
 *{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 input,textarea,button,select{font:inherit}

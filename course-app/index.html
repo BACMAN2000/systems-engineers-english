@@ -551,6 +551,20 @@ img{max-width:100%;height:auto}
  .pron-overlay{background:rgba(15,23,42,.85)}
 }
 
+/* ===== Pronunciation modal: keep X visible on mobile when content grows ===== */
+.pron-overlay{overflow-y:auto;-webkit-overflow-scrolling:touch}
+.pron-modal{max-height:calc(100vh - 32px);display:flex;flex-direction:column}
+.pron-head{position:static;flex-shrink:0;max-height:65vh;overflow-y:auto}
+.pron-body{flex:1 1 auto;min-height:0;max-height:none}
+.pron-close{z-index:20}
+@media(max-width:600px){
+ .pron-overlay{align-items:flex-start;padding:12px 8px}
+ .pron-modal{max-height:calc(100vh - 24px);margin:0 4px}
+ .pron-head{padding-right:54px;max-height:55vh;padding-top:18px}
+ .pron-close{top:10px;right:10px;width:38px;height:38px;font-size:1rem}
+ .pron-translation{margin-top:10px !important}
+}
+
 /* ===== Anti-overflow hardening (prevents horizontal scrolling on mobile) ===== */
 html,body{overflow-x:hidden;max-width:100vw}
 .mn,.callout,.info-card,.ln-section,.ln-warmup,.ln-grammar,.ln-tip,.ln-pending,.ln-next,.passage-card,.write-meta,.uoe-intro,.audio-src-card,.lhd,.section,.lvl-overview,.ex-block,.q-block,.cefr-check,.lvl-card,.lesson-card,.wel,.wel-stat{max-width:100%;min-width:0;overflow-wrap:break-word;word-wrap:break-word;word-break:break-word}
