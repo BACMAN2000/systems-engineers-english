@@ -550,6 +550,23 @@ img{max-width:100%;height:auto}
 @supports not (backdrop-filter:blur(4px)){
  .pron-overlay{background:rgba(15,23,42,.85)}
 }
+
+/* ===== Anti-overflow hardening (prevents horizontal scrolling on mobile) ===== */
+html,body{overflow-x:hidden;max-width:100vw}
+.mn,.callout,.info-card,.ln-section,.ln-warmup,.ln-grammar,.ln-tip,.ln-pending,.ln-next,.passage-card,.write-meta,.uoe-intro,.audio-src-card,.lhd,.section,.lvl-overview,.ex-block,.q-block,.cefr-check,.lvl-card,.lesson-card,.wel,.wel-stat{max-width:100%;min-width:0;overflow-wrap:break-word;word-wrap:break-word;word-break:break-word}
+.callout,.callout *,.info-card,.info-card *,.ln-section,.ln-section *,.passage-body,.passage-body *,.uoe-intro,.uoe-intro *{overflow-wrap:break-word;word-wrap:break-word}
+.tbl,.ln-table{display:block;width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+.tbl thead,.tbl tbody,.tbl tr,.ln-table thead,.ln-table tbody,.ln-table tr{display:table;width:100%;table-layout:fixed}
+@media(max-width:600px){
+ .tbl,.ln-table{display:block;white-space:normal}
+ .tbl thead,.tbl tbody,.tbl tr,.ln-table thead,.ln-table tbody,.ln-table tr{display:revert;width:auto;table-layout:auto}
+ .tbl,.ln-table{display:table;table-layout:auto}
+ .lhd,.callout,.info-card,.ln-section{padding-left:14px;padding-right:14px}
+}
+.tabs{overflow-x:auto;-webkit-overflow-scrolling:touch;flex-wrap:nowrap}
+.lay,.hd,.hdr-r,.logo,.lhd,.write-meta,.vocab-meta,.ex-progress,.lesson-nav,.lvl-overview .lo-stats{min-width:0}
+.logo,.logo-tx{min-width:0;overflow:hidden}
+.logo-tx .t1,.logo-tx .t2{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 </style>
 </head>
 <body>
