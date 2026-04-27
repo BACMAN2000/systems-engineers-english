@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 """
-Build standalone single-file HTML app for the Systems Engineers English Course.
-Design system inspired by COHASSET-platform-standalone.html.
+Build standalone single-file HTML app for the General English Course.
+Twin of build_app.py with same UI; only branding + data path differ.
 """
 import json
 from pathlib import Path
 
-DATA = json.loads(Path(r"E:\CLAUDE\PAOLO BACA MANRIQUE\course-app\course_data.json")
+DATA = json.loads(Path(r"E:\CLAUDE\PAOLO BACA MANRIQUE\general-english-app\course_data.json")
                   .read_text(encoding="utf-8"))
 
-OUT = Path(r"E:\CLAUDE\PAOLO BACA MANRIQUE\course-app\index.html")
+OUT = Path(r"E:\CLAUDE\PAOLO BACA MANRIQUE\general-english-app\index.html")
 
 # ---- Colores por nivel
 LVL_COLORS = {
@@ -24,7 +24,7 @@ HTML = r"""<!DOCTYPE html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Systems Engineers English Course \u2013 A1 \u2192 C2</title>
+<title>General English Course \u2013 A1 \u2192 C2</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600;9..40,700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 <style>
@@ -181,12 +181,24 @@ code,.mono{font-family:'JetBrains Mono',Consolas,monospace}
 .v-mode-btn{background:var(--bg);border:1px solid var(--b);padding:6px 12px;border-radius:8px;font-family:inherit;font-size:.78rem;font-weight:600;color:var(--m);cursor:pointer;display:flex;align-items:center;gap:6px}
 .v-mode-btn.act{background:var(--p);color:#fff;border-color:var(--p)}
 
-.vocab-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:8px;margin-bottom:14px}
-.v-chip{background:var(--w);border:1px solid var(--b);padding:9px 12px;border-radius:8px;font-size:.85rem;color:var(--d);transition:var(--t);cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:6px}
-.v-chip:hover{border-color:var(--p);background:var(--pvl)}
-.v-chip.known{background:var(--okl);color:#065F46;border-color:var(--ok);text-decoration:line-through;opacity:.65}
-.v-chip i{font-size:.7rem;color:var(--l)}
-.v-chip.known i{color:var(--ok)}
+.vocab-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-bottom:14px}
+.v-chip{background:var(--w);border:1px solid var(--b);padding:9px 12px;border-radius:10px;font-size:.88rem;color:var(--d);transition:var(--t);cursor:pointer;display:flex;align-items:center;gap:10px}
+.v-chip:hover{border-color:var(--p);background:var(--pvl);transform:translateY(-1px);box-shadow:0 4px 12px rgba(37,99,235,.12)}
+.v-chip.known{background:var(--okl);color:#065F46;border-color:var(--ok);text-decoration:line-through;opacity:.7}
+.v-chip i{font-size:.72rem;color:var(--l);margin-left:auto}
+.v-chip.known i{color:var(--ok);text-decoration:none}
+.v-chip .v-emo{font-size:1.35rem;line-height:1;flex-shrink:0;display:inline-block;width:30px;height:30px;border-radius:8px;background:var(--pvl);text-align:center;line-height:30px;border:1px solid #DBEAFE}
+.v-chip.known .v-emo{background:#A7F3D0;border-color:#34D399}
+.v-chip .v-w{font-weight:600;flex:1;text-decoration:inherit}
+.vocab-cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;padding:14px;background:linear-gradient(135deg,#EFF6FF,#DBEAFE);border-radius:12px;border:1px dashed var(--p)}
+.vocab-cta-main{box-shadow:0 4px 12px rgba(37,99,235,.35)}
+.vocab-cta-main:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(37,99,235,.45)}
+
+/* Grammar focus banner (overview + lesson) */
+.grammar-banner{display:flex;align-items:center;gap:14px;background:linear-gradient(135deg,#FEFCE8,#FEF3C7);border-left:5px solid #EAB308;border-radius:12px;padding:14px 18px;margin-bottom:16px;box-shadow:0 2px 8px rgba(234,179,8,.12)}
+.grammar-banner-icon{width:46px;height:46px;border-radius:10px;background:#EAB308;color:#fff;display:flex;align-items:center;justify-content:center;font-size:1.3rem;flex-shrink:0;box-shadow:0 4px 12px rgba(234,179,8,.4)}
+.grammar-banner-text .gb-label{font-size:.7rem;text-transform:uppercase;letter-spacing:1.4px;color:#92400E;font-weight:800}
+.grammar-banner-text .gb-title{font-size:1.1rem;font-weight:800;color:#713F12;line-height:1.25;margin-top:2px}
 
 .flashcard-zone{background:#0F172A;border-radius:14px;padding:34px 24px;min-height:260px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;position:relative;margin-bottom:14px}
 .flashcard{background:#fff;color:var(--d);min-height:160px;width:100%;max-width:460px;border-radius:14px;padding:30px 24px;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:0 10px 30px rgba(0,0,0,.25);cursor:pointer;position:relative}
@@ -475,7 +487,9 @@ code,.mono{font-family:'JetBrains Mono',Consolas,monospace}
  .vocab-list{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
  .ln-table{font-size:.78rem}
  .ln-table th,.ln-table td{padding:6px 8px}
+ /* Mobile menu button */
  .mobile-menu-btn{display:flex !important}
+ /* Make sidebar overlay close on outside click */
  .sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:98}
  .sb-overlay.op{display:block}
 }
@@ -515,6 +529,9 @@ code,.mono{font-family:'JetBrains Mono',Consolas,monospace}
  .info-card{padding:14px}
  .info-card p{font-size:.86rem}
  .callout{padding:11px 14px;font-size:.85rem}
+ .grammar-banner{padding:11px 14px;gap:10px}
+ .grammar-banner-icon{width:38px;height:38px;font-size:1.05rem;border-radius:8px}
+ .grammar-banner-text .gb-title{font-size:.95rem}
  .ln-section{padding:14px 16px}
  .ln-warmup,.ln-grammar,.ln-tip{padding:13px 16px}
  .ln-grammar .lng-title{font-size:.95rem}
@@ -523,6 +540,9 @@ code,.mono{font-family:'JetBrains Mono',Consolas,monospace}
  .lesson-nav .btn{width:100%;justify-content:center}
  .vocab-list{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:7px}
  .v-chip{padding:7px 10px;font-size:.82rem;gap:7px}
+ .v-chip .v-emo{width:26px;height:26px;font-size:1.15rem;line-height:26px}
+ .vocab-cta{padding:11px;flex-direction:column}
+ .vocab-cta .btn{width:100%;justify-content:center}
  .flashcard{padding:24px 18px;min-height:130px}
  .flashcard .fc-w{font-size:1.55rem}
  .fc-actions{flex-wrap:wrap;justify-content:center}
@@ -552,6 +572,8 @@ code,.mono{font-family:'JetBrains Mono',Consolas,monospace}
  .ln-mist-wr,.ln-mist-ri{font-size:.84rem}
  .ln-ex{flex-direction:column;align-items:stretch;gap:6px}
  .ln-ex-note{text-align:left;align-self:flex-start}
+ /* Hide volume icon on smallest screens; tap chip to play */
+ .v-chip > i.fa-volume-high{display:none}
 }
 @media(max-width:380px){
  .ptab{padding:9px 8px;font-size:.7rem}
@@ -559,12 +581,14 @@ code,.mono{font-family:'JetBrains Mono',Consolas,monospace}
  .wel h1{font-size:1.25rem}
  .vocab-list{grid-template-columns:1fr 1fr}
 }
+/* Touch / pointer improvements */
 @media(hover:none) and (pointer:coarse){
  .v-chip:hover{transform:none;box-shadow:none}
  .lvl-card:hover{transform:none;box-shadow:none}
  .ex-opt:hover{background:initial}
  button,.btn,.tab,.ptab,.v-chip,.ex-opt,.lsn-item{min-height:40px;-webkit-tap-highlight-color:rgba(37,99,235,.15)}
 }
+/* Cross-browser hardening */
 *{-webkit-text-size-adjust:100%;text-size-adjust:100%}
 input,textarea,button,select{font:inherit}
 img{max-width:100%;height:auto}
@@ -580,9 +604,9 @@ img{max-width:100%;height:auto}
   <i class="fas fa-bars"></i>
  </button>
  <div class="logo" onclick="route('home')">
-  <div class="logo-box"><i class="fas fa-microchip"></i></div>
+  <div class="logo-box"><i class="fas fa-language"></i></div>
   <div class="logo-tx">
-   <div class="t1">Systems Engineers English</div>
+   <div class="t1">General English</div>
    <div class="t2">A1 \u2192 C2 \u2022 CEFR aligned</div>
   </div>
  </div>
@@ -615,7 +639,7 @@ img{max-width:100%;height:auto}
 </div>
 
 <footer class="footer">
- <div>Systems Engineers English Course \u2013 CEFR syllabus A1 to C2 \u2022 120 lessons \u2022 Cybersecurity & Emerging Tech</div>
+ <div>General English Course \u2013 CEFR syllabus A1 to C2 \u2022 120 lessons \u2022 Everyday topics, culture & travel</div>
  <div style="margin-top:4px">Paolo Baca Manrique \u2013 Nordic International School, Peru \u2013 2026</div>
 </footer>
 
@@ -670,7 +694,7 @@ const I18N_ES = {
  "Reading": "Lectura",
  "Listening": "Audio",
  "Writing": "Escritura",
- "Cyber angle": "Enfoque cyber",
+ "Cyber angle": "Cultura / extra",
  "Choose your level": "Elige tu nivel",
  "Start with A1 or jump to your current level.": "Empieza por A1 o salta a tu nivel actual.",
  "The course": "El curso",
@@ -689,8 +713,8 @@ const I18N_ES = {
  "IELTS": "IELTS",
  "TOEFL iBT": "TOEFL iBT",
  "Lessons in level": "Clases del nivel",
- "20 lessons of 90 minutes each, in 4 modules: Foundations (1\u20135) \u2022 Core IT/ESP (6\u201310) \u2022 Cybersecurity (11\u201315) \u2022 Emerging Tech + Exam Prep (16\u201320).":
-  "20 clases de 90 minutos, en 4 m\u00f3dulos: Foundations (1\u20135) \u2022 Core IT/ESP (6\u201310) \u2022 Cybersecurity (11\u201315) \u2022 Emerging Tech + Exam Prep (16\u201320).",
+ "20 lessons of 90 minutes each, in 4 modules: Foundations (1\u20135) \u2022 Everyday life (6\u201310) \u2022 Society & culture (11\u201315) \u2022 Exam Prep + Project (16\u201320).":
+  "20 clases de 90 minutos, en 4 m\u00f3dulos: Fundamentos (1\u20135) \u2022 Vida cotidiana (6\u201310) \u2022 Sociedad y cultura (11\u201315) \u2022 Preparaci\u00f3n de examen + Proyecto (16\u201320).",
  "Pilot content": "Contenido piloto",
  "Class": "Clase",
  "Progress": "Progreso",
@@ -709,7 +733,6 @@ const I18N_ES = {
  "Reading task": "Tarea de reading",
  "Listening task": "Tarea de listening",
  "Writing target": "Objetivo de writing",
- "Cybersecurity / emerging tech angle": "Enfoque de ciberseguridad / tecnolog\u00eda emergente",
  "Target vocabulary": "Vocabulario objetivo",
  "Mastered": "Dominado",
  "List": "Lista",
@@ -769,7 +792,7 @@ const I18N_ES = {
  "Pick 3 words from today's vocabulary that appear in the text and explain them.": "Elige 3 palabras del vocabulario de hoy que aparezcan en el texto y expl\u00edcalas.",
  "Inference": "Inferencia",
  "What can be inferred that is NOT explicitly stated?": "\u00bfQu\u00e9 se puede deducir que NO est\u00e1 dicho expl\u00edcitamente?",
- "Cyber transfer": "Transferencia cyber",
+ "Cyber transfer": "Aplicación a la vida real",
  "How does this reading relate to:": "\u00bfC\u00f3mo se relaciona esta lectura con:",
  "How to work the audio": "C\u00f3mo trabajar el audio",
  "1st global listening (no text) \u2022 2nd listening with transcript \u2022 3rd shadowing of key fragments. Record new words.":
@@ -811,12 +834,14 @@ const I18N_ES = {
  "In pairs, explain the topic in 90 seconds using at least 6 words from the vocabulary. Your partner asks 2 follow-up questions.":
   "En pares, explica el tema en 90 segundos usando al menos 6 palabras del vocabulario. El compa\u00f1ero hace 2 preguntas de seguimiento.",
  "Exam connection": "Enlace con ex\u00e1menes",
- "CAE/CPE Reading Part 7 and Writing Part 2 (report/proposal) typically cover tech policy topics.":
-  "CAE/CPE Reading Part 7 y Writing Part 2 (report/proposal) t\u00edpicamente incluyen temas de tech policy.",
- "PET/FCE Reading uses informational tech texts; IELTS Academic Reading does as well.":
-  "PET/FCE Reading usa textos divulgativos sobre tecnolog\u00eda; IELTS Academic Reading tambi\u00e9n.",
- "A course for systems engineers, aligned to CEFR and calibrated against Cambridge, IELTS and TOEFL. 120 lessons. Focus on cybersecurity and emerging technology.":
-  "Un programa de ingl\u00e9s t\u00e9cnico para ingenieros de sistemas, alineado al Marco Com\u00fan Europeo de Referencia y calibrado contra Cambridge, IELTS y TOEFL. 120 clases. Foco en ciberseguridad y tecnolog\u00eda emergente.",
+ "CAE/CPE Reading Part 7 and Writing Part 2 (report/proposal) typically cover broad social, cultural and lifestyle topics.":
+  "CAE/CPE Reading Part 7 y Writing Part 2 (report/proposal) t\u00edpicamente incluyen temas sociales, culturales y de estilo de vida.",
+ "KET/PET/FCE Reading and IELTS General Training use everyday situations, travel, work and culture.":
+  "KET/PET/FCE Reading y IELTS General Training usan situaciones cotidianas, viajes, trabajo y cultura.",
+ "Culture & real-life note": "Cultura y nota de la vida real",
+ "Cybersecurity / emerging tech angle": "Cultura y nota de la vida real",
+ "A general English course aligned to CEFR and calibrated against Cambridge, IELTS and TOEFL. 120 lessons covering everyday life, culture, work and travel.":
+  "Un curso de ingl\u00e9s general alineado al Marco Com\u00fan Europeo de Referencia y calibrado contra Cambridge, IELTS y TOEFL. 120 clases sobre vida cotidiana, cultura, trabajo y viajes.",
  "per writing task": "por tarea de escritura",
  "Readings": "Lecturas",
  "Part of speech": "Categor\u00eda gramatical",
@@ -828,10 +853,10 @@ const I18N_ES = {
  "Loading dictionary\u2026": "Cargando diccionario\u2026",
  "Pronunciation not available offline for this word. TTS still works.": "Pronunciaci\u00f3n no disponible offline para esta palabra. TTS s\u00ed funciona.",
  "module": "m\u00f3dulo",
- "Foundations": "Foundations",
- "Core IT": "Core IT",
- "Cybersecurity": "Cybersecurity",
- "Emerging + Exam": "Emerging + Exam",
+ "Foundations": "Fundamentos",
+ "Everyday life": "Vida cotidiana",
+ "Society & culture": "Sociedad y cultura",
+ "Exam Prep + Project": "Examen + Proyecto",
  "Record your pronunciation": "Graba tu pronunciaci\u00f3n",
  "Start recording": "Iniciar grabaci\u00f3n",
  "Stop": "Detener",
@@ -888,7 +913,7 @@ const I18N_ES = {
 
 function setLang(l){
  state.lang = l;
- localStorage.setItem('sec_lang', l);
+ localStorage.setItem('ge_lang', l);
  document.querySelectorAll('.lang-opt').forEach(o=>o.classList.toggle('act', o.dataset.lang===l));
  render();
 }
@@ -896,9 +921,9 @@ function t(en){ return (state && state.lang==='es' && I18N_ES[en]) ? I18N_ES[en]
 
 // One-time cache invalidation for low-quality translations from previous version
 const TR_CACHE_VERSION = 'v2';
-if(localStorage.getItem('sec_tr_cache_ver') !== TR_CACHE_VERSION){
- Object.keys(localStorage).filter(k=>k.startsWith('sec_es_')).forEach(k=>localStorage.removeItem(k));
- localStorage.setItem('sec_tr_cache_ver', TR_CACHE_VERSION);
+if(localStorage.getItem('ge_tr_cache_ver') !== TR_CACHE_VERSION){
+ Object.keys(localStorage).filter(k=>k.startsWith('ge_es_')).forEach(k=>localStorage.removeItem(k));
+ localStorage.setItem('ge_tr_cache_ver', TR_CACHE_VERSION);
 }
 
 // state
@@ -911,19 +936,19 @@ const state = {
  vocab: {},   // { [lessonKey]: { [word]: 'known'|'review' } }
  flashIdx: 0,
  flashFlipped: false,
- lang: localStorage.getItem('sec_lang') || 'en',
+ lang: localStorage.getItem('ge_lang') || 'en',
 };
-state.vocab = JSON.parse(localStorage.getItem('sec_vocab')||'{}');
+state.vocab = JSON.parse(localStorage.getItem('ge_vocab')||'{}');
 // mark active language pill
 document.addEventListener('DOMContentLoaded', ()=>{
  document.querySelectorAll('.lang-opt').forEach(o=>o.classList.toggle('act', o.dataset.lang===state.lang));
 });
 
 function loadProgress(){
- try{return JSON.parse(localStorage.getItem('sec_progress')||'{}')}catch(e){return {}}
+ try{return JSON.parse(localStorage.getItem('ge_progress')||'{}')}catch(e){return {}}
 }
-function saveProgress(){localStorage.setItem('sec_progress', JSON.stringify(state.progress))}
-function saveVocab(){localStorage.setItem('sec_vocab', JSON.stringify(state.vocab))}
+function saveProgress(){localStorage.setItem('ge_progress', JSON.stringify(state.progress))}
+function saveVocab(){localStorage.setItem('ge_vocab', JSON.stringify(state.vocab))}
 
 function lessonKey(lv,n){return lv+'-'+n}
 function isDone(lv,n){return !!state.progress[lessonKey(lv,n)]}
@@ -962,6 +987,7 @@ function route(view,lv,n){
  state.activeTab = 'overview';
  state.flashIdx = 0;
  state.flashFlipped = false;
+ // close mobile sidebar after navigation
  closeSidebar();
  // reset exercise runtime state
  window.__exDone = new Set();
@@ -1052,8 +1078,8 @@ function renderHome(){
  const overallPct = Math.round(done/120*100);
  return `
  <div class="wel">
-  <h1>Systems Engineers <span>English Course</span></h1>
-  <p class="lead">${t("A course for systems engineers, aligned to CEFR and calibrated against Cambridge, IELTS and TOEFL. 120 lessons. Focus on cybersecurity and emerging technology.")}</p>
+  <h1>General <span>English Course</span></h1>
+  <p class="lead">${t("A general English course aligned to CEFR and calibrated against Cambridge, IELTS and TOEFL. 120 lessons covering everyday life, culture, work and travel.")}</p>
   <div class="wel-stats">
    <div class="wel-stat"><div class="wel-stat-v">120</div><div class="wel-stat-l">${t('lessons')}</div></div>
    <div class="wel-stat"><div class="wel-stat-v">6</div><div class="wel-stat-l">CEFR ${t('Levels')}</div></div>
@@ -1191,7 +1217,7 @@ function renderLevel(){
 
  <div class="section">
   <h2>${t('Lessons in level')} ${lv.code}</h2>
-  <div class="s-sub">${t('20 lessons of 90 minutes each, in 4 modules: Foundations (1\u20135) \u2022 Core IT/ESP (6\u201310) \u2022 Cybersecurity (11\u201315) \u2022 Emerging Tech + Exam Prep (16\u201320).')}</div>
+  <div class="s-sub">${t('20 lessons of 90 minutes each, in 4 modules: Foundations (1\u20135) \u2022 Everyday life (6\u201310) \u2022 Society & culture (11\u201315) \u2022 Exam Prep + Project (16\u201320).')}</div>
   <div class="lesson-grid">
   ${lv.lessons.map(le=>{
     const done = isDone(lv.code,le.n);
@@ -1258,7 +1284,7 @@ function renderLesson(){
   <div class="tab ${state.activeTab==='read'?'act':''}" onclick="setTab('read')"><i class="fas fa-eye"></i> ${t('Reading')}</div>
   <div class="tab ${state.activeTab==='listen'?'act':''}" onclick="setTab('listen')"><i class="fas fa-headphones"></i> ${t('Listening')}</div>
   <div class="tab ${state.activeTab==='write'?'act':''}" onclick="setTab('write')"><i class="fas fa-pen-fancy"></i> ${t('Writing')}</div>
-  <div class="tab ${state.activeTab==='cyber'?'act':''}" onclick="setTab('cyber')"><i class="fas fa-shield-halved"></i> ${t('Cyber angle')}</div>
+  <div class="tab ${state.activeTab==='cyber'?'act':''}" onclick="setTab('cyber')"><i class="fas fa-globe"></i> ${t('Cyber angle')}</div>
  </div>
 
  <!-- PANELS -->
@@ -1458,6 +1484,13 @@ function renderOverview(lv,le){
  const previewWords = (le.vocab_list||[]).slice(0,12);
  const moreCount = Math.max(0, (le.vocab_list||[]).length - 12);
  return `
+ <div class="grammar-banner">
+  <div class="grammar-banner-icon"><i class="fas fa-book-open"></i></div>
+  <div class="grammar-banner-text">
+   <div class="gb-label">${t('Grammar focus')}</div>
+   <div class="gb-title">${escapeHtml(le.grammar)}</div>
+  </div>
+ </div>
  <div class="callout">
   <h4>${t('Lesson objective')}</h4>
   ${t('By the end of this session (90 min), the learner will use')} <b>${escapeHtml(le.grammar)}</b> ${t('applied to the topic')} "<b>${escapeHtml(le.topic)}</b>", ${t('recognise and use the')} ${le.vocab_list.length} ${t('target words, and produce a written task of')} <b>${escapeHtml(le.writing)}</b>.
@@ -1484,7 +1517,7 @@ function renderOverview(lv,le){
   </div>
  </div>
  <div class="callout cyber">
-  <h4><i class="fas fa-shield-halved"></i> ${t('Cybersecurity / emerging tech angle')}</h4>
+  <h4><i class="fas fa-globe"></i> ${t('Culture & real-life note')}</h4>
   <div style="font-size:.95rem;line-height:1.65">${escapeHtml(le.cyber)}</div>
  </div>
  <div style="background:linear-gradient(135deg,#065F46,#047857);color:#fff;padding:14px 18px;border-radius:12px;margin-top:14px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px">
@@ -1515,14 +1548,16 @@ function renderVocab(lv,le){
   <div class="vocab-list">
    ${le.vocab_list.map((w,i)=>{
     const k = known[w]==='known';
+    const emo = vocabEmoji(w);
     return `<div class="v-chip ${k?'known':''}" onclick="openPron('${escapeJs(w)}')" data-w="${escapeAttr(w)}" title="${t('listen').toUpperCase()}">
-     <span>${escapeHtml(w)}</span>
+     <span class="v-emo">${emo}</span>
+     <span class="v-w">${escapeHtml(w)}</span>
      <i class="fas fa-volume-high"></i>
     </div>`;
    }).join('')}
   </div>
-  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:10px">
-   <button class="btn pri" onclick="startVocabQuiz()"><i class="fas fa-graduation-cap"></i> ${t('Practise vocabulary')}</button>
+  <div class="vocab-cta">
+   <button class="btn pri vocab-cta-main" onclick="startVocabQuiz()"><i class="fas fa-graduation-cap"></i> ${t('Practise vocabulary')} →</button>
    <button class="btn sec" onclick="markAllKnown()"><i class="fas fa-check-double"></i> ${t('Mark all as known')}</button>
    <button class="btn sec" onclick="resetVocab()"><i class="fas fa-rotate-left"></i> ${t('Restart')}</button>
   </div>
@@ -1696,7 +1731,7 @@ async function translateCurrent(){
   return;
  }
  // 2. Cache (validated previous queries only)
- const cacheKey = 'sec_es_'+lower;
+ const cacheKey = 'ge_es_'+lower;
  let es = localStorage.getItem(cacheKey);
  if(es && es.toLowerCase() !== lower){
   txt.textContent = es;
@@ -1771,7 +1806,7 @@ function speakFlash(){
  speakCurrent();
 }
 async function loadDictEntry(word){
- const cacheKey = 'sec_dict_'+word.toLowerCase();
+ const cacheKey = 'ge_dict_'+word.toLowerCase();
  let data = null;
  const cached = localStorage.getItem(cacheKey);
  if(cached){
@@ -1940,17 +1975,17 @@ async function startVocabQuiz(){
  // Translate each word (Spanish) and pull a definition from cache
  const items = [];
  for(const w of pick){
-  let es = localStorage.getItem('sec_es_'+w.toLowerCase());
+  let es = localStorage.getItem('ge_es_'+w.toLowerCase());
   if(!es){
    try{
     const r = await fetch('https://api.mymemory.translated.net/get?q='+encodeURIComponent(w)+'&langpair=en|es');
     const d = await r.json();
     if(d && d.responseData) es = d.responseData.translatedText;
-    if(es) localStorage.setItem('sec_es_'+w.toLowerCase(), es);
+    if(es) localStorage.setItem('ge_es_'+w.toLowerCase(), es);
    } catch(e){ es = w; }
   }
   let def = '';
-  const cached = localStorage.getItem('sec_dict_'+w.toLowerCase());
+  const cached = localStorage.getItem('ge_dict_'+w.toLowerCase());
   if(cached){
    try{
     const data = JSON.parse(cached);
@@ -2552,13 +2587,13 @@ function renderWriting(lv,le){
 function renderCyber(lv,le){
  return `
  <div class="callout cyber">
-  <h4>${t('Cybersecurity / emerging tech angle')}</h4>
+  <h4>${t('Culture & real-life note')}</h4>
   ${escapeHtml(le.cyber)}
  </div>
  <div class="info-grid">
   <div class="info-card">
    <h4><i class="fas fa-link"></i> ${t('To dig deeper')}</h4>
-   <p>${t('Search')} <b>cisa.gov</b>, <b>nist.gov</b> ${t('and')} <b>mitre.org</b> ${t('for related terms to')} <i>"${escapeHtml(le.cyber.split(' ').slice(0,4).join(' '))}..."</i>. ${t('Also')} <b>arXiv cs.CR</b> ${t('for technical papers.')}</p>
+   <p>${t('Search')} <b>bbc.co.uk/learningenglish</b>, <b>en.wikipedia.org</b> ${t('and')} <b>britishcouncil.org</b> ${t('for related terms to')} <i>"${escapeHtml(le.cyber.split(' ').slice(0,4).join(' '))}..."</i>. ${t('Also')} <b>VOA Learning English</b> ${t('for graded audio content.')}</p>
   </div>
   <div class="info-card">
    <h4><i class="fas fa-microphone"></i> ${t('Suggested speaking activity')}</h4>
@@ -2566,7 +2601,7 @@ function renderCyber(lv,le){
   </div>
   <div class="info-card">
    <h4><i class="fas fa-graduation-cap"></i> ${t('Exam connection')}</h4>
-   <p>${lv.code==='C1'||lv.code==='C2'?t('CAE/CPE Reading Part 7 and Writing Part 2 (report/proposal) typically cover tech policy topics.'):t('PET/FCE Reading uses informational tech texts; IELTS Academic Reading does as well.')}</p>
+   <p>${lv.code==='C1'||lv.code==='C2'?t('CAE/CPE Reading Part 7 and Writing Part 2 (report/proposal) typically cover broad social, cultural and lifestyle topics.'):t('KET/PET/FCE Reading and IELTS General Training use everyday situations, travel, work and culture.')}</p>
   </div>
  </div>`;
 }
@@ -2578,6 +2613,162 @@ function escapeHtml(s){return (s||'').replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&
 function escapeAttr(s){return (s||'').replace(/"/g,'&quot;')}
 function escapeJs(s){return (s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'")}
 function parseRangeAny(s){const m = String(s).match(/(\d+)[\u2013\-](\d+)/); return m?[+m[1],+m[2]]:null}
+
+// ---------- VOCAB EMOJI MAP ----------
+// Maps common General-English words to a representative emoji so each chip
+// shows a small visual icon next to the word. Falls back to a category-based
+// emoji (verb / adjective / common-noun heuristics) and finally to a neutral
+// document icon. Adding more entries makes the vocab tab progressively richer.
+const WORD_EMOJI = {
+ // === People / family ===
+ "name":"\ud83d\udc64","family":"\ud83d\udc6a","mother":"\ud83d\udc69","father":"\ud83d\udc68",
+ "brother":"\ud83d\udc6c","sister":"\ud83d\udc6d","grandmother":"\ud83d\udc75","grandfather":"\ud83d\udc74",
+ "uncle":"\ud83d\udc68","aunt":"\ud83d\udc69","cousin":"\ud83d\udc65","baby":"\ud83d\udc76","child":"\ud83e\uddd2",
+ "children":"\ud83d\udc67","parents":"\ud83d\udc6a","wife":"\ud83d\udc70","husband":"\ud83e\udd35",
+ "friend":"\ud83e\udd1d","colleague":"\ud83e\udd1d","manager":"\ud83d\udc54","boss":"\ud83d\udc54",
+ "teacher":"\ud83d\udc68\u200d\ud83c\udfeb","student":"\ud83d\udc68\u200d\ud83c\udf93",
+ "doctor":"\ud83d\udc68\u200d\u2695\ufe0f","nurse":"\ud83d\udc69\u200d\u2695\ufe0f","engineer":"\ud83d\udc68\u200d\ud83d\udd27",
+ "neighbour":"\ud83c\udfe1","neighbours":"\ud83c\udfe1",
+
+ // === Body ===
+ "head":"\ud83e\udde0","face":"\ud83d\ude00","eye":"\ud83d\udc41","nose":"\ud83d\udc43","mouth":"\ud83d\udc44",
+ "ear":"\ud83d\udc42","hair":"\ud83d\udc87","tooth":"\ud83e\uddb7","teeth":"\ud83e\uddb7","neck":"\ud83e\udde3",
+ "shoulder":"\ud83d\udc41","arm":"\ud83d\udcaa","hand":"\u270b","finger":"\ud83d\udc46","leg":"\ud83e\uddb5",
+ "knee":"\ud83e\uddb5","foot":"\ud83e\uddb6","feet":"\ud83e\uddb6","back":"\ud83e\uddb4","stomach":"\ud83d\udfe0",
+ "heart":"\u2764\ufe0f","skin":"\u270b","brain":"\ud83e\udde0",
+
+ // === Home / objects ===
+ "house":"\ud83c\udfe0","flat":"\ud83c\udfec","apartment":"\ud83c\udfec","home":"\ud83c\udfe1",
+ "room":"\ud83d\udeaa","bedroom":"\ud83d\udecf","kitchen":"\ud83c\udf7d","bathroom":"\ud83d\udec1",
+ "living room":"\ud83d\udecb","dining room":"\ud83c\udf7d","balcony":"\ud83c\udfd9","garden":"\ud83c\udf31",
+ "table":"\ud83e\ude91","chair":"\ud83e\ude91","bed":"\ud83d\udecf","sofa":"\ud83d\udecb","window":"\ud83e\ude9f",
+ "door":"\ud83d\udeaa","wall":"\ud83e\uddf1","floor":"\ud83c\udf15","ceiling":"\ud83c\udf15","light":"\ud83d\udca1",
+ "lamp":"\ud83d\udca1","key":"\ud83d\udd11","clock":"\ud83d\udd51","mirror":"\ud83e\ude9e","plant":"\ud83c\udf31",
+
+ // === Food and drink ===
+ "food":"\ud83c\udf7d","drink":"\ud83e\udd43","bread":"\ud83c\udf5e","cheese":"\ud83e\uddc0","milk":"\ud83e\udd5b",
+ "water":"\ud83d\udca7","juice":"\ud83e\uddc3","coffee":"\u2615","tea":"\ud83c\udf75","wine":"\ud83c\udf77",
+ "beer":"\ud83c\udf7a","apple":"\ud83c\udf4e","banana":"\ud83c\udf4c","orange":"\ud83c\udf4a","tomato":"\ud83c\udf45",
+ "rice":"\ud83c\udf5a","pasta":"\ud83c\udf5d","pizza":"\ud83c\udf55","chicken":"\ud83c\udf57","fish":"\ud83d\udc1f",
+ "egg":"\ud83e\udd5a","sugar":"\ud83c\udf6c","salt":"\ud83e\uddc2","cake":"\ud83c\udf82","biscuit":"\ud83c\udf6a",
+ "breakfast":"\ud83e\udd5e","lunch":"\ud83c\udf7d","dinner":"\ud83c\udf72","snack":"\ud83c\udf6b","menu":"\ud83d\udcdc",
+ "restaurant":"\ud83c\udf7d","cafe":"\u2615","bar":"\ud83c\udf7a","kitchen":"\ud83c\udf7d","recipe":"\ud83d\udcdc",
+ "ingredient":"\ud83e\udd5a","cook":"\ud83d\udc68\u200d\ud83c\udf73","eat":"\ud83c\udf74","drink":"\ud83e\udd43",
+ "bake":"\ud83c\udf70","fry":"\ud83c\udf73","grill":"\ud83c\udf56","boil":"\ud83c\udf72","mix":"\ud83c\udf74",
+ "cut":"\ud83d\udd2a","slice":"\ud83d\udd2a","tasty":"\ud83d\ude0b","delicious":"\ud83d\ude0b","spicy":"\ud83c\udf36",
+
+ // === Travel / transport ===
+ "car":"\ud83d\ude97","bus":"\ud83d\ude8c","train":"\ud83d\ude82","plane":"\u2708\ufe0f","bike":"\ud83d\udeb2",
+ "motorbike":"\ud83c\udfcd","taxi":"\ud83d\ude96","tram":"\ud83d\ude8b","metro":"\ud83d\ude87","ship":"\ud83d\udea2",
+ "boat":"\u26f5","ticket":"\ud83c\udfab","passport":"\ud83d\udec2","luggage":"\ud83e\uddf3","suitcase":"\ud83e\uddf3",
+ "hotel":"\ud83c\udfe8","hostel":"\ud83c\udfe8","airport":"\u2708\ufe0f","station":"\ud83d\ude89","platform":"\ud83d\udea9",
+ "map":"\ud83d\uddfa","photo":"\ud83d\udcf8","souvenir":"\ud83c\udf81","beach":"\ud83c\udfd6","mountain":"\u26f0",
+ "city":"\ud83c\udfd9","village":"\ud83c\udfd8","country":"\ud83c\udf0d","trip":"\ud83c\udfdd","holiday":"\ud83c\udfd6",
+ "vacation":"\ud83c\udfd6","tour":"\ud83c\udfdd","tourist":"\ud83d\uddfa","journey":"\ud83d\uddfa","destination":"\ud83d\udccd",
+
+ // === Time, weather, nature ===
+ "morning":"\ud83c\udf05","afternoon":"\u2600\ufe0f","evening":"\ud83c\udf06","night":"\ud83c\udf03",
+ "today":"\ud83d\udcc5","tomorrow":"\ud83d\udcc6","yesterday":"\ud83d\udcc5","week":"\ud83d\udcc5","month":"\ud83d\udcc6",
+ "year":"\ud83d\udcc5","birthday":"\ud83c\udf82","date":"\ud83d\udcc5","weekend":"\ud83c\udfd6","weekday":"\ud83d\udcc5",
+ "Monday":"\ud83d\udcc5","Tuesday":"\ud83d\udcc5","Wednesday":"\ud83d\udcc5","Thursday":"\ud83d\udcc5",
+ "Friday":"\ud83c\udf89","Saturday":"\ud83c\udfd6","Sunday":"\ud83c\udfd6",
+ "weather":"\ud83c\udf24","sunny":"\u2600\ufe0f","cloudy":"\u2601\ufe0f","rainy":"\ud83c\udf27","windy":"\ud83d\udca8",
+ "snowy":"\ud83c\udf28","hot":"\ud83d\udd25","warm":"\u2600\ufe0f","cool":"\u2744\ufe0f","cold":"\ud83e\udd76",
+ "wet":"\ud83d\udca7","dry":"\ud83c\udfdc","sun":"\u2600\ufe0f","cloud":"\u2601\ufe0f","rain":"\ud83c\udf27",
+ "snow":"\u2744\ufe0f","wind":"\ud83d\udca8","storm":"\u26c8","spring":"\ud83c\udf38","summer":"\u2600\ufe0f",
+ "autumn":"\ud83c\udf42","winter":"\u2744\ufe0f","season":"\ud83c\udf42",
+
+ // === Animals ===
+ "dog":"\ud83d\udc36","cat":"\ud83d\udc31","bird":"\ud83d\udc26","fish":"\ud83d\udc1f","rabbit":"\ud83d\udc30",
+ "hamster":"\ud83d\udc39","horse":"\ud83d\udc0e","cow":"\ud83d\udc04","sheep":"\ud83d\udc11","pig":"\ud83d\udc16",
+ "lion":"\ud83e\udd81","tiger":"\ud83d\udc2f","elephant":"\ud83d\udc18","monkey":"\ud83d\udc12","snake":"\ud83d\udc0d",
+ "insect":"\ud83d\udc1b","bee":"\ud83d\udc1d","spider":"\ud83d\udd77","pet":"\ud83d\udc3e","animal":"\ud83d\udc3e",
+
+ // === Clothes & shopping ===
+ "shirt":"\ud83d\udc55","T-shirt":"\ud83d\udc55","trousers":"\ud83d\udc56","jeans":"\ud83d\udc56","skirt":"\ud83d\udc57",
+ "dress":"\ud83d\udc57","jacket":"\ud83e\udde5","coat":"\ud83e\udde5","shoes":"\ud83d\udc5e","trainers":"\ud83d\udc5f",
+ "boots":"\ud83d\udc62","hat":"\ud83c\udfa9","scarf":"\ud83e\udde3","gloves":"\ud83e\udde4",
+ "shop":"\ud83c\udfea","store":"\ud83c\udfea","market":"\ud83d\uded2","supermarket":"\ud83d\uded2","mall":"\ud83c\udfec",
+ "price":"\ud83d\udcb6","money":"\ud83d\udcb0","cash":"\ud83d\udcb5","card":"\ud83d\udcb3","receipt":"\ud83e\uddfe",
+ "bag":"\ud83d\uded2","sale":"\ud83c\udff7","discount":"\ud83c\udff7","cheap":"\ud83d\udcb2","expensive":"\ud83d\udcb8",
+ "buy":"\ud83d\uded2","sell":"\ud83c\udff7","pay":"\ud83d\udcb3","return":"\u21a9\ufe0f",
+ "red":"\ud83d\udd34","blue":"\ud83d\udd35","green":"\ud83d\udfe2","yellow":"\ud83d\udfe1","black":"\u26ab",
+ "white":"\u26aa","grey":"\u26ab","brown":"\ud83d\udfe4","pink":"\ud83c\udf38","orange":"\ud83c\udf4a",
+ "size":"\ud83d\udcd0","colour":"\ud83c\udfa8","color":"\ud83c\udfa8",
+
+ // === Health, feelings ===
+ "doctor":"\ud83d\udc68\u200d\u2695\ufe0f","hospital":"\ud83c\udfe5","clinic":"\ud83c\udfe5","medicine":"\ud83d\udc8a",
+ "pill":"\ud83d\udc8a","headache":"\ud83e\udd15","cough":"\ud83e\udd27","cold":"\ud83e\udd27","flu":"\ud83e\udd27",
+ "fever":"\ud83e\udd12","sick":"\ud83e\udd22","ill":"\ud83e\udd22","pain":"\ud83e\udd15","health":"\ud83e\uddd8",
+ "happy":"\ud83d\ude0a","sad":"\ud83d\ude22","angry":"\ud83d\ude21","tired":"\ud83d\ude34","bored":"\ud83d\ude12",
+ "excited":"\ud83e\udd29","worried":"\ud83d\ude1f","nervous":"\ud83d\ude30","calm":"\ud83d\ude0c","afraid":"\ud83d\ude28",
+ "scared":"\ud83d\ude28","surprised":"\ud83d\ude2e","proud":"\ud83d\ude0c","embarrassed":"\ud83d\ude33","jealous":"\ud83d\ude12",
+ "in love":"\ud83d\udc97","lonely":"\ud83d\ude1e","stressed":"\ud83d\ude16","relaxed":"\ud83d\ude0c","fine":"\ud83d\udc4d",
+
+ // === Education / work / phone / email ===
+ "school":"\ud83c\udfeb","university":"\ud83c\udf93","class":"\ud83c\udfaf","classroom":"\ud83c\udfaf",
+ "book":"\ud83d\udcd6","notebook":"\ud83d\udcd3","pen":"\ud83d\udd8a","pencil":"\u270f","dictionary":"\ud83d\udcda",
+ "subject":"\ud83d\udcda","English":"\ud83c\uddec\ud83c\udde7","maths":"\u2796","science":"\ud83d\udd2c","history":"\ud83c\udfdb",
+ "art":"\ud83c\udfa8","exam":"\ud83d\udcdd","test":"\ud83d\udcdd","homework":"\ud83d\udcdd","study":"\ud83d\udcda",
+ "learn":"\ud83c\udf93","teach":"\ud83d\udc68\u200d\ud83c\udfeb","library":"\ud83d\udcda","mark":"\u2705","grade":"\ud83c\udfc5",
+ "job":"\ud83d\udcbc","work":"\ud83d\udcbc","career":"\ud83d\udcbc","company":"\ud83c\udfe2","office":"\ud83c\udfe2",
+ "salary":"\ud83d\udcb0","interview":"\ud83e\udd1d","CV":"\ud83d\udcc4","cover letter":"\ud83d\udcdd","email":"\ud83d\udce7",
+ "phone":"\ud83d\udcde","mobile":"\ud83d\udcf1","number":"\ud83d\udd22","call":"\ud83d\udcde","message":"\ud83d\udcac",
+ "voicemail":"\ud83d\udcde","letter":"\ud83d\udce9","subject":"\ud83d\udcdd","attachment":"\ud83d\udcce","reply":"\u21a9\ufe0f",
+
+ // === Hobbies / sports / arts ===
+ "hobby":"\ud83c\udfa8","football":"\u26bd","basketball":"\ud83c\udfc0","tennis":"\ud83c\udfbe","swimming":"\ud83c\udfca",
+ "running":"\ud83c\udfc3","cycling":"\ud83d\udeb4","yoga":"\ud83e\udd18","gym":"\ud83c\udfcb","team":"\ud83e\udd1d",
+ "match":"\u26bd","game":"\ud83c\udfae","film":"\ud83c\udfac","movie":"\ud83c\udfac","cinema":"\ud83c\udfa5",
+ "theatre":"\ud83c\udfad","music":"\ud83c\udfb5","song":"\ud83c\udfb6","band":"\ud83c\udfb8","singer":"\ud83c\udfa4",
+ "concert":"\ud83c\udfa4","album":"\ud83d\udcbf","instrument":"\ud83c\udfb9","reading":"\ud83d\udcd6","cooking":"\ud83d\udc68\u200d\ud83c\udf73",
+ "painting":"\ud83c\udfa8","art":"\ud83c\udfa8","exhibition":"\ud83c\udfad","gallery":"\ud83c\udfad","artist":"\ud83c\udfa8",
+ "novel":"\ud83d\udcd6","poetry":"\ud83d\udcdc","character":"\ud83d\udc65","plot":"\ud83d\udcdc","setting":"\ud83c\udf06",
+ "author":"\u270d","genre":"\ud83c\udfad","chapter":"\ud83d\udcd6","ending":"\ud83c\udfac","review":"\u2b50",
+
+ // === Internet / tech (general usage) ===
+ "internet":"\ud83c\udf10","website":"\ud83c\udf10","app":"\ud83d\udcf1","social media":"\ud83d\udcf1",
+ "online":"\ud83c\udf10","offline":"\ud83d\udcf4","video call":"\ud83d\udcf9","chat":"\ud83d\udcac",
+ "search":"\ud83d\udd0d","upload":"\u2b06\ufe0f","download":"\u2b07\ufe0f","share":"\u21aa\ufe0f","post":"\ud83d\udcdd",
+ "comment":"\ud83d\udcac","like":"\ud83d\udc4d","follow":"\ud83d\udc65","screen":"\ud83d\udcbb","battery":"\ud83d\udd0b",
+ "wifi":"\ud83d\udcf6","useful":"\u2705","addictive":"\u26a0\ufe0f","fast":"\u26a1","slow":"\ud83d\udc22",
+
+ // === Common verbs (default heuristic) ===
+ "go":"\u27a1\ufe0f","come":"\u2b05\ufe0f","walk":"\ud83d\udeb6","run":"\ud83c\udfc3","drive":"\ud83d\ude97",
+ "fly":"\u2708\ufe0f","ride":"\ud83d\udeb2","see":"\ud83d\udc41","look":"\ud83d\udc40","watch":"\ud83d\udc40",
+ "listen":"\ud83d\udc42","read":"\ud83d\udcd6","write":"\u270d","speak":"\ud83d\udde3","talk":"\ud83d\udde3",
+ "say":"\ud83d\udde3","ask":"\u2753","answer":"\u2705","wait":"\u23f3","stop":"\u270b",
+ "open":"\ud83d\udeaa","close":"\ud83d\udeaa","start":"\u25b6","finish":"\u23f9","sleep":"\ud83d\ude34",
+ "wake":"\u23f0","work":"\ud83d\udcbc","play":"\ud83c\udfae","love":"\u2764\ufe0f","like":"\ud83d\udc4d",
+ "hate":"\ud83d\udc4e","want":"\ud83d\ude4f","need":"\ud83d\ude4f","help":"\ud83d\ude4c","try":"\ud83c\udfaf",
+ "use":"\ud83d\udd27","make":"\ud83d\udd28","do":"\u2705","have":"\u270b","get":"\u2705","give":"\ud83c\udf81",
+ "take":"\u270b","find":"\ud83d\udd0d","lose":"\u2754","keep":"\ud83d\udd12","remember":"\ud83e\udde0","forget":"\ud83e\udd2a",
+
+ // === Abstract / advanced (B2-C2) ===
+ "argument":"\ud83d\udde3","evidence":"\ud83d\udd0d","claim":"\ud83d\udccc","theory":"\ud83e\uddee","fact":"\u2705",
+ "opinion":"\ud83d\udcad","democracy":"\ud83c\udfdb","government":"\ud83c\udfdb","election":"\ud83d\uddf3","vote":"\ud83d\uddf3",
+ "law":"\u2696","crime":"\ud83d\udea8","police":"\ud83d\udc6e","witness":"\ud83d\udc41","judge":"\u2696",
+ "economy":"\ud83d\udcb9","trade":"\ud83d\udcc8","market":"\ud83d\udcc9","capital":"\ud83c\udfdb","tax":"\ud83d\udcb8",
+ "climate":"\ud83c\udf21","environment":"\ud83c\udf31","carbon":"\ud83d\udca8","emissions":"\ud83d\udca8","planet":"\ud83c\udf0d",
+ "research":"\ud83d\udd2c","science":"\ud83d\udd2c","experiment":"\u2697","technology":"\u2699","data":"\ud83d\udcca",
+ "art":"\ud83c\udfa8","literature":"\ud83d\udcda","poetry":"\ud83d\udcdc","philosophy":"\ud83d\udcad","history":"\ud83c\udfdb",
+ "translation":"\ud83c\udf10","language":"\ud83d\udde3","dialect":"\ud83d\udde3","culture":"\ud83c\udfad","identity":"\ud83c\udd94",
+ "memory":"\ud83e\udde0","trust":"\ud83e\udd1d","freedom":"\ud83d\udd17","power":"\u26a1","authority":"\ud83c\udfdb",
+};
+
+function vocabEmoji(word){
+ if(!word) return '\ud83d\udcdd';
+ const w = String(word).toLowerCase();
+ if(WORD_EMOJI[word]) return WORD_EMOJI[word];
+ if(WORD_EMOJI[w]) return WORD_EMOJI[w];
+ // Heuristic by suffix / category
+ if(w.endsWith('ing'))   return '\ud83c\udfaf';        // verbs in -ing
+ if(w.endsWith('ed'))    return '\ud83d\udccc';        // past forms
+ if(w.endsWith('ly'))    return '\u2728';              // adverbs
+ if(w.endsWith('ful')||w.endsWith('ous')||w.endsWith('ive')) return '\ud83c\udfa8'; // adj
+ if(/^[a-z]+(-)?[a-z]+$/.test(w)) return '\ud83d\udcd6'; // single English word
+ return '\ud83d\udcdd';
+}
 
 function setTab(t){
  state.activeTab = t;
@@ -2684,7 +2875,7 @@ function markCard(status){
 function wireReading(){
  const rp = document.getElementById('rp-area');
  if(!rp) return;
- const key = 'sec_read_'+lessonKey(state.levelCode,state.lessonN);
+ const key = 'ge_read_'+lessonKey(state.levelCode,state.lessonN);
  const saved = localStorage.getItem(key);
  if(saved){rp.textContent=saved;rp.classList.remove('empty')}
  const update = ()=>{
@@ -2708,7 +2899,7 @@ function wireReading(){
 function wireWriting(){
  const w = document.getElementById('warea');
  if(!w) return;
- const key = 'sec_write_'+lessonKey(state.levelCode,state.lessonN);
+ const key = 'ge_write_'+lessonKey(state.levelCode,state.lessonN);
  w.value = localStorage.getItem(key)||'';
  const lv = COURSE.levels.find(l=>l.code===state.levelCode);
  const le = lv.lessons.find(x=>x.n===state.lessonN);
@@ -2729,7 +2920,7 @@ function wireWriting(){
 }
 function saveWriting(){
  const w = document.getElementById('warea');
- const key = 'sec_write_'+lessonKey(state.levelCode,state.lessonN);
+ const key = 'ge_write_'+lessonKey(state.levelCode,state.lessonN);
  localStorage.setItem(key, w.value);
  notify(t('Draft saved'));
 }
@@ -2737,7 +2928,7 @@ function exportWriting(){
  const w = document.getElementById('warea');
  const lv = state.levelCode, n = state.lessonN;
  const le = COURSE.levels.find(l=>l.code===lv).lessons.find(x=>x.n===n);
- const txt = `Systems Engineers English \u2013 ${lv} Class ${n}\n${le.topic}\n\n${w.value}`;
+ const txt = `General English \u2013 ${lv} Class ${n}\n${le.topic}\n\n${w.value}`;
  const blob = new Blob([txt],{type:'text/plain'});
  const url = URL.createObjectURL(blob);
  const a = document.createElement('a'); a.href=url; a.download=`writing-${lv}-${n}.txt`; a.click();
@@ -2751,14 +2942,14 @@ function exportForFeedback(){
  const le = COURSE.levels.find(l=>l.code===lv).lessons.find(x=>x.n===n);
  const wc = w.value.trim().split(/\s+/).filter(Boolean).length;
  const out = {
-  course: 'Systems Engineers English Course',
+  course: 'General English Course',
   level_cefr: lv,
   lesson_number: n,
   lesson_topic: le.topic,
   grammar_focus: le.grammar,
   writing_target: le.writing,
   target_word_range: parseRangeAny(le.writing) || null,
-  cyber_angle: le.cyber,
+  culture_note: le.cyber,
   vocabulary_target: le.vocab_list,
   student_writing: w.value,
   word_count: wc,
@@ -2786,7 +2977,7 @@ function clearWriting(){
 // ---------- GLOBAL ----------
 function resetProgress(){
  if(!confirm(t('Reset ALL progress (lessons, vocabulary, drafts)?'))) return;
- Object.keys(localStorage).filter(k=>k.startsWith('sec_')).forEach(k=>localStorage.removeItem(k));
+ Object.keys(localStorage).filter(k=>k.startsWith('ge_')).forEach(k=>localStorage.removeItem(k));
  state.progress={}; state.vocab={};
  render(); notify(t('Progress reset'));
 }
@@ -2794,7 +2985,7 @@ function exportProgress(){
  const out = {progress:state.progress, vocab:state.vocab, date:new Date().toISOString()};
  const blob = new Blob([JSON.stringify(out,null,2)],{type:'application/json'});
  const url = URL.createObjectURL(blob);
- const a = document.createElement('a'); a.href=url; a.download='systems-english-progress.json'; a.click();
+ const a = document.createElement('a'); a.href=url; a.download='general-english-progress.json'; a.click();
  URL.revokeObjectURL(url);
 }
 function notify(msg){
@@ -2819,6 +3010,28 @@ html = html.replace("__LVL_ICONS__", json.dumps(LVL_ICON))
 # Raw string quedo con secuencias \uXXXX literales: las convierto a caracteres reales.
 import re as _re
 html = _re.sub(r'\\u([0-9A-Fa-f]{4})', lambda m: chr(int(m.group(1), 16)), html)
+
+# Combine surrogate pairs (high D800-DBFF + low DC00-DFFF) into the real
+# astral-plane codepoint they encode. This rescues emojis like 👤
+# that the previous step left as two separate (invalid) code units.
+def _join_surrogates(s):
+    out = []
+    i = 0
+    n = len(s)
+    while i < n:
+        c = ord(s[i])
+        if 0xD800 <= c <= 0xDBFF and i + 1 < n:
+            d = ord(s[i+1])
+            if 0xDC00 <= d <= 0xDFFF:
+                cp = 0x10000 + ((c - 0xD800) << 10) + (d - 0xDC00)
+                out.append(chr(cp))
+                i += 2
+                continue
+        out.append(s[i])
+        i += 1
+    return "".join(out)
+
+html = _join_surrogates(html)
 
 OUT.write_text(html, encoding="utf-8")
 size_kb = OUT.stat().st_size/1024

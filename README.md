@@ -10,11 +10,16 @@
 
 ---
 
-## 🚀 Open the app
+## 🚀 Open the apps
 
-**👉 [https://bacman2000.github.io/systems-engineers-english/course-app/](https://bacman2000.github.io/systems-engineers-english/course-app/)**
+This repository hosts **two sister apps** that share the same UI and pedagogy. Pick the variant that matches your audience:
 
-Works on any modern browser, desktop or mobile. No installation, no account, no fees. Progress is saved locally in the browser.
+| | App | Audience | Live URL |
+|---|---|---|---|
+| 🛡️ | **Systems Engineers English** | IT / cybersecurity professionals | **[bacman2000.github.io/systems-engineers-english/course-app/](https://bacman2000.github.io/systems-engineers-english/course-app/)** |
+| 🌍 | **General English** | Adult learners, everyday topics | **[bacman2000.github.io/systems-engineers-english/general-english-app/](https://bacman2000.github.io/systems-engineers-english/general-english-app/)** |
+
+Both apps work on any modern browser, on **desktop, tablet or mobile**. No installation, no account, no fees. Progress is saved locally in each browser. Mobile users get a hamburger menu, large touch targets and a layout fully optimised for small screens.
 
 ---
 

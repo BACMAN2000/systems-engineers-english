@@ -433,24 +433,131 @@ code,.mono{font-family:'JetBrains Mono',Consolas,monospace}
 .content-pending{background:linear-gradient(135deg,#FEF3C7,#FDE68A);border:1px dashed #F59E0B;border-radius:12px;padding:16px 20px;color:#78350F;font-size:.9rem;margin-bottom:14px;display:flex;gap:12px;align-items:center}
 .content-pending i{font-size:1.4rem;color:#D97706}
 
-/* responsive */
+/* ===== RESPONSIVE: tablet ===== */
 @media(max-width:900px){
  .lay{grid-template-columns:1fr}
- .sb{display:none;position:fixed;left:0;top:108px;bottom:0;width:280px;z-index:99;box-shadow:6px 0 20px rgba(0,0,0,.2)}
+ .sb{display:none;position:fixed;left:0;top:108px;bottom:0;width:280px;z-index:99;box-shadow:6px 0 20px rgba(0,0,0,.2);overflow-y:auto}
  .sb.op{display:block}
- .mn{padding:18px}
+ .mn{padding:18px;max-width:100%}
  .wel-stats{grid-template-columns:repeat(2,1fr)}
  .lvl-grid{grid-template-columns:1fr}
  .hd{padding:10px 14px}
  .pbar{padding:0 10px}
  .pmini{display:none}
  .hdr-r .hd-btn-label{display:none}
+ .info-grid{grid-template-columns:1fr}
+ .lesson-grid{grid-template-columns:1fr}
+ .ex-match{grid-template-columns:1fr}
+ .read-stats{grid-template-columns:repeat(2,1fr)}
+ .audio-pool{grid-template-columns:1fr}
+ .ln-phrases{grid-template-columns:1fr}
+ .vocab-list{grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+ .ln-table{font-size:.78rem}
+ .ln-table th,.ln-table td{padding:6px 8px}
+ .mobile-menu-btn{display:flex !important}
+ .sb-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:98}
+ .sb-overlay.op{display:block}
+}
+/* ===== RESPONSIVE: phone ===== */
+@media(max-width:600px){
+ body{font-size:14px}
+ .hd{padding:8px 10px;flex-wrap:wrap;gap:8px}
+ .logo{gap:8px;flex:1;min-width:0}
+ .logo-box{width:38px;height:38px;font-size:1.05rem}
+ .logo-tx .t1{font-size:.92rem}
+ .logo-tx .t2{font-size:.62rem;letter-spacing:.8px}
+ .hdr-r{gap:6px}
+ .hd-btn{padding:6px 8px;font-size:.74rem}
+ .lang-pill{padding:1px}
+ .lang-opt{padding:4px 8px;font-size:.7rem}
+ .pbar{padding:0 4px}
+ .ptab{padding:11px 12px;font-size:.74rem;gap:5px}
+ .lay{min-height:calc(100vh - 96px)}
+ .sb{top:96px;width:85vw;max-width:300px}
+ .mn{padding:14px 12px}
+ .wel{padding:6px 0 18px}
+ .wel h1{font-size:1.45rem;line-height:1.2}
+ .wel p.lead{font-size:.92rem}
+ .wel-stats{grid-template-columns:repeat(2,1fr);gap:8px}
+ .wel-stat{padding:12px 8px}
+ .wel-stat-v{font-size:1.4rem}
+ .wel-stat-l{font-size:.65rem}
+ .lvl-card{padding:14px}
+ .section h2{font-size:1.05rem}
+ .tbl{font-size:.74rem}
+ .tbl th,.tbl td{padding:7px 8px}
+ .lhd h1{font-size:1.35rem;line-height:1.2}
+ .lhd .lh-sub{font-size:.82rem}
+ .tabs{gap:0}
+ .tab{padding:9px 11px;font-size:.78rem}
+ .tab i{font-size:.78rem}
+ .info-card{padding:14px}
+ .info-card p{font-size:.86rem}
+ .callout{padding:11px 14px;font-size:.85rem}
+ .ln-section{padding:14px 16px}
+ .ln-warmup,.ln-grammar,.ln-tip{padding:13px 16px}
+ .ln-grammar .lng-title{font-size:.95rem}
+ .ln-grammar .lng-rule{font-size:.85rem}
+ .lesson-nav{flex-direction:column;align-items:stretch;gap:8px}
+ .lesson-nav .btn{width:100%;justify-content:center}
+ .vocab-list{grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:7px}
+ .v-chip{padding:7px 10px;font-size:.82rem;gap:7px}
+ .flashcard{padding:24px 18px;min-height:130px}
+ .flashcard .fc-w{font-size:1.55rem}
+ .fc-actions{flex-wrap:wrap;justify-content:center}
+ .fc-btn{padding:7px 12px;font-size:.78rem}
+ .passage-card{padding:16px 16px}
+ .passage-title{font-size:1.05rem}
+ .passage-body{font-size:.94rem;line-height:1.7}
+ .ex-block{padding:13px 14px}
+ .ex-q{font-size:.9rem}
+ .ex-opt{padding:9px 11px;font-size:.86rem}
+ .uoe-intro{padding:14px 16px}
+ .uoe-intro h3{font-size:.95rem}
+ .uoe-intro p{font-size:.8rem}
+ .uoe-sent{font-size:.88rem;padding:8px 11px}
+ .uoe-keyword{padding:2px 9px;font-size:.74rem}
+ .write-meta{padding:11px 13px;font-size:.8rem}
+ .warea{min-height:200px;padding:13px;font-size:.92rem}
+ .audio-src-card{padding:14px 16px}
+ .pron-modal{margin:0 8px;border-radius:14px}
+ .pron-head{padding:18px 18px 14px}
+ .pron-word{font-size:1.7rem}
+ .pron-body{padding:14px 18px 18px;max-height:55vh}
+ .pron-mark-row,.pron-voices{flex-direction:column}
+ .pron-mark-btn,.pron-voice-btn{width:100%;justify-content:center}
+ .footer{padding:18px 12px;font-size:.7rem}
+ .ln-table{font-size:.72rem;display:block;overflow-x:auto;white-space:nowrap}
+ .ln-mist-wr,.ln-mist-ri{font-size:.84rem}
+ .ln-ex{flex-direction:column;align-items:stretch;gap:6px}
+ .ln-ex-note{text-align:left;align-self:flex-start}
+}
+@media(max-width:380px){
+ .ptab{padding:9px 8px;font-size:.7rem}
+ .logo-tx .t1{font-size:.84rem}
+ .wel h1{font-size:1.25rem}
+ .vocab-list{grid-template-columns:1fr 1fr}
+}
+@media(hover:none) and (pointer:coarse){
+ .v-chip:hover{transform:none;box-shadow:none}
+ .lvl-card:hover{transform:none;box-shadow:none}
+ .ex-opt:hover{background:initial}
+ button,.btn,.tab,.ptab,.v-chip,.ex-opt,.lsn-item{min-height:40px;-webkit-tap-highlight-color:rgba(37,99,235,.15)}
+}
+*{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+input,textarea,button,select{font:inherit}
+img{max-width:100%;height:auto}
+@supports not (backdrop-filter:blur(4px)){
+ .pron-overlay{background:rgba(15,23,42,.85)}
 }
 </style>
 </head>
 <body>
 <!-- HEADER -->
 <header class="hd">
+ <button class="mobile-menu-btn" onclick="toggleSidebar()" aria-label="Open menu" title="Menu" style="display:none;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);color:#fff;width:38px;height:38px;border-radius:8px;align-items:center;justify-content:center;cursor:pointer;font-size:1rem;flex-shrink:0">
+  <i class="fas fa-bars"></i>
+ </button>
  <div class="logo" onclick="route('home')">
   <div class="logo-box"><i class="fas fa-microchip"></i></div>
   <div class="logo-tx">
@@ -481,6 +588,7 @@ code,.mono{font-family:'JetBrains Mono',Consolas,monospace}
 
 <!-- LAYOUT -->
 <div class="lay">
+ <div class="sb-overlay" id="sb-overlay" onclick="toggleSidebar()"></div>
  <aside class="sb" id="sb"></aside>
  <main class="mn" id="mn"></main>
 </div>
@@ -810,6 +918,22 @@ function levelDone(lv){return COURSE.levels.find(l=>l.code===lv).lessons.filter(
 // =============================================================
 // ROUTING
 // =============================================================
+function toggleSidebar(){
+ const sb = document.getElementById('sb');
+ const ov = document.getElementById('sb-overlay');
+ if(!sb) return;
+ const opening = !sb.classList.contains('op');
+ sb.classList.toggle('op', opening);
+ if(ov) ov.classList.toggle('op', opening);
+ document.body.style.overflow = opening ? 'hidden' : '';
+}
+function closeSidebar(){
+ const sb = document.getElementById('sb');
+ const ov = document.getElementById('sb-overlay');
+ if(sb) sb.classList.remove('op');
+ if(ov) ov.classList.remove('op');
+ document.body.style.overflow = '';
+}
 function route(view,lv,n){
  state.view = view;
  state.levelCode = lv || null;
@@ -817,6 +941,7 @@ function route(view,lv,n){
  state.activeTab = 'overview';
  state.flashIdx = 0;
  state.flashFlipped = false;
+ closeSidebar();
  // reset exercise runtime state
  window.__exDone = new Set();
  window.__uoeDone = new Set();
