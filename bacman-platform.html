@@ -932,6 +932,10 @@ const CFG = {
     serviceId:  'YOUR_EMAILJS_SERVICE_ID',   // ← replace
     templateId: 'YOUR_EMAILJS_TEMPLATE_ID',  // ← replace
   },
+  // ── Google Sheets cloud storage ──────────────────────────
+  // Paste your Apps Script Web App URL here after deploying
+  sheetUrl: 'YOUR_APPS_SCRIPT_URL',          // ← replace
+  // ─────────────────────────────────────────────────────────
   adminPass:    'bacman2025',
   teacherEmail: 'paolobaca2000@gmail.com',
   teacher:      'Paolo Baca',
@@ -2024,9 +2028,20 @@ function submitPractice() {
     achievedAll: allPerfect,
   };
 
+  // Save locally as backup
   const stored = JSON.parse(localStorage.getItem('bacman_submissions') || '[]');
   stored.push(result);
   localStorage.setItem('bacman_submissions', JSON.stringify(stored));
+
+  // Save to Google Sheets cloud (if configured)
+  if (CFG.sheetUrl && CFG.sheetUrl !== 'YOUR_APPS_SCRIPT_URL') {
+    fetch(CFG.sheetUrl, {
+      method: 'POST',
+      mode: 'no-cors',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(result),
+    }).catch(() => {});
+  }
 
   renderDone(result);
   goTo('done');
@@ -2186,39 +2201,56 @@ function adminLogin() {
   }
 }
 
-function renderAdmin() {
-  const submissions = JSON.parse(localStorage.getItem('bacman_submissions') || '[]');
+async function renderAdmin() {
+  const container = document.getElementById('adm-table-container');
+  container.innerHTML = `<div class="empty-st"><div style="font-size:1.5rem">⏳</div>Loading submissions…</div>`;
+
+  let submissions = [];
+
+  // Try cloud first
+  if (CFG.sheetUrl && CFG.sheetUrl !== 'YOUR_APPS_SCRIPT_URL') {
+    try {
+      const resp = await fetch(CFG.sheetUrl + '?action=get', { cache: 'no-store' });
+      if (resp.ok) {
+        const text = await resp.text();
+        submissions = JSON.parse(text);
+      }
+    } catch(e) {
+      // fall through to localStorage
+    }
+  }
+
+  // Fallback: merge localStorage submissions not yet in cloud
+  const local = JSON.parse(localStorage.getItem('bacman_submissions') || '[]');
+  const cloudIds = new Set(submissions.map(r => r.id));
+  local.forEach(r => { if (!cloudIds.has(r.id)) submissions.push(r); });
 
   document.getElementById('st-total').textContent = submissions.length;
   if (submissions.length === 0) {
     document.getElementById('st-avg').textContent = '—';
     document.getElementById('st-perfect').textContent = '0';
     document.getElementById('st-avgtime').textContent = '—';
-  } else {
-    const avgPct = Math.round(submissions.reduce((a,r) => a + r.percent, 0) / submissions.length);
-    const perfect = submissions.filter(r => r.achievedAll).length;
-    const avgSec  = Math.round(submissions.reduce((a,r) => a + r.timeSec, 0) / submissions.length);
-    document.getElementById('st-avg').textContent = avgPct + '%';
-    document.getElementById('st-perfect').textContent = perfect;
-    document.getElementById('st-avgtime').textContent = fmt(avgSec);
-  }
-
-  const container = document.getElementById('adm-table-container');
-  if (submissions.length === 0) {
     container.innerHTML = `<div class="empty-st"><div>📋</div>No submissions yet. Students will appear here after completing the practice.</div>`;
     return;
   }
+
+  const avgPct = Math.round(submissions.reduce((a,r) => a + r.percent, 0) / submissions.length);
+  const perfect = submissions.filter(r => r.achievedAll).length;
+  const avgSec  = Math.round(submissions.reduce((a,r) => a + r.timeSec, 0) / submissions.length);
+  document.getElementById('st-avg').textContent = avgPct + '%';
+  document.getElementById('st-perfect').textContent = perfect;
+  document.getElementById('st-avgtime').textContent = fmt(avgSec);
 
   const rows = [...submissions].reverse().map((r) => {
     const pct = r.percent;
     const scoreCls = pct >= 80 ? 'sc-great' : pct >= 60 ? 'sc-ok' : 'sc-low';
     const s = r.sections;
     const detail = [
-      `A: ${s.a.score} (${s.a.checks}x)`,
-      `B: ${s.b.score} (${s.b.checks}x)`,
+      `A: ${s.a.score} (${s.a.checks||0}x)`,
+      `B: ${s.b.score} (${s.b.checks||0}x)`,
       `C: ${s.c.score}`,
       `D: ${s.d.score}`,
-      `E: ${s.e.score} (${s.e.checks}x)`,
+      `E: ${s.e.score} (${s.e.checks||0}x)`,
     ].join(' · ');
     const actLabel = r.activity || 'Passive Reporting Structures';
     const date = new Date(r.timestamp).toLocaleDateString('es-PE', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' });
@@ -2242,7 +2274,7 @@ function renderAdmin() {
 }
 
 function clearData() {
-  if (confirm('Delete all student submission data? This cannot be undone.')) {
+  if (confirm('Delete all local submission data? (Cloud data in Google Sheets is not deleted here)')) {
     localStorage.removeItem('bacman_submissions');
     renderAdmin();
   }
