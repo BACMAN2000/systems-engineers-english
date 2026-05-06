@@ -2257,27 +2257,31 @@ async function renderAdmin() {
   document.getElementById('st-avgtime').textContent = fmt(avgSec);
 
   const rows = [...submissions].reverse().map((r) => {
+    try {
     const pct = r.percent;
     const scoreCls = pct >= 80 ? 'sc-great' : pct >= 60 ? 'sc-ok' : 'sc-low';
-    const s = r.sections;
+    const s = r.sections || {};
+    const sa = s.a || {}; const sb = s.b || {}; const sc = s.c || {}; const sd = s.d || {}; const se = s.e || {};
     const detail = [
-      `A: ${s.a.score} (${s.a.checks||0}x)`,
-      `B: ${s.b.score} (${s.b.checks||0}x)`,
-      `C: ${s.c.score}`,
-      `D: ${s.d.score}`,
-      `E: ${s.e.score} (${s.e.checks||0}x)`,
+      `A: ${sa.score||'—'} (${sa.checks||0}x)`,
+      `B: ${sb.score||'—'} (${sb.checks||0}x)`,
+      `C: ${sc.score||'—'}`,
+      `D: ${sd.score||'—'}`,
+      `E: ${se.score||'—'} (${se.checks||0}x)`,
     ].join(' · ');
     const actLabel = r.activity || 'Passive Reporting Structures';
+    const st = r.student || {};
     const date = new Date(r.timestamp).toLocaleDateString('es-PE', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' });
     return `<tr>
-      <td><div class="td-name">${r.student.name}</div><div class="td-email">${r.student.email}</div></td>
+      <td><div class="td-name">${st.name||r.name||'—'}</div><div class="td-email">${st.email||r.email||''}</div></td>
       <td><div style="font-size:.72rem;color:var(--a-muted)">${actLabel}</div></td>
-      <td class="td-score ${scoreCls}">${pct}%<br><span style="font-size:.72rem;font-weight:400;color:var(--a-muted)">${r.totalScore}</span></td>
+      <td class="td-score ${scoreCls}">${pct}%<br><span style="font-size:.72rem;font-weight:400;color:var(--a-muted)">${r.totalScore||''}</span></td>
       <td class="td-time">${fmt(r.timeSec)}</td>
       <td>${r.achievedAll ? '<span style="color:#34D399;font-weight:800">✓ All 100%</span>' : '<span style="color:var(--a-muted)">In progress</span>'}</td>
       <td class="td-detail">${detail}</td>
       <td style="color:var(--a-muted);font-size:.72rem;white-space:nowrap">${date}</td>
     </tr>`;
+    } catch(rowErr) { console.warn('Row render error:', rowErr, r); return ''; }
   }).join('');
 
   container.innerHTML = `<table>
