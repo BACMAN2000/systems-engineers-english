@@ -2034,14 +2034,7 @@ function submitPractice() {
   localStorage.setItem('bacman_submissions', JSON.stringify(stored));
 
   // Save to Google Sheets cloud (if configured)
-  if (CFG.sheetUrl && CFG.sheetUrl !== 'YOUR_APPS_SCRIPT_URL') {
-    fetch(CFG.sheetUrl, {
-      method: 'POST',
-      mode: 'no-cors',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(result),
-    }).catch(() => {});
-  }
+  cloudSend(result);
 
   renderDone(result);
   goTo('done');
@@ -2305,15 +2298,20 @@ async function syncLocalToCloud() {
   // Upload any missing ones
   const missing = local.filter(r => !cloudIds.has(r.id));
   for (const result of missing) {
-    try {
-      await fetch(CFG.sheetUrl, {
-        method: 'POST',
-        mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(result),
-      });
-    } catch(e) {}
+    await cloudSend(result);
   }
+}
+
+// ── Single reliable send function (URLSearchParams = works with no-cors) ──
+function cloudSend(result) {
+  if (!CFG.sheetUrl || CFG.sheetUrl === 'YOUR_APPS_SCRIPT_URL') return Promise.resolve();
+  const params = new URLSearchParams();
+  params.append('data', JSON.stringify(result));
+  return fetch(CFG.sheetUrl, {
+    method: 'POST',
+    mode: 'no-cors',
+    body: params,
+  }).catch(() => {});
 }
 
 goTo('home');
