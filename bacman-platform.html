@@ -2283,7 +2283,41 @@ function clearData() {
 // ═══════════════════════════════════════════════════════════
 //  INIT
 // ═══════════════════════════════════════════════════════════
+
+// ── Auto-sync any locally saved submissions to Google Sheets ──
+// This recovers submissions made before the cloud integration.
+// Runs silently on every page load.
+async function syncLocalToCloud() {
+  if (!CFG.sheetUrl || CFG.sheetUrl === 'YOUR_APPS_SCRIPT_URL') return;
+  const local = JSON.parse(localStorage.getItem('bacman_submissions') || '[]');
+  if (local.length === 0) return;
+
+  // Check which IDs are already in the sheet
+  let cloudIds = new Set();
+  try {
+    const resp = await fetch(CFG.sheetUrl + '?action=get', { cache: 'no-store' });
+    if (resp.ok) {
+      const data = JSON.parse(await resp.text());
+      data.forEach(r => cloudIds.add(r.id));
+    }
+  } catch(e) { return; }
+
+  // Upload any missing ones
+  const missing = local.filter(r => !cloudIds.has(r.id));
+  for (const result of missing) {
+    try {
+      await fetch(CFG.sheetUrl, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(result),
+      });
+    } catch(e) {}
+  }
+}
+
 goTo('home');
+syncLocalToCloud();
 </script>
 </body>
 </html>
