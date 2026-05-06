@@ -1,0 +1,2257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BACMAN Platform — Paolo Baca</title>
+<!-- EmailJS: https://www.emailjs.com — see CONFIG section below to set up -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+<style>
+:root {
+  /* Brand */
+  --purple:   #6C11ED;
+  --purple2:  #9B35F5;
+  --pink:     #FF3CAC;
+  --gold:     #F9CB28;
+  --teal:     #00C896;
+  --coral:    #FF6B6B;
+  --grad:     linear-gradient(135deg, #6C11ED 0%, #9B35F5 55%, #FF3CAC 100%);
+  --grad-gold:linear-gradient(135deg, #F9CB28 0%, #FF8C42 100%);
+  /* Student */
+  --s-bg:    #F3EEFF;
+  --s-card:  #FFFFFF;
+  --s-bord:  #E4D4FF;
+  --s-text:  #1A1030;
+  --s-muted: #7C6EA8;
+  /* Admin */
+  --a-bg:    #070C1A;
+  --a-card:  #0F1729;
+  --a-card2: #172040;
+  --a-bord:  #1E2D52;
+  --a-text:  #EEF2FF;
+  --a-muted: #7B90C5;
+  --a-gold:  #F9CB28;
+  --a-purp:  #8B5CF6;
+  /* States */
+  --ok:      #10B981;
+  --ok-bg:   #ECFDF5;
+  --err:     #EF4444;
+  --err-bg:  #FEF2F2;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', system-ui, sans-serif; line-height: 1.5; }
+.view { display: none; min-height: 100vh; flex-direction: column; }
+.view.active { display: flex; }
+
+/* ═══════════════════════════════════════════════════
+   HOME
+═══════════════════════════════════════════════════ */
+#vh { background: var(--a-bg); color: var(--a-text); }
+
+.h-header {
+  background: var(--grad);
+  padding: 44px 24px 70px; text-align: center;
+  position: relative; overflow: hidden;
+}
+.h-header::before {
+  content:''; position:absolute; inset:0; opacity:.04;
+  background-image: repeating-linear-gradient(45deg,#fff 0,#fff 1px,transparent 0,transparent 50%);
+  background-size: 20px 20px;
+}
+.h-badge {
+  display: inline-block;
+  background: rgba(255,255,255,.18); border: 1px solid rgba(255,255,255,.3);
+  color: white; font-size: .7rem; font-weight: 800; letter-spacing: 3px;
+  text-transform: uppercase; padding: 5px 14px; border-radius: 20px; margin-bottom: 18px;
+}
+.h-logo { font-size: clamp(2.8rem,9vw,4.5rem); font-weight: 900; color: white; letter-spacing: -2px; line-height: 1; }
+.h-logo em { color: var(--gold); font-style: normal; }
+.h-tagline { color: rgba(255,255,255,.8); font-size: .95rem; margin-top: 8px; }
+.h-teacher { color: rgba(255,255,255,.65); font-size: .8rem; margin-top: 4px; }
+
+.h-body { max-width: 860px; width: 100%; margin: -36px auto 40px; padding: 0 20px; flex: 1; }
+
+.h-period {
+  display: flex; align-items: center; gap: 12px;
+  color: var(--a-muted); font-size: .75rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px;
+}
+.h-period::before,.h-period::after { content:''; flex:1; height:1px; background: var(--a-bord); }
+
+.group-card {
+  background: var(--a-card); border: 1px solid var(--a-bord);
+  border-radius: 20px; overflow: hidden;
+  box-shadow: 0 24px 60px rgba(0,0,0,.5);
+  transition: transform .2s;
+}
+.gc-top {
+  background: var(--grad); padding: 22px 24px;
+  display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;
+}
+.gc-name { font-size: 1.5rem; font-weight: 900; color: white; }
+.gc-level {
+  background: rgba(255,255,255,.2); color: white; font-size: .78rem; font-weight: 800;
+  padding: 4px 14px; border-radius: 14px; border: 1px solid rgba(255,255,255,.3);
+}
+.gc-body { padding: 22px; }
+
+.act-row {
+  display: flex; align-items: center; gap: 16px;
+  padding: 18px; border-radius: 14px; border: 1px solid var(--a-bord);
+  background: var(--a-card2); cursor: pointer;
+  transition: border-color .2s, transform .2s, box-shadow .2s;
+}
+.act-row:hover { border-color: var(--purple); transform: translateY(-3px); box-shadow: 0 12px 32px rgba(108,17,237,.25); }
+.act-icon {
+  width: 52px; height: 52px; border-radius: 14px; background: var(--grad);
+  display: flex; align-items: center; justify-content: center; font-size: 1.4rem; flex-shrink: 0;
+}
+.act-info { flex: 1; }
+.act-title { font-weight: 800; color: var(--a-text); font-size: 1.05rem; }
+.act-meta { font-size: .78rem; color: var(--a-muted); margin-top: 2px; }
+.act-tags { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+.tag { font-size: .7rem; font-weight: 700; padding: 3px 9px; border-radius: 6px; }
+.tag-gram { background: #2D1B69; color: #C4B5FD; }
+.tag-b2   { background: #1A3028; color: #6EE7B7; }
+.tag-ex   { background: #1A2040; color: #93C5FD; }
+.act-arr { color: var(--a-muted); font-size: 1.2rem; }
+
+.h-footer {
+  text-align: center; padding: 20px; border-top: 1px solid var(--a-bord);
+  color: var(--a-muted); font-size: .78rem;
+}
+.admin-link {
+  display: inline-block; margin-top: 8px; color: var(--a-muted);
+  font-size: .72rem; cursor: pointer; transition: color .2s; text-decoration: none;
+  user-select: none;
+}
+.admin-link:hover { color: var(--gold); }
+
+/* ═══════════════════════════════════════════════════
+   LOGIN
+═══════════════════════════════════════════════════ */
+#vl {
+  background: radial-gradient(ellipse at 60% 20%, rgba(108,17,237,.2) 0%, transparent 60%), var(--s-bg);
+  align-items: center; justify-content: center; padding: 24px;
+}
+.login-card {
+  background: white; border-radius: 22px;
+  box-shadow: 0 24px 70px rgba(108,17,237,.18);
+  padding: 40px 36px; max-width: 440px; width: 100%;
+  border: 1px solid var(--s-bord);
+}
+.lc-brand {
+  text-align: center; margin-bottom: 28px;
+}
+.lc-logo {
+  font-size: 1.8rem; font-weight: 900;
+  background: var(--grad); -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; background-clip: text;
+  line-height: 1;
+}
+.lc-group { font-size: .82rem; color: var(--s-muted); margin-top: 4px; }
+.lc-divider { height: 1px; background: var(--s-bord); margin: 0 -8px 24px; }
+.lc-title { font-size: 1.15rem; font-weight: 800; color: var(--s-text); margin-bottom: 4px; }
+.lc-desc { font-size: .83rem; color: var(--s-muted); margin-bottom: 22px; }
+.fgroup { margin-bottom: 18px; }
+.fgroup label {
+  display: block; font-size: .75rem; font-weight: 800; color: var(--s-muted);
+  text-transform: uppercase; letter-spacing: .8px; margin-bottom: 7px;
+}
+.fgroup input {
+  width: 100%; padding: 13px 16px; border: 2px solid var(--s-bord); border-radius: 10px;
+  font-size: .95rem; font-family: inherit; color: var(--s-text); outline: none;
+  background: #FAFAFA; transition: border-color .2s, box-shadow .2s;
+}
+.fgroup input:focus {
+  border-color: var(--purple); background: white;
+  box-shadow: 0 0 0 4px rgba(108,17,237,.1);
+}
+.btn-start {
+  width: 100%; padding: 15px; border: none; border-radius: 12px;
+  background: var(--grad); color: white; font-size: 1.02rem;
+  font-weight: 800; cursor: pointer; font-family: inherit;
+  box-shadow: 0 6px 24px rgba(108,17,237,.4); transition: opacity .2s, transform .15s;
+}
+.btn-start:hover { opacity: .9; transform: translateY(-2px); }
+.lc-note { font-size: .72rem; color: var(--s-muted); text-align: center; margin-top: 12px; }
+.lc-back { display: block; text-align: center; margin-top: 16px; font-size: .8rem; color: var(--s-muted); cursor: pointer; }
+.lc-back:hover { color: var(--purple); }
+
+/* ═══════════════════════════════════════════════════
+   PRACTICE
+═══════════════════════════════════════════════════ */
+#vp { background: var(--s-bg); }
+
+.p-header {
+  background: var(--grad); padding: 14px 20px;
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  position: sticky; top: 0; z-index: 100;
+  box-shadow: 0 4px 24px rgba(108,17,237,.35);
+}
+.ph-info { min-width: 0; }
+.ph-title { font-weight: 800; color: white; font-size: .95rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ph-sub { font-size: .72rem; color: rgba(255,255,255,.75); }
+.ph-timer {
+  background: rgba(0,0,0,.28); border: 1px solid rgba(255,255,255,.2);
+  border-radius: 10px; padding: 7px 16px; color: white; font-size: 1.1rem;
+  font-weight: 800; font-variant-numeric: tabular-nums;
+  display: flex; align-items: center; gap: 7px; flex-shrink: 0;
+}
+.t-dot { width: 8px; height: 8px; border-radius: 50%; background: #00FF99; animation: blink 1s infinite; }
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:.15} }
+.ph-student { text-align: right; flex-shrink: 0; }
+.ph-sname { color: white; font-weight: 700; font-size: .88rem; white-space: nowrap; max-width: 140px; overflow: hidden; text-overflow: ellipsis; }
+.ph-sgroup { font-size: .68rem; color: rgba(255,255,255,.7); }
+
+.p-body { max-width: 880px; width: 100%; margin: 22px auto; padding: 0 16px; flex: 1; }
+
+/* Ref card */
+.ref-details { margin-bottom: 12px; }
+.ref-details summary {
+  padding: 11px 16px; cursor: pointer; background: white;
+  border-radius: 10px; border: 1px solid var(--s-bord);
+  font-weight: 700; font-size: .85rem; color: var(--purple);
+  list-style: none; display: flex; align-items: center; gap: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.06);
+}
+.ref-details summary::after { content:'▼'; font-size:.65rem; margin-left:auto; transition:transform .2s; }
+.ref-details[open] summary::after { transform:rotate(180deg); }
+.ref-inner {
+  background: white; border: 1px solid var(--s-bord); border-top: none;
+  border-radius: 0 0 10px 10px; padding: 14px 16px; font-size: .83rem;
+}
+.ref-table { width:100%; border-collapse:collapse; }
+.ref-table th { background:var(--purple); color:white; padding:7px 10px; text-align:left; font-size:.8rem; }
+.ref-table td { padding:8px 10px; border-bottom:1px solid var(--s-bord); vertical-align:top; line-height:1.5; }
+.ref-table tr:last-child td { border:none; }
+.rf { font-style:italic; font-weight:700; color:var(--purple); }
+.re { color:var(--pink); font-weight:700; font-style:normal; }
+.ref-verbs { margin-top:10px; }
+.rv { display:inline-block; background:#F5F0FF; border:1px solid #DDD6FE; border-radius:5px; padding:2px 8px; margin:2px; font-size:.78rem; color:var(--purple); }
+
+/* Exercise tabs */
+.ex-tabs { display:flex; gap:5px; flex-wrap:wrap; }
+.ex-tab {
+  padding: 9px 13px; border:none; border-radius:8px 8px 0 0;
+  font-size:.78rem; font-weight:800; cursor:pointer; font-family:inherit;
+  display:flex; align-items:center; gap:5px; transition:all .15s;
+}
+.ex-tab .ts { font-size:.75rem; }
+.tab-a { background:#EDE9FF; color:#5B21B6; }
+.tab-b { background:#FFF0F5; color:#9D174D; }
+.tab-c { background:#F0FDF4; color:#166534; }
+.tab-d { background:#FFFBEB; color:#78350F; }
+.tab-e { background:#EFF6FF; color:#1E40AF; }
+.tab-a.active { background:white; box-shadow: 0 -3px 0 #7C3AED inset; }
+.tab-b.active { background:white; box-shadow: 0 -3px 0 #EC4899 inset; }
+.tab-c.active { background:white; box-shadow: 0 -3px 0 #10B981 inset; }
+.tab-d.active { background:white; box-shadow: 0 -3px 0 #F59E0B inset; }
+.tab-e.active { background:white; box-shadow: 0 -3px 0 #3B82F6 inset; }
+
+.ex-sec { display:none; }
+.ex-sec.active {
+  display:block; background:white; border-radius:0 12px 12px 12px;
+  box-shadow:0 4px 24px rgba(0,0,0,.09); padding:22px;
+}
+.ex-hd { margin-bottom:14px; }
+.ex-title { font-size:.97rem; font-weight:800; color:var(--s-text); display:flex; align-items:center; gap:10px; }
+.ex-icon {
+  width:34px; height:34px; border-radius:9px; display:flex; align-items:center;
+  justify-content:center; font-size:.85rem; font-weight:900; color:white; flex-shrink:0;
+}
+.ic-a { background:linear-gradient(135deg,#7C3AED,#A855F7); }
+.ic-b { background:linear-gradient(135deg,#EC4899,#F97316); }
+.ic-c { background:linear-gradient(135deg,#10B981,#06B6D4); }
+.ic-d { background:linear-gradient(135deg,#F59E0B,#EF4444); }
+.ic-e { background:linear-gradient(135deg,#3B82F6,#8B5CF6); }
+.ex-instr { font-size:.83rem; color:var(--s-muted); margin-top:5px; }
+.ex-att {
+  display:inline-flex; align-items:center; gap:4px;
+  background:#F5F0FF; border:1px solid #DDD6FE; border-radius:7px;
+  padding:3px 9px; font-size:.72rem; font-weight:700; color:var(--purple); margin-top:6px;
+}
+
+/* ── Fill in blank ── */
+.s-row {
+  display:flex; align-items:baseline; gap:5px; flex-wrap:wrap;
+  margin-bottom:12px; font-size:.91rem; line-height:1.7;
+}
+.s-num { color:var(--purple); font-weight:800; min-width:22px; }
+.b-in {
+  border:none; border-bottom:2px solid var(--purple); background:transparent;
+  font-size:.91rem; font-family:inherit; color:var(--s-text);
+  width:160px; outline:none; padding:0 4px; text-align:center; transition:all .2s;
+}
+.b-in:focus { border-color:var(--pink); }
+.b-in.ok { border-color:var(--ok); background:var(--ok-bg); color:var(--ok); border-radius:4px; }
+.b-in.no { border-color:var(--err); background:var(--err-bg); color:var(--err); border-radius:4px; }
+
+/* ── Transformation ── */
+.tf-item { margin-bottom:18px; }
+.tf-given {
+  padding:10px 14px; background:#F8F5FF;
+  border-left:3px solid var(--purple); border-radius:0 8px 8px 0;
+  font-size:.88rem; line-height:1.6; margin-bottom:7px;
+}
+.tf-prompt { font-size:.73rem; color:var(--s-muted); margin-bottom:5px; }
+.tf-in {
+  width:100%; border:2px solid var(--s-bord); border-radius:8px;
+  padding:10px 14px; font-size:.88rem; font-family:inherit;
+  color:var(--s-text); outline:none; transition:border-color .2s;
+}
+.tf-in:focus { border-color:var(--purple); box-shadow:0 0 0 3px rgba(108,17,237,.08); }
+.tf-in.ok { border-color:var(--ok); background:var(--ok-bg); }
+.tf-in.no { border-color:var(--err); background:var(--err-bg); }
+.tf-fb { font-size:.75rem; margin-top:4px; padding-left:4px; font-style:italic; }
+.tf-fb.ok { color:var(--ok); }
+.tf-fb.no { color:var(--err); }
+
+/* ── Matching ── */
+.match-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.mc-col-hd { font-size:.7rem; font-weight:800; text-transform:uppercase; letter-spacing:1px; color:var(--s-muted); margin-bottom:8px; }
+.mi {
+  padding:10px 12px; border-radius:9px; border:2px solid var(--s-bord);
+  font-size:.85rem; cursor:pointer; line-height:1.45; background:white;
+  transition:all .15s; user-select:none;
+}
+.mi:hover:not(.hit):not(.dim) { border-color:var(--purple); background:#F8F5FF; }
+.mi.sel { border-color:var(--pink); background:#FFF0F8; box-shadow:0 0 0 3px rgba(255,60,172,.12); }
+.mi.hit { border-color:var(--ok); background:var(--ok-bg); cursor:default; }
+.mi.miss { border-color:var(--err); background:var(--err-bg); animation:shake .3s; }
+.mi.dim { opacity:.32; cursor:default; pointer-events:none; }
+@keyframes shake{0%,100%{transform:translateX(0)}33%{transform:translateX(-5px)}66%{transform:translateX(5px)}}
+.mi .mn { font-weight:800; color:var(--purple); margin-right:3px; }
+.mi .ml { font-weight:800; color:var(--pink); margin-right:3px; }
+.match-prog { font-size:.8rem; color:var(--s-muted); margin-top:10px; }
+.match-mistakes { font-size:.75rem; color:var(--coral); margin-left:8px; }
+
+/* ── Multiple choice ── */
+.mc-q { margin-bottom:20px; }
+.mc-question {
+  padding:10px 14px; background:#F8F5FF; border-radius:8px;
+  font-size:.9rem; line-height:1.6; margin-bottom:9px;
+}
+.mc-opts { display:flex; flex-direction:column; gap:7px; }
+.mc-opt {
+  padding:9px 14px; border-radius:9px; border:2px solid var(--s-bord);
+  font-size:.87rem; cursor:pointer; display:flex; align-items:center; gap:8px;
+  transition:all .15s; background:white;
+}
+.mc-opt:hover:not(.dis) { border-color:var(--purple); background:#F8F5FF; }
+.mc-opt.ok { border-color:var(--ok); background:var(--ok-bg); color:var(--ok); font-weight:700; }
+.mc-opt.no { border-color:var(--err); background:var(--err-bg); color:var(--err); }
+.mc-opt.dis { cursor:default; }
+.mc-opt .ol { font-weight:800; width:22px; flex-shrink:0; }
+.mc-fb { font-size:.75rem; margin-top:5px; padding-left:4px; font-style:italic; color:var(--s-muted); }
+
+/* ── Error correction ── */
+.ec-item { margin-bottom:22px; }
+.ec-sent {
+  padding:10px 14px; background:#FFF8F0;
+  border-left:3px solid var(--coral); border-radius:0 8px 8px 0;
+  font-size:.88rem; line-height:1.6; margin-bottom:10px; font-style:italic; color:var(--s-text);
+}
+.ec-fields { display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end; }
+.ec-field { flex:1; min-width:130px; }
+.ec-lbl { font-size:.7rem; font-weight:800; text-transform:uppercase; letter-spacing:.6px; color:var(--s-muted); margin-bottom:4px; }
+.ec-in {
+  width:100%; border:2px solid var(--s-bord); border-radius:8px;
+  padding:9px 12px; font-size:.88rem; font-family:inherit; outline:none; transition:border-color .2s;
+}
+.ec-in:focus { border-color:var(--purple); }
+.ec-in.ok { border-color:var(--ok); background:var(--ok-bg); }
+.ec-in.no { border-color:var(--err); background:var(--err-bg); }
+.ec-arrow { color:var(--s-muted); font-size:1.2rem; padding-bottom:8px; flex-shrink:0; }
+.ec-fb { font-size:.75rem; margin-top:4px; font-style:italic; }
+.ec-fb.ok { color:var(--ok); }
+.ec-fb.no { color:var(--err); }
+
+/* ── Checkbox (can reduce?) ── */
+.cb-item { margin-bottom:20px; }
+.cb-sent {
+  padding:10px 14px; background:#F8F5FF;
+  border-left:3px solid var(--purple); border-radius:0 8px 8px 0;
+  font-size:.9rem; line-height:1.6; margin-bottom:10px; color:var(--s-text);
+}
+.cb-choices { display:flex; gap:10px; }
+.cb-btn {
+  padding:9px 22px; border-radius:9px; font-size:.87rem; font-weight:800;
+  cursor:pointer; font-family:inherit; border:2px solid var(--s-bord);
+  background:white; transition:all .15s;
+}
+.cb-btn:hover:not(.dis) { transform:translateY(-1px); }
+.cb-btn.yes-sel { border-color:var(--ok); background:var(--ok-bg); color:var(--ok); }
+.cb-btn.no-sel  { border-color:var(--err); background:var(--err-bg); color:var(--err); }
+.cb-btn.cb-correct { border-color:var(--ok); background:var(--ok); color:white; }
+.cb-btn.cb-wrong   { border-color:var(--err); background:var(--err); color:white; }
+.cb-btn.dis { cursor:default; }
+.cb-fb { font-size:.78rem; margin-top:6px; padding-left:4px; font-style:italic; }
+.cb-fb.ok { color:var(--ok); }
+.cb-fb.no { color:var(--err); }
+
+/* Buttons */
+.btn-row { display:flex; gap:10px; flex-wrap:wrap; margin-top:18px; }
+.btn {
+  padding:10px 22px; border:none; border-radius:9px;
+  font-size:.87rem; font-weight:800; cursor:pointer; font-family:inherit; transition:all .15s;
+}
+.btn-chk { background:var(--grad); color:white; box-shadow:0 3px 12px rgba(108,17,237,.3); }
+.btn-chk:hover { opacity:.88; transform:translateY(-1px); }
+.btn-rst { background:#F5F0FF; color:var(--purple); border:2px solid #DDD6FE; }
+.btn-rst:hover { border-color:var(--purple); }
+
+.score-pill {
+  display:none; align-items:center; gap:8px;
+  padding:10px 16px; border-radius:10px; font-size:.88rem; font-weight:700;
+  border:2px solid #E4D4FF; background:#F5F0FF; color:var(--purple); margin-top:14px;
+}
+.score-pill.show { display:flex; }
+.score-pill .sn { font-size:1.1rem; }
+
+/* Submit panel */
+.submit-wrap { max-width:880px; width:100%; margin:0 auto 40px; padding:0 16px; }
+.submit-card {
+  background:white; border-radius:14px;
+  box-shadow:0 4px 24px rgba(0,0,0,.09);
+  padding:20px 24px; display:flex; align-items:center; justify-content:space-between;
+  flex-wrap:wrap; gap:16px; border:2px solid var(--s-bord);
+}
+.submit-status { font-size:.88rem; }
+.submit-status strong { color:var(--s-text); font-size:.95rem; }
+.submit-status p { color:var(--s-muted); font-size:.78rem; margin-top:3px; }
+.section-pills { display:flex; gap:5px; flex-wrap:wrap; margin-top:6px; }
+.sp {
+  font-size:.68rem; font-weight:800; padding:2px 7px; border-radius:6px;
+  border:1px solid #DDD6FE; background:#F5F0FF; color:var(--s-muted);
+  transition:all .2s;
+}
+.sp.done { background:var(--ok-bg); border-color:#A7F3D0; color:var(--ok); }
+.sp.perfect { background:linear-gradient(135deg,#10B981,#06B6D4); border-color:transparent; color:white; }
+.btn-submit {
+  padding:14px 34px; border:none; border-radius:12px;
+  background:var(--grad-gold); color:#1A1030;
+  font-size:1rem; font-weight:900; cursor:pointer; font-family:inherit;
+  box-shadow:0 4px 18px rgba(249,203,40,.45); transition:all .2s; white-space:nowrap;
+}
+.btn-submit:hover { transform:translateY(-2px); box-shadow:0 8px 28px rgba(249,203,40,.55); }
+
+/* ═══════════════════════════════════════════════════
+   DONE
+═══════════════════════════════════════════════════ */
+#vd {
+  background: radial-gradient(ellipse at 40% 0%, rgba(108,17,237,.18) 0%, transparent 55%), var(--s-bg);
+  align-items:center; justify-content:center; padding:28px 20px;
+}
+.done-card {
+  background:white; border-radius:22px; max-width:620px; width:100%;
+  box-shadow:0 24px 70px rgba(108,17,237,.18); overflow:hidden; border:1px solid var(--s-bord);
+}
+.done-hd {
+  background:var(--grad); padding:30px 28px; text-align:center; color:white;
+}
+.done-emoji { font-size:3.2rem; margin-bottom:8px; }
+.done-hd h2 { font-size:1.45rem; font-weight:900; margin-bottom:4px; }
+.done-hd p { opacity:.85; font-size:.87rem; }
+.done-body { padding:26px 28px; }
+
+.done-stats {
+  display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:22px;
+}
+.d-stat {
+  text-align:center; padding:14px 8px;
+  background:#F8F5FF; border-radius:12px; border:1px solid #EDE9FF;
+}
+.d-stat .dsn { font-size:1.35rem; font-weight:900; color:var(--purple); line-height:1; }
+.d-stat .dsl { font-size:.68rem; color:var(--s-muted); margin-top:4px; font-weight:700; text-transform:uppercase; }
+
+.done-rows h3 { font-size:.78rem; font-weight:800; color:var(--s-muted); text-transform:uppercase; letter-spacing:1.2px; margin-bottom:10px; }
+.dr {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:10px 14px; border-radius:9px; margin-bottom:6px; font-size:.86rem;
+}
+.dr.ok-r { background:var(--ok-bg); border:1px solid #A7F3D0; }
+.dr.no-r { background:var(--err-bg); border:1px solid #FECACA; }
+.dr.na-r { background:#F8F5FF; border:1px solid #EDE9FF; }
+.dr-left .dr-name { font-weight:800; color:var(--s-text); }
+.dr-left .dr-att { font-size:.73rem; color:var(--s-muted); margin-top:1px; }
+.dr-score { font-weight:800; font-size:.9rem; }
+.dr-score.ok { color:var(--ok); }
+.dr-score.no { color:var(--err); }
+.dr-score.na { color:var(--s-muted); }
+
+.email-box {
+  display:flex; align-items:center; gap:10px;
+  padding:12px 16px; border-radius:10px; font-size:.8rem; margin:18px 0;
+}
+.email-box.ok-e { background:var(--ok-bg); border:1px solid #A7F3D0; color:#166534; }
+.email-box.pend-e { background:#FFFBEB; border:1px solid #FDE68A; color:#78350F; }
+.email-box.fail-e { background:var(--err-bg); border:1px solid #FECACA; color:#991B1B; }
+.email-icon { font-size:1.1rem; }
+
+.btn-home {
+  width:100%; padding:14px; border:none; border-radius:12px;
+  background:var(--grad); color:white; font-size:.97rem;
+  font-weight:800; cursor:pointer; font-family:inherit;
+  box-shadow:0 4px 18px rgba(108,17,237,.35); transition:all .2s;
+}
+.btn-home:hover { opacity:.9; transform:translateY(-1px); }
+
+/* ═══════════════════════════════════════════════════
+   ADMIN
+═══════════════════════════════════════════════════ */
+#va { background:var(--a-bg); color:var(--a-text); }
+
+.adm-overlay {
+  position:fixed; inset:0; background:rgba(7,12,26,.92);
+  backdrop-filter:blur(10px); display:flex; align-items:center; justify-content:center; z-index:300;
+}
+.adm-lock {
+  background:var(--a-card); border:1px solid var(--a-bord);
+  border-radius:18px; padding:38px; max-width:360px; width:90%;
+  box-shadow:0 24px 70px rgba(0,0,0,.6);
+}
+.adm-lock h2 { font-size:1.1rem; font-weight:900; margin-bottom:4px; }
+.adm-lock p { font-size:.8rem; color:var(--a-muted); margin-bottom:22px; }
+.adm-pass {
+  width:100%; padding:12px 16px; border:2px solid var(--a-bord);
+  border-radius:10px; background:var(--a-card2); color:var(--a-text);
+  font-size:.95rem; font-family:inherit; outline:none; margin-bottom:12px;
+  transition:border-color .2s;
+}
+.adm-pass:focus { border-color:var(--a-purp); }
+.adm-pass.bad { border-color:var(--err); animation:shake .3s; }
+.btn-aenter {
+  width:100%; padding:12px; border:none; border-radius:10px;
+  background:linear-gradient(135deg,var(--a-purp),#6C11ED);
+  color:white; font-size:.95rem; font-weight:800; cursor:pointer; font-family:inherit;
+  transition:opacity .2s;
+}
+.btn-aenter:hover { opacity:.87; }
+
+.adm-header {
+  background:linear-gradient(135deg,#0D1117 0%,#1A0F3A 100%);
+  padding:18px 24px; display:flex; align-items:center; justify-content:space-between;
+  border-bottom:1px solid var(--a-bord);
+}
+.adm-logo-text { font-size:1.35rem; font-weight:900; }
+.adm-logo-text em { color:var(--gold); font-style:normal; }
+.adm-badge {
+  background:var(--grad-gold); color:#1A1030; font-size:.65rem; font-weight:900;
+  padding:3px 9px; border-radius:6px; text-transform:uppercase; letter-spacing:1px;
+  vertical-align: middle; margin-left:8px;
+}
+.adm-back {
+  background:var(--a-card2); border:1px solid var(--a-bord); color:var(--a-muted);
+  padding:8px 16px; border-radius:8px; cursor:pointer; font-family:inherit;
+  font-size:.8rem; transition:all .2s;
+}
+.adm-back:hover { border-color:var(--a-muted); color:var(--a-text); }
+
+.adm-body { max-width:1020px; margin:0 auto; padding:28px 20px; flex:1; }
+.adm-period { font-size:.72rem; font-weight:800; text-transform:uppercase; letter-spacing:2px; color:var(--gold); margin-bottom:5px; }
+.adm-gtitle { font-size:1.4rem; font-weight:900; color:white; margin-bottom:22px; }
+
+.stats-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; margin-bottom:28px; }
+.sc {
+  background:var(--a-card); border:1px solid var(--a-bord);
+  border-radius:14px; padding:18px;
+}
+.sc .scn { font-size:2rem; font-weight:900; line-height:1; }
+.sc .scl { font-size:.72rem; color:var(--a-muted); margin-top:4px; font-weight:700; text-transform:uppercase; }
+.c-purp { color:#A78BFA; }
+.c-gold { color:var(--gold); }
+.c-green { color:#34D399; }
+.c-blue { color:#60A5FA; }
+
+.adm-table-wrap {
+  background:var(--a-card); border:1px solid var(--a-bord); border-radius:14px; overflow:hidden;
+}
+.atw-head {
+  padding:16px 20px; border-bottom:1px solid var(--a-bord);
+  display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:10px;
+}
+.atw-head h3 { font-size:.92rem; font-weight:800; }
+.atw-head p { font-size:.75rem; color:var(--a-muted); margin-top:2px; }
+.adm-del {
+  background:transparent; border:1px solid var(--err); color:var(--err);
+  padding:6px 13px; border-radius:7px; cursor:pointer; font-family:inherit;
+  font-size:.75rem; transition:all .2s;
+}
+.adm-del:hover { background:var(--err); color:white; }
+
+table { width:100%; border-collapse:collapse; font-size:.83rem; }
+thead tr { background:var(--a-card2); }
+th { padding:10px 14px; text-align:left; font-size:.68rem; font-weight:800; text-transform:uppercase; letter-spacing:.5px; color:var(--a-muted); }
+td { padding:10px 14px; border-top:1px solid var(--a-bord); vertical-align:top; }
+tbody tr { transition:background .15s; }
+tbody tr:hover { background:var(--a-card2); }
+.td-name { font-weight:800; color:var(--a-text); }
+.td-email { color:var(--a-muted); font-size:.75rem; }
+.td-score { font-weight:800; }
+.sc-great { color:#34D399; }
+.sc-ok { color:var(--gold); }
+.sc-low { color:#F87171; }
+.td-time { color:var(--a-muted); font-variant-numeric:tabular-nums; }
+.td-detail { font-size:.72rem; color:var(--a-muted); line-height:1.7; }
+.empty-st { text-align:center; padding:50px; color:var(--a-muted); }
+.empty-st div { font-size:2.5rem; margin-bottom:10px; }
+
+@media(max-width:600px){
+  .match-grid { grid-template-columns:1fr; }
+  .done-stats { grid-template-columns:repeat(3,1fr); }
+  .p-header { flex-wrap:wrap; gap:8px; }
+  .ex-tabs { gap:4px; }
+  .ex-tab { padding:8px 9px; font-size:.72rem; }
+  .adm-body { padding:16px; }
+  .stats-grid { grid-template-columns:repeat(2,1fr); }
+  .ph-student { display:none; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════ HOME ═══════════════════════ -->
+<div id="vh" class="view">
+  <div class="h-header">
+    <div class="h-badge">Language Platform · Paolo Baca</div>
+    <div class="h-logo">BAC<em>MAN</em></div>
+    <div class="h-tagline">Interactive English Practice Platform</div>
+    <div class="h-teacher">Teacher: Paolo Baca Manrique</div>
+  </div>
+
+  <div class="h-body">
+    <div class="h-period">Mayo 2025 — Asignaciones Activas</div>
+
+    <div class="group-card">
+      <div class="gc-top">
+        <div class="gc-name">Intermediate 11</div>
+        <div class="gc-level">B2 Level</div>
+      </div>
+      <div class="gc-body">
+        <div class="act-row" onclick="selectActivity('passive')">
+          <div class="act-icon">📝</div>
+          <div class="act-info">
+            <div class="act-title">Passive Reporting Structures</div>
+            <div class="act-meta">Grammar Practice — Unit 6</div>
+            <div class="act-tags">
+              <span class="tag tag-gram">Grammar</span>
+              <span class="tag tag-b2">B2</span>
+              <span class="tag tag-ex">5 Exercises</span>
+            </div>
+          </div>
+          <div class="act-arr">›</div>
+        </div>
+        <div class="act-row" onclick="selectActivity('adverb')" style="margin-top:10px">
+          <div class="act-icon">⏱</div>
+          <div class="act-info">
+            <div class="act-title">Reduced Adverb Time Clauses</div>
+            <div class="act-meta">Grammar Practice — Unit 6</div>
+            <div class="act-tags">
+              <span class="tag tag-gram">Grammar</span>
+              <span class="tag tag-b2">B2</span>
+              <span class="tag tag-ex">5 Exercises</span>
+            </div>
+          </div>
+          <div class="act-arr">›</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="h-footer">
+    BACMAN Platform © 2025 · Paolo Baca Manrique
+    <br><span class="admin-link" onclick="goTo('admin')">🔐 Admin Access</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════ LOGIN ═══════════════════════ -->
+<div id="vl" class="view">
+  <div class="login-card">
+    <div class="lc-brand">
+      <div class="lc-logo">BACMAN</div>
+      <div class="lc-group" id="lc-group">Intermediate 11 · Passive Reporting Structures</div>
+    </div>
+    <div class="lc-divider"></div>
+    <div class="lc-title">Welcome! Let's get started</div>
+    <div class="lc-desc">Enter your details — a report will be sent to your email when you finish.</div>
+    <div class="fgroup">
+      <label>Full Name</label>
+      <input id="inp-name" type="text" placeholder="e.g. Maria García" autocomplete="name">
+    </div>
+    <div class="fgroup">
+      <label>Email Address</label>
+      <input id="inp-email" type="email" placeholder="your.email@example.com" autocomplete="email">
+    </div>
+    <button class="btn-start" onclick="startPractice()">Start Practice ›</button>
+    <div class="lc-note">⏱ Timer starts when you click Start Practice</div>
+    <span class="lc-back" onclick="goTo('home')">← Back to platform</span>
+  </div>
+</div>
+
+<!-- ═══════════════════════ PRACTICE ═══════════════════════ -->
+<div id="vp" class="view">
+  <div class="p-header">
+    <div class="ph-info">
+      <div class="ph-title" id="ph-title">Passive Reporting Structures</div>
+      <div class="ph-sub">Intermediate 11 · Grammar</div>
+    </div>
+    <div class="ph-timer">
+      <div class="t-dot"></div>
+      <span id="timer-disp">00:00</span>
+    </div>
+    <div class="ph-student">
+      <div class="ph-sname" id="ph-sname">—</div>
+      <div class="ph-sgroup">Intermediate 11</div>
+    </div>
+  </div>
+
+  <div class="p-body">
+    <!-- Ref card — Passive -->
+    <details class="ref-details" id="ref-passive" style="margin-bottom:14px">
+      <summary>📖 Grammar Reference — Passive Reporting Structures (click to expand)</summary>
+      <div class="ref-inner">
+        <table class="ref-table">
+          <tr><th>Structure</th><th>Examples</th></tr>
+          <tr>
+            <td class="rf">It + be + past participle + (that) + clause</td>
+            <td>It is <span class="re">thought</span> that self-awareness begins at 18 months.<br>It is <span class="re">understood</span> that body language is key.</td>
+          </tr>
+          <tr>
+            <td class="rf">Subject + be + past participle + infinitive</td>
+            <td>Self-awareness is <span class="re">thought</span> to begin at 18 months.<br>Body language is <span class="re">understood</span> to be important.</td>
+          </tr>
+        </table>
+        <div class="ref-verbs" style="margin-top:10px;font-size:.8rem;color:var(--s-muted)"><strong>Reporting verbs:</strong>
+          <span class="rv">allege</span><span class="rv">assume</span><span class="rv">believe</span><span class="rv">claim</span><span class="rv">consider</span><span class="rv">estimate</span><span class="rv">expect</span><span class="rv">find</span><span class="rv">know</span><span class="rv">presume</span><span class="rv">report</span><span class="rv">say</span><span class="rv">show</span><span class="rv">think</span><span class="rv">understand</span>
+        </div>
+      </div>
+    </details>
+
+    <!-- Ref card — Adverb -->
+    <details class="ref-details" id="ref-adverb" style="display:none;margin-bottom:14px">
+      <summary>📖 Grammar Reference — Reduced Adverb Clauses (click to expand)</summary>
+      <div class="ref-inner">
+        <table class="ref-table">
+          <tr><th>Connector</th><th>Full Clause → Reduced Form</th></tr>
+          <tr><td class="rf">before</td><td>Before <span class="re">leaving</span>, I called her. (drop subject + use gerund)</td></tr>
+          <tr><td class="rf">after</td><td>After <span class="re">winning</span>, she celebrated.</td></tr>
+          <tr><td class="rf">since</td><td>Since <span class="re">starting</span> work, I rarely play games.</td></tr>
+          <tr><td class="rf">as soon as → on</td><td>On <span class="re">arriving</span>, he sat down.</td></tr>
+        </table>
+        <div style="margin-top:10px;font-size:.8rem;padding:8px 12px;background:#FEF9C3;border-radius:7px;border:1px solid #FDE68A;color:#713F12">
+          <strong>⚠ Same Subject Rule:</strong> Only reduce when BOTH clauses share the same subject.<br>
+          <em>"After <u>I</u> arrived, <u>I</u> sat down"</em> → ✓ can reduce &nbsp;|&nbsp;
+          <em>"After <u>she</u> arrived, <u>I</u> sat down"</em> → ✗ cannot reduce
+        </div>
+        <div class="ref-verbs" style="margin-top:10px">
+          <span class="rv">before + -ing</span><span class="rv">after + -ing</span><span class="rv">since + -ing</span><span class="rv">as soon as → on + -ing</span>
+        </div>
+      </div>
+    </details>
+
+    <!-- Tabs -->
+    <div class="ex-tabs">
+      <button class="ex-tab tab-a active" id="tab-a" onclick="showEx('a')"><span class="ts" id="ts-a">●</span> <span id="tl-a">A · Fill in Blank</span></button>
+      <button class="ex-tab tab-b" id="tab-b" onclick="showEx('b')"><span class="ts" id="ts-b">●</span> <span id="tl-b">B · Transform</span></button>
+      <button class="ex-tab tab-c" id="tab-c" onclick="showEx('c')"><span class="ts" id="ts-c">●</span> <span id="tl-c">C · Matching</span></button>
+      <button class="ex-tab tab-d" id="tab-d" onclick="showEx('d')"><span class="ts" id="ts-d">●</span> <span id="tl-d">D · Multiple Choice</span></button>
+      <button class="ex-tab tab-e" id="tab-e" onclick="showEx('e')"><span class="ts" id="ts-e">●</span> <span id="tl-e">E · Error Correction</span></button>
+    </div>
+
+    <!-- A -->
+    <div class="ex-sec active" id="sec-a">
+      <div class="ex-hd">
+        <div class="ex-title"><span class="ex-icon ic-a">A</span><span id="tit-a"></span></div>
+        <div class="ex-instr" id="ins-a"></div>
+        <div class="ex-att" id="att-a">Attempts: 0</div>
+      </div>
+      <div id="a-body"></div>
+      <div class="btn-row" id="a-btns"></div>
+      <div class="score-pill" id="a-score"></div>
+    </div>
+
+    <!-- B -->
+    <div class="ex-sec" id="sec-b">
+      <div class="ex-hd">
+        <div class="ex-title"><span class="ex-icon ic-b">B</span><span id="tit-b"></span></div>
+        <div class="ex-instr" id="ins-b"></div>
+        <div class="ex-att" id="att-b">Attempts: 0</div>
+      </div>
+      <div id="b-body"></div>
+      <div class="btn-row" id="b-btns"></div>
+      <div class="score-pill" id="b-score"></div>
+    </div>
+
+    <!-- C -->
+    <div class="ex-sec" id="sec-c">
+      <div class="ex-hd">
+        <div class="ex-title"><span class="ex-icon ic-c">C</span><span id="tit-c"></span></div>
+        <div class="ex-instr" id="ins-c"></div>
+        <div class="ex-att" id="att-c">Mistakes: 0</div>
+      </div>
+      <div id="c-body"></div>
+      <div class="btn-row" id="c-btns"></div>
+      <div class="score-pill" id="c-score"></div>
+    </div>
+
+    <!-- D -->
+    <div class="ex-sec" id="sec-d">
+      <div class="ex-hd">
+        <div class="ex-title"><span class="ex-icon ic-d">D</span><span id="tit-d"></span></div>
+        <div class="ex-instr" id="ins-d"></div>
+        <div class="ex-att" id="att-d">Resets: 0</div>
+      </div>
+      <div id="d-body"></div>
+      <div class="btn-row" id="d-btns"></div>
+      <div class="score-pill" id="d-score"></div>
+    </div>
+
+    <!-- E -->
+    <div class="ex-sec" id="sec-e">
+      <div class="ex-hd">
+        <div class="ex-title"><span class="ex-icon ic-e">E</span><span id="tit-e"></span></div>
+        <div class="ex-instr" id="ins-e"></div>
+        <div class="ex-att" id="att-e">Attempts: 0</div>
+      </div>
+      <div id="e-body"></div>
+      <div class="btn-row" id="e-btns"></div>
+      <div class="score-pill" id="e-score"></div>
+    </div>
+  </div>
+
+  <!-- Submit panel -->
+  <div class="submit-wrap">
+    <div class="submit-card">
+      <div class="submit-status">
+        <strong>Submit Practice</strong>
+        <p>Complete all sections before submitting for the best score.</p>
+        <div class="section-pills">
+          <span class="sp" id="sp-a">A</span>
+          <span class="sp" id="sp-b">B</span>
+          <span class="sp" id="sp-c">C</span>
+          <span class="sp" id="sp-d">D</span>
+          <span class="sp" id="sp-e">E</span>
+        </div>
+      </div>
+      <button class="btn-submit" onclick="submitPractice()">Submit Practice ✓</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ DONE ═══════════════════════ -->
+<div id="vd" class="view">
+  <div class="done-card">
+    <div class="done-hd">
+      <div class="done-emoji" id="done-emoji">🎓</div>
+      <h2 id="done-title">Practice Submitted!</h2>
+      <p id="done-subtitle">Great work on Unit 6</p>
+    </div>
+    <div class="done-body">
+      <div class="done-stats">
+        <div class="d-stat"><div class="dsn" id="ds-total">—</div><div class="dsl">Total Score</div></div>
+        <div class="d-stat"><div class="dsn" id="ds-pct">—</div><div class="dsl">Percentage</div></div>
+        <div class="d-stat"><div class="dsn" id="ds-time">—</div><div class="dsl">Time Taken</div></div>
+      </div>
+
+      <div class="done-rows">
+        <h3>Results by Section</h3>
+        <div id="done-rows-content"></div>
+      </div>
+
+      <div class="email-box pend-e" id="email-box">
+        <span class="email-icon">📧</span>
+        <span id="email-msg">Sending report to your email…</span>
+      </div>
+
+      <button class="btn-home" onclick="goTo('home')">← Back to Platform</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════ ADMIN ═══════════════════════ -->
+<div id="va" class="view">
+  <!-- Lock overlay -->
+  <div class="adm-overlay" id="adm-overlay">
+    <div class="adm-lock">
+      <h2>🔐 Admin Access</h2>
+      <p>Enter the admin password to view student reports.</p>
+      <input class="adm-pass" id="adm-pass" type="password" placeholder="Password…"
+             onkeydown="if(event.key==='Enter')adminLogin()">
+      <button class="btn-aenter" onclick="adminLogin()">Enter Dashboard</button>
+      <div style="margin-top:12px;text-align:center">
+        <span style="font-size:.75rem;color:var(--a-muted);cursor:pointer" onclick="goTo('home')">← Cancel</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="adm-header">
+    <div class="adm-logo">
+      <div class="adm-logo-text">BAC<em>MAN</em><span class="adm-badge">Admin</span></div>
+    </div>
+    <button class="adm-back" onclick="goTo('home')">← Back to Platform</button>
+  </div>
+
+  <div class="adm-body">
+    <div class="adm-period">Mayo 2025</div>
+    <div class="adm-gtitle">Intermediate 11 — Student Reports</div>
+
+    <div class="stats-grid">
+      <div class="sc"><div class="scn c-purp" id="st-total">0</div><div class="scl">Submissions</div></div>
+      <div class="sc"><div class="scn c-gold" id="st-avg">—</div><div class="scl">Avg. Score %</div></div>
+      <div class="sc"><div class="scn c-green" id="st-perfect">0</div><div class="scl">100% All Sections</div></div>
+      <div class="sc"><div class="scn c-blue" id="st-avgtime">—</div><div class="scl">Avg. Time</div></div>
+    </div>
+
+    <div class="adm-table-wrap">
+      <div class="atw-head">
+        <div>
+          <h3>Student Submissions</h3>
+          <p>Click a row to expand details</p>
+        </div>
+        <button class="adm-del" onclick="clearData()">🗑 Clear All Data</button>
+      </div>
+      <div id="adm-table-container"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════════
+//  CONFIG — update with your EmailJS credentials
+//  Setup: https://www.emailjs.com
+//   1. Create free account
+//   2. Add Gmail service → get SERVICE_ID
+//   3. Create template with variables: {{to_name}}, {{to_email}}, {{subject}}, {{body}}
+//      Set "To Email" field in template to: {{to_email}}
+//   4. Copy Public Key from Account → API Keys
+// ═══════════════════════════════════════════════════════════
+const CFG = {
+  emailjs: {
+    publicKey:  'YOUR_EMAILJS_PUBLIC_KEY',   // ← replace
+    serviceId:  'YOUR_EMAILJS_SERVICE_ID',   // ← replace
+    templateId: 'YOUR_EMAILJS_TEMPLATE_ID',  // ← replace
+  },
+  adminPass:    'bacman2025',
+  teacherEmail: 'paolobaca2000@gmail.com',
+  teacher:      'Paolo Baca',
+  platform:     'BACMAN',
+  group:        'Intermediate 11',
+  month:        'Mayo 2025',
+};
+
+// Initialise EmailJS
+try { emailjs.init({ publicKey: CFG.emailjs.publicKey }); } catch(e){}
+
+// ═══════════════════════════════════════════════════════════
+//  ACTIVITY LABELS
+// ═══════════════════════════════════════════════════════════
+const ACTIVITY_LABELS = {
+  passive: 'Passive Reporting Structures',
+  adverb:  'Reduced Adverb Time Clauses',
+};
+
+// ═══════════════════════════════════════════════════════════
+//  EXERCISE DATA — PASSIVE
+// ═══════════════════════════════════════════════════════════
+
+const FILL = [
+  { pre:'It', post:'that people spend around 75% of their day communicating.', verb:'estimate', ans:'is estimated' },
+  { pre:'Informal slang', post:'to be challenging for many non-native speakers.', verb:'assume', ans:'is assumed' },
+  { pre:'Most people', post:'to speak between 125 and 175 words per minute.', verb:'believe', ans:'are believed' },
+  { pre:'It', post:'that information questions prompt people to say more.', verb:'think', ans:'is thought' },
+  { pre:'Turn-taking', post:'to be important as it prevents one person dominating.', verb:'consider', ans:'is considered' },
+  { pre:'It', post:'that humor varies greatly from culture to culture.', verb:'understand', ans:'is understood' },
+  { pre:'Active listening', post:'to improve relationships significantly.', verb:'show', ans:'is shown' },
+  { pre:'It', post:'that bilingual speakers switch styles depending on context.', verb:'report', ans:'is reported' },
+];
+
+const TRANSFORM = [
+  {
+    given: 'Listening well is believed to be just as important as speaking well.',
+    prompt: 'Use: It + passive reporting verb + (that) + clause',
+    answers: ['It is believed that listening well is just as important as speaking well.'],
+  },
+  {
+    given: 'Telling a good story is shown to be an effective communication strategy.',
+    prompt: 'Use: It + passive reporting verb + (that) + clause',
+    answers: ['It is shown that telling a good story is an effective communication strategy.'],
+  },
+  {
+    given: 'Self-confidence is assumed to be an important component of effective communication.',
+    prompt: 'Use: It + passive reporting verb + (that) + clause',
+    answers: ['It is assumed that self-confidence is an important component of effective communication.'],
+  },
+  {
+    given: 'Eye contact is considered to signal honesty and trustworthiness.',
+    prompt: 'Use: It + passive reporting verb + (that) + clause',
+    answers: ['It is considered that eye contact signals honesty and trustworthiness.'],
+  },
+  {
+    given: "It's said that the mirroring game develops understanding between people.",
+    prompt: 'Use: subject + passive reporting verb + infinitive',
+    answers: ['The mirroring game is said to develop understanding between people.'],
+  },
+  {
+    given: "It's estimated that people form an impression of you within seven seconds.",
+    prompt: 'Use: subject + passive reporting verb + infinitive',
+    answers: ['People are estimated to form an impression of you within seven seconds.'],
+  },
+  {
+    given: "It is known that communication skills are one of the key factors for success.",
+    prompt: 'Use: subject + passive reporting verb + infinitive',
+    answers: ['Communication skills are known to be one of the key factors for success.'],
+  },
+  {
+    given: "It is reported that people who smile more are perceived as more approachable.",
+    prompt: 'Use: subject + passive reporting verb + infinitive',
+    answers: ['People who smile more are reported to be perceived as more approachable.'],
+  },
+];
+
+const MATCH_DATA = [
+  { id:1, left:'It is claimed', right:'that multilingualism delays the onset of dementia.' },
+  { id:2, left:'Sarcasm is considered', right:'to be particularly difficult for language learners to interpret.' },
+  { id:3, left:'It is assumed', right:'that first impressions are formed within a few seconds.' },
+  { id:4, left:'Non-verbal cues are known', right:'to convey more information than words alone.' },
+  { id:5, left:'It is understood', right:'that silence carries different meanings across cultures.' },
+  { id:6, left:'Vocabulary size is believed', right:'to correlate with academic and professional success.' },
+];
+
+const MC_RAW = [
+  {
+    q: '___ that people process visual information 60,000 times faster than text.',
+    options: ['It is believed', 'Is believed', 'It believes', 'There is believed'],
+    correctIdx: 0,
+    exp: '"It is believed that + clause" — dummy subject "It" + passive verb.',
+  },
+  {
+    q: "Accents ___ to convey information about a speaker's regional and social background.",
+    options: ['are known', 'know', 'is known', 'are knowing'],
+    correctIdx: 0,
+    exp: '"Accents" is plural → "are known to + infinitive".',
+  },
+  {
+    q: "It is reported that over 7,000 languages ___ spoken in the world today.",
+    options: ['are', 'be', 'being', 'is'],
+    correctIdx: 0,
+    exp: 'After "that" we need a full clause: "are spoken" (present passive, plural).',
+  },
+  {
+    q: "Public speaking ___ to be one of the most common fears among adults.",
+    options: ['is considered', 'is considering', 'it is considered', 'considered'],
+    correctIdx: 0,
+    exp: '"Public speaking" (singular) + "is considered to + infinitive".',
+  },
+  {
+    q: "___ that reading aloud improves both fluency and pronunciation.",
+    options: ['It is shown', 'It shows', 'It is showing', 'There shows'],
+    correctIdx: 0,
+    exp: '"It is shown that + clause" — passive reporting structure with dummy subject.',
+  },
+  {
+    q: "Code-switching ___ to reflect a speaker's cultural identity and flexibility.",
+    options: ['is said', 'says', 'is say', 'are said'],
+    correctIdx: 0,
+    exp: '"Code-switching" is singular → "is said to + infinitive".',
+  },
+];
+
+const ERROR_DATA = [
+  { sent:'It is think that body language accounts for most of our communication.', wrong:'think', right:'thought', exp:'Past participle required: "is thought".' },
+  { sent:'Gesture is known be highly culturally specific.', wrong:'be', right:'to be', exp:'Subject + passive + infinitive requires "to": "is known to be".' },
+  { sent:'It are believed that repeated exposure improves vocabulary retention.', wrong:'are', right:'is', exp:'With dummy subject "It" always use singular: "It is believed".' },
+  { sent:'Pausing frequently is consider to indicate a lack of confidence.', wrong:'consider', right:'considered', exp:'Use past participle form: "is considered to indicate".' },
+  { sent:'It is reported which informal language can be more persuasive in some contexts.', wrong:'which', right:'that', exp:'Use "that" (not "which") to introduce the clause after a passive reporting verb.' },
+  { sent:'Fluent speakers are assumed knowing the cultural norms of the language.', wrong:'knowing', right:'to know', exp:'Subject + passive + infinitive: "are assumed to know".' },
+];
+
+// ═══════════════════════════════════════════════════════════
+//  EXERCISE DATA — ADVERB
+// ═══════════════════════════════════════════════════════════
+
+const ADVERB_CHECK = [
+  { sent:'Before we play online games, we have lunch.', canReduce:true, reason:'Both clauses share the same subject: "we".' },
+  { sent:'After her friend invited her, Doris went to the movies.', canReduce:false, reason:'Different subjects: "her friend" ≠ "Doris".' },
+  { sent:'As soon as they got to the library, they took out their laptops.', canReduce:true, reason:'Both clauses share the same subject: "they".' },
+  { sent:'Since Jack left the club, the meetings are a lot less interesting.', canReduce:false, reason:'Different subjects: "Jack" ≠ "the meetings".' },
+  { sent:'Since I heard about this course, I have been really excited about starting.', canReduce:true, reason:'Both clauses share the same subject: "I".' },
+  { sent:'As soon as my favorite TV show starts, I stop playing online games.', canReduce:false, reason:'Different subjects: "my favorite TV show" ≠ "I".' },
+];
+
+const ADVERB_TRANSFORM = [
+  { given:'Since I started work, I rarely play online games.', answers:['Since starting work, I rarely play online games.'] },
+  { given:'I quit gaming as soon as I saw how much I played.', answers:['I quit gaming on seeing how much I played.'] },
+  { given:'He made a commercial after he won the tournament.', answers:['He made a commercial after winning the tournament.'] },
+  { given:'Before she got into gaming, she was very shy.', answers:['Before getting into gaming, she was very shy.'] },
+  { given:'She became a gaming pro after she had played for just a year.', answers:['She became a gaming pro after playing for just a year.'] },
+  { given:"We haven't been online much since we had a baby.", answers:["We haven't been online much since having a baby."] },
+  { given:'As soon as he won the title, he retired from gaming.', answers:['On winning the title, he retired from gaming.'] },
+  { given:'I need to understand the game more before I try it.', answers:['I need to understand the game more before trying it.'] },
+];
+
+const ADVERB_MC_RAW = [
+  { q:'After ___ the championship, she retired from competitive gaming.',
+    options:['winning','win','won','to win'], correctIdx:0,
+    exp:'"After" + gerund (-ing) in reduced adverb clauses: "After winning".' },
+  { q:'On ___ the news, he immediately called his family.',
+    options:['hearing','hear','heard','to hear'], correctIdx:0,
+    exp:'"On" + gerund expresses "as soon as": "On hearing".' },
+  { q:'Before ___ a decision, consider all the options carefully.',
+    options:['making','make','made','to make'], correctIdx:0,
+    exp:'"Before" + gerund in reduced clauses: "Before making".' },
+  { q:'Since ___ his first tournament, he has improved dramatically.',
+    options:['entering','enter','entered','to enter'], correctIdx:0,
+    exp:'"Since" + gerund for reduced time clauses: "Since entering".' },
+  { q:'Which sentence uses a CORRECT reduced adverb clause?',
+    options:['After finishing the game, she left the tournament.','After she finishing the game, she left.','After to finish the game, she left.','After finish the game, she left.'], correctIdx:0,
+    exp:'Drop the subject and use gerund: "After finishing" — no subject, no "to".' },
+  { q:'Which sentence CANNOT be reduced to a reduced adverb clause?',
+    options:['After her friend called her, she came home.','Before I leave, I will say goodbye.','Since we moved here, we love the neighborhood.','On arriving at the station, he bought a ticket.'], correctIdx:0,
+    exp:'Different subjects ("her friend" ≠ "she") — reduction is impossible.' },
+];
+
+const ADVERB_ERROR = [
+  { sent:'Before to start the game, read the instructions carefully.', wrong:'to start', right:'starting', exp:'Use gerund, not infinitive: "Before starting".' },
+  { sent:'Since winning the championship, she becomes very popular.', wrong:'becomes', right:'has become', exp:'Use present perfect after "since": "has become".' },
+  { sent:'On to arrive home, he immediately opened his laptop.', wrong:'to arrive', right:'arriving', exp:'"On" + gerund: "On arriving".' },
+  { sent:'After finishes the game, she left the tournament early.', wrong:'finishes', right:'finishing', exp:'Gerund in reduced clause: "After finishing".' },
+  { sent:'Before leave the team, he trained a replacement for months.', wrong:'leave', right:'leaving', exp:'Gerund after "before": "Before leaving".' },
+  { sent:'Since have a baby, they have not played video games much.', wrong:'have', right:'having', exp:'Gerund after "since": "Since having a baby".' },
+];
+
+const ADVERB_FILL_G = [
+  { pre:'After', post:'the tournament, she felt exhausted. (win)', ans:'winning' },
+  { pre:'Since', post:"his first game, he's been completely addicted. (play)", ans:'playing' },
+  { pre:'Before', post:'the controls, the game was really frustrating. (understand)', ans:'understanding' },
+  { pre:'On', post:'the final level, he screamed with joy. (complete)', ans:'completing' },
+  { pre:'Since', post:'gaming professionally, she has earned a scholarship. (start)', ans:'starting' },
+  { pre:'After', post:'for six hours straight, he finally took a break. (play)', ans:'playing' },
+];
+
+// ═══════════════════════════════════════════════════════════
+//  SESSION STATE
+// ═══════════════════════════════════════════════════════════
+const session = {
+  student: null,
+  startTime: null,
+  timerRef: null,
+  timeSec: 0,
+  sections: {
+    a: { checks: 0, perfectOn: null, lastC: 0, lastT: FILL.length },
+    b: { checks: 0, perfectOn: null, lastC: 0, lastT: TRANSFORM.length },
+    c: { mistakes: 0, matched: 0, resets: 0, answered: 0, correct: 0, lastC: 0, lastT: MATCH_DATA.length },
+    d: { checks: 0, perfectOn: null, resets: 0, answered: 0, correct: 0, lastC: 0, lastT: MC_RAW.length },
+    e: { checks: 0, perfectOn: null, lastC: 0, lastT: ERROR_DATA.length },
+  }
+};
+
+let activeActivity = 'passive';
+
+// MC shuffled state
+let mcShuffled = [];
+let mcAnswered = [];
+let adverbMCShuffled = [];
+let adverbMCAnswered = [];
+
+// Checkbox state
+let cbSelections = [];
+
+// Match state
+let matchSel = null;
+let matchPaired = new Map();
+
+// ═══════════════════════════════════════════════════════════
+//  VIEW NAVIGATION
+// ═══════════════════════════════════════════════════════════
+function goTo(id) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.getElementById('v' + id[0]).classList.add('active');
+  if (id === 'admin') showAdminOverlay(true);
+}
+
+function selectActivity(id) {
+  activeActivity = id;
+  document.getElementById('lc-group').textContent =
+    'Intermediate 11 · ' + ACTIVITY_LABELS[id];
+  goTo('login');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  TIMER
+// ═══════════════════════════════════════════════════════════
+function startTimer() {
+  session.startTime = Date.now();
+  session.timeSec = 0;
+  clearInterval(session.timerRef);
+  session.timerRef = setInterval(() => {
+    session.timeSec = Math.floor((Date.now() - session.startTime) / 1000);
+    document.getElementById('timer-disp').textContent = fmt(session.timeSec);
+  }, 1000);
+}
+function stopTimer() { clearInterval(session.timerRef); }
+function fmt(s) {
+  const m = Math.floor(s / 60), sec = s % 60;
+  return String(m).padStart(2,'0') + ':' + String(sec).padStart(2,'0');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  LOGIN
+// ═══════════════════════════════════════════════════════════
+function startPractice() {
+  const name  = document.getElementById('inp-name').value.trim();
+  const email = document.getElementById('inp-email').value.trim();
+  if (!name || !email) { alert('Please enter your name and email address.'); return; }
+  if (!/\S+@\S+\.\S+/.test(email)) { alert('Please enter a valid email address.'); return; }
+
+  session.student = { name, email };
+  document.getElementById('ph-sname').textContent = name;
+
+  setupActivityUI();
+  resetSectionState();
+  buildAll();
+  goTo('practice');
+  startTimer();
+}
+
+// ═══════════════════════════════════════════════════════════
+//  ACTIVITY UI SETUP
+// ═══════════════════════════════════════════════════════════
+function setupActivityUI() {
+  const isAdverb = activeActivity === 'adverb';
+  const labels = isAdverb
+    ? { a:'A · Can Reduce?', b:'B · Rewrite', c:'C · Multiple Choice', d:'D · Error Correct.', e:'E · Fill in Blank' }
+    : { a:'A · Fill in Blank', b:'B · Transform', c:'C · Matching', d:'D · Multiple Choice', e:'E · Error Correct.' };
+  ['a','b','c','d','e'].forEach(id => {
+    document.getElementById('tl-'+id).textContent = labels[id];
+  });
+
+  if (isAdverb) {
+    setExHd('a','Can This Be Reduced?','Choose YES if the sentence can be reduced (same subject rule). Choose NO if subjects differ.');
+    setExHd('b','Rewrite Using Reduced Clauses','Rewrite each sentence using a reduced adverb time clause (gerund form).');
+    setExHd('c','Multiple Choice','Choose the option that best completes each sentence.');
+    setExHd('d','Error Correction','Each sentence has ONE mistake. Write the wrong word and the correct word.');
+    setExHd('e','Fill in the Blank','Complete each sentence using the gerund (-ing) form of the verb in parentheses.');
+  } else {
+    setExHd('a','Complete the sentences','Use the passive form of the verb in parentheses. Use simple present tense.');
+    setExHd('b','Sentence Transformation','Sentences 1–4: use It + passive + (that) + clause. Sentences 5–8: use subject + passive + infinitive.');
+    setExHd('c','Matching','Click a sentence beginning, then click the correct ending to match them.');
+    setExHd('d','Multiple Choice','Choose the option that correctly completes each sentence. Options are shuffled!');
+    setExHd('e','Error Correction','Each sentence has ONE mistake. Write the wrong word and the correct word.');
+  }
+
+  const chkRst = (chk,rst) => `<button class="btn btn-chk" onclick="${chk}">Check Answers</button><button class="btn btn-rst" onclick="${rst}">Try Again</button>`;
+  setXBtns('a', chkRst('doCheckA()','doResetA()'));
+  setXBtns('b', chkRst('doCheckB()','doResetB()'));
+  setXBtns('c', `<button class="btn btn-rst" onclick="doResetC()">Reset</button>`);
+  setXBtns('d', isAdverb ? chkRst('doCheckD()','doResetD()') : `<button class="btn btn-rst" onclick="doResetD()">Reset All</button>`);
+  setXBtns('e', chkRst('doCheckE()','doResetE()'));
+
+  document.getElementById('att-a').textContent = 'Attempts: 0';
+  document.getElementById('att-b').textContent = 'Attempts: 0';
+  document.getElementById('att-c').textContent = isAdverb ? 'Answered: 0' : 'Mistakes: 0';
+  document.getElementById('att-d').textContent = isAdverb ? 'Attempts: 0' : 'Resets: 0';
+  document.getElementById('att-e').textContent = 'Attempts: 0';
+
+  document.getElementById('ph-title').textContent = ACTIVITY_LABELS[activeActivity];
+
+  document.getElementById('ref-passive').style.display = isAdverb ? 'none' : '';
+  document.getElementById('ref-adverb').style.display  = isAdverb ? '' : 'none';
+}
+
+function setExHd(id, title, instr) {
+  document.getElementById('tit-'+id).textContent = title;
+  document.getElementById('ins-'+id).textContent = instr;
+}
+function setXBtns(id, html) {
+  document.getElementById(id+'-btns').innerHTML = html;
+}
+
+// ═══════════════════════════════════════════════════════════
+//  RESET SECTION STATE
+// ═══════════════════════════════════════════════════════════
+function resetSectionState() {
+  const isAdverb = activeActivity === 'adverb';
+  session.sections.a = { checks:0, perfectOn:null, lastC:0, lastT: isAdverb ? ADVERB_CHECK.length : FILL.length };
+  session.sections.b = { checks:0, perfectOn:null, lastC:0, lastT: isAdverb ? ADVERB_TRANSFORM.length : TRANSFORM.length };
+  session.sections.c = { mistakes:0, matched:0, resets:0, answered:0, correct:0, lastC:0, lastT: isAdverb ? ADVERB_MC_RAW.length : MATCH_DATA.length };
+  session.sections.d = { checks:0, perfectOn:null, resets:0, answered:0, correct:0, lastC:0, lastT: isAdverb ? ADVERB_ERROR.length : MC_RAW.length };
+  session.sections.e = { checks:0, perfectOn:null, lastC:0, lastT: isAdverb ? ADVERB_FILL_G.length : ERROR_DATA.length };
+  matchSel = null; matchPaired = new Map();
+  cbSelections = [];
+  adverbMCAnswered = [];
+  updateAllPills();
+}
+
+// ═══════════════════════════════════════════════════════════
+//  BUILD ALL EXERCISES
+// ═══════════════════════════════════════════════════════════
+function buildAll() {
+  if (activeActivity === 'adverb') {
+    buildAdverbCheck();
+    buildAdverbTransform();
+    buildAdverbMC();
+    buildAdverbError();
+    buildAdverbFill();
+  } else {
+    buildFill();
+    buildTransform();
+    buildMatch();
+    buildMC();
+    buildError();
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+//  DISPATCHER FUNCTIONS
+// ═══════════════════════════════════════════════════════════
+function doCheckA() { activeActivity==='adverb' ? checkAdverbCheck()     : checkFill(); }
+function doResetA()  { activeActivity==='adverb' ? resetAdverbCheck()     : resetFill(); }
+function doCheckB()  { activeActivity==='adverb' ? checkAdverbTransform() : checkTransform(); }
+function doResetB()  { activeActivity==='adverb' ? resetAdverbTransform() : resetTransform(); }
+function doResetC()  { activeActivity==='adverb' ? resetAdverbMC()        : resetMatch(); }
+function doCheckD()  { if (activeActivity==='adverb') checkAdverbError(); }
+function doResetD()  { activeActivity==='adverb' ? resetAdverbError()     : resetMC(); }
+function doCheckE()  { activeActivity==='adverb' ? checkAdverbFill()      : checkError(); }
+function doResetE()  { activeActivity==='adverb' ? resetAdverbFill()      : resetError(); }
+
+// ═══════════════════════════════════════════════════════════
+//  TAB MANAGEMENT
+// ═══════════════════════════════════════════════════════════
+function showEx(id) {
+  document.querySelectorAll('.ex-sec').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.ex-tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('sec-' + id).classList.add('active');
+  document.getElementById('tab-' + id).classList.add('active');
+}
+
+function updateTabStatus(id, state) {
+  const el = document.getElementById('ts-' + id);
+  if (state === 'perfect')  { el.textContent = '✓'; el.style.color = 'var(--ok)'; }
+  else if (state === 'tried') { el.textContent = '✏'; el.style.color = 'var(--gold)'; }
+  else                        { el.textContent = '●'; el.style.color = ''; }
+  updateAllPills();
+}
+
+function updateAllPills() {
+  const s = session.sections;
+  const isAdverb = activeActivity === 'adverb';
+  setPill('a', s.a.checks > 0, s.a.perfectOn !== null);
+  setPill('b', s.b.checks > 0, s.b.perfectOn !== null);
+  if (!isAdverb) {
+    if (s.c.matched === s.c.lastT && s.c.lastT > 0) setPill('c', true, true);
+    else if (s.c.matched > 0 || s.c.mistakes > 0) setPill('c', true, false);
+    else setPill('c', false, false);
+    if (s.d.answered > 0 && s.d.correct === s.d.lastT) setPill('d', true, true);
+    else if (s.d.answered > 0) setPill('d', true, false);
+    else setPill('d', false, false);
+  } else {
+    if (s.c.answered > 0 && s.c.correct === s.c.lastT) setPill('c', true, true);
+    else if (s.c.answered > 0) setPill('c', true, false);
+    else setPill('c', false, false);
+    setPill('d', s.d.checks > 0, s.d.perfectOn !== null);
+  }
+  setPill('e', s.e.checks > 0, s.e.perfectOn !== null);
+}
+
+function setPill(id, done, perfect) {
+  const p = document.getElementById('sp-'+id);
+  p.className = 'sp' + (perfect ? ' perfect' : done ? ' done' : '');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  EXERCISE A (PASSIVE) — Fill in blank
+// ═══════════════════════════════════════════════════════════
+function buildFill() {
+  document.getElementById('a-body').innerHTML = FILL.map((it,i) => `
+    <div class="s-row">
+      <span class="s-num">${i+1}.</span>
+      <span>${it.pre}</span>
+      <input class="b-in" id="fi${i}" type="text" autocomplete="off"
+             placeholder="(${it.verb})" spellcheck="false">
+      <span>${it.post}</span>
+    </div>`).join('');
+}
+
+function norm(s) { return s.trim().toLowerCase().replace(/\s+/g,' '); }
+
+function checkFill() {
+  const s = session.sections.a;
+  s.checks++;
+  document.getElementById('att-a').textContent = `Attempts: ${s.checks}`;
+  let c = 0;
+  FILL.forEach((it,i) => {
+    const inp = document.getElementById('fi'+i);
+    inp.classList.remove('ok','no');
+    if (norm(inp.value) === norm(it.ans)) { inp.classList.add('ok'); c++; }
+    else { inp.classList.add('no'); inp.title = '✓ ' + it.ans; }
+  });
+  s.lastC = c;
+  if (c === FILL.length && s.perfectOn === null) s.perfectOn = s.checks;
+  showPill('a-score', c, FILL.length);
+  updateTabStatus('a', s.perfectOn ? 'perfect' : 'tried');
+}
+
+function resetFill() {
+  FILL.forEach((_,i) => { const inp = document.getElementById('fi'+i); inp.value=''; inp.classList.remove('ok','no'); inp.title=''; });
+  document.getElementById('a-score').className = 'score-pill';
+}
+
+// ═══════════════════════════════════════════════════════════
+//  EXERCISE B (PASSIVE) — Transformation
+// ═══════════════════════════════════════════════════════════
+function buildTransform() {
+  document.getElementById('b-body').innerHTML = TRANSFORM.map((it,i) => `
+    <div class="tf-item">
+      <div class="tf-given"><strong>${i+1}.</strong> ${it.given}</div>
+      <div class="tf-prompt">${it.prompt}</div>
+      <input class="tf-in" id="tfi${i}" type="text" autocomplete="off"
+             placeholder="Write your answer here…" spellcheck="false">
+      <div class="tf-fb" id="tfb${i}"></div>
+    </div>`).join('');
+}
+
+function flexEq(val, answers) {
+  const v = norm(val).replace(/['']/g,"'");
+  return answers.some(a => norm(a).replace(/['']/g,"'") === v);
+}
+
+function checkTransform() {
+  const s = session.sections.b;
+  s.checks++;
+  document.getElementById('att-b').textContent = `Attempts: ${s.checks}`;
+  let c = 0;
+  TRANSFORM.forEach((it,i) => {
+    const inp = document.getElementById('tfi'+i);
+    const fb  = document.getElementById('tfb'+i);
+    inp.classList.remove('ok','no'); fb.className='tf-fb';
+    const ok = flexEq(inp.value, it.answers);
+    if (ok) { inp.classList.add('ok'); fb.classList.add('ok'); fb.textContent='✓ Correct!'; c++; }
+    else    { inp.classList.add('no'); fb.classList.add('no'); fb.textContent='✗ Model: ' + it.answers[0]; }
+  });
+  s.lastC = c;
+  if (c === TRANSFORM.length && s.perfectOn === null) s.perfectOn = s.checks;
+  showPill('b-score', c, TRANSFORM.length);
+  updateTabStatus('b', s.perfectOn ? 'perfect' : 'tried');
+}
+
+function resetTransform() {
+  TRANSFORM.forEach((_,i) => {
+    const inp=document.getElementById('tfi'+i); const fb=document.getElementById('tfb'+i);
+    inp.value=''; inp.classList.remove('ok','no'); fb.className='tf-fb'; fb.textContent='';
+  });
+  document.getElementById('b-score').className='score-pill';
+}
+
+// ═══════════════════════════════════════════════════════════
+//  EXERCISE C (PASSIVE) — Matching
+// ═══════════════════════════════════════════════════════════
+function buildMatch() {
+  const s = session.sections;
+  s.c.mistakes = 0; s.c.matched = 0;
+  matchSel = null; matchPaired = new Map();
+  document.getElementById('att-c').textContent = 'Mistakes: 0';
+
+  const lItems = MATCH_DATA.map((it, i) => `<div class="mi" data-id="${it.id}" data-side="left" onclick="matchClick(this)"><span class="mn">${i+1}.</span>${it.left}…</div>`).join('');
+  const shuffled = [...MATCH_DATA].sort(() => Math.random() - .5);
+  const letters = 'abcdefghijklmnopqrstuvwxyz';
+  const rItems = shuffled.map((it, i) => `<div class="mi" data-id="${it.id}" data-side="right" onclick="matchClick(this)"><span class="ml">${letters[i]}.</span>…${it.right}</div>`).join('');
+
+  document.getElementById('c-body').innerHTML = `
+    <div class="match-grid">
+      <div><div class="mc-col-hd">Sentence Beginnings</div>${lItems}</div>
+      <div><div class="mc-col-hd">Sentence Endings</div>${rItems}</div>
+    </div>
+    <div class="match-prog" id="match-prog">Matched: 0 / ${MATCH_DATA.length}</div>`;
+  updateMatchProg();
+}
+
+function matchClick(el) {
+  if (el.classList.contains('hit') || el.classList.contains('dim')) return;
+  if (!matchSel) {
+    document.querySelectorAll('.mi.sel').forEach(e => e.classList.remove('sel'));
+    el.classList.add('sel'); matchSel = el;
+  } else {
+    if (el === matchSel) { el.classList.remove('sel'); matchSel = null; return; }
+    if (el.dataset.side === matchSel.dataset.side) {
+      matchSel.classList.remove('sel'); el.classList.add('sel'); matchSel = el; return;
+    }
+    const idA = matchSel.dataset.id, idB = el.dataset.id;
+    matchSel.classList.remove('sel');
+    if (idA === idB) {
+      matchSel.classList.add('hit'); el.classList.add('hit');
+      session.sections.c.matched++;
+    } else {
+      session.sections.c.mistakes++;
+      matchSel.classList.add('miss'); el.classList.add('miss');
+      const a = matchSel, b = el;
+      setTimeout(() => { a.classList.remove('miss'); b.classList.remove('miss'); }, 500);
+      document.getElementById('att-c').textContent = `Mistakes: ${session.sections.c.mistakes}`;
+    }
+    matchSel = null;
+    updateMatchProg();
+    session.sections.c.lastC = session.sections.c.matched;
+    if (session.sections.c.matched === MATCH_DATA.length) {
+      updateTabStatus('c', 'perfect');
+    } else if (session.sections.c.matched > 0) {
+      updateTabStatus('c', 'tried');
+    }
+  }
+}
+
+function updateMatchProg() {
+  const matched = session.sections.c.matched;
+  const el = document.getElementById('match-prog');
+  if (!el) return;
+  el.textContent = `Matched: ${matched} / ${MATCH_DATA.length}`;
+  if (matched === MATCH_DATA.length) {
+    el.textContent += `  🎉 All correct! (${session.sections.c.mistakes} mistake${session.sections.c.mistakes!==1?'s':''})`;
+    el.style.color = 'var(--ok)';
+  }
+}
+
+function resetMatch() {
+  session.sections.c.resets++;
+  buildMatch();
+  updateTabStatus('c','none');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  EXERCISE D (PASSIVE) — Multiple Choice
+// ═══════════════════════════════════════════════════════════
+function shuffleMC() {
+  mcShuffled = MC_RAW.map(item => {
+    const opts = item.options.map((text, i) => ({ text, correct: i === item.correctIdx }));
+    for (let i = opts.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [opts[i], opts[j]] = [opts[j], opts[i]];
+    }
+    const correctNewIdx = opts.findIndex(o => o.correct);
+    return { opts, correctNewIdx, exp: item.exp };
+  });
+  mcAnswered = new Array(MC_RAW.length).fill(null);
+}
+
+function buildMC() {
+  shuffleMC();
+  const s = session.sections.d;
+  s.answered = 0; s.correct = 0;
+  const letters = 'ABCD';
+  document.getElementById('d-body').innerHTML = MC_RAW.map((item, qi) => {
+    const sh = mcShuffled[qi];
+    const opts = sh.opts.map((o, j) => `
+      <div class="mc-opt" id="mco${qi}_${j}" onclick="pickMC(${qi},${j})">
+        <span class="ol">${letters[j]}</span><span>${o.text}</span>
+      </div>`).join('');
+    return `<div class="mc-q">
+      <div class="mc-question"><strong>${qi+1}.</strong> ${item.q}</div>
+      <div class="mc-opts">${opts}</div>
+      <div class="mc-fb" id="mcfb${qi}"></div>
+    </div>`;
+  }).join('');
+}
+
+function pickMC(qi, chosen) {
+  if (mcAnswered[qi] !== null) return;
+  mcAnswered[qi] = chosen;
+  const sh = mcShuffled[qi];
+  const s  = session.sections.d;
+  const fb = document.getElementById('mcfb'+qi);
+  s.answered++;
+  for (let j = 0; j < sh.opts.length; j++) {
+    const el = document.getElementById(`mco${qi}_${j}`);
+    el.classList.add('dis');
+    if (j === sh.correctNewIdx) el.classList.add('ok');
+    else if (j === chosen) el.classList.add('no');
+  }
+  if (chosen === sh.correctNewIdx) {
+    s.correct++;
+    fb.textContent = '✓ ' + sh.exp;
+    fb.style.color = 'var(--ok)';
+  } else {
+    fb.textContent = '✗ ' + sh.exp;
+    fb.style.color = 'var(--err)';
+  }
+  s.lastC = s.correct;
+  document.getElementById('d-score').className = 'score-pill show';
+  document.getElementById('d-score').innerHTML = `<span class="sn">${s.correct}/${s.answered}</span> answered — ${MC_RAW.length - s.answered} left`;
+  if (s.answered === MC_RAW.length) {
+    showPill('d-score', s.correct, MC_RAW.length);
+    updateTabStatus('d', s.correct === MC_RAW.length ? 'perfect' : 'tried');
+    session.sections.d.lastC = s.correct;
+  }
+}
+
+function resetMC() {
+  session.sections.d.resets++;
+  document.getElementById('att-d').textContent = `Resets: ${session.sections.d.resets}`;
+  buildMC();
+  document.getElementById('d-score').className = 'score-pill';
+  updateTabStatus('d','none');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  EXERCISE E (PASSIVE) — Error Correction
+// ═══════════════════════════════════════════════════════════
+function buildError() {
+  document.getElementById('e-body').innerHTML = ERROR_DATA.map((it,i) => `
+    <div class="ec-item">
+      <div class="ec-sent"><strong>${i+1}.</strong> ${it.sent}</div>
+      <div class="ec-fields">
+        <div class="ec-field">
+          <div class="ec-lbl">Wrong word</div>
+          <input class="ec-in" id="ecw${i}" type="text" autocomplete="off" placeholder="incorrect…" spellcheck="false">
+        </div>
+        <div class="ec-arrow">→</div>
+        <div class="ec-field">
+          <div class="ec-lbl">Correct word</div>
+          <input class="ec-in" id="ecr${i}" type="text" autocomplete="off" placeholder="correction…" spellcheck="false">
+        </div>
+      </div>
+      <div class="ec-fb" id="ecfb${i}"></div>
+    </div>`).join('');
+}
+
+function checkError() {
+  const s = session.sections.e;
+  s.checks++;
+  document.getElementById('att-e').textContent = `Attempts: ${s.checks}`;
+  let c = 0;
+  ERROR_DATA.forEach((it,i) => {
+    const ew = document.getElementById('ecw'+i);
+    const er = document.getElementById('ecr'+i);
+    const fb = document.getElementById('ecfb'+i);
+    ew.classList.remove('ok','no'); er.classList.remove('ok','no'); fb.className='ec-fb';
+    const wOk = norm(ew.value) === norm(it.wrong);
+    const rOk = norm(er.value) === norm(it.right);
+    if (wOk && rOk) {
+      ew.classList.add('ok'); er.classList.add('ok');
+      fb.classList.add('ok'); fb.textContent = '✓ ' + it.exp; c++;
+    } else {
+      if (!wOk) ew.classList.add('no');
+      if (!rOk) er.classList.add('no');
+      fb.classList.add('no'); fb.textContent = `✗ "${it.wrong}" → "${it.right}" — ${it.exp}`;
+    }
+  });
+  s.lastC = c;
+  if (c === ERROR_DATA.length && s.perfectOn === null) s.perfectOn = s.checks;
+  showPill('e-score', c, ERROR_DATA.length);
+  updateTabStatus('e', s.perfectOn ? 'perfect' : 'tried');
+}
+
+function resetError() {
+  ERROR_DATA.forEach((_,i) => {
+    ['ecw','ecr'].forEach(p => { const el=document.getElementById(p+i); el.value=''; el.classList.remove('ok','no'); });
+    const fb=document.getElementById('ecfb'+i); fb.className='ec-fb'; fb.textContent='';
+  });
+  document.getElementById('e-score').className='score-pill';
+}
+
+// ═══════════════════════════════════════════════════════════
+//  EXERCISE A (ADVERB) — Can Reduce? (Checkbox)
+// ═══════════════════════════════════════════════════════════
+function buildAdverbCheck() {
+  cbSelections = new Array(ADVERB_CHECK.length).fill(null);
+  document.getElementById('a-body').innerHTML = ADVERB_CHECK.map((it, i) => `
+    <div class="cb-item">
+      <div class="cb-sent"><strong>${i+1}.</strong> ${it.sent}</div>
+      <div class="cb-choices">
+        <button class="cb-btn" id="cby${i}" onclick="pickCB(${i},'yes')">✓ YES — can reduce</button>
+        <button class="cb-btn" id="cbn${i}" onclick="pickCB(${i},'no')">✗ NO — cannot reduce</button>
+      </div>
+      <div class="cb-fb" id="cbfb${i}"></div>
+    </div>`).join('');
+}
+
+function pickCB(i, choice) {
+  cbSelections[i] = choice;
+  const yb = document.getElementById('cby'+i);
+  const nb = document.getElementById('cbn'+i);
+  yb.className = 'cb-btn' + (choice==='yes' ? ' yes-sel' : '');
+  nb.className = 'cb-btn' + (choice==='no'  ? ' no-sel'  : '');
+}
+
+function checkAdverbCheck() {
+  const s = session.sections.a;
+  s.checks++;
+  document.getElementById('att-a').textContent = `Attempts: ${s.checks}`;
+  let c = 0;
+  ADVERB_CHECK.forEach((it, i) => {
+    const sel = cbSelections[i];
+    const correct = it.canReduce ? 'yes' : 'no';
+    const yb = document.getElementById('cby'+i);
+    const nb = document.getElementById('cbn'+i);
+    const fb = document.getElementById('cbfb'+i);
+    yb.classList.add('dis'); nb.classList.add('dis');
+    yb.classList.remove('yes-sel','no-sel','cb-correct','cb-wrong');
+    nb.classList.remove('yes-sel','no-sel','cb-correct','cb-wrong');
+    if (sel === correct) {
+      (sel==='yes'?yb:nb).classList.add('cb-correct');
+      fb.className='cb-fb ok'; fb.textContent='✓ Correct! ' + it.reason; c++;
+    } else {
+      if (sel) (sel==='yes'?yb:nb).classList.add('cb-wrong');
+      (correct==='yes'?yb:nb).classList.add('cb-correct');
+      fb.className='cb-fb no'; fb.textContent='✗ ' + (it.canReduce?'YES':'NO') + ' — ' + it.reason;
+    }
+  });
+  s.lastC = c;
+  if (c === ADVERB_CHECK.length && s.perfectOn === null) s.perfectOn = s.checks;
+  showPill('a-score', c, ADVERB_CHECK.length);
+  updateTabStatus('a', s.perfectOn ? 'perfect' : 'tried');
+}
+
+function resetAdverbCheck() {
+  cbSelections = new Array(ADVERB_CHECK.length).fill(null);
+  ADVERB_CHECK.forEach((_, i) => {
+    document.getElementById('cby'+i).className='cb-btn';
+    document.getElementById('cbn'+i).className='cb-btn';
+    document.getElementById('cbfb'+i).className='cb-fb';
+    document.getElementById('cbfb'+i).textContent='';
+  });
+  document.getElementById('a-score').className='score-pill';
+}
+
+// ═══════════════════════════════════════════════════════════
+//  EXERCISE B (ADVERB) — Rewrite (Transformation)
+// ═══════════════════════════════════════════════════════════
+function buildAdverbTransform() {
+  document.getElementById('b-body').innerHTML = ADVERB_TRANSFORM.map((it,i) => `
+    <div class="tf-item">
+      <div class="tf-given"><strong>${i+1}.</strong> ${it.given}</div>
+      <div class="tf-prompt">Rewrite using a reduced adverb clause (gerund form):</div>
+      <input class="tf-in" id="atfi${i}" type="text" autocomplete="off"
+             placeholder="Write your reduced form here…" spellcheck="false">
+      <div class="tf-fb" id="atfb${i}"></div>
+    </div>`).join('');
+}
+
+function checkAdverbTransform() {
+  const s = session.sections.b;
+  s.checks++;
+  document.getElementById('att-b').textContent = `Attempts: ${s.checks}`;
+  let c = 0;
+  ADVERB_TRANSFORM.forEach((it,i) => {
+    const inp = document.getElementById('atfi'+i);
+    const fb  = document.getElementById('atfb'+i);
+    inp.classList.remove('ok','no'); fb.className='tf-fb';
+    const ok = flexEq(inp.value, it.answers);
+    if (ok) { inp.classList.add('ok'); fb.classList.add('ok'); fb.textContent='✓ Correct!'; c++; }
+    else { inp.classList.add('no'); fb.classList.add('no'); fb.textContent='✗ Model: ' + it.answers[0]; }
+  });
+  s.lastC = c;
+  if (c === ADVERB_TRANSFORM.length && s.perfectOn === null) s.perfectOn = s.checks;
+  showPill('b-score', c, ADVERB_TRANSFORM.length);
+  updateTabStatus('b', s.perfectOn ? 'perfect' : 'tried');
+}
+
+function resetAdverbTransform() {
+  ADVERB_TRANSFORM.forEach((_,i) => {
+    const inp=document.getElementById('atfi'+i); const fb=document.getElementById('atfb'+i);
+    inp.value=''; inp.classList.remove('ok','no'); fb.className='tf-fb'; fb.textContent='';
+  });
+  document.getElementById('b-score').className='score-pill';
+}
+
+// ═══════════════════════════════════════════════════════════
+//  EXERCISE C (ADVERB) — Multiple Choice (auto-scored)
+// ═══════════════════════════════════════════════════════════
+function shuffleAdverbMC() {
+  adverbMCShuffled = ADVERB_MC_RAW.map(item => {
+    const opts = item.options.map((text, i) => ({ text, correct: i === item.correctIdx }));
+    for (let i = opts.length-1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i+1));
+      [opts[i], opts[j]] = [opts[j], opts[i]];
+    }
+    return { opts, correctNewIdx: opts.findIndex(o=>o.correct), exp: item.exp };
+  });
+  adverbMCAnswered = new Array(ADVERB_MC_RAW.length).fill(null);
+}
+
+function buildAdverbMC() {
+  shuffleAdverbMC();
+  const s = session.sections.c;
+  s.answered = 0; s.correct = 0;
+  const letters = 'ABCD';
+  document.getElementById('c-body').innerHTML = ADVERB_MC_RAW.map((item, qi) => {
+    const sh = adverbMCShuffled[qi];
+    const opts = sh.opts.map((o, j) => `
+      <div class="mc-opt" id="amco${qi}_${j}" onclick="pickAdverbMC(${qi},${j})">
+        <span class="ol">${letters[j]}</span><span>${o.text}</span>
+      </div>`).join('');
+    return `<div class="mc-q">
+      <div class="mc-question"><strong>${qi+1}.</strong> ${item.q}</div>
+      <div class="mc-opts">${opts}</div>
+      <div class="mc-fb" id="amcfb${qi}"></div>
+    </div>`;
+  }).join('');
+}
+
+function pickAdverbMC(qi, chosen) {
+  if (adverbMCAnswered[qi] !== null) return;
+  adverbMCAnswered[qi] = chosen;
+  const sh = adverbMCShuffled[qi];
+  const s  = session.sections.c;
+  s.answered++;
+  document.getElementById('att-c').textContent = `Answered: ${s.answered} / ${ADVERB_MC_RAW.length}`;
+  const fb = document.getElementById('amcfb'+qi);
+  for (let j = 0; j < sh.opts.length; j++) {
+    const el = document.getElementById(`amco${qi}_${j}`);
+    el.classList.add('dis');
+    if (j === sh.correctNewIdx) el.classList.add('ok');
+    else if (j === chosen) el.classList.add('no');
+  }
+  if (chosen === sh.correctNewIdx) {
+    s.correct++;
+    fb.textContent='✓ '+sh.exp; fb.style.color='var(--ok)';
+  } else {
+    fb.textContent='✗ '+sh.exp; fb.style.color='var(--err)';
+  }
+  if (s.answered === ADVERB_MC_RAW.length) {
+    showPill('c-score', s.correct, ADVERB_MC_RAW.length);
+    updateTabStatus('c', s.correct === ADVERB_MC_RAW.length ? 'perfect' : 'tried');
+  } else {
+    updateAllPills();
+  }
+}
+
+function resetAdverbMC() {
+  session.sections.c.resets++;
+  buildAdverbMC();
+  document.getElementById('c-score').className='score-pill';
+  document.getElementById('att-c').textContent='Answered: 0';
+  updateTabStatus('c','none');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  EXERCISE D (ADVERB) — Error Correction
+// ═══════════════════════════════════════════════════════════
+function buildAdverbError() {
+  document.getElementById('d-body').innerHTML = ADVERB_ERROR.map((it,i) => `
+    <div class="ec-item">
+      <div class="ec-sent"><strong>${i+1}.</strong> ${it.sent}</div>
+      <div class="ec-fields">
+        <div class="ec-field">
+          <div class="ec-lbl">Wrong word</div>
+          <input class="ec-in" id="aecw${i}" type="text" autocomplete="off" placeholder="incorrect…" spellcheck="false">
+        </div>
+        <div class="ec-arrow">→</div>
+        <div class="ec-field">
+          <div class="ec-lbl">Correct word</div>
+          <input class="ec-in" id="aecr${i}" type="text" autocomplete="off" placeholder="correction…" spellcheck="false">
+        </div>
+      </div>
+      <div class="ec-fb" id="aecfb${i}"></div>
+    </div>`).join('');
+}
+
+function checkAdverbError() {
+  const s = session.sections.d;
+  s.checks++;
+  document.getElementById('att-d').textContent = `Attempts: ${s.checks}`;
+  let c = 0;
+  ADVERB_ERROR.forEach((it,i) => {
+    const ew=document.getElementById('aecw'+i), er=document.getElementById('aecr'+i), fb=document.getElementById('aecfb'+i);
+    ew.classList.remove('ok','no'); er.classList.remove('ok','no'); fb.className='ec-fb';
+    const wOk=norm(ew.value)===norm(it.wrong), rOk=norm(er.value)===norm(it.right);
+    if (wOk && rOk) { ew.classList.add('ok'); er.classList.add('ok'); fb.classList.add('ok'); fb.textContent='✓ '+it.exp; c++; }
+    else { if(!wOk)ew.classList.add('no'); if(!rOk)er.classList.add('no'); fb.classList.add('no'); fb.textContent=`✗ "${it.wrong}" → "${it.right}" — ${it.exp}`; }
+  });
+  s.lastC = c;
+  if (c === ADVERB_ERROR.length && s.perfectOn === null) s.perfectOn = s.checks;
+  showPill('d-score', c, ADVERB_ERROR.length);
+  updateTabStatus('d', s.perfectOn ? 'perfect' : 'tried');
+}
+
+function resetAdverbError() {
+  ADVERB_ERROR.forEach((_,i) => {
+    ['aecw','aecr'].forEach(p => { const el=document.getElementById(p+i); el.value=''; el.classList.remove('ok','no'); });
+    const fb=document.getElementById('aecfb'+i); fb.className='ec-fb'; fb.textContent='';
+  });
+  document.getElementById('d-score').className='score-pill';
+}
+
+// ═══════════════════════════════════════════════════════════
+//  EXERCISE E (ADVERB) — Fill in Blank (gerund)
+// ═══════════════════════════════════════════════════════════
+function buildAdverbFill() {
+  document.getElementById('e-body').innerHTML = ADVERB_FILL_G.map((it,i) => `
+    <div class="s-row">
+      <span class="s-num">${i+1}.</span>
+      <span>${it.pre}</span>
+      <input class="b-in" id="afi${i}" type="text" autocomplete="off"
+             placeholder="(-ing form)" spellcheck="false" style="width:140px">
+      <span>${it.post}</span>
+    </div>`).join('');
+}
+
+function checkAdverbFill() {
+  const s = session.sections.e;
+  s.checks++;
+  document.getElementById('att-e').textContent = `Attempts: ${s.checks}`;
+  let c = 0;
+  ADVERB_FILL_G.forEach((it,i) => {
+    const inp=document.getElementById('afi'+i);
+    inp.classList.remove('ok','no');
+    if (norm(inp.value)===norm(it.ans)) { inp.classList.add('ok'); c++; }
+    else { inp.classList.add('no'); inp.title='✓ '+it.ans; }
+  });
+  s.lastC = c;
+  if (c === ADVERB_FILL_G.length && s.perfectOn === null) s.perfectOn = s.checks;
+  showPill('e-score', c, ADVERB_FILL_G.length);
+  updateTabStatus('e', s.perfectOn ? 'perfect' : 'tried');
+}
+
+function resetAdverbFill() {
+  ADVERB_FILL_G.forEach((_,i) => { const inp=document.getElementById('afi'+i); inp.value=''; inp.classList.remove('ok','no'); inp.title=''; });
+  document.getElementById('e-score').className='score-pill';
+}
+
+// ═══════════════════════════════════════════════════════════
+//  UTILITY: score pill
+// ═══════════════════════════════════════════════════════════
+function showPill(id, c, t) {
+  const pct = Math.round(c/t*100);
+  const emoji = pct===100?'🏆':pct>=70?'✅':pct>=50?'📝':'💪';
+  const msg = pct===100?'Perfect!':pct>=70?'Well done!':pct>=50?'Good — review errors.':'Keep practising!';
+  const el = document.getElementById(id);
+  el.className='score-pill show';
+  el.innerHTML = `<span class="sn">${c}/${t}</span> ${emoji} ${msg}`;
+}
+
+// ═══════════════════════════════════════════════════════════
+//  SILENT SCORING — evaluates inputs WITHOUT changing UI
+// ═══════════════════════════════════════════════════════════
+function silentScoreFill() {
+  return FILL.reduce((c, it, i) => {
+    const v = document.getElementById('fi'+i)?.value || '';
+    return c + (norm(v) === norm(it.ans) ? 1 : 0);
+  }, 0);
+}
+function silentScoreTransform() {
+  return TRANSFORM.reduce((c, it, i) => {
+    const v = document.getElementById('tfi'+i)?.value || '';
+    return c + (flexEq(v, it.answers) ? 1 : 0);
+  }, 0);
+}
+function silentScoreError() {
+  return ERROR_DATA.reduce((c, it, i) => {
+    const w = norm(document.getElementById('ecw'+i)?.value || '');
+    const r = norm(document.getElementById('ecr'+i)?.value || '');
+    return c + (w === norm(it.wrong) && r === norm(it.right) ? 1 : 0);
+  }, 0);
+}
+function silentScoreCB() {
+  return ADVERB_CHECK.reduce((c, it, i) => c + (cbSelections[i]===(it.canReduce?'yes':'no')?1:0), 0);
+}
+function silentScoreAdverbTransform() {
+  return ADVERB_TRANSFORM.reduce((c, it, i) => {
+    const v = document.getElementById('atfi'+i)?.value || '';
+    return c + (flexEq(v, it.answers) ? 1 : 0);
+  }, 0);
+}
+function silentScoreAdverbError() {
+  return ADVERB_ERROR.reduce((c, it, i) => {
+    const w = norm(document.getElementById('aecw'+i)?.value || '');
+    const r = norm(document.getElementById('aecr'+i)?.value || '');
+    return c + (w===norm(it.wrong) && r===norm(it.right) ? 1 : 0);
+  }, 0);
+}
+function silentScoreAdverbFill() {
+  return ADVERB_FILL_G.reduce((c, it, i) => {
+    const v = document.getElementById('afi'+i)?.value || '';
+    return c + (norm(v)===norm(it.ans) ? 1 : 0);
+  }, 0);
+}
+
+// ═══════════════════════════════════════════════════════════
+//  SUBMIT
+// ═══════════════════════════════════════════════════════════
+function submitPractice() {
+  const s = session.sections;
+  const isAdverb = activeActivity === 'adverb';
+
+  const ssA = isAdverb ? silentScoreCB            : silentScoreFill;
+  const ssB = isAdverb ? silentScoreAdverbTransform : silentScoreTransform;
+  const ssD = isAdverb ? silentScoreAdverbError    : () => s.d.correct;
+  const ssE = isAdverb ? silentScoreAdverbFill     : silentScoreError;
+
+  const untouched = [];
+  if (s.a.checks===0 && ssA()===0) untouched.push('A — '+(isAdverb?'Can Reduce?':'Fill in Blank'));
+  if (s.b.checks===0 && ssB()===0) untouched.push('B — '+(isAdverb?'Rewrite':'Transformation'));
+  if (!isAdverb && s.c.matched===0 && s.c.mistakes===0) untouched.push('C — Matching');
+  if (isAdverb  && s.c.answered===0) untouched.push('C — Multiple Choice');
+  if (!isAdverb && s.d.answered===0) untouched.push('D — Multiple Choice');
+  if (isAdverb  && s.d.checks===0 && ssD()===0) untouched.push('D — Error Correction');
+  if (s.e.checks===0 && ssE()===0) untouched.push('E — '+(isAdverb?'Fill in Blank':'Error Correction'));
+
+  if (untouched.length > 0) {
+    const ok = confirm(`⚠ You haven't attempted these sections:\n\n${untouched.map(x=>'• '+x).join('\n')}\n\nSubmit anyway? Those sections will score 0.`);
+    if (!ok) return;
+  }
+
+  stopTimer();
+
+  const scoreA = s.a.checks > 0 ? s.a.lastC : ssA();
+  const scoreB = s.b.checks > 0 ? s.b.lastC : ssB();
+  const scoreC = isAdverb ? s.c.correct : s.c.matched;
+  const scoreD = isAdverb ? (s.d.checks > 0 ? s.d.lastC : ssD()) : s.d.correct;
+  const scoreE = s.e.checks > 0 ? s.e.lastC : ssE();
+
+  const totalC = scoreA + scoreB + scoreC + scoreD + scoreE;
+  const totalT = s.a.lastT + s.b.lastT + s.c.lastT + s.d.lastT + s.e.lastT;
+  const pct = Math.round(totalC / totalT * 100);
+  const allPerfect = scoreA===s.a.lastT && scoreB===s.b.lastT &&
+                     scoreC===s.c.lastT && scoreD===s.d.lastT && scoreE===s.e.lastT;
+
+  const actLabel = ACTIVITY_LABELS[activeActivity];
+
+  const result = {
+    id: Date.now().toString(36),
+    timestamp: new Date().toISOString(),
+    student: session.student,
+    group: CFG.group, month: CFG.month,
+    activity: actLabel, activityId: activeActivity,
+    timeSec: session.timeSec,
+    sections: {
+      a: { label:'A — '+(isAdverb?'Can Reduce?':'Fill in Blank'),        score:`${scoreA}/${s.a.lastT}`, checks:s.a.checks, perfectOn:s.a.perfectOn },
+      b: { label:'B — '+(isAdverb?'Rewrite':'Transformation'),            score:`${scoreB}/${s.b.lastT}`, checks:s.b.checks, perfectOn:s.b.perfectOn },
+      c: { label:'C — '+(isAdverb?'Multiple Choice':'Matching'),           score:`${scoreC}/${s.c.lastT}`, mistakes:s.c.mistakes, answered:s.c.answered },
+      d: { label:'D — '+(isAdverb?'Error Correction':'Multiple Choice'),   score:`${scoreD}/${s.d.lastT}`, checks:s.d.checks, answered:s.d.answered, resets:s.d.resets, perfectOn:s.d.perfectOn },
+      e: { label:'E — '+(isAdverb?'Fill in Blank':'Error Correction'),     score:`${scoreE}/${s.e.lastT}`, checks:s.e.checks, perfectOn:s.e.perfectOn },
+    },
+    totalScore: `${totalC}/${totalT}`,
+    percent: pct,
+    achievedAll: allPerfect,
+  };
+
+  const stored = JSON.parse(localStorage.getItem('bacman_submissions') || '[]');
+  stored.push(result);
+  localStorage.setItem('bacman_submissions', JSON.stringify(stored));
+
+  renderDone(result);
+  goTo('done');
+  sendEmail(result);
+}
+
+// ═══════════════════════════════════════════════════════════
+//  DONE PAGE
+// ═══════════════════════════════════════════════════════════
+function renderDone(r) {
+  const pct = r.percent;
+  const isAdverb = r.activityId === 'adverb';
+  document.getElementById('done-emoji').textContent = pct===100?'🏆':pct>=80?'🎉':pct>=60?'📚':'💪';
+  document.getElementById('done-title').textContent = pct===100?'Perfect Score! Excellent!':pct>=80?'Great Work!':pct>=60?'Good Effort!':'Keep Practising!';
+  document.getElementById('done-subtitle').textContent = `Great work on Unit 6 — ${r.activity}`;
+  document.getElementById('ds-total').textContent = r.totalScore;
+  document.getElementById('ds-pct').textContent = pct + '%';
+  document.getElementById('ds-time').textContent = fmt(r.timeSec);
+
+  const secs = r.sections;
+  const attA = `${secs.a.checks} check(s)${secs.a.perfectOn?' — 100% on attempt '+secs.a.perfectOn:' — not yet 100%'}`;
+  const attB = `${secs.b.checks} check(s)${secs.b.perfectOn?' — 100% on attempt '+secs.b.perfectOn:' — not yet 100%'}`;
+  const attC = isAdverb
+    ? `${secs.c.answered}/${secs.c.score.split('/')[1]} answered`
+    : `${secs.c.mistakes} mistake(s)`;
+  const attD = isAdverb
+    ? `${secs.d.checks} check(s)${secs.d.perfectOn?' — 100% on attempt '+secs.d.perfectOn:' — not yet 100%'}`
+    : `${secs.d.answered||0} questions answered · ${secs.d.resets} reset(s)`;
+  const attE = `${secs.e.checks} check(s)${secs.e.perfectOn?' — 100% on attempt '+secs.e.perfectOn:' — not yet 100%'}`;
+
+  document.getElementById('done-rows-content').innerHTML = [
+    buildDoneRow(secs.a, attA),
+    buildDoneRow(secs.b, attB),
+    buildDoneRow(secs.c, attC),
+    buildDoneRow(secs.d, attD),
+    buildDoneRow(secs.e, attE),
+  ].join('');
+}
+
+function buildDoneRow(sec, detail) {
+  const [c, t] = sec.score.split('/').map(Number);
+  const perfect = c === t;
+  const cls = perfect ? 'ok-r' : (c > 0 ? 'no-r' : 'na-r');
+  const scoreCls = perfect ? 'ok' : (c > 0 ? 'no' : 'na');
+  return `<div class="dr ${cls}">
+    <div class="dr-left">
+      <div class="dr-name">${sec.label}</div>
+      <div class="dr-att">${detail}</div>
+    </div>
+    <div class="dr-score ${scoreCls}">${sec.score}</div>
+  </div>`;
+}
+
+// ═══════════════════════════════════════════════════════════
+//  EMAIL
+// ═══════════════════════════════════════════════════════════
+function buildEmailBody(r) {
+  const line = (label, val) => `${label.padEnd(30,' ')} ${val}`;
+  const s = r.sections;
+  const isAdverb = r.activityId === 'adverb';
+  const attA = `${s.a.checks} attempt(s)${s.a.perfectOn ? ' — 100% on attempt ' + s.a.perfectOn : ' — did not reach 100%'}`;
+  const attB = `${s.b.checks} attempt(s)${s.b.perfectOn ? ' — 100% on attempt ' + s.b.perfectOn : ' — did not reach 100%'}`;
+  const attC = isAdverb ? `${s.c.answered} answered` : `${s.c.mistakes} mistake(s) during matching`;
+  const attD = isAdverb
+    ? `${s.d.checks} attempt(s)${s.d.perfectOn ? ' — 100% on attempt ' + s.d.perfectOn : ' — did not reach 100%'}`
+    : `${s.d.resets} reset(s)`;
+  const attE = `${s.e.checks} attempt(s)${s.e.perfectOn ? ' — 100% on attempt ' + s.e.perfectOn : ' — did not reach 100%'}`;
+
+  return `
+BACMAN PLATFORM — Practice Report
+====================================
+Student:    ${r.student.name}
+Email:      ${r.student.email}
+Group:      ${r.group}
+Activity:   ${r.activity}
+Date:       ${new Date(r.timestamp).toLocaleString()}
+Time taken: ${fmt(r.timeSec)}
+
+RESULTS
+-------
+${line(s.a.label+':', s.a.score)}
+  ${attA}
+${line(s.b.label+':', s.b.score)}
+  ${attB}
+${line(s.c.label+':', s.c.score)}
+  ${attC}
+${line(s.d.label+':', s.d.score)}
+  ${attD}
+${line(s.e.label+':', s.e.score)}
+  ${attE}
+
+TOTAL SCORE:   ${r.totalScore}  (${r.percent}%)
+Achieved 100% in all sections: ${r.achievedAll ? 'YES ✓' : 'No'}
+
+====================================
+Sent automatically by BACMAN Platform
+Teacher: ${CFG.teacher} · ${CFG.teacherEmail}
+`.trim();
+}
+
+async function sendEmail(result) {
+  const box = document.getElementById('email-box');
+  const msg = document.getElementById('email-msg');
+
+  if (CFG.emailjs.publicKey === 'YOUR_EMAILJS_PUBLIC_KEY') {
+    box.className = 'email-box fail-e';
+    msg.textContent = '⚠ Email not configured — results saved in Admin panel. (See setup instructions in HTML file)';
+    return;
+  }
+
+  box.className = 'email-box pend-e';
+  msg.textContent = '📧 Sending report to your email…';
+
+  const body = buildEmailBody(result);
+  const subject = `[BACMAN] Practice Report — ${result.student.name} — ${result.group}`;
+
+  try {
+    await emailjs.send(CFG.emailjs.serviceId, CFG.emailjs.templateId, {
+      to_name:       result.student.name,
+      to_email:      result.student.email,
+      subject,
+      body,
+      teacher_email: CFG.teacherEmail,
+    });
+    box.className = 'email-box ok-e';
+    msg.textContent = `✓ Report sent to ${result.student.email}`;
+  } catch(err) {
+    console.error('EmailJS error:', err);
+    box.className = 'email-box fail-e';
+    msg.textContent = '✗ Email failed — your results are saved in the Admin panel.';
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+//  ADMIN
+// ═══════════════════════════════════════════════════════════
+let adminUnlocked = false;
+
+function showAdminOverlay(show) {
+  const overlay = document.getElementById('adm-overlay');
+  overlay.style.display = (!adminUnlocked && show) ? 'flex' : 'none';
+  if (adminUnlocked) renderAdmin();
+}
+
+function adminLogin() {
+  const pass = document.getElementById('adm-pass').value;
+  if (pass === CFG.adminPass) {
+    adminUnlocked = true;
+    document.getElementById('adm-overlay').style.display = 'none';
+    renderAdmin();
+  } else {
+    const inp = document.getElementById('adm-pass');
+    inp.classList.add('bad');
+    setTimeout(() => inp.classList.remove('bad'), 500);
+    inp.value = '';
+    inp.placeholder = 'Wrong password…';
+  }
+}
+
+function renderAdmin() {
+  const submissions = JSON.parse(localStorage.getItem('bacman_submissions') || '[]');
+
+  document.getElementById('st-total').textContent = submissions.length;
+  if (submissions.length === 0) {
+    document.getElementById('st-avg').textContent = '—';
+    document.getElementById('st-perfect').textContent = '0';
+    document.getElementById('st-avgtime').textContent = '—';
+  } else {
+    const avgPct = Math.round(submissions.reduce((a,r) => a + r.percent, 0) / submissions.length);
+    const perfect = submissions.filter(r => r.achievedAll).length;
+    const avgSec  = Math.round(submissions.reduce((a,r) => a + r.timeSec, 0) / submissions.length);
+    document.getElementById('st-avg').textContent = avgPct + '%';
+    document.getElementById('st-perfect').textContent = perfect;
+    document.getElementById('st-avgtime').textContent = fmt(avgSec);
+  }
+
+  const container = document.getElementById('adm-table-container');
+  if (submissions.length === 0) {
+    container.innerHTML = `<div class="empty-st"><div>📋</div>No submissions yet. Students will appear here after completing the practice.</div>`;
+    return;
+  }
+
+  const rows = [...submissions].reverse().map((r) => {
+    const pct = r.percent;
+    const scoreCls = pct >= 80 ? 'sc-great' : pct >= 60 ? 'sc-ok' : 'sc-low';
+    const s = r.sections;
+    const detail = [
+      `A: ${s.a.score} (${s.a.checks}x)`,
+      `B: ${s.b.score} (${s.b.checks}x)`,
+      `C: ${s.c.score}`,
+      `D: ${s.d.score}`,
+      `E: ${s.e.score} (${s.e.checks}x)`,
+    ].join(' · ');
+    const actLabel = r.activity || 'Passive Reporting Structures';
+    const date = new Date(r.timestamp).toLocaleDateString('es-PE', { day:'2-digit', month:'short', hour:'2-digit', minute:'2-digit' });
+    return `<tr>
+      <td><div class="td-name">${r.student.name}</div><div class="td-email">${r.student.email}</div></td>
+      <td><div style="font-size:.72rem;color:var(--a-muted)">${actLabel}</div></td>
+      <td class="td-score ${scoreCls}">${pct}%<br><span style="font-size:.72rem;font-weight:400;color:var(--a-muted)">${r.totalScore}</span></td>
+      <td class="td-time">${fmt(r.timeSec)}</td>
+      <td>${r.achievedAll ? '<span style="color:#34D399;font-weight:800">✓ All 100%</span>' : '<span style="color:var(--a-muted)">In progress</span>'}</td>
+      <td class="td-detail">${detail}</td>
+      <td style="color:var(--a-muted);font-size:.72rem;white-space:nowrap">${date}</td>
+    </tr>`;
+  }).join('');
+
+  container.innerHTML = `<table>
+    <thead><tr>
+      <th>Student</th><th>Activity</th><th>Score</th><th>Time</th><th>Status</th><th>Section Detail</th><th>Date</th>
+    </tr></thead>
+    <tbody>${rows}</tbody>
+  </table>`;
+}
+
+function clearData() {
+  if (confirm('Delete all student submission data? This cannot be undone.')) {
+    localStorage.removeItem('bacman_submissions');
+    renderAdmin();
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════════════════
+goTo('home');
+</script>
+</body>
+</html>
