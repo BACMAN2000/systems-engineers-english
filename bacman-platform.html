@@ -2145,6 +2145,30 @@ function sendEmail(result) {
 }
 
 // ═══════════════════════════════════════════════════════════
+//  Normalize rows from Sheet (handles flat & nested formats)
+// ═══════════════════════════════════════════════════════════
+function normalizeRows(rows) {
+  return rows.map(r => {
+    // Rebuild nested student object if it came back flat
+    if (!r.student) {
+      r.student = { name: r.name || '', email: r.email || '' };
+    }
+    // Rebuild sections if stored as JSON string
+    if (!r.sections || typeof r.sections !== 'object') {
+      try { r.sections = JSON.parse(r.sections_json || r.sections || '{}'); } catch(e) { r.sections = {}; }
+    }
+    // Ensure section sub-objects exist
+    'abcde'.split('').forEach(k => { if (!r.sections[k]) r.sections[k] = { score:'—', checks:0 }; });
+    r.percent   = Number(r.percent)   || 0;
+    r.timeSec   = Number(r.timeSec)   || 0;
+    r.totalScore= r.totalScore || '—';
+    r.activity  = r.activity  || 'Passive Reporting Structures';
+    r.achievedAll = r.achievedAll === true || r.achievedAll === 'YES';
+    return r;
+  });
+}
+
+// ═══════════════════════════════════════════════════════════
 //  JSONP helper — bypasses CORS for cross-origin GETs
 // ═══════════════════════════════════════════════════════════
 function jsonpFetch(url) {
@@ -2194,13 +2218,20 @@ async function renderAdmin() {
 
   let submissions = [];
 
-  // Try cloud first via JSONP (bypasses CORS completely)
+  // Try cloud: JSONP first (bypasses CORS), then regular fetch as fallback
   if (CFG.sheetUrl && CFG.sheetUrl !== 'YOUR_APPS_SCRIPT_URL') {
     try {
       const data = await jsonpFetch(CFG.sheetUrl + '?action=get');
-      if (Array.isArray(data)) submissions = data;
+      if (Array.isArray(data)) submissions = normalizeRows(data);
     } catch(e) {
-      console.warn('Cloud fetch failed:', e.message);
+      console.warn('JSONP failed, trying fetch:', e.message);
+      try {
+        const resp = await fetch(CFG.sheetUrl + '?action=get', { cache: 'no-store' });
+        if (resp.ok) {
+          const data = JSON.parse(await resp.text());
+          if (Array.isArray(data)) submissions = normalizeRows(data);
+        }
+      } catch(e2) { console.warn('Fetch also failed:', e2.message); }
     }
   }
 
