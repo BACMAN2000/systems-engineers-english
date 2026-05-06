@@ -2302,16 +2302,11 @@ async function syncLocalToCloud() {
   }
 }
 
-// ── Single reliable send function (URLSearchParams = works with no-cors) ──
+// ── Cloud send via GET (most reliable cross-origin method) ──
 function cloudSend(result) {
   if (!CFG.sheetUrl || CFG.sheetUrl === 'YOUR_APPS_SCRIPT_URL') return Promise.resolve();
-  const params = new URLSearchParams();
-  params.append('data', JSON.stringify(result));
-  return fetch(CFG.sheetUrl, {
-    method: 'POST',
-    mode: 'no-cors',
-    body: params,
-  }).catch(() => {});
+  const url = CFG.sheetUrl + '?action=save&data=' + encodeURIComponent(JSON.stringify(result));
+  return fetch(url, { mode: 'no-cors' }).catch(() => {});
 }
 
 goTo('home');
