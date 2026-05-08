@@ -149,6 +149,13 @@ code,.mono{font-family:'JetBrains Mono',Consolas,monospace}
 .lhd .lh-chip{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:20px;font-size:.72rem;font-weight:700;color:#fff;margin-bottom:10px}
 .lhd h1{font-size:1.8rem;line-height:1.2;color:var(--d);margin-bottom:4px;letter-spacing:-.3px}
 .lhd .lh-sub{font-size:.92rem;color:var(--m)}
+.lesson-banner{position:relative;width:100%;aspect-ratio:16/9;border-radius:12px;overflow:hidden;margin-bottom:18px;background:linear-gradient(135deg,#1F2937,#374151);box-shadow:0 4px 16px rgba(0,0,0,.08)}
+.lesson-banner img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .6s ease}
+.lesson-banner:hover img{transform:scale(1.03)}
+.lesson-banner-credit{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent 0%,rgba(0,0,0,.55) 70%,rgba(0,0,0,.75) 100%);color:rgba(255,255,255,.92);font-size:.66rem;padding:24px 14px 8px;text-align:right;letter-spacing:.2px}
+.lesson-banner-credit a{color:#fff;text-decoration:underline;text-decoration-color:rgba(255,255,255,.4)}
+.lesson-banner-credit a:hover{text-decoration-color:#fff}
+@media(max-width:600px){.lesson-banner{aspect-ratio:16/10;margin-bottom:14px;border-radius:10px}.lesson-banner-credit{font-size:.6rem;padding:18px 10px 6px}}
 
 /* tabs */
 .tabs{display:flex;gap:0;border-bottom:2px solid var(--b);margin-bottom:22px;overflow-x:auto;scrollbar-width:none}
@@ -686,6 +693,38 @@ html,body{overflow-x:hidden;max-width:100vw}
 const COURSE = __COURSE_DATA__;
 const LVL_COLORS = __LVL_COLORS__;
 const LVL_ICONS = __LVL_ICONS__;
+
+// =============================================================
+// UNSPLASH BANNER CACHE — loaded async from ../unsplash-cache.json.
+// Falls back gracefully (no banner) if the cache is missing or empty.
+// Re-renders the active view once the cache lands so banners show up.
+// =============================================================
+window.UNSPLASH_CACHE = {};
+function topicKey(topic){
+  return (topic||'').trim().toLowerCase().replace(/[^a-z0-9]+/g,'_').replace(/^_|_$/g,'').slice(0,60) || 'topic';
+}
+function getLessonImage(topic){
+  const e = window.UNSPLASH_CACHE[topicKey(topic||'')];
+  return (e && e.url) ? e : null;
+}
+function renderLessonBanner(topic){
+  const img = getLessonImage(topic);
+  if(!img) return '';
+  const photographer = escapeHtml(img.photographer_name||'Unsplash');
+  const credit = `Photo by <a href="${img.photographer_url}" target="_blank" rel="noopener">${photographer}</a> on <a href="https://unsplash.com/?utm_source=cohasset_language_center&utm_medium=referral" target="_blank" rel="noopener">Unsplash</a>`;
+  return `<div class="lesson-banner"><img src="${img.url}" alt="${escapeHtml(img.alt||topic)}" loading="lazy"><div class="lesson-banner-credit">${credit}</div></div>`;
+}
+(function loadUnsplashCache(){
+  fetch('../unsplash-cache.json',{cache:'no-cache'})
+    .then(r=>r.ok?r.json():null)
+    .then(c=>{
+      if(!c) return;
+      window.UNSPLASH_CACHE = c;
+      // re-render current view if a render function is in flight
+      try { if(typeof render==='function') render(); } catch(_){}
+    })
+    .catch(()=>{});
+})();
 
 // =============================================================
 // I18N \u2013 default language is English; Spanish overlay optional
@@ -1276,6 +1315,7 @@ function renderLesson(){
   <span style="font-weight:700;color:${col};font-variant-numeric:tabular-nums">${lvDone}/20 • ${lvPct}%</span>
  </div>
 
+ ${renderLessonBanner(le.topic)}
  <div class="lhd">
   <div class="lh-chip" style="background:${col}"><i class="fas fa-${LVL_ICONS[lv.code]}"></i> ${lv.code} \u2022 ${t('Class')} ${le.n}/20</div>
   <h1>${escapeHtml(le.topic)}</h1>
