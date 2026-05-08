@@ -23,7 +23,7 @@ a1: {
         // UNIT 1
         {id:"be-a1-1",title:"Unit 1: Introductions",subtitle:"Introduce yourself and others in a business context",exercises:[
             {type:"vc",tl:"Vocabulary",title:"Meeting People - Key Phrases",ins:"Learn these essential introduction phrases. Click the speaker icon to hear each one.",content:{words:[
-                {w:"Hello, I'm...",d:"The simplest way to introduce yourself"},{w:"Nice to meet you",d:"A polite phrase when meeting someone new"},{w:"I work for...",d:"Tell people your company name"},{w:"I'm a/an...",d:"Tell people your job title"},{w:"What do you do?",d:"Ask someone about their job"},{w:"Where are you from?",d:"Ask about someone's country"},{w:"Here's my card",d:"Offer your business card"},{w:"How do you spell that?",d:"Ask for spelling of a name"}
+                {w:"Hello, I'm...",ipa:"/hɛˈloʊ, əm.../",d:"The simplest way to introduce yourself"},{w:"Nice to meet you",ipa:"/nis tɪ mit ju/",d:"A polite phrase when meeting someone new"},{w:"I work for...",ipa:"/aɪ wərk fər.../",d:"Tell people your company name"},{w:"I'm a/an...",ipa:"/əm a/an.../",d:"Tell people your job title"},{w:"What do you do?",ipa:"/wət du ju du?/",d:"Ask someone about their job"},{w:"Where are you from?",ipa:"/wɛr ər ju frəm?/",d:"Ask about someone's country"},{w:"Here's my card",ipa:"/hɪrz maɪ kɑrd/",d:"Offer your business card"},{w:"How do you spell that?",ipa:"/haʊ du ju spɛl ðət?/",d:"Ask for spelling of a name"}
             ]}},
             {type:"ls",tl:"Listening",cb:"BEC Preliminary",title:"Audio: A Business Introduction",ins:"Listen to two people meeting at a conference. Answer the questions.",content:{tts:"A: Hello, my name is Maria Santos. I'm the Marketing Manager at Globex Corporation. B: Nice to meet you, Maria. I'm David Chen. I work for Apex Technologies. I'm a Software Developer. A: Oh, that's interesting! Where are you based? B: Our head office is in Singapore, but I work in the London branch. And you? A: I'm based in Madrid. This is my first time at this conference. B: Welcome! Here's my business card. A: Thank you. Here's mine. B: Great. Let me spell my email for you. It's D-A-V-I-D dot C-H-E-N at apex dot com.",qs:[
                 {q:"What is Maria's job title?",o:["Software Developer","Marketing Manager","Sales Director","CEO"],a:1},
@@ -59,12 +59,12 @@ a1: {
         // UNIT 3
         {id:"be-a1-3",title:"Unit 3: Problems at Work",subtitle:"Describe simple problems and ask for help",exercises:[
             {type:"vc",tl:"Vocabulary",title:"Common Office Problems",ins:"Learn these phrases for describing problems.",content:{words:[
-                {w:"The printer doesn't work",d:"The printer is broken or not functioning"},
-                {w:"I can't connect to WiFi",d:"The internet connection is not working"},
-                {w:"My computer is very slow",d:"The computer takes a long time to respond"},
-                {w:"I don't understand this email",d:"The email is confusing or unclear"},
-                {w:"I'm sorry, I'm late",d:"Apologizing for arriving after the scheduled time"},
-                {w:"Can you help me?",d:"Asking someone for assistance"}
+                {w:"The printer doesn't work",ipa:"/ðə ˈprɪnər ˈdəzənt wərk/",d:"The printer is broken or not functioning"},
+                {w:"I can't connect to WiFi",ipa:"/aɪ kænt kəˈnɛkt tɪ ˈwiˌfi/",d:"The internet connection is not working"},
+                {w:"My computer is very slow",ipa:"/maɪ kəmˈpjutər ɪz ˈvɛri sloʊ/",d:"The computer takes a long time to respond"},
+                {w:"I don't understand this email",ipa:"/aɪ doʊnt ˌəndərˈstænd ðɪs iˈmeɪl/",d:"The email is confusing or unclear"},
+                {w:"I'm sorry, I'm late",ipa:"/əm ˈsɑri, əm leɪt/",d:"Apologizing for arriving after the scheduled time"},
+                {w:"Can you help me?",ipa:"/kən ju hɛlp mi?/",d:"Asking someone for assistance"}
             ]}},
             {type:"dd",tl:"Drag & Drop",title:"Match Problems to Solutions",ins:"Drag each solution to the correct problem.",content:{ws:["Call IT support","Ask your manager","Restart it","Use a dictionary","Take a taxi"],ss:[
                 {t:"The WiFi doesn't work. ___",b:"Call IT support"},
@@ -107,12 +107,12 @@ a1: {
         // UNIT 6
         {id:"be-a1-6",title:"Unit 6: Selling",subtitle:"Describe products and services simply",exercises:[
             {type:"vc",tl:"Vocabulary",title:"Product Description Words",ins:"Learn these words for describing products.",content:{words:[
-                {w:"Cheap / Expensive",d:"Low price / High price"},
-                {w:"Big / Small",d:"Large size / Little size"},
-                {w:"Fast / Slow",d:"Quick / Not quick"},
-                {w:"New / Old",d:"Recent / Not recent"},
-                {w:"Popular",d:"Many people like it"},
-                {w:"Quality",d:"How good something is"}
+                {w:"Cheap / Expensive",ipa:"/ʧip  ɪkˈspɛnsɪv/",d:"Low price / High price"},
+                {w:"Big / Small",ipa:"/bɪg  smɔl/",d:"Large size / Little size"},
+                {w:"Fast / Slow",ipa:"/fæst  sloʊ/",d:"Quick / Not quick"},
+                {w:"New / Old",ipa:"/nu  oʊld/",d:"Recent / Not recent"},
+                {w:"Popular",ipa:"/ˈpɑpjələr/",d:"Many people like it"},
+                {w:"Quality",ipa:"/kˈwɑləti/",d:"How good something is"}
             ]}},
             {type:"fl",tl:"Fill in Blanks",title:"Describe the Product",ins:"Complete each sentence with the correct adjective.",content:{ss:[
                 {t:"This phone is very ___. Everyone wants one!",a:"popular"},
@@ -156,7 +156,7 @@ a1: {
         // UNIT 10
         {id:"be-a1-10",title:"Unit 10: Technology",subtitle:"Talk about basic office technology",exercises:[
             {type:"vc",tl:"Vocabulary",title:"Office Technology",ins:"Learn these technology words.",content:{words:[
-                {w:"Laptop",d:"A portable computer"},{w:"Smartphone",d:"A mobile phone with internet"},{w:"Printer",d:"A machine that prints documents"},{w:"Projector",d:"Shows images on a screen for presentations"},{w:"USB drive",d:"A small device to store files"},{w:"Wi-Fi",d:"Wireless internet connection"},{w:"Software",d:"Programs on a computer"},{w:"Password",d:"A secret word to access your account"}
+                {w:"Laptop",ipa:"/ˈlæpˌtɑp/",d:"A portable computer"},{w:"Smartphone",ipa:"/smartphone/",d:"A mobile phone with internet"},{w:"Printer",ipa:"/ˈprɪnər/",d:"A machine that prints documents"},{w:"Projector",ipa:"/prɑˈʤɛktər/",d:"Shows images on a screen for presentations"},{w:"USB drive",ipa:"/usb draɪv/",d:"A small device to store files"},{w:"Wi-Fi",ipa:"/ˈwaɪˌfaɪ/",d:"Wireless internet connection"},{w:"Software",ipa:"/ˈsɔfˌwɛr/",d:"Programs on a computer"},{w:"Password",ipa:"/ˈpæsˌwərd/",d:"A secret word to access your account"}
             ]}},
             {type:"fl",tl:"Fill in Blanks",title:"Technology at Work",ins:"Complete each sentence.",content:{ss:[
                 {t:"I need to ___ my phone. The battery is at 5%.",a:"charge"},
@@ -186,7 +186,7 @@ a1: {
         // UNIT 13
         {id:"be-a1-13",title:"Unit 13: The Internet & E-commerce",subtitle:"Basic online business vocabulary",exercises:[
             {type:"vc",tl:"Vocabulary",title:"Internet & Online Business",ins:"Learn these e-commerce words.",content:{words:[
-                {w:"Website",d:"A page or group of pages on the internet"},{w:"Online shopping",d:"Buying things on the internet"},{w:"App",d:"A program on your phone or tablet"},{w:"Social media",d:"Platforms like Instagram, LinkedIn, Facebook"},{w:"Download",d:"Save a file from the internet to your device"},{w:"E-commerce",d:"Buying and selling products online"}
+                {w:"Website",ipa:"/ˈwɛbˌsaɪt/",d:"A page or group of pages on the internet"},{w:"Online shopping",ipa:"/ˈɔnˌlaɪn ˈʃɑpɪŋ/",d:"Buying things on the internet"},{w:"App",ipa:"/æp/",d:"A program on your phone or tablet"},{w:"Social media",ipa:"/ˈsoʊʃəl ˈmidiə/",d:"Platforms like Instagram, LinkedIn, Facebook"},{w:"Download",ipa:"/ˈdaʊnˌloʊd/",d:"Save a file from the internet to your device"},{w:"E-commerce",ipa:"/e-commerce/",d:"Buying and selling products online"}
             ]}},
             {type:"fl",tl:"Fill in Blanks",title:"Internet Vocabulary",ins:"Complete each sentence.",content:{ss:[
                 {t:"You can buy our products on our ___.",a:"website"},
@@ -349,7 +349,7 @@ a2: {
                 {t:"Our service is ___ reliable than the competitor's. (more)",a:"more"}
             ]}},
             {type:"vc",tl:"Vocabulary",title:"Product Features",ins:"Learn words to describe products.",content:{words:[
-                {w:"Durable",d:"Lasts a long time, strong"},{w:"Lightweight",d:"Not heavy, easy to carry"},{w:"User-friendly",d:"Easy to use"},{w:"Affordable",d:"Reasonable price, not too expensive"},{w:"Innovative",d:"New and creative"},{w:"Eco-friendly",d:"Good for the environment"}
+                {w:"Durable",ipa:"/ˈdʊrəbəl/",d:"Lasts a long time, strong"},{w:"Lightweight",ipa:"/ˈlaɪtˈweɪt/",d:"Not heavy, easy to carry"},{w:"User-friendly",ipa:"/user-friendly/",d:"Easy to use"},{w:"Affordable",ipa:"/əˈfɔrdəbəl/",d:"Reasonable price, not too expensive"},{w:"Innovative",ipa:"/ˈɪnəˌveɪtɪv/",d:"New and creative"},{w:"Eco-friendly",ipa:"/eco-friendly/",d:"Good for the environment"}
             ]}}
         ]},
         {id:"be-a2-12",title:"Unit 12: New Business",subtitle:"Discuss starting and growing a business",exercises:[
@@ -456,7 +456,7 @@ b1: {
         ]},
         {id:"be-b1-6",title:"Unit 6: Money & Finance Basics",subtitle:"Understand financial statements and basic accounting",exercises:[
             {type:"vc",tl:"Vocabulary",title:"Financial Terms",ins:"Learn these essential finance words.",content:{words:[
-                {w:"Revenue",d:"Total money earned from sales"},{w:"Profit",d:"Money left after expenses"},{w:"Loss",d:"When expenses exceed revenue"},{w:"Budget",d:"A plan for spending money"},{w:"Invoice",d:"A bill requesting payment"},{w:"Cash flow",d:"Money moving in and out of a business"},{w:"Debt",d:"Money owed to others"},{w:"Investment",d:"Money spent to make more money"}
+                {w:"Revenue",ipa:"/ˈrɛvəˌnu/",d:"Total money earned from sales"},{w:"Profit",ipa:"/ˈprɑfɪt/",d:"Money left after expenses"},{w:"Loss",ipa:"/lɔs/",d:"When expenses exceed revenue"},{w:"Budget",ipa:"/ˈbəʤɪt/",d:"A plan for spending money"},{w:"Invoice",ipa:"/ˈɪnvɔɪs/",d:"A bill requesting payment"},{w:"Cash flow",ipa:"/kæʃ floʊ/",d:"Money moving in and out of a business"},{w:"Debt",ipa:"/dɛt/",d:"Money owed to others"},{w:"Investment",ipa:"/ˌɪnˈvɛstmənt/",d:"Money spent to make more money"}
             ]}},
             {type:"fl",tl:"Open Cloze",title:"Finance Vocabulary in Context",ins:"Complete the financial sentences.",content:{ss:[
                 {t:"Our ___ last quarter was $5 million.",a:"revenue"},
@@ -532,7 +532,7 @@ b1: {
         ]},
         {id:"be-b1-14",title:"Unit 14: Project Management",subtitle:"Plan, execute, and deliver business projects",exercises:[
             {type:"vc",tl:"Vocabulary",title:"Project Management Terms",ins:"Learn these PM terms.",content:{words:[
-                {w:"Milestone",d:"An important achievement or stage in a project"},{w:"Deadline",d:"The final date to complete something"},{w:"Stakeholder",d:"A person affected by or interested in the project"},{w:"Deliverable",d:"A product or result that must be completed"},{w:"Scope",d:"The boundaries of what the project will include"},{w:"Risk",d:"Something that could go wrong"},{w:"Resource",d:"People, time, or money needed for the project"},{w:"Sprint",d:"A short period of focused work (usually 2 weeks)"}
+                {w:"Milestone",ipa:"/ˈmaɪlˌstoʊn/",d:"An important achievement or stage in a project"},{w:"Deadline",ipa:"/ˈdɛˌdlaɪn/",d:"The final date to complete something"},{w:"Stakeholder",ipa:"/ˈsteɪˌkhoʊldər/",d:"A person affected by or interested in the project"},{w:"Deliverable",ipa:"/dɪˈlɪvərəbəl/",d:"A product or result that must be completed"},{w:"Scope",ipa:"/skoʊp/",d:"The boundaries of what the project will include"},{w:"Risk",ipa:"/rɪsk/",d:"Something that could go wrong"},{w:"Resource",ipa:"/ˈrisɔrs/",d:"People, time, or money needed for the project"},{w:"Sprint",ipa:"/sprɪnt/",d:"A short period of focused work (usually 2 weeks)"}
             ]}},
             {type:"mt",tl:"Matching",title:"PM Methodologies",ins:"Match the methodology to its approach.",content:{l:["Waterfall","Agile","Scrum","Kanban","Lean"],r:["Visual board tracking work flow","Eliminate waste, maximize value","Sequential phases, one after another","Flexible sprints with daily standups","Iterative development with frequent releases"],ans:{0:2,1:4,2:3,3:0,4:1}}}
         ]},

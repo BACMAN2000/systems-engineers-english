@@ -88,7 +88,8 @@ code,.mono{font-family:'JetBrains Mono',Consolas,monospace}
 
 /* ===== MAIN ===== */
 .mn{padding:28px 36px;max-width:1100px}
-.crumb{font-size:.78rem;color:var(--l);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.crumb{font-size:.78rem;color:var(--l);margin-bottom:10px;display:flex;align-items:center;gap:6px;flex-wrap:wrap;word-break:keep-all;overflow-wrap:normal}
+.crumb a,.crumb i,.crumb>*{white-space:nowrap;flex-shrink:0}
 .crumb a{color:var(--p);text-decoration:none;font-weight:500}
 .crumb a:hover{text-decoration:underline}
 
@@ -183,6 +184,8 @@ code,.mono{font-family:'JetBrains Mono',Consolas,monospace}
 
 .vocab-list{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin-bottom:14px}
 .v-chip{background:var(--w);border:1px solid var(--b);padding:9px 12px;border-radius:10px;font-size:.88rem;color:var(--d);transition:var(--t);cursor:pointer;display:flex;align-items:center;gap:10px}
+.v-chip .v-text{display:flex;flex-direction:column;flex:1;min-width:0}
+.v-chip .v-ipa{color:#7C3AED;font-size:.72rem;font-style:italic;font-family:'Cambria Math','Times New Roman',serif;line-height:1.2;letter-spacing:.3px;margin-top:1px}
 .v-chip:hover{border-color:var(--p);background:var(--pvl);transform:translateY(-1px);box-shadow:0 4px 12px rgba(37,99,235,.12)}
 .v-chip.known{background:var(--okl);color:#065F46;border-color:var(--ok);text-decoration:line-through;opacity:.7}
 .v-chip i{font-size:.72rem;color:var(--l);margin-left:auto}
@@ -1288,7 +1291,7 @@ function renderLesson(){
  <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap">
   <button class="btn sec" onclick="route('level','${lv.code}')" style="padding:7px 14px"><i class="fas fa-arrow-left"></i> ${t('Back to')} ${lv.code}</button>
   <button class="btn sec" onclick="route('home')" style="padding:7px 14px"><i class="fas fa-house"></i> ${t('Home')}</button>
-  <div class="crumb" style="margin:0;flex:1">
+  <div class="crumb" style="margin:0;flex:1 1 100%;min-width:0">
    <a onclick="route('home')">${t('Home')}</a>
    <i class="fas fa-chevron-right" style="font-size:.65rem"></i>
    <a onclick="route('level','${lv.code}')">${t('Level')} ${lv.code}</a>
@@ -1584,9 +1587,10 @@ function renderVocab(lv,le){
    ${le.vocab_list.map((w,i)=>{
     const k = known[w]==='known';
     const emo = vocabEmoji(w);
+    const ipa = (le.vocab_ipa && le.vocab_ipa[w]) ? le.vocab_ipa[w] : '';
     return `<div class="v-chip ${k?'known':''}" onclick="openPron('${escapeJs(w)}')" data-w="${escapeAttr(w)}" title="${t('listen').toUpperCase()}">
      <span class="v-emo">${emo}</span>
-     <span class="v-w">${escapeHtml(w)}</span>
+     <div class="v-text"><span class="v-w">${escapeHtml(w)}</span>${ipa?`<span class="v-ipa">${escapeHtml(ipa)}</span>`:''}</div>
      <i class="fas fa-volume-high"></i>
     </div>`;
    }).join('')}
