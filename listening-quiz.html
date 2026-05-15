@@ -515,6 +515,7 @@ const TTS = {
       ready: this.isReady,
       female: this.voiceLabel(this.femaleVoice),
       male: this.voiceLabel(this.maleVoice),
+      distinct: !!(this.femaleVoice && this.maleVoice && this.femaleVoice !== this.maleVoice),
       neural: /Online \(Natural\)/i.test((this.femaleVoice && this.femaleVoice.name)||'')
            && /Online \(Natural\)/i.test((this.maleVoice && this.maleVoice.name)||'')
     };
@@ -544,23 +545,48 @@ const TTS = {
     return segments;
   },
 
-  pickVoiceForSpeaker(label){
-    if(!label) return this.femaleVoice;
-    const l = label.toLowerCase();
-    // Female-coded speakers
-    if(/(^|\b)(woman|girl|female|she|lisa|emma|kate|sarah|sandy|maria|sonia|jenny|mia|amy|chloe|olivia|yuki|hannah|female student|teacher|interviewer|narrator|mum|mother|female narrator)(\b|$)/i.test(l))
-      return this.femaleVoice;
-    // Male-coded speakers
-    if(/(^|\b)(man|boy|male|he|jake|marco|tom|sam|david|mark|alex|daniel|nico|jim|brian|jacob|professor|father|dad|male student|male narrator)(\b|$)/i.test(l))
-      return this.maleVoice;
-    return this.femaleVoice;
+  // Build a speaker -> voice profile map for ONE script.
+  // Guarantees the two main speakers always sound different:
+  // distinct voices when available, or pitch-shifted fallback when the
+  // system only has one English voice installed.
+  assignVoices(speakers){
+    const twoVoices = !!(this.femaleVoice && this.maleVoice && this.femaleVoice !== this.maleVoice);
+    const profA = twoVoices ? {voice:this.femaleVoice, pitch:1.0, rateMul:1.0}
+                            : {voice:this.femaleVoice, pitch:1.22, rateMul:1.0};
+    const profB = twoVoices ? {voice:this.maleVoice,   pitch:1.0, rateMul:1.0}
+                            : {voice:this.femaleVoice, pitch:0.74, rateMul:0.97};
+    const femRe = /(^|\b)(woman|girl|female|she|her|lisa|emma|kate|sarah|sandy|maria|sonia|jenny|mia|amy|chloe|olivia|yuki|hannah|mum|mother|female student|female narrator)(\b|$)/i;
+    const malRe = /(^|\b)(man|boy|male|he|his|jake|marco|tom|sam|david|mark|alex|daniel|nico|jim|brian|jacob|professor|father|dad|male student|male narrator)(\b|$)/i;
+    const map = {};
+
+    // Interview pattern: Interviewer + one guest -> always opposite voices
+    const interviewer = speakers.find(s=>/interviewer|host|presenter|reporter/i.test(s));
+    if(interviewer && speakers.length === 2){
+      const guest = speakers.find(s=>s!==interviewer);
+      const guestFemale = femRe.test(guest) && !malRe.test(guest);
+      map[guest] = guestFemale ? profA : profB;
+      map[interviewer] = guestFemale ? profB : profA;
+    } else {
+      speakers.forEach((sp,idx)=>{
+        if(femRe.test(sp) && !malRe.test(sp)) map[sp] = profA;
+        else if(malRe.test(sp)) map[sp] = profB;
+        else map[sp] = (idx % 2 === 0) ? profA : profB;
+      });
+      // Safety net: exactly 2 speakers must never share a voice
+      if(speakers.length === 2 && map[speakers[0]] === map[speakers[1]]){
+        map[speakers[1]] = (map[speakers[0]] === profA) ? profB : profA;
+      }
+    }
+    map._narrator = profA;
+    return map;
   },
 
-  speak(text, voice, onEnd){
+  speak(text, profile, onEnd){
     const u = new SpeechSynthesisUtterance(text);
+    const voice = profile && profile.voice;
     u.lang = (voice && voice.lang) || 'en-US';
-    u.rate = this.rate;
-    u.pitch = 1;
+    u.rate = Math.max(0.5, Math.min(1.5, this.rate * ((profile && profile.rateMul) || 1)));
+    u.pitch = (profile && profile.pitch) || 1;
     u.volume = 1;
     if(voice) u.voice = voice;
     u.onend = ()=>{ if(onEnd) onEnd(); };
@@ -570,11 +596,14 @@ const TTS = {
 
   playScript(script, onDone){
     const segments = this.parseDialog(script);
+    const speakers = [...new Set(segments.map(s=>s.speaker).filter(Boolean))];
+    const vmap = this.assignVoices(speakers);
     let i = 0;
     const next = ()=>{
       if(this.cancelled || i >= segments.length){ if(onDone) onDone(); return; }
       const seg = segments[i++];
-      this.speak(seg.text, this.pickVoiceForSpeaker(seg.speaker), next);
+      const profile = seg.speaker ? (vmap[seg.speaker] || vmap._narrator) : vmap._narrator;
+      this.speak(seg.text, profile, next);
     };
     next();
   },
@@ -761,9 +790,12 @@ function bindTTSPlayer(audio){
     const badge = s.neural
       ? '<span style="background:#dcfce7;color:#166534;padding:1px 8px;border-radius:999px;font-weight:700">🌟 Edge Neural</span>'
       : '<span style="background:#fef3c7;color:#92400e;padding:1px 8px;border-radius:999px;font-weight:700">Standard voice</span>';
-    voiceInfo.innerHTML = `🔊 Voces: ♀ <b>${s.female}</b> · ♂ <b>${s.male}</b> &nbsp; ${badge}`;
+    const mode = s.distinct
+      ? `🗣️ Diálogo a 2 personas: ♀ <b>${s.female}</b> · ♂ <b>${s.male}</b>`
+      : `🗣️ Diálogo a 2 personas (1 voz, tono diferenciado: ♀ agudo / ♂ grave) — <b>${s.female}</b>`;
+    voiceInfo.innerHTML = `${mode} &nbsp; ${badge}`;
     if(!s.neural){
-      voiceInfo.innerHTML += `<br><span style="color:#92400e">💡 Para mejor calidad, abre en <b>Microsoft Edge</b> con internet (Aria, Guy, Jenny — Neural).</span>`;
+      voiceInfo.innerHTML += `<br><span style="color:#92400e">💡 Para 2 voces reales y mejor calidad, abre en <b>Microsoft Edge</b> con internet (Aria + Guy Neural).</span>`;
     }
   });
   const setSeg = (i, cls)=>{
