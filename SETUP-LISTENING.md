@@ -207,6 +207,20 @@ Puedes filtrar por nivel/clase, exportar a Excel, o usar fórmulas para calcular
 
 ---
 
+## Modo profesor — verificar voces (secreto)
+
+El indicador de voces (♀/♂, Neural/Standard) está **oculto para los alumnos**.
+
+Para verlo tú, agrega `?debug` al final de la URL:
+
+```
+https://bacman2000.github.io/systems-engineers-english/listening-quiz.html?debug
+```
+
+Solo con ese parámetro aparece el indicador debajo del Play. Sin él, los alumnos ven la app limpia. No compartas la URL con `?debug` — dales la URL normal.
+
+---
+
 ## Quitar el quiz cuando termine la clase
 
 Para apagar la URL pública sin borrar nada:
