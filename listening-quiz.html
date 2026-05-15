@@ -119,7 +119,8 @@
    ======================================================================== */
 const CONFIG = {
   AUDIO_BASE: "./mp3/",                // for B2 / C1 mp3 files
-  APPS_SCRIPT_URL: "PEGA_AQUI_TU_URL_DEL_APPS_SCRIPT",
+  APPS_SCRIPT_URL: "https://script.google.com/macros/s/AKfycbyuPQ2jpb7OxrPgtb5JWUs8bnea3XdnNkKBd9nEV7grSCuvlE8X7JTTnW6RUFLU64iSTg/exec",
+  TEACHER_EMAIL: "paolobaca2000@gmail.com",
   CLASS_LABEL: "NIS English 2026"
 };
 
@@ -1028,9 +1029,11 @@ function viewResult(payload, sent){
         : `<div class="reveal wrong">⚠ No se pudo enviar automáticamente. Se descargó una copia local — entrégala al profesor.</div>`
       }
       <div class="toolbar">
-        <button class="btn" id="btnAgain">Hacer otro nivel</button>
+        <button class="btn" id="btnEmailAns">📧 Enviar por email al profesor</button>
         <button class="btn secondary" id="btnReviewAns">Ver mis respuestas</button>
+        <button class="btn ghost" id="btnAgain">Hacer otro nivel</button>
       </div>
+      <div class="hint" style="margin-top:8px">Si el envío automático falla, usa el botón <b>Email</b> — abre tu correo con todas tus respuestas listas para mandar.</div>
     </div>
     <div class="card">
       <details>
@@ -1054,6 +1057,47 @@ function viewResult(payload, sent){
   });
   $("#btnAgain").onclick = viewWelcome;
   $("#btnReviewAns").onclick = ()=>document.querySelector("details").open = true;
+  $("#btnEmailAns").onclick = ()=>sendByEmail(payload);
+}
+
+function sendByEmail(payload){
+  const pct = Math.round(100*payload.score/payload.total);
+  const byType = {mc:[0,0], tf:[0,0], inf:[0,0], seq:[0,0]};
+  payload.breakdown.forEach(b=>{
+    if(byType[b.type]){
+      byType[b.type][1]++;
+      if(b.ok) byType[b.type][0]++;
+    }
+  });
+  const summary = [
+    `=== LISTENING QUIZ — RESULTADOS ===`,
+    ``,
+    `Alumno: ${payload.name}`,
+    `Grado: ${payload.klass}`,
+    `Nivel: ${payload.level}`,
+    `Score: ${payload.score} / ${payload.total} (${pct}%)`,
+    `Tiempo: ${payload.elapsed_min} min`,
+    `Fecha: ${new Date(payload.when).toLocaleString()}`,
+    ``,
+    `--- Por tipo de pregunta ---`,
+    `Comprensión MC: ${byType.mc[0]}/${byType.mc[1]}`,
+    `Verdadero/Falso: ${byType.tf[0]}/${byType.tf[1]}`,
+    `Inferencia: ${byType.inf[0]}/${byType.inf[1]}`,
+    `Secuencia: ${byType.seq[0]}/${byType.seq[1]}`,
+    ``,
+    `--- Detalle pregunta por pregunta ---`,
+    ...payload.breakdown.map((b,i)=>`${i+1}. [${b.type.toUpperCase()}] ${b.q.replace(/<[^>]+>/g,'')}\n   Mi respuesta: ${b.given}\n   Correcta: ${b.correct}\n   Resultado: ${b.ok?'✓ correcto':'✗ incorrecto'}`)
+  ];
+  const body = summary.join('\n');
+  const subject = `Listening Quiz · ${payload.name} · ${payload.level} · ${payload.score}/${payload.total} (${pct}%)`;
+  const mailto = `mailto:${CONFIG.TEACHER_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  // Some mailto bodies are too long; trim if needed
+  if(mailto.length > 7800){
+    const shortBody = summary.slice(0,16).join('\n') + '\n\n(Detalle completo en el archivo JSON descargado.)';
+    window.location.href = `mailto:${CONFIG.TEACHER_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(shortBody)}`;
+  } else {
+    window.location.href = mailto;
+  }
 }
 
 /* ---------- START ---------- */
