@@ -1,0 +1,1144 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Listening Quiz — NIS English (A2 · B1 · B2 · C1)</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+  :root{
+    --bg:#0f172a; --card:#fff; --ink:#0f172a; --muted:#475569;
+    --brand:#0ea5e9; --ok:#16a34a; --bad:#dc2626; --warn:#f59e0b;
+    --line:#e2e8f0; --soft:#f1f5f9;
+    --shadow:0 8px 24px rgba(15,23,42,.08), 0 2px 6px rgba(15,23,42,.06);
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    font:15px/1.55 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;
+    color:var(--ink); background:linear-gradient(180deg,#eef2ff 0%,#f8fafc 60%,#fff 100%);
+    min-height:100vh;
+  }
+  header{
+    background:#0b1220; color:#fff; padding:14px 18px; display:flex; align-items:center; gap:12px;
+    box-shadow:var(--shadow); position:sticky; top:0; z-index:10;
+  }
+  header .logo{font-weight:800; letter-spacing:.3px}
+  header .sub{color:#9ca3af; font-size:13px}
+  main{max-width:880px; margin:0 auto; padding:18px}
+  .card{
+    background:var(--card); border:1px solid var(--line); border-radius:14px;
+    padding:18px; box-shadow:var(--shadow); margin-bottom:16px;
+  }
+  h1{font-size:22px; margin:0 0 6px}
+  h2{font-size:17px; margin:0 0 10px}
+  h3{font-size:15px; margin:0 0 8px; color:var(--muted)}
+  label{display:block; font-size:13px; color:var(--muted); margin-bottom:4px}
+  input[type=text]{
+    width:100%; padding:10px 12px; border:1px solid var(--line); border-radius:10px;
+    font:inherit; background:#fff;
+  }
+  .row{display:flex; gap:10px; flex-wrap:wrap}
+  .row > *{flex:1 1 220px}
+  .levels{display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:10px; margin-top:10px}
+  .level{
+    border:2px solid var(--line); border-radius:14px; padding:14px; cursor:pointer; background:#fff;
+    transition:all .15s ease; text-align:center;
+  }
+  .level:hover{border-color:var(--brand); transform:translateY(-1px)}
+  .level .tag{font-weight:800; font-size:22px}
+  .level .name{color:var(--muted); margin-top:4px; font-size:13px}
+  .level .cef{font-size:11px; color:#64748b; margin-top:2px}
+  .btn{
+    appearance:none; border:0; border-radius:10px; padding:11px 16px; font:inherit; font-weight:700;
+    background:var(--brand); color:#fff; cursor:pointer; box-shadow:var(--shadow);
+  }
+  .btn.secondary{background:#fff; color:var(--brand); border:2px solid var(--brand)}
+  .btn.ghost{background:transparent; color:var(--muted); box-shadow:none}
+  .btn.small{padding:6px 10px; font-size:13px}
+  .btn:disabled{opacity:.6; cursor:not-allowed}
+  .audioblock{background:var(--soft); border-radius:12px; padding:12px; margin:10px 0}
+  audio{width:100%; margin-top:6px}
+  .tts-controls{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
+  .tts-status{font-size:13px; color:var(--muted); margin-top:6px}
+  .speed{display:flex; align-items:center; gap:8px; font-size:12px; color:var(--muted)}
+  .speed input{width:120px}
+  .q{padding:14px 0; border-top:1px solid var(--line)}
+  .q:first-child{border-top:0}
+  .q .stem{font-weight:600; margin-bottom:6px}
+  .q .meta{font-size:12px; color:var(--muted); margin-bottom:8px; display:flex; gap:8px; align-items:center}
+  .pill{display:inline-block; padding:2px 8px; background:#eef2ff; color:#3730a3; border-radius:999px; font-size:11px; font-weight:700}
+  .pill.tf{background:#fef3c7; color:#92400e}
+  .pill.inf{background:#dcfce7; color:#166534}
+  .pill.seq{background:#fce7f3; color:#9d174d}
+  .opts{display:grid; gap:6px}
+  .opt{
+    display:flex; gap:10px; align-items:flex-start; padding:9px 12px; border:1px solid var(--line);
+    border-radius:10px; cursor:pointer; background:#fff;
+  }
+  .opt:hover{background:var(--soft)}
+  .opt input{margin-top:3px}
+  .seqlist{display:grid; gap:6px}
+  .seqitem{display:flex; gap:10px; align-items:center; padding:8px 10px; border:1px solid var(--line); border-radius:10px; background:#fff}
+  .seqitem select{padding:6px 10px; border:1px solid var(--line); border-radius:8px; font:inherit}
+  .progress{height:8px; background:var(--soft); border-radius:999px; overflow:hidden; margin:6px 0}
+  .progress > div{height:100%; background:linear-gradient(90deg,var(--brand),#22d3ee); width:0%}
+  .toolbar{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px}
+  .score{font-size:32px; font-weight:800}
+  .score .ok{color:var(--ok)}
+  .score .bad{color:var(--bad)}
+  .footer{color:var(--muted); font-size:12px; text-align:center; padding:12px 0 32px}
+  .right{text-align:right}
+  details summary{cursor:pointer; font-weight:700; padding:6px 0}
+  .reveal{background:#f8fafc; padding:10px; border-radius:8px; margin-top:6px; font-size:13px}
+  .reveal.correct{background:#dcfce7; color:#166534}
+  .reveal.wrong{background:#fee2e2; color:#991b1b}
+  .badge-level{padding:4px 10px; background:#0ea5e9; color:#fff; border-radius:999px; font-size:12px; font-weight:700}
+  .warn{background:#fef9c3; border:1px solid #fde68a; padding:10px; border-radius:10px; color:#92400e; font-size:13px}
+  .hint{font-size:12px; color:var(--muted); margin-top:4px}
+  .seg-list{display:flex; gap:6px; flex-wrap:wrap; margin-top:8px}
+  .seg{padding:4px 10px; border-radius:999px; background:#fff; border:1px solid var(--line); font-size:12px; color:var(--muted)}
+  .seg.playing{background:#0ea5e9; color:#fff; border-color:#0ea5e9}
+  .seg.done{background:#dcfce7; color:#166534; border-color:#86efac}
+  @media (max-width:520px){
+    main{padding:12px}
+    .card{padding:14px}
+  }
+</style>
+</head>
+<body>
+<header>
+  <div class="logo">🎧 Listening Quiz</div>
+  <div class="sub">NIS English · A2 / B1 / B2 / C1</div>
+  <div style="margin-left:auto" id="hdrRight"></div>
+</header>
+<main id="app"></main>
+
+<script>
+/* ========================================================================
+   CONFIG
+   ======================================================================== */
+const CONFIG = {
+  AUDIO_BASE: "./mp3/",                // for B2 / C1 mp3 files
+  APPS_SCRIPT_URL: "https://script.google.com/macros/s/AKfycbyuPQ2jpb7OxrPgtb5JWUs8bnea3XdnNkKBd9nEV7grSCuvlE8X7JTTnW6RUFLU64iSTg/exec",
+  TEACHER_EMAIL: "paolobaca2000@gmail.com",
+  CLASS_LABEL: "NIS English 2026"
+};
+
+/* ========================================================================
+   QUIZ DATA — 4 levels × 40 questions (=160 total)
+
+   A2 & B1: TTS playback (browser voice) of Cambridge-calibrated scripts.
+            KET = A2 official, PET = B1 official. No mp3 file needed.
+   B2 & C1: real TOEFL mp3 audio files in ./mp3/
+   ======================================================================== */
+const QUIZ = {
+
+  /* ---------------- A2 — Cambridge KET (A2-calibrated) ---------------- */
+  A2: {
+    label: "A2 — Elementary",
+    cefr: "Cambridge KET · A2 official",
+    blurb: "Conversaciones muy cortas y claras de la vida diaria.",
+    audios: [
+      {
+        id: "A2-1", title: "Audio set 1 · Daily situations", kind: "tts",
+        intro: "You will hear five short conversations. Listen carefully and answer the questions below.",
+        segments: ["Train to London","Buying apples","Last weekend","Directions to a supermarket","The English test"],
+        scripts: [
+          "Conversation one. Woman: What time does the train to London leave? Man: Let me check. There is one at quarter past nine, and another at ten thirty. Woman: I will take the earlier one, please.",
+          "Conversation two. Man: How much are the apples? Woman: They are one pound fifty for a bag. Man: OK, I will take two bags, please. Woman: That is three pounds.",
+          "Conversation three. Girl: What did you do last weekend? Boy: I wanted to play football, but it rained all day Saturday, so I stayed home and watched a film. On Sunday, I went shopping with my mum.",
+          "Conversation four. Woman: Excuse me, is there a supermarket near here? Man: Yes, go straight ahead, then turn left at the traffic lights. It is on the right, next to the bank.",
+          "Conversation five. Teacher: Do not forget, the English test is on Thursday this week, not Friday. Student: Oh! I thought it was Friday. Teacher: No, we changed it because Friday is a holiday."
+        ],
+        questions: [
+          {type:"mc", q:"What time train does the woman want?", o:["Quarter past nine (9:15)","Half past nine (9:30)","Ten thirty (10:30)"], c:0},
+          {type:"mc", q:"How much does the man pay for the apples in total?", o:["One pound fifty","Two pounds","Three pounds"], c:2},
+          {type:"mc", q:"What did the boy do on Saturday?", o:["Played football","Watched a film at home","Went shopping"], c:1},
+          {type:"mc", q:"Where exactly is the supermarket?", o:["Next to the bank, on the right","Behind the traffic lights","Opposite the bank"], c:0},
+          {type:"mc", q:"When is the English test?", o:["Wednesday","Thursday","Friday"], c:1},
+          {type:"mc", q:"Why is the test NOT on Friday?", o:["It rained","Friday is a holiday","The teacher is sick"], c:1},
+          {type:"mc", q:"How many bags of apples does the man buy?", o:["One","Two","Three"], c:1},
+          {type:"tf", q:"The train at ten thirty leaves earlier than the one at quarter past nine.", c:false},
+          {type:"tf", q:"The boy went shopping with his mum on Sunday.", c:true},
+          {type:"tf", q:"The supermarket is on the left after the traffic lights.", c:false},
+          {type:"tf", q:"Apples cost one pound fifty for ONE apple.", c:false},
+          {type:"tf", q:"The student thought the test was on Friday.", c:true},
+          {type:"inf", q:"The woman who asks about the train probably prefers to…", o:["Arrive earlier","Arrive later","Not travel today"], c:0},
+          {type:"inf", q:"How did the boy probably feel about the rain on Saturday?", o:["Disappointed","Excited","Surprised"], c:0},
+          {type:"inf", q:"The man asking for the supermarket is probably…", o:["A local resident","A tourist or new to the area","Driving a taxi"], c:1},
+          {type:"inf", q:"The student in the test conversation probably feels…", o:["Relieved","Worried because of the new date","Angry with the teacher"], c:1},
+          {type:"seq", q:"In which order did you hear these topics? (1 = first)",
+            items:[
+              "Asking about a train to London",
+              "Buying apples in a shop",
+              "Talking about the weekend",
+              "Asking for directions to a supermarket"
+            ]}
+        ]
+      },
+      {
+        id: "A2-2", title: "Audio set 2 · At school and around town", kind: "tts",
+        intro: "You will hear five more short conversations. Listen and answer.",
+        segments: ["Cinema tickets","A new teacher","Ordering a drink","First time at the gym","A birthday wish"],
+        scripts: [
+          "Conversation one. Man: I would like a ticket for the film at seven o'clock, please. Woman: I am sorry, that showing is full. We have seats at eight fifteen. Man: OK, that is fine.",
+          "Conversation two. Girl: What is your new teacher like? Boy: She is great! She is very friendly, and she explains things clearly. She is much better than our old teacher.",
+          "Conversation three. Woman: Would you like tea or coffee? Man: Actually, could I just have a glass of water? I am really thirsty. Woman: Of course! With or without ice? Man: Without, please.",
+          "Conversation four. Man: I went to the gym yesterday for the first time. Woman: How was it? Man: It was hard! I am so tired today. My legs hurt. But I want to go again next week.",
+          "Conversation five. Boy: Mum, can I have a dog for my birthday? Woman: We already have two cats. I do not think we need another pet. Boy: Please! I will take care of it every day. Woman: Let me talk to your father about it."
+        ],
+        questions: [
+          {type:"mc", q:"What time will the man see the film?", o:["Seven o'clock","Seven thirty","Eight fifteen"], c:2},
+          {type:"mc", q:"Why can't the man see the seven o'clock showing?", o:["It is too expensive","It is full","It is closed"], c:1},
+          {type:"mc", q:"What does the boy think of his new teacher?", o:["She is boring","She is strict","She is great and very good"], c:2},
+          {type:"mc", q:"What does the man want to drink?", o:["Tea","Coffee","A glass of water"], c:2},
+          {type:"mc", q:"How does the man feel today after the gym?", o:["Energetic","Tired with sore legs","Sick"], c:1},
+          {type:"mc", q:"What pets does the family already have?", o:["A dog","Two cats","A bird"], c:1},
+          {type:"mc", q:"Who will help decide about the dog?", o:["Only the mother","The father (mum will ask him)","The boy alone"], c:1},
+          {type:"tf", q:"The man originally wanted to see the film at seven o'clock.", c:true},
+          {type:"tf", q:"The boy thinks his new teacher is worse than the old one.", c:false},
+          {type:"tf", q:"The man asks for water without ice.", c:true},
+          {type:"tf", q:"The man does not want to go to the gym again.", c:false},
+          {type:"tf", q:"The boy promises to take care of the dog every day.", c:true},
+          {type:"inf", q:"Why is the seven o'clock showing probably full?", o:["The film is popular","The cinema is closed","Nobody likes the film"], c:0},
+          {type:"inf", q:"What can we infer about the boy at school?", o:["He probably enjoys his lessons more now","He wants to change schools","He hates the new teacher"], c:0},
+          {type:"inf", q:"At the gym, the man probably exercised…", o:["His legs (because they hurt)","His arms","His back"], c:0},
+          {type:"inf", q:"The mother's reaction to the dog is best described as…", o:["Excited and supportive","Hesitant but open to discussion","Completely against any pets"], c:1},
+          {type:"seq", q:"Put the topics in the order you heard them (1 = first):",
+            items:[
+              "Buying a cinema ticket",
+              "Talking about a new teacher",
+              "Choosing a drink",
+              "Talking about going to the gym"
+            ]}
+        ]
+      }
+    ]
+  },
+
+  /* ---------------- B1 — Cambridge PET (B1-calibrated) ---------------- */
+  B1: {
+    label: "B1 — Intermediate",
+    cefr: "Cambridge PET · B1 official",
+    blurb: "Entrevistas y monólogos más extensos.",
+    audios: [
+      {
+        id: "B1-1", title: "Audio 1 · A student environmental project",
+        kind: "tts",
+        intro: "Listen to an interview with Lisa, a 17-year-old student who started an environmental project at her school.",
+        segments: ["Lisa's project interview"],
+        scripts: [
+          "Interviewer: Welcome to the programme. Today we are talking to Lisa, a seventeen-year-old student who has started an environmental project at her school. Lisa, tell us what you have been doing. Lisa: Thank you. Well, it all started about six months ago when I noticed how much food was being wasted in our school canteen. Every lunchtime, huge amounts of perfectly good food were being thrown away. It really upset me. Interviewer: So what did you do? Lisa: First, I talked to the head teacher about it. She was really supportive, and helped me set up a team of volunteers. We started by measuring exactly how much food was being wasted each day. The results were shocking. We were throwing away nearly fifty kilos of food every week. Interviewer: That is a lot. How did you reduce it? Lisa: We introduced a system where students could choose smaller portions if they wanted. We also started a composting programme, so any food waste that could not be avoided was turned into compost for the school garden. We even set up a sharing table where students could leave food they did not want, for others to take. Interviewer: Has it made a difference? Lisa: Definitely. After three months, we reduced food waste by sixty percent. Other schools have contacted us to ask how they can do the same thing. I am really proud of what we have achieved."
+        ],
+        questions: [
+          {type:"mc", q:"How old is Lisa?", o:["Fourteen","Fifteen","Seventeen"], c:2},
+          {type:"mc", q:"Where did Lisa first notice food waste?", o:["At home","At her school canteen","At a restaurant"], c:1},
+          {type:"mc", q:"Who did Lisa talk to first about the problem?", o:["The school chef","The head teacher","Her parents"], c:1},
+          {type:"mc", q:"How much food was being thrown away each week before the project?", o:["About five kilos","About twenty kilos","Nearly fifty kilos"], c:2},
+          {type:"mc", q:"What happens to food waste that cannot be avoided?", o:["It goes to the bin","It becomes compost for the school garden","It is sold"], c:1},
+          {type:"mc", q:"By what percentage did they reduce food waste after three months?", o:["Twenty percent","Forty percent","Sixty percent"], c:2},
+          {type:"mc", q:"What have other schools done?", o:["Criticised Lisa's project","Contacted her to learn how to do the same","Refused to participate"], c:1},
+          {type:"tf", q:"Lisa started the project completely alone, with no help.", c:false},
+          {type:"tf", q:"The head teacher refused to support Lisa.", c:false},
+          {type:"tf", q:"One solution was offering students the choice of smaller portions.", c:true},
+          {type:"tf", q:"The 'sharing table' lets students leave food for others to take.", c:true},
+          {type:"tf", q:"Other schools were uninterested in the project.", c:false},
+          {type:"inf", q:"Lisa's attitude toward her project is best described as…", o:["Indifferent","Disappointed","Passionate and proud"], c:2},
+          {type:"inf", q:"What can we infer about the head teacher?", o:["She does not care about the environment","She values student initiative","She made the project compulsory"], c:1},
+          {type:"inf", q:"Why does the interviewer say 'That is a lot'?", o:["To congratulate Lisa","To express surprise at the amount of waste","To change the topic"], c:1},
+          {type:"inf", q:"What does the project's impact beyond Lisa's school suggest?", o:["It is limited to one school","Its model is starting to spread","It was quickly forgotten"], c:1},
+          {type:"seq", q:"Put the steps of Lisa's project in order (1 = first):",
+            items:[
+              "Lisa notices food being wasted in the canteen",
+              "Lisa talks to the head teacher",
+              "The team measures exactly how much food is wasted",
+              "They introduce smaller portions and composting"
+            ]}
+        ]
+      },
+      {
+        id: "B1-2", title: "Audio 2 · An Italian student studying in England",
+        kind: "tts",
+        intro: "Listen to an interview with Marco, a student from Italy who is studying business in England.",
+        segments: ["Marco's experience"],
+        scripts: [
+          "Interviewer: Today we are talking to Marco, a student from Italy who is studying in England. Marco, how is your experience going? Marco: It has been amazing so far. I arrived in September, and I am studying business at the University of Leeds. Interviewer: Why did you decide to study in England? Marco: Well, I wanted to improve my English, and I thought the best way to do that was to live in an English-speaking country. I also heard that British universities have a very good reputation for business courses. My father studied here too, about twenty years ago, and he always told me it was the best experience of his life. Interviewer: Has anything been difficult? Marco: The weather was a shock at first. I come from Sicily, where it is sunny most of the year. But honestly, the hardest thing was understanding different accents. In my English classes back home, everyone spoke quite slowly and clearly. Here, people speak much faster, and there are so many different regional accents. It took me a few weeks to get used to it. Interviewer: What do you enjoy most? Marco: The social life is brilliant. I have joined several clubs. I play in the university football team, and I am also in the film society. I have made friends from all over the world. We cook meals together and share food from our different countries. I have learned to make Korean and Indian dishes. Interviewer: Would you recommend studying abroad? Marco: One hundred percent. It has made me more independent and more open-minded."
+        ],
+        questions: [
+          {type:"mc", q:"Where is Marco originally from?", o:["Italy (Sicily)","Spain","Greece"], c:0},
+          {type:"mc", q:"What is Marco studying?", o:["Engineering","Business","Medicine"], c:1},
+          {type:"mc", q:"At which university?", o:["Cambridge","Oxford","Leeds"], c:2},
+          {type:"mc", q:"When did Marco arrive in England?", o:["September","December","March"], c:0},
+          {type:"mc", q:"Who else in Marco's family studied in England?", o:["His mother","His father","His brother"], c:1},
+          {type:"mc", q:"What was the hardest thing for Marco?", o:["The food","Understanding different regional accents","Making friends"], c:1},
+          {type:"mc", q:"Which sport does Marco play at university?", o:["Basketball","Football","Tennis"], c:1},
+          {type:"tf", q:"Marco came to England mainly to study Italian literature.", c:false},
+          {type:"tf", q:"The weather in Leeds is similar to Sicily's.", c:false},
+          {type:"tf", q:"Marco joined more than one club.", c:true},
+          {type:"tf", q:"All of Marco's friends are British.", c:false},
+          {type:"tf", q:"Marco strongly recommends studying abroad.", c:true},
+          {type:"inf", q:"Marco's father probably thinks studying in England was…", o:["A bad idea","A great experience","A waste of time"], c:1},
+          {type:"inf", q:"Marco's attitude toward the difficulties is best described as…", o:["Defeated","Resilient and adaptive","Angry"], c:1},
+          {type:"inf", q:"What does Marco's comment about his English classes back home suggest?", o:["He was used to slower, clearer English","He could already understand fast British speech","He spoke no English at all"], c:0},
+          {type:"inf", q:"Marco cooking meals with friends from many countries suggests he…", o:["Prefers to eat alone","Is curious about other cultures","Dislikes Italian food"], c:1},
+          {type:"seq", q:"Put events of Marco's experience in order (1 = first):",
+            items:[
+              "Marco decides to study in England to improve his English",
+              "Marco arrives at the University of Leeds in September",
+              "Marco struggles with British accents in his first weeks",
+              "Marco joins clubs and makes international friends"
+            ]}
+        ]
+      }
+    ]
+  },
+
+  /* ---------------- B2 — TOEFL real audio (upper-intermediate) ---------------- */
+  B2: {
+    label: "B2 — Upper-Intermediate",
+    cefr: "TOEFL listening · B2/C1",
+    blurb: "Lecturas académicas con vocabulario técnico.",
+    audios: [
+      {
+        id: "B2-1", title: "Audio 1 · 'Safe yield' and water management",
+        kind: "file", file: "Test_1_014.mp3",
+        intro: "A lecture in an environmental science class about how we manage underground water resources.",
+        questions: [
+          {type:"mc", q:"What is the main topic?", o:["Ocean currents","Underground water management","Rain patterns","Cleaning lakes"], c:1},
+          {type:"mc", q:"What is the principle described called?", o:["Fair yield","Safe yield","Good yield","Quick yield"], c:1},
+          {type:"mc", q:"According to 'safe yield', how much water can you pump out?", o:["As much as you want","As much as naturally recharges","Never any","Half of the supply"], c:1},
+          {type:"mc", q:"What is the main problem with the 'safe yield' approach?", o:["It ignores water that naturally flows out of the system","It is too expensive","It is illegal","It is too new"], c:0},
+          {type:"mc", q:"Which US state is mentioned as currently using safe yield?", o:["California","Texas","Arizona","Florida"], c:2},
+          {type:"mc", q:"What eventually dries up because of safe yield?", o:["Ocean shores","Discharge points feeding lakes and streams","City pipes","Trees"], c:1},
+          {type:"mc", q:"How does the professor define sustainability?", o:["Spending less","Asking permission","Meeting present needs without compromising the future","Using fast solutions"], c:2},
+          {type:"tf", q:"In a natural system, water only enters underground and never leaves.", c:false},
+          {type:"tf", q:"Pumping at the recharge rate keeps underground water levels exactly stable.", c:false},
+          {type:"tf", q:"The professor thinks 'safe yield' is fully compatible with sustainability.", c:false},
+          {type:"tf", q:"Reducing underground water can also reduce surface water in lakes and streams.", c:true},
+          {type:"tf", q:"The professor approves of Arizona's water management policy.", c:false},
+          {type:"inf", q:"The professor's tone toward 'safe yield' is best described as…", o:["Enthusiastic","Approving","Critical","Neutral"], c:2},
+          {type:"inf", q:"Why does the professor mention 'kids and kids' kids'?", o:["To remind students about homework","To make students care about long-term effects","To joke","To tell a story"], c:1},
+          {type:"inf", q:"What is implied about water systems managed by 'safe yield'?", o:["They are sustainable in the long term","They are not sustainable","They have unlimited water","They are temporary fixes"], c:1},
+          {type:"inf", q:"The professor implies good resource policy must consider…", o:["Only humans","All systems dependent on the resource","Only money","Only the current year"], c:1},
+          {type:"seq", q:"Order the professor's main ideas (1 = first):",
+            items:[
+              "Definition of 'safe yield'",
+              "Hidden problem: ignoring natural outflow",
+              "Long-term effect on lakes and streams",
+              "Comparison with sustainability"
+            ]}
+        ]
+      },
+      {
+        id: "B2-2", title: "Audio 2 · Rye plants and root systems",
+        kind: "file", file: "Test_1_019.mp3",
+        intro: "A botany lecture about an experiment that grew a rye plant in water to measure its complete root system.",
+        questions: [
+          {type:"mc", q:"What is the main topic of the lecture?", o:["Growing food in water","The size of root systems","Soil chemistry","Fertilizer types"], c:1},
+          {type:"mc", q:"Why did the scientist grow rye in water?", o:["To clean the water","To feed people","To see the entire root system","To save space"], c:2},
+          {type:"mc", q:"What must be bubbled through the water?", o:["Carbon dioxide","Nitrogen","Gas (so roots get oxygen to breathe)","Hydrogen"], c:2},
+          {type:"mc", q:"Why do houseplants die when overwatered?", o:["Too much sun","Not enough oxygen for the roots","Not enough light","Too many leaves"], c:1},
+          {type:"mc", q:"How many shoots came from one rye seed in the experiment?", o:["8","18","80","800"], c:2},
+          {type:"mc", q:"About what was the shoot surface area?", o:["1 sq m","About 5 sq m","About 50 sq m","About 200 sq m"], c:1},
+          {type:"mc", q:"About what was the root surface area?", o:["About 5 sq m","About 50 sq m","More than 200 sq m","Exactly 1,000 sq m"], c:2},
+          {type:"tf", q:"Plant roots respire only at night.", c:false},
+          {type:"tf", q:"Rye is a type of grass.", c:true},
+          {type:"tf", q:"The professor's least favorite grass is crabgrass.", c:true},
+          {type:"tf", q:"Root hairs explain the huge extra surface area of the roots.", c:true},
+          {type:"tf", q:"Root hairs are not important for absorbing minerals.", c:false},
+          {type:"inf", q:"Why does the professor at first doubt the figure '1,000 km of roots'?", o:["It sounds too small","It sounds incredibly large","She has no source","No scientists agree on it"], c:1},
+          {type:"inf", q:"Why does the professor mention overwatered houseplants?", o:["To remind students to water more","To explain why bubbling gas is necessary","To change topics","Just to talk about hobbies"], c:1},
+          {type:"inf", q:"The professor saying 'I'm sorry, you must bubble GAS through it' shows that she…", o:["Corrects a slip of the tongue","Apologizes for the topic","Doesn't know the answer","Forgot the experiment"], c:0},
+          {type:"inf", q:"The crabgrass comparison helps students understand…", o:["That grasses can grow many shoots from one seed","How to remove weeds","Why rye is bad","Scientific writing"], c:0},
+          {type:"seq", q:"Order the experiment's discoveries (1 = first):",
+            items:[
+              "Scientist plants a rye seed in water",
+              "The plant produces about 80 shoots",
+              "Shoot surface area is measured at about 5 sq m",
+              "Root surface area is measured at more than 200 sq m"
+            ]}
+        ]
+      }
+    ]
+  },
+
+  /* ---------------- C1 — TOEFL real audio (advanced) ---------------- */
+  C1: {
+    label: "C1 — Advanced",
+    cefr: "TOEFL listening · C1",
+    blurb: "Lecturas universitarias largas. Inferencia y matiz.",
+    audios: [
+      {
+        id: "C1-1", title: "Audio 1 · The changing view of Mars",
+        kind: "file", file: "Test_2_050.mp3",
+        intro: "An astronomy lecture about how scientific knowledge of Mars has evolved from the 1960s to today.",
+        questions: [
+          {type:"mc", q:"What is the lecture mainly about?", o:["The chemistry of Mars","The development of views about the nature of Mars","Confirmed life on Mars","Mars's moons"], c:1},
+          {type:"mc", q:"After the 1965 flyby, scientists concluded that Mars was…", o:["Very similar to Earth","A dead, cratered place much like our Moon","Covered in oceans","Full of vegetation"], c:1},
+          {type:"mc", q:"What is Mars's atmosphere mostly made of?", o:["Oxygen","Nitrogen","Carbon dioxide","Methane"], c:2},
+          {type:"mc", q:"What did the 1970s missions reveal?", o:["Ancient cities","Volcanoes, deep canyons, dried-up riverbeds","Active oceans","Forests"], c:1},
+          {type:"mc", q:"For surface water to have existed in the past, Mars likely needed…", o:["Less gravity","Warmer temperatures AND a thicker atmosphere","A second moon","Only a magnetic field"], c:1},
+          {type:"mc", q:"Which feature is now used as possible evidence of water on Mars?", o:["Gullies","Mountains","Craters","Clouds"], c:0},
+          {type:"mc", q:"The professor compares Mars to Earth in that it may have…", o:["No atmosphere at all","Active oceans today","Long cycles similar to ice ages","Volcanic chains exactly like Earth's"], c:2},
+          {type:"tf", q:"Early science fiction usually portrayed Mars realistically.", c:false},
+          {type:"tf", q:"The professor confirms there is liquid water on Mars's surface right now.", c:false},
+          {type:"tf", q:"The 1970s missions included landers and orbiters, not just flybys.", c:true},
+          {type:"tf", q:"Modern instruments are less advanced than those of the 1970s.", c:false},
+          {type:"tf", q:"The professor calls Mars 'a fascinating fossil'.", c:true},
+          {type:"inf", q:"The professor's overall position is that our view of Mars has…", o:["Stayed the same","Been wrong from the start","Been progressively refined as evidence accumulates","Been irrelevant to science"], c:2},
+          {type:"inf", q:"By calling Mars a 'fossil', the professor implies it…", o:["Never existed","Was once dynamic and alive in some sense","Is dying","Is fake"], c:1},
+          {type:"inf", q:"The male student's 'What were they thinking?' expresses…", o:["Admiration for old movies","Criticism of the old movies' inaccuracy","A genuine question to the professor","Approval of the era"], c:1},
+          {type:"inf", q:"'If we could only get a lander there…' suggests that…", o:["Gullies are inaccessible to current landers","Landers are forbidden on Mars","Mars is hidden from us","All current data is fake"], c:0},
+          {type:"seq", q:"Order the historical views of Mars in the lecture (1 = first):",
+            items:[
+              "Mars as imagined in early science fiction (red planet, green people)",
+              "1965 flyby: dead, Moon-like, cratered planet",
+              "1970s missions: volcanoes, canyons, dried riverbeds — possibility of past water",
+              "Recent observations: gullies, possible current water cycles"
+            ]}
+        ]
+      },
+      {
+        id: "C1-2", title: "Audio 2 · Colossal statues as symbols",
+        kind: "file", file: "Test_2_053.mp3",
+        intro: "An art history lecture on modern colossal statues — Mount Rushmore and the Statue of Liberty.",
+        questions: [
+          {type:"mc", q:"What does the professor mainly discuss?", o:["The design of the Statue of Liberty","The purpose and symbolism of colossal statues","The creators of two statues","Costs in ancient vs modern times"], c:1},
+          {type:"mc", q:"What does the term 'colossus' originally mean?", o:["A king","A giant, larger-than-life statue","A tomb","A hero"], c:1},
+          {type:"mc", q:"About how high are the faces on Mount Rushmore?", o:["6 feet","16 feet","60 feet","600 feet"], c:2},
+          {type:"mc", q:"In what period was Mount Rushmore carved?", o:["The Civil War","The Great Depression","World War I","The Cold War"], c:1},
+          {type:"mc", q:"What did South Dakota originally want Mount Rushmore to be?", o:["A presidential memorial","A tourist attraction","A religious site","A military fort"], c:1},
+          {type:"mc", q:"Who designed the Statue of Liberty?", o:["An American sculptor","A French sculptor","A British architect","An Italian artist"], c:1},
+          {type:"mc", q:"What does Emma Lazarus's poem describe the Statue of Liberty as?", o:["A warning to enemies","A welcome to the tired and poor of the world","A French symbol only","A monument to soldiers"], c:1},
+          {type:"tf", q:"The professor thinks the original symbolism of these monuments has never changed.", c:false},
+          {type:"tf", q:"Mount Rushmore was carved in less than a year.", c:false},
+          {type:"tf", q:"The Statue of Liberty was first intended to symbolize French-U.S. friendship.", c:true},
+          {type:"tf", q:"The Emma Lazarus poem was placed on the pedestal in the early 1900s.", c:true},
+          {type:"tf", q:"Modern colossal statues are funded by ancient kings.", c:false},
+          {type:"inf", q:"What evidence does the professor give that modern statues are social/political symbols?", o:["They are very costly and require public agreement to build","They are very beautiful","They are visible from space","They are always made of marble"], c:0},
+          {type:"inf", q:"Why does the professor say 'so on and so forth' after quoting the poem?", o:["He has forgotten the rest","He assumes the students already know the poem","The poem ends there","He is unsure of the date"], c:1},
+          {type:"inf", q:"What is the professor's main point about the meaning of monuments?", o:["Their meaning is permanent","Their meaning can shift over time","Only sculptors decide meaning","Meaning does not matter"], c:1},
+          {type:"inf", q:"Why does the professor mention the Great Depression?", o:["To say monuments waste money","To show people want symbols of strength in hard times","To explain immigration","To criticize Roosevelt"], c:1},
+          {type:"seq", q:"Order the ideas in the lecture (1 = first):",
+            items:[
+              "Definition of 'colossus' and ancient examples",
+              "Mount Rushmore: originally a tourist project",
+              "Mount Rushmore: reframed as a symbol of national endurance",
+              "Statue of Liberty: shift from friendship symbol to welcome to immigrants"
+            ]}
+        ]
+      }
+    ]
+  }
+};
+
+/* ========================================================================
+   TTS engine — Web Speech API
+   Prefers Microsoft Edge Neural voices ("Online (Natural)") when available.
+   Parses dialog scripts and uses different voices per speaker (Woman/Man,
+   Lisa/Interviewer, etc.) for natural two-voice playback.
+   ======================================================================== */
+const TTS = {
+  synth: window.speechSynthesis,
+  voices: [],
+  femaleVoice: null,
+  maleVoice: null,
+  rate: 0.95,
+  cancelled: false,
+  isReady: false,
+  _readyCallbacks: [],
+
+  init(){
+    if(!('speechSynthesis' in window)) return false;
+    const load = ()=>{
+      this.voices = this.synth.getVoices();
+      if(this.voices.length > 0){
+        this.selectBestVoices();
+        if(!this.isReady){
+          this.isReady = true;
+          this._readyCallbacks.splice(0).forEach(cb=>cb());
+        }
+      }
+    };
+    load();
+    this.synth.onvoiceschanged = load;
+    return true;
+  },
+
+  onReady(cb){
+    if(this.isReady) cb();
+    else this._readyCallbacks.push(cb);
+  },
+
+  selectBestVoices(){
+    const v = this.voices;
+    const isNeural = name => /Online \(Natural\)/i.test(name);
+    // Edge Neural female names (en-US first preference)
+    const femName = /\b(Aria|Jenny|Michelle|Ana|Emma|Sonia|Libby|Olivia|Maisie)\b/i;
+    const maleName = /\b(Guy|Christopher|Eric|Roger|Steffan|Ryan|Tony|Brian|Andrew|Jacob|William)\b/i;
+
+    // FEMALE priority chain: Neural en-US → Neural en-GB → Neural any en → standard Zira → any en-US → any en
+    this.femaleVoice =
+         v.find(x => isNeural(x.name) && x.lang.startsWith('en-US') && femName.test(x.name))
+      || v.find(x => isNeural(x.name) && x.lang.startsWith('en-GB') && femName.test(x.name))
+      || v.find(x => isNeural(x.name) && x.lang.startsWith('en') && femName.test(x.name))
+      || v.find(x => isNeural(x.name) && x.lang.startsWith('en'))
+      || v.find(x => /Zira/i.test(x.name) && x.lang.startsWith('en'))
+      || v.find(x => /Hazel|Susan|Catherine/i.test(x.name) && x.lang.startsWith('en'))
+      || v.find(x => x.lang.startsWith('en-US'))
+      || v.find(x => x.lang.startsWith('en'))
+      || v[0] || null;
+
+    // MALE priority chain
+    this.maleVoice =
+         v.find(x => isNeural(x.name) && x.lang.startsWith('en-US') && maleName.test(x.name))
+      || v.find(x => isNeural(x.name) && x.lang.startsWith('en-GB') && maleName.test(x.name))
+      || v.find(x => isNeural(x.name) && x.lang.startsWith('en') && maleName.test(x.name))
+      || v.find(x => /David|Mark/i.test(x.name) && x.lang.startsWith('en'))
+      || v.find(x => /George|Daniel|James/i.test(x.name) && x.lang.startsWith('en'))
+      || v.find(x => x.lang.startsWith('en-US') && x !== this.femaleVoice)
+      || v.find(x => x.lang.startsWith('en') && x !== this.femaleVoice)
+      || this.femaleVoice;
+  },
+
+  voiceLabel(voice){
+    if(!voice) return 'default';
+    const m = voice.name.match(/Microsoft\s+(\w+)/);
+    const base = m ? m[1] : voice.name.split(' ')[0];
+    const neural = /Online \(Natural\)/i.test(voice.name) ? ' Neural' : '';
+    const lang = voice.lang ? ` ${voice.lang}` : '';
+    return base + neural + lang;
+  },
+
+  status(){
+    return {
+      ready: this.isReady,
+      female: this.voiceLabel(this.femaleVoice),
+      male: this.voiceLabel(this.maleVoice),
+      distinct: !!(this.femaleVoice && this.maleVoice && this.femaleVoice !== this.maleVoice),
+      neural: /Online \(Natural\)/i.test((this.femaleVoice && this.femaleVoice.name)||'')
+           && /Online \(Natural\)/i.test((this.maleVoice && this.maleVoice.name)||'')
+    };
+  },
+
+  // Parse script into segments by speaker label
+  parseDialog(text){
+    const re = /\b([A-Z][a-zA-Z.]+(?:\s[A-Z][a-zA-Z.]+){0,2}?):\s+/g;
+    const matches = [];
+    let m;
+    while((m = re.exec(text)) !== null){
+      matches.push({ idx: m.index, label: m[1].trim(), endIdx: m.index + m[0].length });
+    }
+    if(matches.length === 0) return [{ speaker: null, text }];
+    const segments = [];
+    if(matches[0].idx > 0){
+      const prefix = text.slice(0, matches[0].idx).trim();
+      if(prefix) segments.push({ speaker: null, text: prefix });
+    }
+    for(let i=0; i<matches.length; i++){
+      const cur = matches[i];
+      const next = matches[i+1];
+      const end = next ? next.idx : text.length;
+      const segText = text.slice(cur.endIdx, end).trim();
+      if(segText) segments.push({ speaker: cur.label, text: segText });
+    }
+    return segments;
+  },
+
+  // Build a speaker -> voice profile map for ONE script.
+  // Guarantees the two main speakers always sound different:
+  // distinct voices when available, or pitch-shifted fallback when the
+  // system only has one English voice installed.
+  assignVoices(speakers){
+    const twoVoices = !!(this.femaleVoice && this.maleVoice && this.femaleVoice !== this.maleVoice);
+    const profA = twoVoices ? {voice:this.femaleVoice, pitch:1.0, rateMul:1.0}
+                            : {voice:this.femaleVoice, pitch:1.22, rateMul:1.0};
+    const profB = twoVoices ? {voice:this.maleVoice,   pitch:1.0, rateMul:1.0}
+                            : {voice:this.femaleVoice, pitch:0.74, rateMul:0.97};
+    const femRe = /(^|\b)(woman|girl|female|she|her|lisa|emma|kate|sarah|sandy|maria|sonia|jenny|mia|amy|chloe|olivia|yuki|hannah|mum|mother|female student|female narrator)(\b|$)/i;
+    const malRe = /(^|\b)(man|boy|male|he|his|jake|marco|tom|sam|david|mark|alex|daniel|nico|jim|brian|jacob|professor|father|dad|male student|male narrator)(\b|$)/i;
+    const map = {};
+
+    // Interview pattern: Interviewer + one guest -> always opposite voices
+    const interviewer = speakers.find(s=>/interviewer|host|presenter|reporter/i.test(s));
+    if(interviewer && speakers.length === 2){
+      const guest = speakers.find(s=>s!==interviewer);
+      const guestFemale = femRe.test(guest) && !malRe.test(guest);
+      map[guest] = guestFemale ? profA : profB;
+      map[interviewer] = guestFemale ? profB : profA;
+    } else {
+      speakers.forEach((sp,idx)=>{
+        if(femRe.test(sp) && !malRe.test(sp)) map[sp] = profA;
+        else if(malRe.test(sp)) map[sp] = profB;
+        else map[sp] = (idx % 2 === 0) ? profA : profB;
+      });
+      // Safety net: exactly 2 speakers must never share a voice
+      if(speakers.length === 2 && map[speakers[0]] === map[speakers[1]]){
+        map[speakers[1]] = (map[speakers[0]] === profA) ? profB : profA;
+      }
+    }
+    map._narrator = profA;
+    return map;
+  },
+
+  speak(text, profile, onEnd){
+    const u = new SpeechSynthesisUtterance(text);
+    const voice = profile && profile.voice;
+    u.lang = (voice && voice.lang) || 'en-US';
+    u.rate = Math.max(0.5, Math.min(1.5, this.rate * ((profile && profile.rateMul) || 1)));
+    u.pitch = (profile && profile.pitch) || 1;
+    u.volume = 1;
+    if(voice) u.voice = voice;
+    u.onend = ()=>{ if(onEnd) onEnd(); };
+    u.onerror = ()=>{ if(onEnd) onEnd(); };
+    this.synth.speak(u);
+  },
+
+  playScript(script, onDone){
+    const segments = this.parseDialog(script);
+    const speakers = [...new Set(segments.map(s=>s.speaker).filter(Boolean))];
+    const vmap = this.assignVoices(speakers);
+    let i = 0;
+    const next = ()=>{
+      if(this.cancelled || i >= segments.length){ if(onDone) onDone(); return; }
+      const seg = segments[i++];
+      const profile = seg.speaker ? (vmap[seg.speaker] || vmap._narrator) : vmap._narrator;
+      this.speak(seg.text, profile, next);
+    };
+    next();
+  },
+
+  speakSequence(scripts, {onSegment, onDone, gap=1800}={}){
+    this.cancelled = false;
+    let i = 0;
+    const next = ()=>{
+      if(this.cancelled || i >= scripts.length){ if(onDone) onDone(); return; }
+      const idx = i++;
+      if(onSegment) onSegment(idx);
+      this.playScript(scripts[idx], ()=>setTimeout(next, gap));
+    };
+    next();
+  },
+
+  pause(){ if(this.synth.speaking && !this.synth.paused) this.synth.pause(); },
+  resume(){ if(this.synth.paused) this.synth.resume(); },
+  stop(){ this.cancelled = true; this.synth.cancel(); }
+};
+TTS.init();
+
+/* ========================================================================
+   APP STATE
+   ======================================================================== */
+const state = {
+  name: "",
+  klass: "",
+  level: null,
+  startTime: null,
+  answers: {},
+  seqOrder: {}
+};
+
+const $ = s => document.querySelector(s);
+const app = $("#app");
+const hdrRight = $("#hdrRight");
+
+function shuffle(a){
+  const b = a.slice();
+  for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}
+  return b;
+}
+
+/* ---------- VIEW: Welcome ---------- */
+function viewWelcome(){
+  TTS.stop();
+  hdrRight.innerHTML = "";
+  app.innerHTML = `
+    <div class="card">
+      <h1>Listening Quiz 🎧</h1>
+      <p>Vas a escuchar audios y responder <b>40 preguntas</b> de comprensión, verdadero/falso, inferencia y secuencia. Tus respuestas se guardan automáticamente al terminar.</p>
+      <div class="row" style="margin-top:10px">
+        <div>
+          <label>Tu nombre completo</label>
+          <input id="iName" type="text" placeholder="Ej: Andrés Pérez Castro" autocomplete="name">
+        </div>
+        <div>
+          <label>Grado / sección</label>
+          <input id="iClass" type="text" placeholder="Ej: G10 - A" autocomplete="off" value="${CONFIG.CLASS_LABEL}">
+        </div>
+      </div>
+      <h3 style="margin-top:18px">Elige tu nivel</h3>
+      <div class="levels" id="levels"></div>
+      <p class="hint">Los niveles A2 y B1 usan la voz del navegador (Cambridge KET/PET). B2 y C1 usan audio TOEFL real.</p>
+    </div>
+    <div class="footer">NIS English · 2026</div>
+  `;
+  const levels = $("#levels");
+  Object.keys(QUIZ).forEach(k=>{
+    const el = document.createElement("div");
+    el.className = "level";
+    el.innerHTML = `
+      <div class="tag">${k}</div>
+      <div class="name">${QUIZ[k].label.replace(/^[A-C]\d ?[—-] ?/,'')}</div>
+      <div class="cef">${QUIZ[k].cefr||''}</div>
+    `;
+    el.onclick = ()=>{
+      const nm = $("#iName").value.trim();
+      const kl = $("#iClass").value.trim();
+      if(!nm){ alert("Por favor escribe tu nombre."); return; }
+      state.name = nm; state.klass = kl || CONFIG.CLASS_LABEL;
+      state.level = k; state.startTime = Date.now();
+      state.answers = {}; state.seqOrder = {};
+      viewQuiz();
+    };
+    levels.appendChild(el);
+  });
+}
+
+/* ---------- VIEW: Quiz ---------- */
+function viewQuiz(){
+  const lev = QUIZ[state.level];
+  hdrRight.innerHTML = `<span class="badge-level">${state.level}</span>`;
+  app.innerHTML = `
+    <div class="card">
+      <div style="display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap">
+        <div>
+          <h2>${lev.label}</h2>
+          <div class="hint">${lev.blurb} · <b>${state.name}</b> · ${state.klass}</div>
+        </div>
+        <div class="right">
+          <button class="btn ghost" id="btnBack">← Cambiar nivel</button>
+        </div>
+      </div>
+      <div class="progress"><div id="bar"></div></div>
+      <div class="hint" id="bartxt">0 ítems respondidos</div>
+    </div>
+    <div id="audios"></div>
+    <div class="card">
+      <div class="warn">
+        Verifica tus respuestas antes de enviar. Una vez enviadas, no se pueden modificar.
+      </div>
+      <div class="toolbar">
+        <button class="btn" id="btnSubmit">📤 Enviar respuestas</button>
+        <button class="btn ghost" id="btnSaveLocal">💾 Solo guardar copia local</button>
+      </div>
+    </div>
+  `;
+  $("#btnBack").onclick = ()=>{ if(confirm("¿Volver al inicio? Perderás tus respuestas actuales.")) { TTS.stop(); viewWelcome(); } };
+  $("#btnSubmit").onclick = onSubmit;
+  $("#btnSaveLocal").onclick = ()=>saveLocal();
+
+  const cont = $("#audios");
+  lev.audios.forEach((audio)=>{
+    const card = document.createElement("div");
+    card.className = "card";
+    let playerHTML;
+    if(audio.kind === "tts"){
+      playerHTML = renderTTSPlayer(audio);
+    } else {
+      playerHTML = `
+        <div class="audioblock">
+          <audio controls preload="none" src="${CONFIG.AUDIO_BASE}${audio.file}"></audio>
+          <div class="hint">Archivo: <code>${audio.file}</code></div>
+        </div>`;
+    }
+    card.innerHTML = `
+      <h2>${audio.title}</h2>
+      <div class="hint">${audio.intro}</div>
+      ${playerHTML}
+      <div id="qs-${audio.id}"></div>
+    `;
+    cont.appendChild(card);
+    if(audio.kind === "tts") bindTTSPlayer(audio);
+    renderQuestions(audio, $(`#qs-${audio.id}`));
+  });
+  updateProgress();
+}
+
+function renderTTSPlayer(audio){
+  const isMulti = audio.scripts.length > 1;
+  return `
+    <div class="audioblock" data-audio="${audio.id}">
+      <div class="tts-controls">
+        <button class="btn small" data-act="play">▶ Play</button>
+        <button class="btn small secondary" data-act="pause">⏸ Pause</button>
+        <button class="btn small secondary" data-act="resume">▶ Resume</button>
+        <button class="btn small ghost" data-act="stop">⏹ Stop</button>
+        <div class="speed">
+          <span>Speed</span>
+          <input type="range" data-act="speed" min="0.7" max="1.1" step="0.05" value="0.95">
+          <span data-out="speed">0.95×</span>
+        </div>
+      </div>
+      <div class="seg-list" data-segs>
+        ${(audio.segments||[]).map((s,i)=>`<span class="seg" data-seg="${i}">${i+1}. ${s}</span>`).join("")}
+      </div>
+      <div class="tts-status" data-status>Listo. Click <b>Play</b> para empezar.</div>
+      <div class="hint" data-voiceinfo style="display:none">🔊 Cargando voces…</div>
+      <div class="hint">${isMulti ? "Vas a oír "+audio.scripts.length+" conversaciones cortas con una pausa entre cada una." : "Audio de unos 90 segundos. Puedes pausar y continuar."}</div>
+    </div>`;
+}
+
+function bindTTSPlayer(audio){
+  const root = document.querySelector(`[data-audio="${audio.id}"]`);
+  if(!root) return;
+  const status = root.querySelector('[data-status]');
+  const segs = root.querySelectorAll('[data-seg]');
+  const voiceInfo = root.querySelector('[data-voiceinfo]');
+  TTS.onReady(()=>{
+    if(!voiceInfo) return;
+    // Teacher-only debug indicator. Hidden from students.
+    // Reveal by adding ?debug to the URL (e.g. ...listening-quiz.html?debug)
+    const teacherMode = /[?&](debug|teacher|voz)\b/i.test(location.search);
+    if(!teacherMode){ voiceInfo.style.display = 'none'; return; }
+    voiceInfo.style.display = '';
+    const s = TTS.status();
+    const badge = s.neural
+      ? '<span style="background:#dcfce7;color:#166534;padding:1px 8px;border-radius:999px;font-weight:700">🌟 Edge Neural</span>'
+      : '<span style="background:#fef3c7;color:#92400e;padding:1px 8px;border-radius:999px;font-weight:700">Standard voice</span>';
+    const mode = s.distinct
+      ? `🗣️ Diálogo a 2 personas: ♀ <b>${s.female}</b> · ♂ <b>${s.male}</b>`
+      : `🗣️ Diálogo a 2 personas (1 voz, tono diferenciado: ♀ agudo / ♂ grave) — <b>${s.female}</b>`;
+    voiceInfo.innerHTML = `${mode} &nbsp; ${badge}`;
+    if(!s.neural){
+      voiceInfo.innerHTML += `<br><span style="color:#92400e">💡 Para 2 voces reales y mejor calidad, abre en <b>Microsoft Edge</b> con internet (Aria + Guy Neural).</span>`;
+    }
+  });
+  const setSeg = (i, cls)=>{
+    segs.forEach(s=>s.classList.remove('playing'));
+    if(cls === 'playing'){
+      const s = root.querySelector(`[data-seg="${i}"]`);
+      if(s){ s.classList.add('playing'); }
+    }
+  };
+  const markDone = (i)=>{
+    const s = root.querySelector(`[data-seg="${i}"]`);
+    if(s){ s.classList.remove('playing'); s.classList.add('done'); }
+  };
+  root.querySelector('[data-act="play"]').onclick = ()=>{
+    TTS.stop();
+    segs.forEach(s=>{s.classList.remove('playing'); s.classList.remove('done');});
+    status.textContent = "Reproduciendo…";
+    TTS.speakSequence(audio.scripts, {
+      onSegment:(i)=>{
+        setSeg(i,'playing');
+        if(audio.scripts.length>1) status.textContent = `Conversación ${i+1} de ${audio.scripts.length}: ${audio.segments[i]||''}`;
+      },
+      onDone:()=>{ status.textContent = "✅ Reproducción terminada."; segs.forEach(s=>{s.classList.remove('playing'); s.classList.add('done');}); }
+    });
+  };
+  root.querySelector('[data-act="pause"]').onclick = ()=>{ TTS.pause(); status.textContent = "⏸ Pausado."; };
+  root.querySelector('[data-act="resume"]').onclick = ()=>{ TTS.resume(); status.textContent = "▶ Reproduciendo…"; };
+  root.querySelector('[data-act="stop"]').onclick = ()=>{ TTS.stop(); status.textContent = "⏹ Detenido."; segs.forEach(s=>s.classList.remove('playing')); };
+  const speed = root.querySelector('[data-act="speed"]');
+  const speedOut = root.querySelector('[data-out="speed"]');
+  speed.oninput = ()=>{ TTS.rate = parseFloat(speed.value); speedOut.textContent = TTS.rate.toFixed(2)+"×"; };
+}
+
+function renderQuestions(audio, container){
+  audio.questions.forEach((q, qi)=>{
+    const key = `${audio.id}__${qi}`;
+    const el = document.createElement("div");
+    el.className = "q";
+    let typePill = `<span class="pill">Comprensión</span>`;
+    if(q.type==="tf") typePill = `<span class="pill tf">Verdadero / Falso</span>`;
+    if(q.type==="inf") typePill = `<span class="pill inf">Inferencia</span>`;
+    if(q.type==="seq") typePill = `<span class="pill seq">Secuencia</span>`;
+
+    if(q.type==="mc" || q.type==="inf"){
+      el.innerHTML = `
+        <div class="meta">${typePill} <span>Pregunta ${qi+1}</span></div>
+        <div class="stem">${q.q}</div>
+        <div class="opts" data-key="${key}">
+          ${q.o.map((opt,oi)=>`
+            <label class="opt"><input type="radio" name="${key}" value="${oi}"> <span>${opt}</span></label>
+          `).join("")}
+        </div>`;
+    }
+    else if(q.type==="tf"){
+      el.innerHTML = `
+        <div class="meta">${typePill} <span>Pregunta ${qi+1}</span></div>
+        <div class="stem">${q.q}</div>
+        <div class="opts" data-key="${key}">
+          <label class="opt"><input type="radio" name="${key}" value="true"> <span>True (Verdadero)</span></label>
+          <label class="opt"><input type="radio" name="${key}" value="false"> <span>False (Falso)</span></label>
+        </div>`;
+    }
+    else if(q.type==="seq"){
+      const shuffled = shuffle(q.items.map((it,idx)=>({it,idx})));
+      state.seqOrder[key] = shuffled.map(s=>s.idx);
+      el.innerHTML = `
+        <div class="meta">${typePill} <span>Pregunta ${qi+1}</span></div>
+        <div class="stem">${q.q}</div>
+        <div class="seqlist" data-key="${key}">
+          ${shuffled.map((s,si)=>`
+            <div class="seqitem">
+              <select data-pos="${si}">
+                <option value="">—</option>
+                ${q.items.map((_,oi)=>`<option value="${oi+1}">${oi+1}</option>`).join("")}
+              </select>
+              <span>${s.it}</span>
+            </div>
+          `).join("")}
+        </div>
+        <div class="hint">Asigna 1, 2, 3, 4 según el orden en que ocurrieron.</div>`;
+    }
+    container.appendChild(el);
+  });
+
+  container.querySelectorAll('.opts').forEach(o=>{
+    const key = o.dataset.key;
+    o.addEventListener("change", e=>{
+      if(e.target.type === "radio"){
+        const v = e.target.value;
+        if(v==="true") state.answers[key]=true;
+        else if(v==="false") state.answers[key]=false;
+        else state.answers[key] = parseInt(v,10);
+        updateProgress();
+      }
+    });
+  });
+  container.querySelectorAll('.seqlist').forEach(o=>{
+    const key = o.dataset.key;
+    o.addEventListener("change", ()=>{
+      const ans = {};
+      o.querySelectorAll('select').forEach(sel=>{
+        const pos = parseInt(sel.dataset.pos, 10);
+        const v = sel.value ? parseInt(sel.value, 10) : null;
+        ans[pos] = v;
+      });
+      state.answers[key] = ans;
+      updateProgress();
+    });
+  });
+}
+
+function updateProgress(){
+  const lev = QUIZ[state.level];
+  let pointsAnswered = 0;
+  let pointsTotal = 0;
+  lev.audios.forEach(a=>{
+    a.questions.forEach((q,qi)=>{
+      const key = `${a.id}__${qi}`;
+      if(q.type==="seq"){
+        pointsTotal += q.items.length;
+        const ans = state.answers[key];
+        if(ans){
+          Object.values(ans).forEach(v=>{ if(v!=null) pointsAnswered++; });
+        }
+      } else {
+        pointsTotal++;
+        if(state.answers[key]!==undefined) pointsAnswered++;
+      }
+    });
+  });
+  const pct = pointsTotal? Math.round(100*pointsAnswered/pointsTotal):0;
+  const bar = $("#bar"); const txt = $("#bartxt");
+  if(bar) bar.style.width = pct + "%";
+  if(txt) txt.textContent = `${pointsAnswered} / ${pointsTotal} ítems respondidos`;
+}
+
+/* ---------- SCORING ---------- */
+function computeScore(){
+  const lev = QUIZ[state.level];
+  let total = 0, correct = 0;
+  const breakdown = [];
+  lev.audios.forEach(a=>{
+    a.questions.forEach((q, qi)=>{
+      const key = `${a.id}__${qi}`;
+      if(q.type==="mc" || q.type==="inf"){
+        total++;
+        const given = state.answers[key];
+        const ok = given === q.c;
+        if(ok) correct++;
+        breakdown.push({audio:a.title, type:q.type, q:q.q, given:given==null?"(sin responder)":q.o[given], correct:q.o[q.c], ok});
+      }
+      else if(q.type==="tf"){
+        total++;
+        const given = state.answers[key];
+        const ok = given === q.c;
+        if(ok) correct++;
+        breakdown.push({audio:a.title, type:q.type, q:q.q, given:given==null?"(sin responder)":(given?"True":"False"), correct:q.c?"True":"False", ok});
+      }
+      else if(q.type==="seq"){
+        const shown = state.seqOrder[key] || [];
+        const ans = state.answers[key] || {};
+        shown.forEach((origIdx, pos)=>{
+          total++;
+          const correctNumber = origIdx + 1;
+          const givenNumber = ans[pos];
+          const ok = givenNumber === correctNumber;
+          if(ok) correct++;
+          breakdown.push({audio:a.title, type:"seq", q:`${q.q} → "${q.items[origIdx]}"`, given:givenNumber==null?"(sin responder)":String(givenNumber), correct:String(correctNumber), ok});
+        });
+      }
+    });
+  });
+  return {total, correct, breakdown};
+}
+
+/* ---------- SUBMIT ---------- */
+function onSubmit(){
+  const lev = QUIZ[state.level];
+  let unanswered = 0;
+  lev.audios.forEach(a=>a.questions.forEach((q,qi)=>{
+    const key = `${a.id}__${qi}`;
+    if(q.type==="seq"){
+      const ans = state.answers[key] || {};
+      const shown = state.seqOrder[key] || [];
+      shown.forEach((_,pos)=>{ if(ans[pos]==null) unanswered++; });
+    } else if(state.answers[key]===undefined) unanswered++;
+  }));
+  if(unanswered>0){
+    if(!confirm(`Tienes ${unanswered} ítems sin responder. ¿Enviar de todas formas?`)) return;
+  }
+  TTS.stop();
+  const score = computeScore();
+  const elapsedMin = Math.round((Date.now()-state.startTime)/60000);
+  const payload = {
+    name: state.name,
+    klass: state.klass,
+    level: state.level,
+    score: score.correct,
+    total: score.total,
+    elapsed_min: elapsedMin,
+    when: new Date().toISOString(),
+    answers: state.answers,
+    breakdown: score.breakdown
+  };
+
+  saveLocal(payload);
+
+  let sent = false;
+  if(CONFIG.APPS_SCRIPT_URL && !CONFIG.APPS_SCRIPT_URL.startsWith("PEGA_AQUI")){
+    try {
+      const f = document.createElement("form");
+      f.method = "POST";
+      f.action = CONFIG.APPS_SCRIPT_URL;
+      f.target = "submit_frame";
+      const i = document.createElement("input");
+      i.type = "hidden"; i.name = "data"; i.value = JSON.stringify(payload);
+      f.appendChild(i);
+      let fr = document.querySelector('iframe[name=submit_frame]');
+      if(!fr){
+        fr = document.createElement("iframe");
+        fr.name = "submit_frame"; fr.style.display="none";
+        document.body.appendChild(fr);
+      }
+      document.body.appendChild(f);
+      f.submit();
+      sent = true;
+    } catch(e){ console.warn(e); }
+  }
+
+  viewResult(payload, sent);
+}
+
+function saveLocal(prefilled){
+  const score = prefilled || (function(){
+    const s = computeScore();
+    return {
+      name: state.name, klass: state.klass, level: state.level,
+      score: s.correct, total: s.total,
+      when: new Date().toISOString(), answers: state.answers, breakdown: s.breakdown
+    };
+  })();
+  const blob = new Blob([JSON.stringify(score,null,2)], {type:"application/json"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  const safeName = (state.name||"alumno").replace(/[^a-z0-9]+/gi,"_");
+  a.href = url; a.download = `listening_${state.level}_${safeName}.json`;
+  document.body.appendChild(a); a.click();
+  setTimeout(()=>{ URL.revokeObjectURL(url); a.remove(); }, 200);
+}
+
+/* ---------- VIEW: Result ---------- */
+function viewResult(payload, sent){
+  const pct = Math.round(100 * payload.score / payload.total);
+  const verdict = pct>=85?"Excellent":pct>=70?"Good":pct>=50?"Keep practicing":"Needs review";
+  hdrRight.innerHTML = `<span class="badge-level">${payload.level}</span>`;
+  app.innerHTML = `
+    <div class="card">
+      <h1>¡Listo, ${payload.name}! 🎉</h1>
+      <p>Nivel: <b>${payload.level}</b> · Tiempo: <b>${payload.elapsed_min} min</b></p>
+      <div class="score"><span class="${pct>=70?'ok':'bad'}">${payload.score} / ${payload.total}</span> · ${pct}% · <span style="font-size:18px">${verdict}</span></div>
+      ${sent
+        ? `<div class="reveal correct">✅ Respuestas enviadas a tu profesor.</div>`
+        : `<div class="reveal wrong">⚠ No se pudo enviar automáticamente. Se descargó una copia local — entrégala al profesor.</div>`
+      }
+      <div class="toolbar">
+        <button class="btn" id="btnEmailAns">📧 Enviar por email al profesor</button>
+        <button class="btn secondary" id="btnReviewAns">Ver mis respuestas</button>
+        <button class="btn ghost" id="btnAgain">Hacer otro nivel</button>
+      </div>
+      <div class="hint" style="margin-top:8px">Si el envío automático falla, usa el botón <b>Email</b> — abre tu correo con todas tus respuestas listas para mandar.</div>
+    </div>
+    <div class="card">
+      <details>
+        <summary>Detalle pregunta por pregunta</summary>
+        <div id="bdown"></div>
+      </details>
+    </div>
+    <div class="footer">NIS English · 2026</div>
+  `;
+  const bd = $("#bdown");
+  payload.breakdown.forEach((b)=>{
+    const row = document.createElement("div");
+    row.className = "q";
+    row.innerHTML = `
+      <div class="meta"><span class="pill ${b.type==='tf'?'tf':b.type==='inf'?'inf':b.type==='seq'?'seq':''}">${b.type.toUpperCase()}</span> <span>${b.audio}</span></div>
+      <div class="stem">${b.q}</div>
+      <div class="reveal ${b.ok?'correct':'wrong'}">
+        Tu respuesta: <b>${b.given}</b> · Correcta: <b>${b.correct}</b> ${b.ok?'✓':'✗'}
+      </div>`;
+    bd.appendChild(row);
+  });
+  $("#btnAgain").onclick = viewWelcome;
+  $("#btnReviewAns").onclick = ()=>document.querySelector("details").open = true;
+  $("#btnEmailAns").onclick = ()=>sendByEmail(payload);
+}
+
+function sendByEmail(payload){
+  const pct = Math.round(100*payload.score/payload.total);
+  const byType = {mc:[0,0], tf:[0,0], inf:[0,0], seq:[0,0]};
+  payload.breakdown.forEach(b=>{
+    if(byType[b.type]){
+      byType[b.type][1]++;
+      if(b.ok) byType[b.type][0]++;
+    }
+  });
+  const summary = [
+    `=== LISTENING QUIZ — RESULTADOS ===`,
+    ``,
+    `Alumno: ${payload.name}`,
+    `Grado: ${payload.klass}`,
+    `Nivel: ${payload.level}`,
+    `Score: ${payload.score} / ${payload.total} (${pct}%)`,
+    `Tiempo: ${payload.elapsed_min} min`,
+    `Fecha: ${new Date(payload.when).toLocaleString()}`,
+    ``,
+    `--- Por tipo de pregunta ---`,
+    `Comprensión MC: ${byType.mc[0]}/${byType.mc[1]}`,
+    `Verdadero/Falso: ${byType.tf[0]}/${byType.tf[1]}`,
+    `Inferencia: ${byType.inf[0]}/${byType.inf[1]}`,
+    `Secuencia: ${byType.seq[0]}/${byType.seq[1]}`,
+    ``,
+    `--- Detalle pregunta por pregunta ---`,
+    ...payload.breakdown.map((b,i)=>`${i+1}. [${b.type.toUpperCase()}] ${b.q.replace(/<[^>]+>/g,'')}\n   Mi respuesta: ${b.given}\n   Correcta: ${b.correct}\n   Resultado: ${b.ok?'✓ correcto':'✗ incorrecto'}`)
+  ];
+  const body = summary.join('\n');
+  const subject = `Listening Quiz · ${payload.name} · ${payload.level} · ${payload.score}/${payload.total} (${pct}%)`;
+  const mailto = `mailto:${CONFIG.TEACHER_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  // Some mailto bodies are too long; trim if needed
+  if(mailto.length > 7800){
+    const shortBody = summary.slice(0,16).join('\n') + '\n\n(Detalle completo en el archivo JSON descargado.)';
+    window.location.href = `mailto:${CONFIG.TEACHER_EMAIL}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(shortBody)}`;
+  } else {
+    window.location.href = mailto;
+  }
+}
+
+/* ---------- START ---------- */
+viewWelcome();
+</script>
+</body>
+</html>
